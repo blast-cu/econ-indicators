@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+
+{% block content %}
+    <h2>Sign Up</h2>
+
+    <body>
+        <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.submit) }}
+      </form>
+    </body>
+
+{% endblock %}
+

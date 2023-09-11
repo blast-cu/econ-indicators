@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+
+{% block content %}
+    <h1>Annotation Demo</h1>
+
+    <body>
+        <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ render_field(form.method) }}
+        {{ render_field(form.k) }}
+        {{ render_field(form.restart, button_style='danger') }}
+        <!--
+        {{ render_field(form.assign) }}
+        -->
+      </form>
+    </body>
+
+{% endblock %}
+

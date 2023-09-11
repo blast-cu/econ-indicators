@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/table.html' import render_table %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+{% from 'bootstrap/pagination.html' import render_pager, render_pagination %}
+{% from 'bootstrap/utils.html' import render_icon %}
+{% block content %} 
+<body>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
+    <h4>Showing articles similar to:</h4>
+    {% for art in arts %}
+        <p>{{ art.headline }}</p>
+        <br>
+    {% endfor %}
+
+    <div class="container">
+
+    <div class="row">
+		<br><br><br>
+		<br><br><br>
+        {% if not_empty %} 
+        <form action="", method="POST", enctype="multipart/form-data", id="twtable">        
+        <table id="data" class="table table-striped">
+					<thead>
+                        <tr>
+                            <th>Article ID</th>
+                            <th>Headline</th>
+                            <th>Source</th>
+                            <th>Date</th>
+                            <th>Keywords</th>
+                            <th>Topics</th>
+                            <th>Frame</th>
+                            <th>Cluster</th>
+                            <th>Distance</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for row in rows %}
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#showDialogueModal{{row["Article"]["id"]}}">
+                                    {{ row["Article"]["id"] }}
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="showDialogueModal{{row["Article"]["id"]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="showDialogueModalLabel{{row["Article"]["id"]}}">Full Text</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="highlight">
+                                                  {{ row["Article"]["text"]|safe }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</td>
+                            <td>
+                                <a href="{{ row["Article"]["url"]}}">{{ row["Article"]["headline"] }}</a><br>
+                                {% if loop.index == 1 %}
+                                    <form action="" , method="POST" , enctype="multipart/form-data" , id="articleform">
+                                        <input type="hidden" id="articletoedit" name="articletoedit"/>
+                                        {% if csrf_token %}
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
+                                <button type="submit" class="btn btn-secondary btn-sm" onClick="editSymbol({{ row["Article"]["id"] }});"><i class="bi bi-pencil-fill"></i>Edit Article</button>   
+                            </td>
+                            <td>{{ row["Article"]["source"] }}</td>
+                            <td>{{ row["Article"]["date"] }}</td>
+                            <td style="word-break:break-all;">{{ row["Article"]["keywords"] }}</td>
+                            <td>
+                              {% for topic in row["Articleann"]["topics"] %}
+                                {{ topic.name }}
+                              {% endfor %}
+                            </td>
+                            <td>{{ row["Articleann"]["frame"] }}</td>
+                            <td>{{ row["Article"]["cluster"]["name"] }}</td>
+                            <td>{{ row["Article"]["distance"] }}</td>
+                            <td><input type="checkbox" name="checkbox" value={{ row["Article"]["id"] }}></td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+          </table>
+        <!-- Modal -->
+        <div class="modal fade" id="assignThemeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="assignThemeModalLabel">+ New Theme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="", method="POST", enctype="multipart/form-data", id="modalform">
+                    {{ render_field(form_assign.topics) }}
+                    <p><b>OR Create New Topic</b></p>
+                    {{ render_field(form_assign.new_topic) }}
+                    {{ render_field(form_assign.relevance) }}
+                    {{ render_field(form_assign.description) }}
+                    <input type="hidden" id="articleids" name="articleids">
+		                {% if csrf_token %}
+        	              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+ 		                {% endif %}
+                </form>
+                <button type="button" class="btn btn-primary" onclick="submitModalButton();">
+                    Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="assignTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="assignTypeModalLabel">Articles Mostly Discuss</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="", method="POST", enctype="multipart/form-data", id="modaltypeform">
+                    {{ render_field(form_article.frame) }}
+                    {{ render_field(form_article.comments) }}
+                    <input type="hidden" id="articleidstype" name="articleidstype">
+		                {% if csrf_token %}
+        	              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+ 		                {% endif %}
+                </form>
+                <button type="button" class="btn btn-primary" onclick="submitModalTypeButton();">
+                    Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#assignThemeModal" onclick="assignThemeButton();">
+            Assign All to Topic
+        </button>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#assignTypeModal" onclick="assignTypeButton();">
+           Assign All to Frame
+        </button>
+        <button type="submit" class="btn btn-primary" name="explore-similar-button" value="Clicked">
+            Explore Similar
+        </button>
+        {% endif %}
+      </form>
+     
+        {% block scripts %}
+            <script type="text/javascript">
+            
+                $(document).ready(function() {
+                  $('#data').DataTable({
+                    pageLength: 5,
+                    lengthMenu: [5, 10, 25, 50, 100],
+                    order: [
+                      [6, 'asc']
+                    ]
+                  });
+                });
+            
+                function assignThemeButton() {
+                    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    var str = "";
+                    for (var checkbox of checkboxes) {
+                    str += checkbox.value + " ";
+                    }
+                    document.getElementById('articleids').value = str;
+                }
+
+                function assignTypeButton() {
+                    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    var str = "";
+                    for (var checkbox of checkboxes) {
+                    str += checkbox.value + " ";
+                    }
+                    document.getElementById('articleidstype').value = str;
+                }
+
+                function submitModalButton() {
+                    // var str = document.getElementById('normids').value;
+                    $("#modalform").submit();
+                }
+
+                function submitModalTypeButton() {
+                    $("#modaltypeform").submit();
+                }
+
+                function editSymbol(norm_id) {
+                    document.getElementById('articletoedit').value = norm_id;
+                    $("#articleform").submit();
+                }
+            </script>
+        {% endblock %}
+        </div>
+    </div>
+  </body>
+ {% endblock %}
