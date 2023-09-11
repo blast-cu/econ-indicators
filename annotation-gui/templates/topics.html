@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/table.html' import render_table %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+{% from 'bootstrap/pagination.html' import render_pager, render_pagination %}
+{% from 'bootstrap/utils.html' import render_icon %}
+{% block content %}
+<body>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h4>Query by Topic</h4>
+				<form action="" , method="POST" , enctype="multipart/form-data">
+                  {{ form.csrf_token }}
+                  {{ render_form_row([form.topic]) }}
+                  {{ render_field(form.search, button_style='success') }}
+                  <!--
+                  <button type="button" data-toggle="modal" data-target="#editThemeModal" class="btn btn-secondary" onclick="editThemeButton();">
+                      Edit Topic
+                  </button>
+                  {{ render_field(form.delete, button_style='danger') }}
+                  -->
+                </form>
+			</div>
+		</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editThemeModal" tabindex="-1" role="dialog" aria-labelledby="editThemeModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editThemeModalLabel">Edit Topic</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <form action="" method="POST" enctype="multipart/form-data">
+            {{ form_edit_topic.csrf_token }}
+            {{ render_field(form_edit_topic.name) }}
+            <input type="hidden" id="topic_name" name="topic_name">
+            {{ render_field(form_edit_topic.submit) }}
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+		<div class="row">
+		<br><br><br>
+		<br><br><br>
+    {% if not_empty %} 
+      <table id="data" class="table table-striped" style="width: 100%">
+				   <thead>
+              <tr>
+                  <th>Article ID</th>
+                  <th>Headline</th>
+                  <th>Source</th>
+                  <th>Keywords</th>
+                  <th>Annotator</th>
+                  <th>Cluster</th>
+                  <th>Distance</th>
+                  <th>Select</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#showDialogueModal{{row .id}}">
+                            {{ row["Article"]["id"] }}
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="showDialogueModal{{row .id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="showDialogueModalLabel{{row .id}}">Full Text</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="highlight">
+                                        {{ row["Article"]["text"]|safe }}
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {{ row["Article"]["headline"] }}<br>
+                    </td>
+                    <td>{{ row["Article"]["source"] }}</td>
+                    <td style="word-break:break-all;">{{ row["Article"]["keywords"] }}</td>
+                    <td>{{ row["User"]["email"]}}</td>
+                    <td>{{ row["Article"]["cluster"]["name"] }}</td>
+                    <td>{{ row["Article"]["distance"] }}</td>
+                    <td><input type="checkbox" name="checkbox" value={{ row .id }}></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+      {% endif %}
+      {% block scripts %}
+          <script type="text/javascript">
+              $(document).ready(function() {
+                $('#data').DataTable({
+                  pageLength: 5,
+                  lengthMenu: [5, 10, 25, 50, 100],
+                  order: [
+                    [0, 'asc']
+                  ]
+                });
+              });
+
+              function assignThemeButton() {
+                  var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                  var str = "";
+                  for (var checkbox of checkboxes) {
+                  str += checkbox.value + " ";
+                  }
+                  document.getElementById('articleids').value = str;
+              }
+
+              function submitModalButton() {
+                  // var str = document.getElementById('normids').value;
+                  $("#modalform").submit();
+              }
+
+              function editSymbol(norm_id) {
+                  document.getElementById('articletoedit').value = norm_id;
+                  $("#articleform").submit();
+              }
+
+              function editThemeButton() {
+                  var theme = document.getElementById('topic').value;
+                  document.getElementById('topic_name').value = theme;
+              }
+
+          </script>
+      {% endblock %}
+      </div>
+    </div>
+</body> {% endblock %}
+

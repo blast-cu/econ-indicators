@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+
+{% block content %}
+    <h3>Running K-Means...</h3>
+    <div class="loader"></div>
+    {% block scripts %}
+    <script> window.location.replace('/kmeans'); </script>
+    {% endblock %}
+
+{% endblock %}
+

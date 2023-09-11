@@ -1,0 +1,469 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/table.html' import render_table %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+{% from 'bootstrap/pagination.html' import render_pager, render_pagination %}
+{% from 'bootstrap/utils.html' import render_icon %}
+
+{% block content %}
+<body>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
+    <div class="container">
+        <div class="row">
+            <h3>Article {{ article.id }}: Related Information</h3>
+            <table id="data" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Article ID</th>
+                        <th>Headline</th>
+                        <th>Source</th>
+                        <th>Date</th>
+                        <th>Frame</th>
+                        <th>Econ-Conditions</th>
+                        <th>Econ-Progression</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>{{ article["Article"]["id"] }}</td>
+                        <td><a href="{{ article["Article"]["url"]}}">{{ article["Article"]["headline"] }}</a><br></td>
+                        <td>{{ article["Article"]["source"] }}</td>
+                        <td>{{ article["Article"]["date"] }}</td>
+                        <td>{{ article["Articleann"]["frame"] }}</td>
+                        <td>{{ article["Articleann"]["econ_rate"] }}</td>
+                        <td>{{ article["Articleann"]["econ_change"] }}</td>
+                        <td>{{ article["Articleann"]["comments"] }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Inspect Quantities for Article {{ article .id }}</h3>
+            <div class="highlight" style="height:500px;width:1110px;border:1px solid #4e4e4e;overflow:auto;">
+              {{ article["Articleann"]["text"]|safe }}
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="annQuantModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="annQuantModalLabel">Label Quantity</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" , method="POST" , enctype="multipart/form-data" , id="annQuantForm">
+                                {% if csrf_token %} <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> {% endif %}
+                                {{ render_field(form_quantity.type) }}
+                                <div id="macroType" style="display:none;">
+                                    {{ render_field(form_quantity.macro_type) }}
+                                </div>
+                                <div id="industryType" style="display:none;">
+                                    {{ render_field(form_quantity.industry_type) }}
+                                </div>
+                                <div id="govLevel" style="display:none;">
+                                    {{ render_field(form_quantity.government_level) }}
+                                    {{ render_field(form_quantity.gov_type) }}
+                                </div>
+                                <div id="govExpenditures" style="display:none;">
+                                    {{ render_field(form_quantity.gov_expenditure_type) }}
+                                </div>
+                                <div id="govRevenue" style="display:none;">
+                                    {{ render_field(form_quantity.gov_revenue_type) }}
+                                </div>
+                                {{ render_field(form_quantity.spin) }}
+                                <div id="comment" style="display:none;">
+                                    {{ render_field(form_quantity.comments) }}
+                                </div>
+                                <input type="hidden" id="spanId" name="spanId" value=""/>
+                                <button type="submit" class="btn btn-primary"> Submit </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Edit Topics for Article {{ article["Article"]["id"] }}</h3>
+            <table id="data" class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="container">
+                                <form action="" , method="POST" , enctype="multipart/form-data" id="assignTopicForm" role="form">
+                                    {{ form_edit.csrf_token }}
+                                    <div class="row">
+                                        {{ render_field(form_edit.topics) }}
+                                    </div>
+                                    <div class="row">
+                                        {{ render_field(form_edit.assign_topic, button_size='sm', button_type='submit') }}
+
+                                    </div>
+                                </form>
+
+                                <div class="row">
+
+                                    <button type="button" class="btn btn-success btn-sm m-1" data-toggle="modal" data-target="#newTopicModal"> +New Topic </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="newTopicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="newTopicModalLabel">+ New Topic</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="" , method="POST" , enctype="multipart/form-data" , id="newTopicForm">
+                                                        {% if csrf_token %} <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> {% endif %}
+                                                        {{ render_field(form_edit.new_topic) }}
+                                                        {{ render_field(form_edit.relevance) }}
+                                                        {{ render_field(form_edit.description) }}
+                                                        <button type="submit" class="btn btn-primary" onclick="submitNewTopicButton();"> Submit </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <p>Assigned Topics:</p>
+                                {% for topic in article["Articleann"]["topics"] %}
+                                    <form action="" , method="POST" , enctype="multipart/form-data" id="{{topic.name}}form" role="form">
+                                        {{ form_edit.csrf_token }}
+                                        <input type="hidden" id="remove{{topic.name}}" name="remove-{{topic.name}}"/>
+                                        <button type="submit" class="btn btn-secondary btn-sm m-1"><i class="bi bi-x" onClick="removeTopic('{{topic.name}}');"> {{ topic.name }}</i></button>
+                                    </form>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Provide More Information about Article {{ article["Article"]["id"] }}</h3>
+            <table id="data" class="table table-striped">
+            <tbody>
+              <tr><td>
+              <form action="" , method="POST" , enctype="multipart/form-data" , id="newTopicForm">
+            {% if csrf_token %} <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> {% endif %}
+            {{ render_field(form_article.macro) }}
+            <div id="notMacro" style="display:none;">
+              {{ render_field(form_article.frame) }}
+            </div>
+            <div id="yesMacro" style="display:none;">
+              {{ render_field(form_article.econ_rate) }}
+              {{ render_field(form_article.econ_change) }}
+            </div>
+            {{ render_field(form_article.comments) }}
+            <button type="submit" class="btn btn-primary"> Submit </button>
+          </form>
+        </td></tr>
+
+        {% block scripts %}
+            <script type="text/javascript">
+
+                function removeTopic(tname){
+                    document.getElementById('remove' + tname).value = 'clicked';
+                }
+
+                function submitNewTopicButton() {
+                    $('#newTopicForm').submit();
+                }
+
+                function redoTopic() {
+                    document.getElementById('redo-topic-assignment').value = 'clicked';
+                }
+
+                function annotateQuant(object) {
+                  var mySpan = object.id;
+                  document.getElementById('spanId').value = mySpan;
+                  $('#annQuantModal').modal();
+
+                  var val = document.getElementById('type').value
+                  var macro_val = document.getElementById('macro_type').value
+                  var industry_val = document.getElementById('industry_type').value
+                  var industry_val = document.getElementById('industry_type').value
+                  var gov_level = document.getElementById('government_level').value
+                  var gov_type = document.getElementById('gov_type').value
+                  var gov_expenditure_type = document.getElementById('gov_expenditure_type').value
+                  var gov_revenue_type = document.getElementById('gov_revenue_type').value
+
+                  $("#comment").hide();
+
+                  if (val == "macro") {
+                    $("#macroType").show();
+                  } else {
+                    $("#macroType").hide();
+                  }
+
+                  if (val == "industry") {
+                      $("#industryType").show();
+                  } else {
+                      $("#industryType").hide();
+                  }
+
+                  if (val == "government") {
+                      $("#govLevel").show();
+                  } else {
+                      $("#govLevel").hide();
+                  }
+
+                  if (val == "government" && gov_type == "expenditures") {
+                      $("#govExpenditures").show();
+                  } else {
+                      $("#govExpenditures").hide();
+                  }
+
+                  if (val == "government" && gov_type == "revenue") {
+                      $("#govRevenue").show();
+                  } else {
+                      $("#govRevenue").hide();
+                  }
+
+                  if (val == "government" && gov_type == "deficit") {
+                      $("#govExpenditures").hide();
+                      $("#govRevenue").hide();
+                  }
+
+                  if (val == "macro" && macro_val == "other") {
+                      $("#comment").show();
+                  } else if (val == "industry" && industry_val == "other") {
+                      $("#comment").show();
+                  } else if (val == "government" && gov_level == "other") {
+                      $("#comment").show();
+                  } else if (val == "government" && gov_type == "revenue" && gov_revenue_type == "other") {
+                      $("#comment").show();
+                  } else if (val == "government" && gov_type == "expenditures" && gov_expenditure_type == "other") {
+                      $("#comment").show();
+                  } else if (val == "personal" || val == "business" || val == "other") {
+                      $("#comment").show();
+                  } else {
+                      $("#comment").hide();
+                  }
+
+                }
+
+                $(document).ready(function() {
+                    $("#type").change(function () { 
+                        var val = $(this).val();
+                        var macro_val = document.getElementById('macro_type').value
+                        var industry_val = document.getElementById('industry_type').value
+                        var gov_level = document.getElementById('government_level').value
+                        var gov_type = document.getElementById('gov_type').value
+                        var gov_revenue_type = document.getElementById('gov_revenue_type').value
+                        var gov_expenditure_type = document.getElementById('gov_expenditure_type').value
+
+                        if (val == "macro") {
+                            $("#macroType").show();
+                        } else {
+                            $("#macroType").hide();
+                        }
+
+                        if (val == "industry") {
+                            $("#industryType").show();
+                        } else {
+                            $("#industryType").hide();
+                        }
+
+                        if (val == "government") {
+                            $("#govLevel").show();
+                        } else {
+                            $("#govLevel").hide();
+                        }
+
+                        if (val == "government" && gov_type == "expenditures") {
+                            $("#govExpenditures").show();
+                        } else {
+                            $("#govExpenditures").hide();
+                        }
+
+                        if (val == "government" && gov_type == "revenue") {
+                            $("#govRevenue").show();
+                        } else {
+                            $("#govRevenue").hide();
+                        }
+
+                        if (val == "government" && gov_type == "deficit") {
+                            $("#govRevenue").hide();
+                            $("#govExpenditures").hide();
+                        }
+
+                        if (val == "macro" && macro_val == "other") {
+                            $("#comment").show();
+                        } else if (val == "industry" && industry_val == "other") {
+                            $("#comment").show();
+                        } else if (val == "government" && gov_level == "other") {
+                            $("#comment").show();
+                        } else if (val == "government" && gov_type == "revenue" && gov_revenue_type == "other") {
+                            $("#comment").show();
+                        } else if (val == "government" && gov_type == "expenditures" && gov_expenditure_type == "other") {
+                            $("#comment").show();
+                        } else if (val == "personal" || val == "business" || val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+
+                    });
+                });
+
+                $(document).ready(function() {
+                    $("#macro_type").change(function () {
+                        var val = $(this).val();
+
+                        if (val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+                $(document).ready(function() {
+                    $("#industry_type").change(function () {
+                        var val = $(this).val();
+
+                        if (val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+                $(document).ready(function() {
+                    $("#government_level").change(function () {
+                        var val = $(this).val();
+
+                        if (val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+                $(document).ready(function() {
+                    $("#gov_expenditure_type").change(function () {
+                        var val = $(this).val();
+
+                        if (val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+                $(document).ready(function() {
+                    $("#gov_revenue_type").change(function () {
+                        var val = $(this).val();
+
+                        if (val == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+
+                $(document).ready(function() {
+                    $("#gov_type").change(function () {
+                        var val = $(this).val();
+                        var gov_expenditure_type = document.getElementById('gov_expenditure_type').value
+                        var gov_revenue_type = document.getElementById('gov_revenue_type').value
+
+                        if (val == "revenue") {
+                            $("#govRevenue").show();
+                        } else {
+                            $("#govRevenue").hide();
+                        }
+
+                        if (val == "expenditures") {
+                            $("#govExpenditures").show();
+                        } else {
+                            $("#govExpenditures").hide();
+                        }
+
+                        if (val == "revenue" && gov_revenue_type == "other") {
+                            $("#comment").show();
+                        } else if (val == "expenditures" && gov_expenditure_type == "other") {
+                            $("#comment").show();
+                        } else {
+                            $("#comment").hide();
+                        }
+                    });
+                });
+
+            $(document).ready(function() {
+              var val = document.getElementById('macro').value;
+              if (val == "no") {
+                $("#notMacro").show();
+                $("#yesMacro").hide();
+              } else {
+                $("#notMacro").hide();
+                $("#yesMacro").show();
+              }
+
+              $('#macro').change(function () {
+                  var val = $(this).val();
+
+                  if (val == "no") {
+                    $("#notMacro").show();
+                    $("#yesMacro").hide();
+                  } else {
+                    $("#notMacro").hide();
+                    $("#yesMacro").show();
+                  }
+
+              });
+            });
+
+            </script>
+            <style>
+              .highlight .yellow:hover {
+                background-color: rgba(128, 128, 128, 0.3);
+                border-color: rgba(128, 128, 128, 1);
+                cursor: pointer;
+              }
+              .highlight .blue:hover {
+                background-color: rgba(128, 128, 128, 0.3);
+                border-color: rgba(128, 128, 128, 1);
+                cursor: pointer;
+              }
+              .highlight .green:hover {
+                background-color: rgba(128, 128, 128, 0.3);
+                border-color: rgba(128, 128, 128, 1);
+                cursor: pointer;
+              }
+              .highlight .purple:hover {
+                background-color: rgba(128, 128, 128, 0.3);
+                border-color: rgba(128, 128, 128, 1);
+                cursor: pointer;
+              }
+              .highlight .pink:hover {
+                background-color: rgba(128, 128, 128, 0.3);
+                border-color: rgba(128, 128, 128, 1);
+                cursor: pointer;
+              }
+            </style>
+         {% endblock %}
+    </div>
+</body>
+
+{% endblock %}
+

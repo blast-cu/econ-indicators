@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form, render_field, render_form_row %}
+
+{% block content %}
+    <h2>Log In</h2>
+
+    <body>
+        <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.login) }}
+      </form>
+      <br><br>
+      <p>If you don't have an account, please <a href="{{ url_for('auth.signup') }}">sign up.</a></p>
+    </body>
+
+{% endblock %}
