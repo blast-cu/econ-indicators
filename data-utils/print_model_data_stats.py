@@ -26,7 +26,7 @@ def get_qual_tags(qual_dict: dict):
 
     return qual_dict
 
-def print_qual_tags(qual_dict: dict):
+def print_qual_tags (qual_dict: dict):
     """takes dictionary output of get_qual_tags func and prints
     annotation stats"""
 
