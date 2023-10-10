@@ -3,7 +3,8 @@ import argparse
 import sqlite3
 from collections import Counter
 import csv
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 def get_agreed_anns(ann_dict: dict):
     """takes a nested dictionary of annotations (list) and returns
@@ -102,6 +103,44 @@ def export_quants_to_csv(ann: dict, filename: str):
         writer.writeheader()
         writer.writerows(row_list)
 
+def make_plot(qual_ann: dict, quant_ann: dict, filename: str):
+    """
+    """
+    labels = list(qual_ann.keys())
+    # labels = labels + list(quant_ann.keys())
+    # print(labels)
+
+    total_articles = 199066
+    annotated = []
+    not_annotated = []
+
+    for type in qual_ann.keys():
+        count = sum(qual_ann[type].values())
+        annotated.append((count/total_articles) * 100)
+        not_annotated.append(total_articles-count)
+        
+    # for type in quant_ann.keys():      
+    #     count = sum(quant_ann[type].values())
+    #     annotated.append(count)
+    #     not_annotated.append(total_articles-count)
+        
+    fig, ax = plt.subplots()
+    fig.set_size_inches(14, 8)
+    
+    # print(labels)
+    # print(annotated)
+
+    ax.bar(labels, np.array(annotated), label="Value Obtained", color="#DD6031")
+    ax.bar(labels, np.array(not_annotated), bottom=annotated, label="No Value", color="#739BD1")
+
+    ax.set_title("Current State of Dataset")
+    ax.set_ylabel("Number of Articles")
+    ax.set_xlabel("Frame Component")
+    ax.legend()
+
+    plt.show()
+    plt.savefig("data_summary/" + filename, transparent=True)
+
 
 def main(args):
 
@@ -135,7 +174,7 @@ def main(args):
     retrieve_anns(ann, res, 'econ_change')
 
     ann = get_agreed_anns(ann)
-    print_agreed_anns_counts(ann)
+    qual_labels = print_agreed_anns_counts(ann)
    
 
     # Quantities
@@ -146,8 +185,10 @@ def main(args):
     retrieve_quant_anns(quant_ann, res)
 
     quant_ann = get_agreed_anns(quant_ann)
-    labels = print_agreed_anns_counts(quant_ann)
-    export_quants_to_csv(labels, 'annotation_count.csv')
+    quant_labels = print_agreed_anns_counts(quant_ann)
+    export_quants_to_csv(quant_labels, 'annotation_count.csv')
+
+    make_plot(qual_ann=qual_labels, quant_ann=quant_labels, filename="plot.png")
 
     con.close()
 
