@@ -4,7 +4,49 @@ import sqlite3
 from collections import Counter
 import csv
 import numpy as np
-import matplotlib.pyplot as plt
+import re
+
+def get_qual_dict(db_filename: str):
+    """
+    Takes file location of database
+    Return dictionary where keys are article_id
+        and values are dictionary where keys are frame component
+        and values are list of tuples (annotator_id, annotation value)
+    """
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+    ann = {}
+
+    for comp in ['frame', 'econ_rate', 'econ_change']:
+        query = 'SELECT article_id, user_id, ' + comp \
+                + ' FROM articleann ' \
+                + 'WHERE ' + comp + ' is NOT NULL and ' + comp + ' != "None";'
+        res = cur.execute(query)
+        retrieve_anns(ann, res, comp)
+
+    con.close()
+    return ann
+
+def get_quant_dict(db_filename: str): 
+    """
+    Takes file location of database
+    Return dictionary where keys are article_id
+        and values are dictionary where keys are frame component
+        and values are list of tuples (annotator_id, annotation value)
+
+    """
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+    ann = {}
+
+    query = 'SELECT quantity_id, user_id, type, macro_type, industry_type, \
+                gov_type, expenditure_type, revenue_type, spin \
+                FROM quantityann;'
+    res = cur.execute(query)
+    retrieve_quant_anns(ann, res)
+    con.close()
+    return ann
+
 
 def get_agreed_anns(ann_dict: dict):
     """takes a nested dictionary of annotations (list) and returns
@@ -103,94 +145,63 @@ def export_quants_to_csv(ann: dict, filename: str):
         writer.writeheader()
         writer.writerows(row_list)
 
-def make_plot(qual_ann: dict, quant_ann: dict, filename: str):
+
+
+def extract_strings(dirty_str: str):
+    clean = re.sub('<[^>]+>', '', dirty_str)
+    return clean 
+
+
+
+def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename: str):
     """
+    Takes annotation component as string, dictionary of annotations in which key is article_id and 
+        value is dictionary where key is frame component and value is annotation value, the desired 
+        output filename and the file location of the db
+
+    Outputs file of article text and associated annotation component into data_summary directory
     """
-    labels = list(qual_ann.keys())
-    # labels = labels + list(quant_ann.keys())
-    # print(labels)
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
 
-    total_articles = 199066
-    annotated = []
-    not_annotated = []
+    filename = "data_summary/" + filename
+    with open(filename, 'w+') as f:
+        f.write("###\n")
+        for article_id in ann_dict.keys():
+            label = ann_dict[article_id][comp]
+            if label != '\0':
+                query = 'SELECT text\
+                    FROM article ' \
+                    + 'WHERE id is ' + str(article_id) + ';'
+                article_txt = cur.execute(query).fetchone()
+                # print query result
+                clean_text = extract_strings(article_txt[0])
+                
+                f.write('article: "' + clean_text + '"' + '\n')
+                f.write(comp + " of article is: " + label + '\n')
+                f.write("###\n")
 
-    for type in qual_ann.keys():
-        count = sum(qual_ann[type].values())
-        annotated.append((count/total_articles) * 100)
-        not_annotated.append(total_articles-count)
+    con.close()
+
+
         
-    # for type in quant_ann.keys():      
-    #     count = sum(quant_ann[type].values())
-    #     annotated.append(count)
-    #     not_annotated.append(total_articles-count)
-        
-    fig, ax = plt.subplots()
-    fig.set_size_inches(14, 8)
-    
-    # print(labels)
-    # print(annotated)
 
-    ax.bar(labels, np.array(annotated), label="Value Obtained", color="#DD6031")
-    ax.bar(labels, np.array(not_annotated), bottom=annotated, label="No Value", color="#739BD1")
 
-    ax.set_title("Current State of Dataset")
-    ax.set_ylabel("Number of Articles")
-    ax.set_xlabel("Frame Component")
-    ax.legend()
-
-    plt.show()
-    plt.savefig("data_summary/" + filename, transparent=True)
 
 
 def main(args):
+    
+    qual_ann = get_qual_dict(args.db)
+    agreed_qual_ann = get_agreed_anns(qual_ann)
+    # qual_label_counts = print_agreed_anns_counts(agreed_qual_ann)
+    print_article_examples('econ_change', agreed_qual_ann, 'econ_change.txt', args.db)
 
-    con = sqlite3.connect(args.db)
-    cur = con.cursor()
-    ann = {}
-    quant_ann = {}
+    # quant_ann = get_quant_dict(args.db)
+    # agreed_quant_ann = get_agreed_anns(quant_ann)
+    # quant_labels = print_agreed_anns_counts(agreed_quant_ann)
+    # export_quants_to_csv(quant_labels, 'annotation_count.csv')
 
-    # TODO: retrieve_anns should be refactored to reduce db queries and
-    # calls to retrieve_anns
-
-    # Frame
-    query = 'SELECT article_id, user_id, frame \
-                FROM articleann \
-                WHERE frame is NOT NULL and frame != "None";'
-    res = cur.execute(query)
-    retrieve_anns(ann, res, 'frame')
-
-    # Econ rate
-    query = 'SELECT article_id, user_id, econ_rate \
-                FROM articleann \
-                WHERE econ_rate is NOT NULL and econ_rate != "None";'
-    res = cur.execute(query)
-    retrieve_anns(ann, res, 'econ_rate')
-
-    # Econ change
-    query = 'SELECT article_id, user_id, econ_change \
-                FROM articleann \
-                WHERE econ_change is NOT NULL and econ_change != "None";'
-    res = cur.execute(query)
-    retrieve_anns(ann, res, 'econ_change')
-
-    ann = get_agreed_anns(ann)
-    qual_labels = print_agreed_anns_counts(ann)
-   
-
-    # Quantities
-    query = 'SELECT quantity_id, user_id, type, macro_type, industry_type, \
-                gov_type, expenditure_type, revenue_type, spin \
-                FROM quantityann;'
-    res = cur.execute(query)
-    retrieve_quant_anns(quant_ann, res)
-
-    quant_ann = get_agreed_anns(quant_ann)
-    quant_labels = print_agreed_anns_counts(quant_ann)
-    export_quants_to_csv(quant_labels, 'annotation_count.csv')
-
-    make_plot(qual_ann=qual_labels, quant_ann=quant_labels, filename="plot.png")
-
-    con.close()
+    
 
 
 if __name__ == "__main__":

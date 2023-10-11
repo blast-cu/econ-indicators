@@ -5,6 +5,10 @@ from nltk.metrics import interval_distance, binary_distance
 from collections import Counter
 
 def retrieve_anns(article2ann, query_res, ann_name):
+    """
+    Takes as input a SELECT query result for a frame component ann_name
+    adds results to article2ann dict 
+    """
     for (article_id, user_id, ann) in query_res:
         if article_id not in article2ann:
             article2ann[article_id] = {'frame': [], 'econ_rate': [], 'econ_change': []}
