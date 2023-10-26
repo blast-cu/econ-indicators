@@ -1,4 +1,4 @@
-from inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
+from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
 import argparse
 import sqlite3
 from collections import Counter
@@ -195,6 +195,22 @@ def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename
 
     con.close()
 
+def get_clean_text(article_id: int, db_filename: str):
+    """
+    Takes article_id and db filename
+    Returns cleaned text of article as string
+    """
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+
+    query = 'SELECT text\
+        FROM article ' \
+        + 'WHERE id is ' + str(article_id) + ';'
+    article_txt = cur.execute(query).fetchone()
+    clean_text = extract_strings(article_txt[0])
+    con.close()
+
+    return clean_text
 
 def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     """
@@ -206,18 +222,12 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
         label at a time)
     """
 
-    con = sqlite3.connect(db_filename)
-    cur = con.cursor()
-
     word_count = 0
     for article_id in ann_dict.keys():
-        label_dict = ann_dict[article_id]
-        query = 'SELECT text\
-            FROM article ' \
-            + 'WHERE id is ' + str(article_id) + ';'
-        article_txt = cur.execute(query).fetchone()
 
-        clean_text = extract_strings(article_txt[0])  # remove html tags
+        label_dict = ann_dict[article_id]
+        clean_text = get_clean_text(article_id, db_filename)
+
         clean_list = re.split(r'[\n\t\f\v\r]+', clean_text)  # split on w space
         article_word_count = len(clean_list)
 
@@ -231,6 +241,7 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     token_count = (100 * word_count) * 75  # calc via open ai
     price = price_per_k * (token_count / 1000)
     return price
+
 
 
 def main(db_name):
