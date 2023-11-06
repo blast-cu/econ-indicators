@@ -1404,7 +1404,7 @@ More on WorldViews
 Brexit campaign wipes website clear, sparking speculation it is hiding its promises
 Millions of Brits signed a petition for another E.U. referendum. They shouldn’t hold their breath.
 Anger on the streets of London after Britain votes to leave the European Union"
-econ_change of article is: irrelevant
+econ_change of article is: none
 ###
 article: "British Prime Minister Theresa May heads to Europe this week to try to wrangle more Brexit concessions from the European Union.
 It won’t be easy. The Europeans have driven a tough bargain, offering very little to May and her Brexiteers. Experts say they don’t think they have to compromise: The European Union wants to make leaving seem as painful as possible for Britain, so other countries don’t try it.
@@ -1424,7 +1424,7 @@ Even so, it’s unlikely the bloc will renegotiate any legally binding parts of 
 That leaves part of the E.U.’s fate in May’s hands as she attempts to miraculously find a consensus in Parliament for the deal as it stands.
 Read more:
 As E.U. leaders gather in Brussels over Brexit, Britain’s May says no to reelection"
-econ_change of article is: irrelevant
+econ_change of article is: none
 ###
 article: "* Send any friend a storyAs a subscriber, you have 10 gift articles to give each month. Anyone can read what you share.,
 
@@ -1515,7 +1515,7 @@ In a bid to stake out a stronger negotiating position, Mrs. May has threatened t
 Whatever the comparative rankings of unfortunate events, Britain’s leaving Europe sans deal would be bad, as economists and people running businesses have said.
 
 It is often said that businesses fear uncertainty more than anything. Mrs. May just eliminated some of that. But she replaced it with an apparent certainty that presents its own troubles: Britain really is departing the largest consumer market on earth."
-econ_change of article is: irrelevant
+econ_change of article is: none
 ###
 article: "OTTAWA/WASHINGTON (Reuters) ― The United States and Canada forged a last-gasp deal on Sunday to salvage NAFTA as a trilateral pact with Mexico, rescuing a three-country, $1.2 trillion open-trade zone that had been about to collapse after nearly a quarter century.
 
@@ -2112,7 +2112,7 @@ Iran’s economy appears to be going the way of Venezuela’s after months of sa
 “In March, Hezbollah’s leader, Hassan Nasrallah, went on TV and made a public appeal for donations,” Hook noted. “Hezbollah has placed piggy banks in grocery stores and in retail outlets seeking the spare change of people.”
 .
 Please let us know if you're having issues with commenting."
-econ_change of article is: irrelevant
+econ_change of article is: none
 ###
 article: "Scramble to safety upends bets by investors who were convinced three-decade-long rally in Treasurys was over
 
@@ -2691,6 +2691,36 @@ Write to Kris Hudson at kris.hudson@wsj.com
 87990cbe856818d5eddac44c7b1cdeb8"
 econ_change of article is: better
 ###
+article: "There are signs that pockets of the U.S. housing market are heating up, particularly in the suburbs and fashionable exurbs, to which people have been fleeing to escape the coronavirus.
+Some first-time buyers are feeling a sudden hurry to buy, fearing higher prices if they wait. But they are also worried about the long-run outlook for home prices.
+For the United States, according to the S&P/CoreLogic/Case-Shiller National Home Price Index, adjusted for inflation, real home prices rose 45 percent from February 2012 through May 2020, the latest data. (I helped to create the index but have no financial interest in it.) Other sources indicate that prices remain high. That is a remarkable record, considering that the United States is grappling with the coronavirus pandemic, a major recession and social upheaval. In that stretch, there were no down years.
+It would be easy to assume that the boom times for housing will go on forever, but that would require ignoring the disaster that led to the most recent great financial crisis, a little more than a decade ago.
+Recall some recent history. Real home prices rose 75 percent from February 1997 to a peak in December 2005, apparently unaffected by the 2001 U.S. recession and the steep stock market decline of 2000 to 2002. Delusions of eternal price increases for houses — thought to be much more reliable than stocks — sprouted in that era, not so long ago.
+But housing prices crashed 36 percent from their 2005 high, to a low in February 2012, and the impact of that decline spread into other financial markets and crippled the global economy.
+For a home buyer in 2005, who put up life savings for a 10 percent or 20 percent down payment, the price decline amounted to a devastating loss by 2012. If they had been able to hold on until now, their real home value would probably be mostly restored, but no one would want that 15-year experience again.
+I’m not making a prediction. This is not 2005, and many things have changed. The work-at-home trend today, aided by online communications, is notably different. If one does not have to commute to work in a city, there is so much land out there in America that many new suburban houses can be built, supply can increase to meet the demand, and home prices in the suburbs may never rise as much as they did in the previous boom.
+But still, looking at the market cycle has to be instructive. In an impressive new book, “The Great American Housing Bubble,” Adam Levitin of Georgetown University and Susan Wachter of the Wharton School summarized six possible causes of that epic boom-and-bust cycle. Succinctly put, they are:
+Consumers’ “irrational exuberance,” referring to an analysis that I made in the second edition of a book with that title in 2005.
+The “fair lending and affordable housing policy” starting with the 1977 Community Reinvestment Act, which made it easier for poorer people to buy houses.
+Federal Reserve cuts in interest rates, which may have set off price speculation.
+A global savings glut — excessive saving worldwide, given available investment opportunities, a theory proposed by Ben S. Bernanke, the former Fed chairman, in explanation of low interest rates in the early 2000s.
+Excessive creation of securities that promoted subprime lending.
+A shift in mortgage lending to “unregulated private-label securitization by private investment banks,” a theory developed by the two authors.
+All these factors, as well as Federal Reserve decisions affecting mortgage rates, are part of the story of the 1997 to 2012 boom and crash. So are the difficulties faced by the Fed and other regulators, as described in a new and imposing 595-page volume, “First Responders,” edited by Mr. Bernanke and two former U.S. treasury secretaries, Timothy Geithner and Henry Paulson.
+All of the theories point to a fragile boom-time mind-set that underestimated home price risk, whether by home buyers, investors, mortgage originators, securitizers, rating agencies or regulators.
+So let us dig a little deeper. What caused all these errors back then?
+Ultimately, it came down to unwarranted optimism and excitement about home prices. There were, during the 1997-2005 boom, constellations of narratives about housing that grew contagious over time, even transcending national borders. Intense “real estate voyeurism” — envious online snooping of other peoples’ home values — became common. The exuberant mind-set displaced thoughts of price declines.
+Stories abounded of “flippers,” people who made fantastic profits buying, fixing up, and selling homes within a matter of months. The so-called experts in those days hardly ever mentioned that the high rate of increase in home prices might one day be reversed.
+In retrospect, it appears that there was a political component to the housing craze. President George W. Bush said the United States was becoming an “ownership society” in his successful 2004 re-election campaign. He promoted the idea of homeownership in a way that flattered the apparent wisdom of people who bought houses.
+Newspaper articles shortly after Mr. Bush won became much more comfortable with the idea that something akin to an “ownership society” was the country’s future, part of a longer trend that defined the “American dream” as owning a home. In that atmosphere, people rarely even considered the possibility that home prices could ever fall.
+Starting just before the 2005 peak, however, the news media started discussing a new idea, the existence of a “housing bubble” for single-family homes, whose prices had become obviously high. Before that, there just wasn’t much talk about the idea that a bubble could be forming in the market for single-family homes. That sudden change is worth remembering. It is a model for what might happen again one day.
+That’s not where the United States is now. The prevailing narratives are different and the underlying economic situation is dominated by the coronavirus pandemic. Furthermore, there tends to be a lot of momentum in home prices. The boom that started in 2012 could conceivably go on for years.
+But there is a chance that inadequate public support for homeowners in these difficult times will result in a rash of foreclosures, personal bankruptcies and houses dumped on the market. From the intensity of public reactions to current social and economic problems, it seems possible that the United States is nearing a turning point in the thinking of many people, and this could affect the housing market and the economy. If President Trump and his “Make America Great Again” narrative continue to polarize the country as the election grows near, confidence in the solidity of housing prices could drop sharply.
+This poses a dilemma for prospective home buyers, who must make life-changing decisions with imperfect knowledge of the future. History suggests that it might be wise to avoid investing in too expensive of a house or in taking on too much risk.
+Yet the value of a good place to live for a family cannot be quantified. If you can afford the cost, a house that you will live in for years to come may be worthwhile, regardless of the short-term shifts in the market.
+Robert J. Shiller, Sterling Professor of Economics at Yale, shared the Nobel Memorial Prize in Economic Science in 2013."
+econ_change of article is: none
+###
 article: "The advance of wealthy households, while middle- and lower-income Americans struggle, is reshaping markets for everything from housing to clothing to beer.
 
 Updated Jan. 28, 2015 10:36 pm ET
@@ -2864,7 +2894,7 @@ So maybe the pessimism isn’t a paradox at all. And maybe we would be more worr
 The Australian experience is evidence that the “business cycle” is a misleading way to think about economic growth. Recessions aren’t like thunderstorms, an inevitable, random event that may be violent but provide much-needed water to crops.
 Maybe recessions are more like car crashes. They may never be completely eliminated, but making the right choices can make them rarer and less damaging when they do happen.
 In trying to learn the lessons of Australia, that may be the biggest of them all. There will always be bad things that happen in an economy. The best way to keep them from causing the mass pain that accompanies a recession is to combine sound policy, a flexible and dynamic economy and — perhaps most important — just the right amount of fear."
-econ_change of article is: irrelevant
+econ_change of article is: none
 ###
 article: "Economic Scene
 
