@@ -1,4 +1,4 @@
-from data_utils.data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
+from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
 import argparse
 import sqlite3
 from collections import Counter

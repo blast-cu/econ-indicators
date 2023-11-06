@@ -70,24 +70,18 @@ def check_done(val_loss_history: list, val_loss, patience, history_len):
     return improving, val_loss_history
 
 
-def validate(model, val_loader, class_weights,
-             val_loss_history, patience, history_len):
+def validate(model, val_loader, class_weights):
     """
-    Validates the performance of the model on the validation set.
+    Evaluate the performance of the model on the validation set.
 
-    Parameters:
-    - model: the RoBERTa model to be validated
-    - val_loader: the validation data loader
-    - class_weights: the weights for each class in the loss function
-    - val_loss_history: the history of validation losses
-    - patience: the number of epochs to wait for improvement before stopping early
-    - history_len: the maximum length of the validation loss history
+    Args:
+    - model (torch.nn.Module): The trained model to be evaluated.
+    - val_loader (torch.utils.data.DataLoader): The validation data loader.
+    - class_weights (torch.Tensor): The weights to be applied to each class during loss calculation.
 
     Returns:
-    - improving: a boolean indicating whether the validation loss has improved
-    - val_loss_history: the updated history of validation losses
+    - float: The average validation loss.
     """
-
     model.eval()
     with torch.no_grad():
         val_loss = 0.0
@@ -106,10 +100,7 @@ def validate(model, val_loader, class_weights,
 
         val_loss /= len(val_loader.dataset)
 
-        improving, val_loss_history = \
-            check_done(val_loss_history, val_loss, patience, history_len)
-
-    return improving, val_loss_history
+    return val_loss
 
 
 def train(model, train_loader, val_loader, optimizer, class_weights):
@@ -151,9 +142,9 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             optimizer.step()
             optimizer.zero_grad()
 
-        improving, val_loss_history = \
-            validate(model, val_loader, class_weights, val_loss_history,
-                     patience, history_len)
+        val_loss = validate(model, val_loader, class_weights)
+        improving, val_loss_history = check_done(val_loss_history, val_loss, 
+                                                 patience, history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val Loss: {val_loss_history[-1]:.4f}")
         epoch += 1
@@ -216,7 +207,7 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
         tuple: A tuple containing the RoBERTa model, data loaders for training, validation, and testing,
         and the optimizer.
     """
-    
+
     torch.manual_seed(42)  # Set random seed for reproducibility
 
     # split train into train and val
@@ -248,8 +239,6 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
         .AdamW(model.parameters(), lr=lr)
 
     return model, train_loader, val_loader, test_loader, optimizer
-
-
 
 
 def get_weights(y, annotation_map: dict):
