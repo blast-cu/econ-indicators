@@ -1,4 +1,4 @@
-from inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
+from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
 import argparse
 import sqlite3
 from collections import Counter
@@ -21,7 +21,7 @@ def get_qual_dict(db_filename: str):
                 + ' FROM articleann ' \
                 + 'WHERE ' + comp + ' is NOT NULL and ' + comp + ' != "None";'
         res = cur.execute(query)
-        retrieve_anns(ann, res, comp)
+        retrieve_anns(ann, res, comp) 
 
     con.close()
     return ann
@@ -46,7 +46,7 @@ def get_quant_dict(db_filename: str):
     return ann
 
 
-def get_agreed_anns(ann_dict: dict):
+def get_agreed_anns(ann_dict: dict, type_filter: list = []):
     """
     Takes a nested dictionary of annotations (list) and returns
     nested dictionary of final annotations (str) wrt full agreement
@@ -65,9 +65,19 @@ def get_agreed_anns(ann_dict: dict):
 
                 # check for tie (first result count matches second)
                 if len(c) == 1 or c[0][1] != c[1][1]:
+
                     result = c[0][0]
 
             ann_dict[id][type] = result
+
+    if type_filter != []:
+        filtered_dict = {}
+        for id in ann_dict.keys():
+            curr_ent = ann_dict[id]
+            if curr_ent['type'] in type_filter:
+                filtered_dict[id] = curr_ent
+                
+        ann_dict = filtered_dict
 
     return ann_dict
 
@@ -115,7 +125,7 @@ def export_quants_to_csv(ann: dict, filename: str):
 
     field_names = ['Type', 'Subtype', 'Nested Subtype', 'Annotations']
     row_list = []
-    filename = "data_summary/" + filename
+    filename = "data_utils/data_summary/" + filename
 
     def add_row(type, subtype, n_subtype, ann_ct):
         row = {}
@@ -176,7 +186,7 @@ def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename
     con = sqlite3.connect(db_filename)
     cur = con.cursor()
 
-    filename = "data_summary/" + filename
+    filename = "data_utils/data_summary/" + filename
     with open(filename, 'w+') as f:
         f.write("###\n")
         for article_id in ann_dict.keys():
@@ -195,6 +205,28 @@ def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename
 
     con.close()
 
+def get_text(article_id: int, db_filename: str, clean: bool = True):
+    """
+    Takes article_id and db filename
+    Returns cleaned text of article as string
+    """
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+
+    text = ''
+
+    query = 'SELECT text\
+        FROM article ' \
+        + 'WHERE id is ' + str(article_id) + ';'
+    article_txt = cur.execute(query).fetchone()
+
+    text = article_txt[0]
+    if clean:
+        text = extract_strings(article_txt[0])
+        
+    con.close()
+
+    return text
 
 def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     """
@@ -206,18 +238,12 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
         label at a time)
     """
 
-    con = sqlite3.connect(db_filename)
-    cur = con.cursor()
-
     word_count = 0
     for article_id in ann_dict.keys():
-        label_dict = ann_dict[article_id]
-        query = 'SELECT text\
-            FROM article ' \
-            + 'WHERE id is ' + str(article_id) + ';'
-        article_txt = cur.execute(query).fetchone()
 
-        clean_text = extract_strings(article_txt[0])  # remove html tags
+        label_dict = ann_dict[article_id]
+        clean_text = get_text(article_id, db_filename)
+
         clean_list = re.split(r'[\n\t\f\v\r]+', clean_text)  # split on w space
         article_word_count = len(clean_list)
 
@@ -233,6 +259,7 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     return price
 
 
+
 def main(db_name):
 
     qual_ann = get_qual_dict(args.db)
@@ -245,8 +272,11 @@ def main(db_name):
     quant_ann = get_quant_dict(args.db)
     agreed_quant_ann = get_agreed_anns(quant_ann)
     quant_labels = print_agreed_anns_counts(agreed_quant_ann)
-    export_quants_to_csv(quant_labels, 'annotation_count.csv')
+    # export_quants_to_csv(quant_labels, 'annotation_count.csv')
 
+
+
+   
     
 
 

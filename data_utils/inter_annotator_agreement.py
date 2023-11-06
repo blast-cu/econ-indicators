@@ -16,6 +16,10 @@ def retrieve_anns(article2ann, query_res, ann_name):
             ann = 'good'
         if ann_name == 'econ_rate' and ann == 'fair':
             ann = 'poor'
+        if ann_name == 'econ_rate' and ann in ['unsure', 'irrelevant']:
+            ann = 'none'
+        if ann_name == 'econ_change' and ann in ['unsure', 'irrelevant']:
+            ann = 'none'
         article2ann[article_id][ann_name].append((user_id, ann))
 
 def retrieve_quant_anns(quantity2ann, query_res):
