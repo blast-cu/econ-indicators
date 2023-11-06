@@ -99,11 +99,8 @@ def main():
                                    optimizer, class_weights)
             y, y_predicted, accuracy = tt.test(tuned_model, test_loader)
 
-            y_labels_tot.append(y)
-            y_predicted_tot.append(y_predicted)
-
-        y_labels_tot = [label for sublist in y_labels_tot for label in sublist]
-        y_predicted_tot = [label for sublist in y_labels_tot for label in sublist]
+            y_labels_tot += y
+            y_predicted_tot += y_predicted
 
         print(y_labels_tot)
         print(y_predicted_tot)
