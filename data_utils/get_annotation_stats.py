@@ -4,6 +4,8 @@ import sqlite3
 from collections import Counter
 import csv
 import re
+import matplotlib.pyplot as plt
+import numpy as np
 
 def get_qual_dict(db_filename: str):
     """
@@ -108,13 +110,14 @@ def print_agreed_anns_counts(ann_dict: dict):
                     labels[type][curr_t] += 1
                 else:
                     labels[type][curr_t] = 1
-
+    label_counts = {}
     for type in labels.keys():
         count = sum(labels[type].values())
         print(type + " - count: " + str(count))
         print(str(labels[type]) + '\n')
+        label_counts[type] = count
     
-    return labels
+    return labels, label_counts
 
 
 def export_quants_to_csv(ann: dict, filename: str):
@@ -258,21 +261,62 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     price = price_per_k * (token_count / 1000)
     return price
 
+def visualize_anns(ann_dict: dict):
+
+    bins = len(ann_dict.keys())
+    X_axis = np.arange(bins)
+    tot_articles = [199996]*bins
+
+    bin_names = ['type', 'econ_conditions', 'econ_change']
+
+
+    plt.bar(X_axis, tot_articles, 0.4, color='#FED766')
+    plt.bar(X_axis, ann_dict.values(), 0.4, label='annotated', color='#a4649c') 
+
+    plt.xticks(X_axis, bin_names)
+    plt.yscale('log')
+    plt.legend()
+
+    plt.ylabel('Number of Articles (log scale)')
+    plt.xlabel('Annotation Component')
+    plt.savefig(fname='plot.pdf')
+    
+    plt.show()
+    
+
+
 
 
 def main(db_name):
 
     qual_ann = get_qual_dict(args.db)
     agreed_qual_ann = get_agreed_anns(qual_ann)
-    # print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
-    qual_label_counts = print_agreed_anns_counts(agreed_qual_ann)
-    print_article_examples('econ_change', agreed_qual_ann, 'econ_change.txt', args.db)
+    print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
+    qual_label_counts, label_counts = print_agreed_anns_counts(agreed_qual_ann)
+    visualize_anns(label_counts)
+    # print_article_examples('econ_change', agreed_qual_ann, 'econ_change.txt', args.db)
 
 
-    quant_ann = get_quant_dict(args.db)
-    agreed_quant_ann = get_agreed_anns(quant_ann)
-    quant_labels = print_agreed_anns_counts(agreed_quant_ann)
-    # export_quants_to_csv(quant_labels, 'annotation_count.csv')
+    # quant_ann = get_quant_dict(args.db)
+    # agreed_quant_ann = get_agreed_anns(quant_ann)
+    # quant_labels = print_agreed_anns_counts(agreed_quant_ann)
+    # # export_quants_to_csv(quant_labels, 'annotation_count.csv')
+
+    # con = sqlite3.connect(args.db)
+    # cur = con.cursor()
+
+    # # query = 'SELECT name FROM sqlite_master WHERE type="table";'
+    # # query = 'SELECT * FROM articleann;'
+    # query = "SELECT COUNT(DISTINCT articleann_id) FROM topics;"
+    # article_txt = cur.execute(query)
+    # # for col in article_txt:
+    # #     print(col[0])
+    # # description = article_txt.description
+    # # for d in description:
+    # #     print(d[0])
+    # topics = article_txt.fetchall()
+    # for t in topics:
+    #     print(t)
 
 
 
