@@ -282,9 +282,6 @@ def visualize_anns(ann_dict: dict):
     plt.savefig(fname='plot.pdf')
     
     plt.show()
-    
-
-
 
 
 def main(db_name):

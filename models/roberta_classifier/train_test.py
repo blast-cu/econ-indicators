@@ -264,21 +264,3 @@ def get_weights(y, annotation_map: dict):
     weight = [float(w) for w in weight]
     class_weights = torch.tensor(weight).to('cuda')
     return class_weights
-
-
-def to_csv(annotation_component, labels, predicted, destination: str= "models/roberta/results"):
-    """
-    Write classification report to a CSV file.
-
-    Parameters:
-    - annotation_component (str): Name of the annotation component.
-    - labels (list): List of true labels.
-    - predicted (list): List of predicted labels.
-    - destination (str, optional): Path to save the CSV file. Defaults to "models/roberta/results".
-    """
-    report = classification_report(labels, predicted,
-                                   output_dict=True,
-                                   zero_division=0)
-
-    df = pd.DataFrame(report).transpose()
-    df.to_csv(f"{destination}/{annotation_component}_classification_report.csv")

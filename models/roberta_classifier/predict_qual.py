@@ -1,7 +1,6 @@
-import data_utils.get_annotation_stats as gs
 from sklearn.model_selection import KFold
-
 import train_test as tt
+import models.utils.dataset as d
 
 label_maps = {
     'frame': {
@@ -22,40 +21,6 @@ label_maps = {
 }
 
 
-def load_dataset(db_filename: str, annotation_component: str):
-    """
-    Load dataset from a database file and return text and labels for a given annotation component.
-
-    Parameters:
-    db_filename (str): The path to the database file.
-    annotation_component (str): The annotation component to extract labels for.
-
-    Returns:
-    Tuple[List[str], List[str]]: A tuple containing two lists: text and labels.
-    """
-    
-    label_map = label_maps[annotation_component]
-
-    text = []
-    labels = []
-
-    # get all agreed annotations for given component
-    qual_ann = gs.get_qual_dict(db_filename)  
-    agreed_qual_ann = gs.get_agreed_anns(qual_ann)
-
-    # get list of text and labels for given component
-    for article_id in agreed_qual_ann.keys():
-        if agreed_qual_ann[article_id][annotation_component] != '\0':
-            article_dict = agreed_qual_ann[article_id]
-            clean_text = gs.get_text(article_id, db_filename)
-
-            text.append(clean_text)
-            label = label_map[article_dict[annotation_component]]
-            labels.append(label)
-
-    return text, labels
-
-
 def main():
     """
     Performs k-fold cross-validation for a set of classification tasks on
@@ -65,10 +30,11 @@ def main():
 
     k_folds = 5  # 4 train folds, 1 test fold
 
-    for annotation_component in list(label_maps.keys()): 
+    for annotation_component in list(label_maps.keys()):
 
-        texts, labels = load_dataset("data/data.db",
-                                     annotation_component=annotation_component)
+        texts, labels = d.load_qual_dataset("data/data.db", 
+                                            annotation_component=annotation_component, 
+                                            label_map=label_maps[annotation_component])
 
         kf = KFold(n_splits=5, random_state=42, shuffle=True)
 
@@ -106,7 +72,7 @@ def main():
         print(y_predicted_tot)
 
         destination = "models/roberta/results/test_refactor"
-        tt.to_csv(annotation_component, y_labels_tot, y_predicted_tot,
+        d.to_csv(annotation_component, y_labels_tot, y_predicted_tot,
                   destination)
         # model.save_pretrained(f"models/roberta/{annotation_component}_model")
 
