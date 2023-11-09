@@ -1,34 +1,42 @@
 from bs4 import BeautifulSoup
 import nltk
-from sklearn.model_selection import KFold
-
 import data_utils.get_annotation_stats as gs
-import train_test as tt
 
-# nltk.download('punkt')
 
-# maps annotation labels to integers for each prediction task
-label_maps = {
-    'type': {
-            'industry': 0,
-            'macro': 1},
-    'spin': {
-            'pos': 0,
-            'neg': 1,
-            'neutral': 2},
-    'macro_type': {
-            'jobs': 0,
-            'retail': 1,
-            'interest': 2,
-            'prices': 3,
-            'energy': 4,
-            'wages': 5,
-            'macro': 6,
-            'market': 7,
-            'currency': 8,
-            'housing': 9,
-            'other': 10}
-}
+def load_qual_dataset(db_filename: str, annotation_component: str,
+                      label_map: dict = {}):
+    """
+    Load dataset from a database file and return text and labels for a given annotation component.
+
+    Parameters:
+    db_filename (str): The path to the database file.
+    annotation_component (str): The annotation component to extract labels for.
+
+    Returns:
+    Tuple[List[str], List[str]]: A tuple containing two lists: text and labels.
+    """
+
+    text = []
+    labels = []
+
+    # get all agreed annotations for given component
+    qual_ann = gs.get_qual_dict(db_filename)
+    agreed_qual_ann = gs.get_agreed_anns(qual_ann)
+
+    # get list of text and labels for given component
+    for article_id in agreed_qual_ann.keys():
+        if agreed_qual_ann[article_id][annotation_component] != '\0':
+            article_dict = agreed_qual_ann[article_id]
+            clean_text = gs.get_text(article_id, db_filename)
+
+            text.append(clean_text)
+            label = article_dict[annotation_component]
+            labels.append(label)
+
+    if label_map != {}:
+        labels = [label_map[label] for label in labels]
+
+    return text, labels
 
 
 def get_article_dict(agreed_quant_ann: dict, label_ann: str):
@@ -109,7 +117,8 @@ def get_context(i: int, sentences: list):
     return context
 
 
-def load_dataset(db_filename: str, label_ann: str, type_filter: list = []):
+def load_quant_dataset(db_filename: str, label_ann: str, label_map: dict,
+                       type_filter: list = []):
     """
     Load dataset from a database file and return texts and labels.
 
@@ -153,73 +162,26 @@ def load_dataset(db_filename: str, label_ann: str, type_filter: list = []):
                 i += 1
 
     texts = [t[0] for t in texts_labels]
-    labels = [label_maps[label_ann][t[1]] for t in texts_labels]
+    labels = [t[1] for t in texts_labels]
+
+    if label_map != {}:
+        labels = [label_map[label] for label in labels]
 
     return texts, labels
 
-
-def main():
+def to_csv(annotation_component, labels, predicted, destination: str= "models/roberta/results"):
     """
-    Performs k-fold cross-validation for a set of classification tasks on
-    quantitative annotations, trains a model for each fold, and saves the
-    results to a CSV file.
+    Write classification report to a CSV file.
+
+    Parameters:
+    - annotation_component (str): Name of the annotation component.
+    - labels (list): List of true labels.
+    - predicted (list): List of predicted labels.
+    - destination (str, optional): Path to save the CSV file. Defaults to "models/roberta/results".
     """
+    report = classification_report(labels, predicted,
+                                   output_dict=True,
+                                   zero_division=0)
 
-    k_folds = 5  # 4 train folds, 1 test fold
-
-    # restrict dataset to annotations with agreed types
-    type_filters = {
-        'type': ['industry', 'macro'],
-        'spin': ['industry', 'macro'],
-        'macro_type': ['macro']
-    }
-
-    experiments = []
-    for task in label_maps.keys():
-        task_texts, task_labels = load_dataset("data/data.db", label_ann=task, 
-                                               type_filter=type_filters[task])
-        experiments.append((task_texts, task_labels, task))
-
-    for texts, labels, task in experiments:
-
-        kf = KFold(n_splits=5, random_state=42, shuffle=True)
-
-        y_labels_tot = []
-        y_predicted_tot = []
-
-        for i, (train_index, test_index) in enumerate(kf.split(texts)):
-
-            test_texts = [texts[i] for i in test_index]
-            test_labels = [labels[i] for i in test_index]
-
-            train_texts = [texts[i] for i in train_index]
-            train_labels = [labels[i] for i in train_index]
-
-            class_weights = tt.get_weights(train_labels, label_maps[task])
-
-            print(f"\nFold {i+1}/{k_folds}")
-
-            model, train_loader, val_loader, test_loader, optimizer = \
-                tt.setup(train_texts, test_texts, train_labels, test_labels,
-                         label_maps[task])
-
-            # test before pretraining
-            # tt.test(model, test_loader)
-
-            tuned_model = tt.train(model, train_loader, val_loader,
-                                   optimizer, class_weights)
-            y, y_predicted, accuracy = tt.test(tuned_model, test_loader)
-
-            y_labels_tot += y
-            y_predicted_tot += y_predicted
-
-        print(y_labels_tot)
-        print(y_predicted_tot)
-
-        destination = "models/roberta/results/quant"
-        tt.to_csv(task, y_labels_tot, y_predicted_tot, destination)
-        # model.save_pretrained(f"models/roberta/{annotation_component}_model")
-
-
-if __name__ == '__main__':
-    main()
+    df = pd.DataFrame(report).transpose()
+    df.to_csv(f"{destination}/{annotation_component}_classification_report.csv")
