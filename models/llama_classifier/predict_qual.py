@@ -56,9 +56,10 @@ def main(
     texts = [z[0] for z in zipped]
     labels = [z[1] for z in zipped]
 
-    pre_prompt = 'This is a news article about the economy: \n'
-    post_prompt = '\n\nIs it talking about the economy in the context of business' + \
-        ' industry, macro, government or other? Please answer with a single word.'
+    # pre_prompt = 'This is a multiple choice question. Answer with a single letter. News article about the economy: \n'
+    pre_prompt = '<s>[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.'
+    post_prompt = '\n\nIs the above article talking about the economy in the context of \n A. business' + \
+        ' \n B. industry \n C. macro \n D. government \n E. other'
     
     prompts = shared.form_prompts(texts, pre_prompt, post_prompt)
     results = generator.text_completion(

@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import nltk
 import data_utils.get_annotation_stats as gs
+from sklearn.metrics import classification_report
+import pandas as pd
 
 
 def load_qual_dataset(db_filename: str, annotation_component: str,
@@ -27,7 +29,7 @@ def load_qual_dataset(db_filename: str, annotation_component: str,
     for article_id in agreed_qual_ann.keys():
         if agreed_qual_ann[article_id][annotation_component] != '\0':
             article_dict = agreed_qual_ann[article_id]
-            clean_text = gs.get_text(article_id, db_filename)
+            clean_text = gs.get_text(article_id, db_filename, clean=True)
 
             text.append(clean_text)
             label = article_dict[annotation_component]
@@ -179,7 +181,8 @@ def to_csv(annotation_component, labels, predicted, destination: str= "models/ro
     - predicted (list): List of predicted labels.
     - destination (str, optional): Path to save the CSV file. Defaults to "models/roberta/results".
     """
-    report = classification_report(labels, predicted,
+    report = classification_report(labels,
+                                   predicted,
                                    output_dict=True,
                                    zero_division=0)
 

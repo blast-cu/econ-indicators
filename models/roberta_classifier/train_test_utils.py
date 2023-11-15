@@ -2,7 +2,7 @@ import torch
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from sklearn.model_selection import train_test_split
 
-from sklearn.metrics import classification_report
+from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader, Dataset
 import pandas as pd
 from torch.nn.functional import cross_entropy
@@ -10,7 +10,7 @@ from sklearn.utils.class_weight import compute_class_weight
 
 
 class TextClassificationDataset(Dataset):
-    def __init__(self, texts, labels, tokenizer, max_length):
+    def __init__(self, texts, labels=[], tokenizer=None, max_length=512):
         """
         Initializes a dataset for text classification
         """
@@ -35,10 +35,11 @@ class TextClassificationDataset(Dataset):
         encoding = self.tokenizer(
             text,
             return_tensors='pt',
-            # max_length=self.max_length,
+            max_length=self.max_length,
             padding='max_length',
             truncation=True
         )
+
         return {
             'input_ids': encoding['input_ids'].flatten(),
             'attention_mask': encoding['attention_mask'].flatten(),
@@ -46,7 +47,7 @@ class TextClassificationDataset(Dataset):
         }
 
 
-def check_done(val_loss_history: list, val_loss, patience, history_len):
+def check_done(val_f1_history: list, val_f1, patience, history_len):
     """
     Check if the model has stopped improving based on the validation loss history.
 
@@ -61,13 +62,16 @@ def check_done(val_loss_history: list, val_loss, patience, history_len):
     - val_loss_history (list): The updated validation loss history.
     """
     improving = True
-    if len(val_loss_history) == history_len:
-        val_loss_history.pop(0)  # remove at index 0
-        if val_loss_history[0] - val_loss < patience:
+    if len(val_f1_history) == history_len:
+        val_f1_history.pop(0)  # remove at index 0
+
+        if val_f1_history[-1] > val_f1:  # overfitting training data
+            improving = False
+        elif val_f1_history[0] - val_f1 < patience:
             improving = False
 
-    val_loss_history.append(val_loss)
-    return improving, val_loss_history
+    val_f1_history.append(val_f1)
+    return improving, val_f1_history
 
 
 def validate(model, val_loader, class_weights):
@@ -84,7 +88,10 @@ def validate(model, val_loader, class_weights):
     """
     model.eval()
     with torch.no_grad():
-        val_loss = 0.0
+
+        predicted_labels = []
+        true_labels = []
+
         for batch in val_loader:
 
             input_ids = batch['input_ids'].to('cuda')
@@ -95,12 +102,15 @@ def validate(model, val_loader, class_weights):
                             attention_mask=attention_mask,
                             labels=labels)
 
-            loss = cross_entropy(outputs.logits, labels, weight=class_weights)
-            val_loss += loss.item() * input_ids.size(0)
+            _, predicted = torch.max(outputs.logits, 1)
+            predicted_labels += predicted.tolist()
+            true_labels += labels.tolist()
 
-        val_loss /= len(val_loader.dataset)
+        f1 = f1_score(true_labels,
+                      predicted_labels,
+                      average='macro')
 
-    return val_loss
+    return f1
 
 
 def train(model, train_loader, val_loader, optimizer, class_weights):
@@ -120,7 +130,9 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
     """
     
     improving = True
-    val_loss_history = []
+    # val_loss_history = []
+    val_f1_history = []
+
     patience = 0.03
     history_len = 5
     epoch = 0
@@ -132,8 +144,8 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
             labels = batch['label'].to('cuda')
-            outputs = model(input_ids, 
-                            attention_mask=attention_mask, 
+            outputs = model(input_ids,
+                            attention_mask=attention_mask,
                             labels=labels)
 
             loss = cross_entropy(outputs.logits, labels, weight=class_weights)
@@ -142,11 +154,13 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             optimizer.step()
             optimizer.zero_grad()
 
-        val_loss = validate(model, val_loader, class_weights)
-        improving, val_loss_history = check_done(val_loss_history, val_loss, 
-                                                 patience, history_len)
+        val_f1 = validate(model, val_loader, class_weights)
+        improving, val_f1_history = check_done(val_f1_history,
+                                               val_f1,
+                                               patience,
+                                               history_len)
 
-        print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val Loss: {val_loss_history[-1]:.4f}")
+        print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1
 
     return model
@@ -186,9 +200,15 @@ def test(model: torch.nn.Module, test_loader: torch.utils.data.DataLoader):
 
         print(out_labels)
         print(out_predicted)
+
         test_acc = correct / total
         print(f"Test Accuracy: {test_acc:.4f}")
-        return out_labels, out_predicted, test_acc
+
+        # return macro f1 score
+        test_f1 = f1_score(out_labels, out_predicted, average='macro')
+        print(f"Test F1: {test_f1:.4f}")
+
+        return out_labels, out_predicted, test_f1
 
 
 def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr=2e-5):
@@ -220,9 +240,20 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
                          problem_type="single_label_classification")
 
     max_length = 512
-    train_data = TextClassificationDataset(train_texts, train_labels, tokenizer, max_length)
-    val_data = TextClassificationDataset(val_texts, val_labels, tokenizer, max_length)
-    test_data = TextClassificationDataset(test_texts, test_labels, tokenizer, max_length)
+    train_data = TextClassificationDataset(texts=train_texts,
+                                           labels=train_labels,
+                                           tokenizer=tokenizer, 
+                                           max_length=max_length)
+
+    val_data = TextClassificationDataset(texts=val_texts,
+                                         labels=val_labels,
+                                         tokenizer=tokenizer,
+                                         max_length=max_length)
+
+    test_data = TextClassificationDataset(texts=test_texts,
+                                          labels=test_labels,
+                                          tokenizer=tokenizer,
+                                          max_length=max_length)
 
     batch_size = 8
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
