@@ -2,6 +2,7 @@ from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_a
 import argparse
 import sqlite3
 from collections import Counter
+import random
 import csv
 import re
 import matplotlib.pyplot as plt
@@ -231,6 +232,45 @@ def get_text(article_id: int, db_filename: str, clean: bool = True):
 
     return text
 
+def get_no_anns(db_filename: str, num_samples: int = None):
+    """
+    Retrieves a dictionary of articles with no annotations from a SQLite database.
+
+    Args:
+        db_filename (str): The path to the SQLite database file.
+        num_samples (int, optional): The number of samples to retrieve. If None, retrieves all samples.
+
+    Returns:
+        dict: A dictionary where the keys are article IDs and the values are the article text.
+    """
+def get_no_anns(db_filename: str, num_samples: int = None):
+    """
+    
+    """
+
+    articles = {}  # keys: article_id, values: article text
+
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+
+    query = "SELECT id, text FROM article WHERE id NOT IN (SELECT article_id FROM articleann);"
+    # query = 'SELECT * FROM article;' # 96828
+    # query = 'SELECT * FROM articleann;' # 1189
+
+    ret = cur.execute(query)
+    samples = ret.fetchall()
+
+    if num_samples is not None:
+        random.seed(42)
+        samples = random.sample(samples, num_samples)
+
+    for id, text in samples:
+        articles[id] = extract_strings(text)
+
+    con.close()
+    return articles
+
+
 def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     """
     Takes file location of database; dictionary of annotations in which key is
@@ -284,13 +324,13 @@ def visualize_anns(ann_dict: dict):
     plt.show()
 
 
-def main(db_name):
+def main(args):
 
-    qual_ann = get_qual_dict(args.db)
-    agreed_qual_ann = get_agreed_anns(qual_ann)
-    print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
-    qual_label_counts, label_counts = print_agreed_anns_counts(agreed_qual_ann)
-    visualize_anns(label_counts)
+    # qual_ann = get_qual_dict(args.db)
+    # agreed_qual_ann = get_agreed_anns(qual_ann)
+    # print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
+    # qual_label_counts, label_counts = print_agreed_anns_counts(agreed_qual_ann)
+    # visualize_anns(label_counts)
     # print_article_examples('econ_change', agreed_qual_ann, 'econ_change.txt', args.db)
 
 
@@ -314,6 +354,8 @@ def main(db_name):
     # topics = article_txt.fetchall()
     # for t in topics:
     #     print(t)
+
+    get_no_anns(args.db)
 
 
 

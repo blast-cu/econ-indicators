@@ -1,81 +1,130 @@
-from sklearn.model_selection import KFold
-import train_test as tt
-import models.utils.dataset as d
+import argparse
+import torch
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
+from torch.utils.data import DataLoader
+import pandas as pd
+from data_utils import get_annotation_stats as gs
+from torch.utils.data import DataLoader, Dataset
+
 
 label_maps = {
     'frame': {
-            'business': 0,
-            'industry': 1,
-            'macro': 2,
-            'government': 3,
-            'other': 4},
+        0: 'business',
+        1: 'industry',
+        2: 'macro',
+        3: 'government',
+        4: 'other'
+    },
     'econ_rate': {
-            'good': 0,
-            'poor': 1,
-            'none': 2},
+        0: 'good',
+        1: 'poor',
+        2: 'none'
+    },
     'econ_change': {
-            'better': 0,
-            'worse': 1,
-            'same': 2,
-            'none': 3}
+        0: 'better',
+        1: 'worse',
+        2: 'same',
+        3: 'none'
+    }
 }
 
 
-def main():
-    """
-    Performs k-fold cross-validation for a set of classification tasks on
-    quantitative annotations, trains a model for each fold, and saves the
-    results to a CSV file.
-    """
+class PredictionDataset(Dataset):
+    def __init__(self, articles:{}, tokenizer=None, max_length=512):
+        """
+        Initializes a dataset for text classification
+        """
+        self.ids = list(articles.keys())
+        self.texts = list(articles.values())
+        self.tokenizer = tokenizer
+        self.max_length = max_length
 
-    k_folds = 5  # 4 train folds, 1 test fold
+    def __len__(self):
+        """
+        Returns the length of the dataset
+        """
+        return len(self.texts)
+    
+    def __getitem__(self, idx):
+        """
+        Returns a single tokenized  item from the dataset
+        """
+        id = self.ids[idx]
+        text = self.texts[idx]
 
-    for annotation_component in list(label_maps.keys()):
+        encoding = self.tokenizer(
+            text,
+            return_tensors='pt',
+            max_length=self.max_length,
+            padding='max_length',
+            truncation=True
+        )
 
-        texts, labels = d.load_qual_dataset("data/data.db", 
-                                            annotation_component=annotation_component, 
-                                            label_map=label_maps[annotation_component])
+        return {
+            'input_ids': encoding['input_ids'].flatten(),
+            'attention_mask': encoding['attention_mask'].flatten(),
+            'ids': id
+        }
 
-        kf = KFold(n_splits=5, random_state=42, shuffle=True)
+def main(args):
 
-        y_labels_tot = []
-        y_predicted_tot = []
+    # load articles w/o annotations
+    # key: article id, value: article text
+    articles = gs.get_no_anns(db_filename=args.db, num_samples=args.ns)
 
-        for i, (train_index, test_index) in enumerate(kf.split(texts)):
+    torch.manual_seed(42)  # Set random seed for reproducibility
 
-            test_texts = [texts[i] for i in test_index]
-            test_labels = [labels[i] for i in test_index]
+    tokenizer = RobertaTokenizer\
+        .from_pretrained(pretrained_model_name_or_path="roberta-base",
+                         problem_type="single_label_classification")
 
-            train_texts = [texts[i] for i in train_index]
-            train_labels = [labels[i] for i in train_index]
+    data = PredictionDataset(articles=articles,
+                             tokenizer=tokenizer,
+                             max_length=512)
 
-            class_weights = tt.get_weights(train_labels,
-                                           label_maps[annotation_component])
+    batch_size = 8
+    loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
 
-            print(f"\nFold {i+1}/{k_folds}")
+    # load fine-tuned model for each annotation component
+    models = {}
+    for k in label_maps.keys():
+        model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
+        models[k] = RobertaForSequenceClassification\
+            .from_pretrained(model_path).to('cuda')
 
-            model, train_loader, val_loader, test_loader, optimizer = \
-                tt.setup(train_texts, test_texts, train_labels, test_labels,
-                         label_maps[annotation_component])
+    # create dictionary to store annotations
+    annotations = {}
+    for id in articles.keys():
+        annotations[id] = {}
 
-            # test before pretraining
-            # tt.test(model, test_loader)
+    for annotation_component in models.keys():
+        for batch in loader:
+            input_ids = batch['input_ids'].to('cuda')
+            attention_mask = batch['attention_mask'].to('cuda')
+            ids = batch['ids'].to('cuda')
 
-            tuned_model = tt.train(model, train_loader, val_loader,
-                                   optimizer, class_weights)
-            y, y_predicted, accuracy = tt.test(tuned_model, test_loader)
+            cur_model = models[annotation_component]
+            outputs = cur_model(input_ids, attention_mask=attention_mask)
+            _, predicted = torch.max(outputs.logits, 1)
 
-            y_labels_tot += y
-            y_predicted_tot += y_predicted
+            for i, id in enumerate(ids.tolist()):
+                col_name = f"{annotation_component}_prediction"
+                prediction = int(predicted[i].item())
+                annotations[id][col_name] = label_maps[annotation_component][prediction]
 
-        print(y_labels_tot)
-        print(y_predicted_tot)
 
-        destination = "models/roberta/results/test_refactor"
-        d.to_csv(annotation_component, y_labels_tot, y_predicted_tot,
-                  destination)
-        # model.save_pretrained(f"models/roberta/{annotation_component}_model")
 
+    destination = "models/roberta_classifier/samples/qual_samples.csv"
+    df = pd.DataFrame(annotations).transpose()
+    df.to_csv(destination)
+
+
+
+    
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Description of your program')
+    parser.add_argument('--db', type=str, required=True, help='path to database file from top level directory')
+    parser.add_argument('--ns', type=int, default=10, help='number of article samples to load and label')
+    args = parser.parse_args()
+    main(args)
