@@ -67,7 +67,18 @@ class PredictionDataset(Dataset):
         }
 
 def main(args):
+    """
+    Runs the prediction pipeline for the qualitative component of the Roberta classifier
+    on a random sample of articles without annotations. Outputs a csv file containing
+    article ids and their predicted annotations.
 
+    Args:
+        args: An argparse.Namespace object containing the command line arguments.
+
+    Returns:
+        None
+    """
+    
     # load articles w/o annotations
     # key: article id, value: article text
     articles = gs.get_no_anns(db_filename=args.db, num_samples=args.ns)
