@@ -8,11 +8,11 @@ import models.utils.dataset as d
 label_maps = {
     'type': {
             'industry': 0,
-            'macro': 1}, # add government
+            'macro': 1}, # add all 
     'spin': {
             'pos': 0,
             'neg': 1,
-            'neutral': 2},
+            'neutral': 2}, 
     'macro_type': {
             'jobs': 0,
             'retail': 1,
@@ -45,7 +45,7 @@ def main():
     # restrict dataset to annotations with agreed types
     type_filters = {
         'type': ['industry', 'macro'],
-        'spin': ['industry', 'macro'],
+        'spin': ['industry', 'macro'], # just macro 
         'macro_type': ['macro']
     }
 
