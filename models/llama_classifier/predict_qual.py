@@ -56,11 +56,15 @@ def main(
     texts = [z[0] for z in zipped]
     labels = [z[1] for z in zipped]
 
-    # pre_prompt = 'This is a multiple choice question. Answer with a single letter. News article about the economy: \n'
-    pre_prompt = '<s>[INST] <<SYS>>\nYou are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.'
-    post_prompt = '\n\nIs the above article talking about the economy in the context of \n A. business' + \
-        ' \n B. industry \n C. macro \n D. government \n E. other'
-    
+    pre_prompt = "<s>[INST] <<SYS>>\n This is a multiple choice question. " + \
+        "Is the above news article talking about the" + \
+        " economy in the context of \n A. business\n B. industry\n C. macro\n " + \
+        "D. government \n E. other <</SYS>>\n\n" + \
+        "Please answer with a single letter. For example, if the article is about business, your answer should look like: \n " + \
+        "A\n\n" + \
+        "News article about the economy: \n "
+    post_prompt = '[/INST] The news article is talking about the economy in the context of: '
+
     prompts = shared.form_prompts(texts, pre_prompt, post_prompt)
     results = generator.text_completion(
         prompts,
@@ -76,3 +80,9 @@ def main(
 
 if __name__ == "__main__":
     fire.Fire(main)
+
+
+# python3 -m torch.distributed.run --nproc_per_node 1 models/llama_classifier/predict_qual.py \
+#     --ckpt_dir /home/aleto/research/llama_temp/llama-2-7b/ \
+#     --tokenizer_path /home/aleto/research/llama_temp/tokenizer.model \
+#     --max_seq_len 2048 --max_batch_size 6
