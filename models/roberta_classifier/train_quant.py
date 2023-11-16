@@ -8,7 +8,7 @@ import models.utils.dataset as d
 label_maps = {
     'type': {
             'industry': 0,
-            'macro': 1},
+            'macro': 1}, # add government
     'spin': {
             'pos': 0,
             'neg': 1,
