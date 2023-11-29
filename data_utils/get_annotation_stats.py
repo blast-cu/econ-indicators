@@ -172,7 +172,6 @@ def export_quants_to_csv(ann: dict, filename: str):
         writer.writerows(row_list)
 
 
-
 def extract_strings(dirty_str: str):
     clean = re.sub('<[^>]+>', '', dirty_str)
     return clean 
@@ -243,10 +242,6 @@ def get_no_anns(db_filename: str, num_samples: int = None):
     Returns:
         dict: A dictionary where the keys are article IDs and the values are the article text.
     """
-def get_no_anns(db_filename: str, num_samples: int = None):
-    """
-    
-    """
 
     articles = {}  # keys: article_id, values: article text
 
@@ -270,6 +265,18 @@ def get_no_anns(db_filename: str, num_samples: int = None):
     con.close()
     return articles
 
+def get_excerpts(db_filename: str):
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+    ann = {}
+
+    query = 'SELECT id FROM quantity'
+    res = cur.execute(query)
+    ids = res.fetchall()
+    ids = [id[0] for id in ids]
+    con.close()
+
+    return ids
 
 def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     """
@@ -300,6 +307,32 @@ def gpt_cost(db_filename: str,  ann_dict: dict, price_per_k):
     token_count = (100 * word_count) * 75  # calc via open ai
     price = price_per_k * (token_count / 1000)
     return price
+
+
+def get_all_text(db_filename: str, clean: bool = True):
+    """
+    Retrieves the text data from the specified SQLite database file.
+
+    Parameters:
+    - db_filename (str): The path to the SQLite database file.
+    - clean (bool): Flag indicating whether to clean the text data. Default is True.
+
+    Returns:
+    - text (list): The list of text data retrieved from the database.
+    """
+    conn = sqlite3.connect(db_filename)
+    cur = conn.cursor()
+
+    query = 'SELECT text FROM article;'
+    res = cur.execute(query)
+    text = [t[0] for t in res.fetchall()]
+
+    if clean:
+        text = [extract_strings(t) for t in text]
+
+    conn.close()
+    return text
+
 
 def visualize_anns(ann_dict: dict):
 
@@ -356,11 +389,6 @@ def main(args):
     #     print(t)
 
     get_no_anns(args.db)
-
-
-
-   
-    
 
 
 if __name__ == "__main__":

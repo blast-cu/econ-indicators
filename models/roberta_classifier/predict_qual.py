@@ -1,10 +1,10 @@
 import argparse
 import torch
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
-from torch.utils.data import DataLoader
 import pandas as pd
-from data_utils import get_annotation_stats as gs
 from torch.utils.data import DataLoader, Dataset
+
+from data_utils import get_annotation_stats as gs
 
 
 label_maps = {
