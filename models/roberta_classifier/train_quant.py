@@ -26,7 +26,7 @@ label_maps = {
     'spin': {
             'pos': 0,
             'neg': 1,
-            'neutral': 2},
+            'neutral': 2}, 
     'macro_type': {
             'jobs': 0,
             'retail': 1,
