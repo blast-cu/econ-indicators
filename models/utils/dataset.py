@@ -1,44 +1,11 @@
+import data_utils.get_annotation_stats as gs  # msql queries
+
 from bs4 import BeautifulSoup
 import nltk
-import data_utils.get_annotation_stats as gs
 from sklearn.metrics import classification_report
 import pandas as pd
-
-
-def load_qual_dataset(db_filename: str, annotation_component: str,
-                      label_map: dict = {}):
-    """
-    Load dataset from a database file and return text and labels for a given annotation component.
-
-    Parameters:
-    db_filename (str): The path to the database file.
-    annotation_component (str): The annotation component to extract labels for.
-
-    Returns:
-    Tuple[List[str], List[str]]: A tuple containing two lists: text and labels.
-    """
-
-    text = []
-    labels = []
-
-    # get all agreed annotations for given component
-    qual_ann = gs.get_qual_dict(db_filename)
-    agreed_qual_ann = gs.get_agreed_anns(qual_ann)
-
-    # get list of text and labels for given component
-    for article_id in agreed_qual_ann.keys():
-        if agreed_qual_ann[article_id][annotation_component] != '\0':
-            article_dict = agreed_qual_ann[article_id]
-            clean_text = gs.get_text(article_id, db_filename, clean=True)
-
-            text.append(clean_text)
-            label = article_dict[annotation_component]
-            labels.append(label)
-
-    if label_map != {}:
-        labels = [label_map[label] for label in labels]
-
-    return text, labels
+import sys
+import pickle
 
 
 def get_article_dict(agreed_quant_ann: dict, label_ann: str):
@@ -73,7 +40,8 @@ def get_article_dict(agreed_quant_ann: dict, label_ann: str):
     return article_dict
 
 
-def get_ann_dict(article_html: str, annotation_ids: list):
+def get_ann_dict(article_html: str,
+                 annotation_ids: list):
     """
     Extracts the text of the annotations with the given IDs from the HTML of an article.
 
@@ -93,19 +61,31 @@ def get_ann_dict(article_html: str, annotation_ids: list):
         span_id = a['id']
         if span_id in annotation_ids:
             ann_dict[span_id] = a.text
+    
+    if len(ann_dict.keys()) != len(annotation_ids):
+        print(">>> Annotations not found in html")
+        not_found = []
+        for id in annotation_ids:
+            if id not in ann_dict.keys():
+                not_found.append(id)
+        # print("Desired ids: " + str(annotation_ids))
+        print("Ids not found: " + str(not_found))
+        print("Article html\n" + str(article_html))
+        print()
 
     return ann_dict
 
 
-def get_context(i: int, sentences: list):
+def get_context(i: int,
+                sentences: list):
     """
     Returns the context of a sentence at index i in a list of sentences.
     The context includes the previous and next sentences if they exist.
-    
+
     Args:
     i (int): Index of the sentence to get context for.
     sentences (list): List of sentences.
-    
+
     Returns:
     str: The context of the sentence at index i.
     """
@@ -119,59 +99,142 @@ def get_context(i: int, sentences: list):
     return context
 
 
-def load_quant_dataset(db_filename: str, label_ann: str, label_map: dict,
-                       type_filter: list = []):
+def get_excerpts(ann_ids: list,
+                 db_filename: str):
     """
-    Load dataset from a database file and return texts and labels.
+    Retrieves excerpts from an article based on global annotation IDs.
 
     Args:
-    - db_filename (str): path to the database file.
-    - label_ann (str): label annotation.
-    - type_filter (list): list of types to filter annotations.
+        ann_ids (list): List of annotation IDs, global ids from same article.
+        db_filename (str): Filename of the database.
 
     Returns:
-    - texts (list): list of texts.
-    - labels (list): list of labels.
+        dict: A dictionary containing the excerpts mapped to their 
+        corresponding global IDs.
+    """
+    excerpt_dict = {}
+
+    article_id = ann_ids[0].split('_')[0]
+    article_html = gs.get_text(article_id, db_filename, clean=False)
+
+    local_ann_ids = [ann_id.split('_')[1] for ann_id in ann_ids]
+    ann_dict = get_ann_dict(article_html, local_ann_ids)
+
+    article_text = gs.extract_strings(article_html)  # remove span tags
+    article_sentences = nltk.sent_tokenize(article_text)
+
+    for ann_id in ann_dict.keys():
+
+        ann_text = ann_dict[ann_id]
+        found = False
+        i = 0
+        while not found and i < len(article_sentences):
+            if article_sentences[i].find(ann_text) != -1:
+                context = get_context(i, article_sentences)
+                global_id = f"{article_id}_{ann_id}"
+                excerpt_dict[global_id] = context
+                found = True
+            i += 1
+            if i == len(article_sentences) and not found:
+                print(">>> Error: Annotation not found")
+                print(ann_id)
+                print(ann_text)
+                print(article_sentences)
+                print()
+
+    return excerpt_dict
+
+
+def save_progress(to_save,
+                  filename: str):
+    """
+    Save the progress to a file using pickle.
+
+    Args:
+        to_save: The object to be saved.
+        filename (str): The name of the file to save the object to. Default is 'excerpts_dict'.
+    """
+    try:
+        progress_file = open(filename, 'wb')
+        pickle.dump(to_save, progress_file)
+        progress_file.close()
+
+    except:
+        print("Something went wrong")
+
+
+def get_excerpts_dict(db_filename: str):
+    """
+    Retrieves excerpts corresponding to all quant annotations from a database file and returns
+    them as a dictionary.
+
+    Args:
+        db_filename (str): The filename of the database.
+
+    Returns:
+        dict: keys are global quant_ann IDs and the values are the corresponding excerpts + context.
     """
 
-    texts_labels = set()
+    try: 
+        # return id and text
+        excerpt_dict = {}
 
-    quant_ann = gs.get_quant_dict(db_filename=db_filename)
-    agreed_quant_ann = gs.get_agreed_anns(quant_ann, type_filter=type_filter)
-    article_dict = get_article_dict(agreed_quant_ann, label_ann=label_ann)
+        # get all global quant_ann ids
+        excerpt_ids = gs.get_excerpts(db_filename)
 
-    for article_id in article_dict.keys():
+        # put annotations from same article together to improve performance
+        # {key=article_id, value=list of local annotation ids}
+        article_dict = {}
+        for id in excerpt_ids:
+            # split id into article_id and local annotation_id
+            article_id, ann_id = id.split('_')
 
-        ann_label_dict = article_dict[article_id]
+            # add article_id to dict if not already present
+            if article_id not in article_dict:
+                article_dict[article_id] = []
 
-        article_html = gs.get_text(article_id, 'data/data.db', clean=False)
-        # {key=local annotation id, value=annotation text}
-        ann_dict = get_ann_dict(article_html, ann_label_dict.keys())
+            # add local annotation id to article_dict
+            article_dict[article_id].append(ann_id)
 
-        article_text = gs.extract_strings(article_html)  # remove span tags
-        article_sentences = nltk.sent_tokenize(article_text)
+        for article_id, ann_list in article_dict.items():
 
-        for ann_id in ann_dict.keys():
+            # get article html 
+            article_html = gs.get_text(article_id, db_filename, clean=False)
 
-            ann_text = ann_dict[ann_id]
-            found = False
-            i = 0
-            while not found or i < len(article_sentences): 
-                if ann_text in article_sentences[i]:
-                    context = get_context(i, article_sentences)
-                    texts_labels.add((context, ann_label_dict[ann_id]))
-                    found = True
-                i += 1
+            # get annotation text for desired local annotations
+            # {key=local annotation id, value=annotation text}
+            ann_dict = get_ann_dict(article_html, ann_list)
 
-    texts = [t[0] for t in texts_labels]
-    labels = [t[1] for t in texts_labels]
+            article_text = gs.extract_strings(article_html)  # remove span tags
+            article_sentences = nltk.sent_tokenize(article_text)
 
-    if label_map != {}:
-        labels = [label_map[label] for label in labels]
+            # search for each qual_ann excerpt in article
+            for ann_id, ann_text in ann_dict.items():
+                found = False
+                i = 0
+                while not found and i < len(article_sentences):
 
-    return texts, labels
+                    # if found, add sentence and context to excerpt_dict
+                    if article_sentences[i].find(ann_text) != -1:
+                        context = get_context(i, article_sentences)
+                        id = f"{article_id}_{ann_id}"
+                        excerpt_dict[id] = context
+                        found = True
+                    i += 1
 
-def to_csv(annotation_component, labels, predicted, destination: str= "models/roberta/results"):
+    except:
+
+        # If the program is interrupted, save the progress
+        save_progress(excerpt_dict, 'models/utils/splits/quant_excerpts_dict')
+        sys.exit()
+
+    return excerpt_dict
+
+
+def to_csv(annotation_component: str,
+           labels: list,
+           predicted: list,
+           destination: str = "models/roberta/results"):
     """
     Write classification report to a CSV file.
 
