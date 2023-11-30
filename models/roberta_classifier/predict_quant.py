@@ -1,4 +1,3 @@
-from data_utils import get_annotation_stats as gs
 from models.utils import dataset as d
 
 import argparse
@@ -20,17 +19,17 @@ label_maps = {
         2: 'neutral'
     },
     'macro_type': {
-            0: 'jobs',
-            1: 'retail',
-            2: 'interest',
-            3: 'prices',
-            4: 'energy',
-            5: 'wages',
-            6: 'macro',
-            7: 'market',
-            8: 'currency',
-            9: 'housing',
-            10: 'other'
+        0: 'jobs',
+        1: 'retail',
+        2: 'interest',
+        3: 'prices',
+        4: 'energy',
+        5: 'wages',
+        6: 'macro',
+        7: 'market',
+        8: 'currency',
+        9: 'housing',
+        10: 'other'
     }
 }
 
@@ -83,11 +82,27 @@ def remove_dates():
 
     return
 
+def save_progress(to_save,
+                  filename: str):
+    """
+    Save the progress to a file using pickle.
+
+    Args:
+        to_save: The object to be saved.
+        filename (str): The name of the file to save the object to. Default is 'excerpts_dict'.
+    """
+    try:
+        progress_file = open(filename, 'wb')
+        pickle.dump(to_save, progress_file)
+        progress_file.close()
+
+    except:
+        print("Something went wrong")
+
 
 
 def main(args):
 
-    
     quant_dict = pickle.load(open('models/utils/splits/quant_dict', 'rb'))
     # annotations = {k: {'type': v['type'], 'spin': '', 'macro_type': ''} for k, v in annotations.items() if 'type' in v.keys() and v['type'] == 'macro'}
     annotations = {}
@@ -105,7 +120,7 @@ def main(args):
 
 
     # excerpts = d.get_excerpts_dict(args.db)
-    # d.save_progress(excerpts, 'models/utils/splits/quant_excerpts_dict')
+    # save_progress(excerpts, 'models/utils/splits/quant_excerpts_dict')
     
     excerpts = pickle.load(open('models/utils/splits/quant_excerpts_dict', 'rb'))
 
@@ -133,78 +148,73 @@ def main(args):
     type_model = RobertaForSequenceClassification.from_pretrained(models_dir + "type-binary_model").to("cuda")
 
 
-    try: 
-        num_batches = len(loader)
-        freq_report = 100
-        for i, batch in enumerate(loader):
-            if i % freq_report == 0:
-                print(f"Batch {i+1}/{num_batches}")
-            input_ids = batch['input_ids'].to('cuda')
-            attention_mask = batch['attention_mask'].to('cuda')
-            ids = batch['ids']
 
-            outputs = type_model(input_ids, attention_mask=attention_mask)
-            _, predicted = torch.max(outputs.logits, 1)
+    num_batches = len(loader)
+    freq_report = 100
+    for i, batch in enumerate(loader):
+        if i % freq_report == 0:
+            print(f"Batch {i+1}/{num_batches}")
+        input_ids = batch['input_ids'].to('cuda')
+        attention_mask = batch['attention_mask'].to('cuda')
+        ids = batch['ids']
 
-            for i, id in enumerate(ids):
+        outputs = type_model(input_ids, attention_mask=attention_mask)
+        _, predicted = torch.max(outputs.logits, 1)
 
-                prediction = int(predicted[i].item())
-                if prediction == 0 and id not in annotations:
-                    annotations[id] = {}
-                    annotations[id]['type'] = 'macro'
-                    annotations[id]['spin'] = ''
-                    annotations[id]['macro_type'] = ''
+        for i, id in enumerate(ids):
 
-        print(">>> Saving type annotations")
-        d.save_progress(annotations, 'annotations_type_predictions')
+            prediction = int(predicted[i].item())
+            if prediction == 0 and id not in annotations:
+                annotations[id] = {}
+                annotations[id]['type'] = 'macro'
+                annotations[id]['spin'] = ''
+                annotations[id]['macro_type'] = ''
 
-        filtered_text = {k: v for k, v in excerpts.items() if k in annotations.keys()}
+    print(">>> Saving type annotations")
+    save_progress(annotations, 'annotations_type_predictions')
 
-        filtered_data = PredictionDataset(articles=filtered_text,
+    filtered_text = {k: v for k, v in excerpts.items() if k in annotations.keys()}
+
+    filtered_data = PredictionDataset(articles=filtered_text,
                                         tokenizer=tokenizer,
                                         max_length=512)
-        filtered_loader = DataLoader(filtered_data, batch_size=batch_size)
+    filtered_loader = DataLoader(filtered_data, batch_size=batch_size)
 
-        spin_model = RobertaForSequenceClassification.from_pretrained(models_dir + "spin_model").to("cuda")
-        macro_type_model = RobertaForSequenceClassification.from_pretrained(models_dir + "macro_type_model").to("cuda")
+    spin_model = RobertaForSequenceClassification.from_pretrained(models_dir + "spin_model").to("cuda")
+    macro_type_model = RobertaForSequenceClassification.from_pretrained(models_dir + "macro_type_model").to("cuda")
 
-        num_batches = len(filtered_loader)
-        for i, batch in enumerate(filtered_loader):
-            if i % freq_report == 0:
-                print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
-            input_ids = batch['input_ids'].to('cuda')
-            attention_mask = batch['attention_mask'].to('cuda')
-            ids = batch['ids']
+    num_batches = len(filtered_loader)
+    for i, batch in enumerate(filtered_loader):
+        if i % freq_report == 0:
+            print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
+        input_ids = batch['input_ids'].to('cuda')
+        attention_mask = batch['attention_mask'].to('cuda')
+        ids = batch['ids']
 
-            spin_outputs = spin_model(input_ids, attention_mask=attention_mask)
-            _, spin_predicted = torch.max(spin_outputs.logits, 1)
+        spin_outputs = spin_model(input_ids, attention_mask=attention_mask)
+        _, spin_predicted = torch.max(spin_outputs.logits, 1)
 
-            macro_type_outputs = macro_type_model(input_ids, attention_mask=attention_mask)
-            _, macro_type_predicted = torch.max(macro_type_outputs.logits, 1)
+        macro_type_outputs = macro_type_model(input_ids, attention_mask=attention_mask)
+        _, macro_type_predicted = torch.max(macro_type_outputs.logits, 1)
 
-            for i, id in enumerate(ids):
-                spin_prediction = int(spin_predicted[i].item())
-                macro_type_prediction = int(macro_type_predicted[i].item())
-                if annotations[id]['spin'] == '':
-                    annotations[id]['spin'] = label_maps['spin'][spin_prediction]
-                if annotations[id]['macro_type'] == '':
-                    annotations[id]['macro_type'] = label_maps['macro_type'][macro_type_prediction]
-
-
-        output_dict = {k: [v['type'], v['macro_type'], v['spin'] ] for k, v in annotations.items()}
-        d.save_progress(output_dict, 'annotations_final')
-        print(output_dict)
-        pd.DataFrame.from_dict(output_dict,
-                            orient='index',
-                            columns=['type', 'macro_type', 'spin']
-                            ).to_csv('annotations.csv')
-
-    except:
-        d.save_progress(annotations, 'annotations_progress')
+        for i, id in enumerate(ids):
+            spin_prediction = int(spin_predicted[i].item())
+            macro_type_prediction = int(macro_type_predicted[i].item())
+            if annotations[id]['spin'] == '':
+                annotations[id]['spin'] = label_maps['spin'][spin_prediction]
+            if annotations[id]['macro_type'] == '':
+                annotations[id]['macro_type'] = label_maps['macro_type'][macro_type_prediction]
 
 
+    output_dict = {k: [v['type'], v['macro_type'], v['spin'] ] for k, v in annotations.items()}
+    save_progress(output_dict, 'annotations_final')
+    pd.DataFrame.from_dict(output_dict,
+                        orient='index',
+                        columns=['type', 'macro_type', 'spin']
+                        ).to_csv('annotations.csv')
 
 
+    d.save_progress(annotations, 'annotations_progress')
 
 
 if __name__ == '__main__':
