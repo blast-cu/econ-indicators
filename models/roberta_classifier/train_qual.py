@@ -139,6 +139,10 @@ def main(args):
             
     for task in label_maps.keys():
         dest = f"models/roberta_classifier/best_models/results/"
+
+        if not os.path.isdir(dest):
+                os.makedirs(dest)
+
         if not os.path.isdir(dest):
             os.makedirs(dest)
         d.to_csv(task,
