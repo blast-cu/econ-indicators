@@ -7,16 +7,24 @@ from torch.utils.data import DataLoader, Dataset
 import pickle
 import pandas as pd
 
-# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2EmUCq4F8ZjEqhy20BzBkYvxxx5y4W3CMTfkmSScnJ alexleto14@gmail.com
+
 
 label_maps = {
     'type': {
         0: 'macro',
+        1: 'industry',
+        2: 'government',
+        3: 'personal',
+        4: 'business',
+        5: 'other'
+    },
+    'type-binary': {
+        0: 'macro',
         1: 'other'
     },
     'spin': {
-        0: 'pos',
-        1: 'neg',
+        0: 'positive',
+        1: 'negative',
         2: 'neutral'
     },
     'macro_type': {
