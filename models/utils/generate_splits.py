@@ -54,12 +54,16 @@ def main(args):
     qual_ann = gs.get_qual_dict(db_filename)
     agreed_qual_ann = gs.get_agreed_anns(qual_ann)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
+    
+    for k in agreed_qual_ann.keys():
+        agreed_qual_ann[k]['quant_list'] = []
 
     # get agreed quantitative annotations in dict where 
     # {key = "articleid_localid", value = dict of annotations}
     quant_ann = gs.get_quant_dict(db_filename)
     agreed_quant_ann = gs.get_agreed_anns(quant_ann)
     agreed_quant_ann = remove_empty(agreed_quant_ann)
+
 
     # add quant_ids to agreed_qual_ann dict
     for quant_id in agreed_quant_ann.keys():
@@ -70,16 +74,13 @@ def main(args):
             agreed_qual_ann[article_id]['frame'] = '\x00'
             agreed_qual_ann[article_id]['econ_rate'] = '\x00'
             agreed_qual_ann[article_id]['econ_change'] = '\x00'
-
-        if 'quant_list' not in agreed_qual_ann[article_id].keys():
-    
             agreed_qual_ann[article_id]['quant_list'] = []
 
         agreed_qual_ann[article_id]['quant_list'].append(quant_id)
 
     # add text excerpts w/ context to agreed_quant_ann dict
     for id in agreed_qual_ann.keys():
-        if 'quant_list' in agreed_qual_ann[id].keys():
+        if len(agreed_qual_ann[id]['quant_list']) > 0:
             excerpts = d.get_excerpts(agreed_qual_ann[id]['quant_list'],
                                       db_filename)
 
