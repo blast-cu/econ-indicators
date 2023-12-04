@@ -160,10 +160,9 @@ cython_debug/
 #.idea/
 
 data/
+!models/psl/data/
 database.db
 models/roberta_classifier/tuned_models/
-models/utils/splits/*
-models/roberta_classifier/results/
 
 
 .vscode/
