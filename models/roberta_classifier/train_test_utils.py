@@ -211,7 +211,7 @@ def test(model: torch.nn.Module, test_loader: torch.utils.data.DataLoader):
         return out_labels, out_predicted, test_f1
 
 
-def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr=2e-5):
+def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr=2e-5, model_checkpoint: str="roberta-base"):
     """
     Sets up the data and model for training and testing a RoBERTa model for text classification.
 
@@ -236,7 +236,7 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
                          test_size=0.1, random_state=42)
 
     tokenizer = RobertaTokenizer\
-        .from_pretrained(pretrained_model_name_or_path="roberta-base",
+        .from_pretrained(pretrained_model_name_or_path=model_checkpoint,
                          problem_type="single_label_classification")
 
     max_length = 512
@@ -263,7 +263,7 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
     # Define model
     num_labels = len(annotation_map)
     model = RobertaForSequenceClassification\
-        .from_pretrained("roberta-base", num_labels=num_labels).to('cuda')
+        .from_pretrained(model_checkpoint, num_labels=num_labels).to('cuda')
 
     # Define optimizer and loss function
     optimizer = torch.optim\
