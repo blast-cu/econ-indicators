@@ -194,7 +194,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 # Get list of all articles in db, split into train and val
 db_filename = "data/data.db"
 texts = load_dataset(db_filename)
-texts = random.sample(texts, 10)
+# texts = random.sample(texts, 10)
 train_texts, val_texts = train_test_split(
     texts,
     test_size=0.15,
