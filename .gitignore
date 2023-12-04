@@ -161,12 +161,9 @@ cython_debug/
 
 data/
 database.db
-models/roberta_classifier/best_models/qual/*
-!models/roberta_classifier/best_models/qual/.gitkeep
-models/roberta_classifier/best_models/quant/*
-!models/roberta_classifier/best_models/quant/.gitkeep
+models/roberta_classifier/tuned_models/
 models/utils/splits/*
-
+models/roberta_classifier/results/
 
 
 .vscode/

@@ -21,16 +21,16 @@ def remove_empty(ann_dict: dict):
     new_dict = {}  # to return
 
     for id, id_dict in ann_dict.items():
-        clean_ann = {}
+        empty = True
 
         # add non-empty annotations to clean_ann
         for ann, label in id_dict.items():
             if label != '\0':
-                clean_ann[ann] = label
+                empty = False
 
         # if an article has at least one non-empty annotation, include
-        if len(clean_ann.keys()) > 0:
-            new_dict[id] = clean_ann
+        if not empty:
+            new_dict[id] = id_dict
 
     return new_dict
 
@@ -67,8 +67,12 @@ def main(args):
         article_id = int(article_id)
         if article_id not in agreed_qual_ann.keys():
             agreed_qual_ann[article_id] = {}
+            agreed_qual_ann[article_id]['frame'] = '\x00'
+            agreed_qual_ann[article_id]['econ_rate'] = '\x00'
+            agreed_qual_ann[article_id]['econ_change'] = '\x00'
 
         if 'quant_list' not in agreed_qual_ann[article_id].keys():
+    
             agreed_qual_ann[article_id]['quant_list'] = []
 
         agreed_qual_ann[article_id]['quant_list'].append(quant_id)
@@ -76,7 +80,7 @@ def main(args):
     # add text excerpts w/ context to agreed_quant_ann dict
     for id in agreed_qual_ann.keys():
         if 'quant_list' in agreed_qual_ann[id].keys():
-            excerpts = d.get_excerpts(agreed_qual_ann[id]['quant_list'], 
+            excerpts = d.get_excerpts(agreed_qual_ann[id]['quant_list'],
                                       db_filename)
 
             for id, text in excerpts.items():
@@ -95,6 +99,9 @@ def main(args):
         split_dict[i]['train'] = [article_ids[t] for t in train_index]
         split_dict[i]['test'] = [article_ids[t] for t in test_index]
 
+    for k, v in agreed_quant_ann.items():
+        print(k, v)
+
     # print split dictionary
     for k in split_dict.keys():
         print(f"Fold {k}")
@@ -102,7 +109,7 @@ def main(args):
         print(f"Test: {split_dict[k]['test']}")
 
     # save dictionaries as pickles 
-    base_dir = 'models/utils/splits/'
+    base_dir = 'data/clean/'
     d.save_progress(split_dict, f'{base_dir}splits_dict')
     d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
     d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
