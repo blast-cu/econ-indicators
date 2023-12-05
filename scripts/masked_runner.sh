@@ -10,7 +10,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --output=masked_tune-%j.out
 #SBATCH --mail-type="ALL"
-#SBATCH --mail-user="alle5715@colorado.edu"
+#SBATCH --mail-user="dasr8731@colorado.edu"
 
 mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out

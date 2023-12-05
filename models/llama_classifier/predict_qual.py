@@ -1,6 +1,5 @@
 import fire
 import sys
-sys.path.insert(0, "/home/aleto/research/llama_temp/")
 from llama import Llama
 from typing import List
 import random
