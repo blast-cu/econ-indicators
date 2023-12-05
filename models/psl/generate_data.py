@@ -363,7 +363,7 @@ def main():
 
     # GENERATE LEARN DATA #
     # write contains file linking articles and excerpts
-    # write_contains_file(split_learn_dir, learn_articles)  # contains
+    write_contains_file(split_learn_dir, learn_articles)  # contains
 
     # write target and truth files for validation data
     write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal

@@ -6,3 +6,4 @@ PredFrame
 PredEconRate
 PredEconChange
 PredType
+Contains

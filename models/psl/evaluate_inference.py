@@ -54,20 +54,20 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         filename = f'VAL{file_pred}.txt'
 
         filepath = os.path.join(inference_dir, filename)
-        print(filepath)
+
         try:
             predictions = get_pred_dict(filepath, doc_type)
-        except Exception as e:
-            print(e)
 
+        except FileNotFoundError:
             print(f'No predictions for {annotation_type}. Skipping...')
             continue
+
         labels = get_labels_dict(eval_docs, annotation_type)
 
         prediction_list = []
         label_list = []
         
-        print(f'>>> {annotation_type} <<<')
+        print(f'>>> {annotation_type}')
         for id in labels.keys():
             # if labels[id] != '\0':
             prediction_list.append(predictions[id])
@@ -81,6 +81,33 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         os.makedirs(report_dir, exist_ok=True)
         d.to_csv(annotation_type, label_list, prediction_list, report_dir)
 
+def write_data_file(articles, excerpts, report_dir, type):
+
+    filepath = os.path.join(report_dir, f'{type}_data.txt')
+    with open(filepath, 'w') as f:
+        for id, annotations in articles.items():
+            line = f'id: {id}'
+            for annotation_type in annotations.keys():
+                if annotation_type != 'quant_list':
+                    ann_val = annotations[annotation_type]
+                    if ann_val == '\0':
+                        ann_val = 'None'
+                    ann = f'\t{annotation_type}: {ann_val} '
+                    line += ann
+            f.write(line + '\n')
+            
+            for excerpt_id in annotations['quant_list']:
+                cur_excerpt = excerpts[excerpt_id]
+                line = f'\texcerpt: {excerpt_id}'
+                for annotation_type in cur_excerpt.keys():
+                    if annotation_type != 'excerpt':
+                        ann_val = cur_excerpt[annotation_type]
+                        if ann_val == '\0':
+                            ann_val = 'None'
+                        line += f'\t{annotation_type}: {ann_val}'
+                f.write(line + '\n')
+            f.write('\n')
+
 def main():
 
     # load train and test articles
@@ -93,13 +120,17 @@ def main():
     # TODO: loop over splits
     # for split_num in splits_dict.keys():
 
-    _, _, eval_articles, eval_excerpts = \
+    learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
         load_train_test_data(splits_dict[split_num],
                              qual_dict,
                              quant_dict)
 
     inference_dir = os.path.join(DATA_DIR, f'split{split_num}', 'inferred-predicates')
     report_dir = os.path.join(DATA_DIR, f'split{split_num}', 'psl_results')
+
+    write_data_file(learn_articles, learn_excerpts, report_dir, type='learn')
+    write_data_file(eval_articles, eval_excerpts, report_dir, type='eval')
+
     evaluate(gd.qual_map, eval_articles, inference_dir, report_dir, split_num, doc_type='qual')
     evaluate(gd.quant_map, eval_excerpts, inference_dir, report_dir, split_num)
 

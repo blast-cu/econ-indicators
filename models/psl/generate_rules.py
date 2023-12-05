@@ -250,8 +250,8 @@ def main(args):
     pred_quant_predicates = get_predicates(quant_map, 'Pred')
 
     predicates = val_qual_predicates + val_quant_predicates + \
-        pred_qual_predicates + pred_quant_predicates 
-        # + ['Contains']
+        pred_qual_predicates + pred_quant_predicates \
+        + ['Contains']
 
     # write predicates to file
     filename = 'predicates.txt'
@@ -265,12 +265,12 @@ def main(args):
     quant_predicates = zip(pred_quant_predicates, val_quant_predicates)
     rules += get_pred_val_rules(quant_predicates, 'quant')
 
-    # # interrelatedness between qual and quant, respectively
-    # rules += get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
-    # rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
+    # interrelatedness between qual and quant, respectively
+    rules += get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
+    rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
 
-    # # interrelatedness between qual and quant
-    # rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
+    # interrelatedness between qual and quant
+    rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
 
     # mutex constraints
     rules += mutex_constraint(val_qual_predicates, 'qual')
