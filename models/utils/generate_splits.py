@@ -85,7 +85,10 @@ def main(args):
                                       db_filename)
 
             for id, text in excerpts.items():
-                agreed_quant_ann[id]['excerpt'] = text
+                agreed_quant_ann[id]['indicator'] = text[0]
+                agreed_quant_ann[id]['excerpt'] = text[1]
+                print(text[0])
+                print(text[1])
 
 
     # create splits 
@@ -100,8 +103,8 @@ def main(args):
         split_dict[i]['train'] = [article_ids[t] for t in train_index]
         split_dict[i]['test'] = [article_ids[t] for t in test_index]
 
-    for k, v in agreed_quant_ann.items():
-        print(k, v)
+    # for k, v in agreed_quant_ann.items():
+    #     print(k, v)
 
     # print split dictionary
     for k in split_dict.keys():

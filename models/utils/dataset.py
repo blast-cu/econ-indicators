@@ -132,7 +132,7 @@ def get_excerpts(ann_ids: list,
             if article_sentences[i].find(ann_text) != -1:
                 context = get_context(i, article_sentences)
                 global_id = f"{article_id}_{ann_id}"
-                excerpt_dict[global_id] = context
+                excerpt_dict[global_id] = [ann_text, context]
                 found = True
             i += 1
             if i == len(article_sentences) and not found:
