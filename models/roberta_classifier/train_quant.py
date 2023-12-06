@@ -98,6 +98,7 @@ def get_texts(
         if 'quant_list' in qual_dict[id].keys():
             for quant_id in qual_dict[id]['quant_list']:
                 if quant_dict[quant_id][annotation_component] != '\x00':
+
                     valid_entry = False
                     if len(type_filter) == 0:
                         valid_entry = True
@@ -108,13 +109,20 @@ def get_texts(
                     if valid_entry:
                         indicator_text = quant_dict[quant_id]['indicator']
                         excerpt_text = quant_dict[quant_id]['excerpt']
-                        text = [indicator_text, excerpt_text]
+                        # text = [indicator_text, excerpt_text]
+                        text = excerpt_text
                         texts.append(text)
 
                         label = quant_dict[quant_id][annotation_component]
                         labels.append(label_maps[task][label])
 
     return texts, labels
+
+def quant_setup():
+    """
+    Sets up the model for training on quantitative annotations
+    """
+    return
 
 
 def qual_train():

@@ -86,6 +86,7 @@ def validate(model, val_loader, class_weights):
     Returns:
     - float: The average validation loss.
     """
+    print("validating")
     model.eval()
     with torch.no_grad():
 
