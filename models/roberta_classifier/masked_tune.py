@@ -1,10 +1,15 @@
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
     AutoModelForMaskedLM, DataCollatorForLanguageModeling
 from sklearn.model_selection import train_test_split
+
+import torch
 from torch.utils.data import Dataset
 
 import math
 import random
+# import json
+import os
+import pickle
 # import collections
 # import numpy as np
 
@@ -132,37 +137,6 @@ class EconomicArticlesDatataset(Dataset):
         }
 
 
-# def whole_word_masking_data_collator(features):
-#     tokenizer = tokenize_function
-#     wwm_probability = 0.2
-#     for feature in features:
-#         word_ids = feature.pop("word_ids")
-
-#         # Create a map between words and corresponding token indices
-#         mapping = collections.defaultdict(list)
-#         current_word_index = -1
-#         current_word = None
-#         for idx, word_id in enumerate(word_ids):
-#             if word_id is not None:
-#                 if word_id != current_word:
-#                     current_word = word_id
-#                     current_word_index += 1
-#                 mapping[current_word_index].append(idx)
-
-#         # Randomly mask words
-#         mask = np.random.binomial(1, wwm_probability, (len(mapping),))
-#         input_ids = feature["input_ids"]
-#         labels = feature["labels"]
-#         new_labels = [-100] * len(labels)
-#         for word_id in np.where(mask)[0]:
-#             word_id = word_id.item()
-#             for idx in mapping[word_id]:
-#                 new_labels[idx] = labels[idx]
-#                 input_ids[idx] = tokenizer.mask_token_id
-#         feature["labels"] = new_labels
-
-#     return default_data_collator(features)
-
 def load_dataset(db_filename: str):
     """
     Load dataset from a database file.
@@ -186,6 +160,9 @@ Args:
     args: Command-line arguments passed to the script.
 """
 
+OUT_DIR = 'models/roberta_classifier/tokenized'
+os.makedirs(OUT_DIR, exist_ok=True)
+
 # Load pretrained model and tokenizer
 model_checkpoint = "roberta-base"
 model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
@@ -194,7 +171,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 # Get list of all articles in db, split into train and val
 db_filename = "data/data.db"
 texts = load_dataset(db_filename)
-# texts = random.sample(texts, 10)
+texts = random.sample(texts, 10)
 train_texts, val_texts = train_test_split(
     texts,
     test_size=0.15,
@@ -209,51 +186,67 @@ train_dataset = EconomicArticlesDatataset(
     train_texts,
     tokenizer
 )
+
+filename = os.path.join(OUT_DIR, "train_dataset")
+# train_dataset = pickle.load(open(filename, 'rb'))
+f = open(filename, 'wb')
+pickle.dump(train_dataset, f)
+
+
 print('>>> Tokenizing val texts')
 val_dataset = EconomicArticlesDatataset(
     val_texts,
     tokenizer
 )
 
-# create data collator for adding masks to input
-data_collator = DataCollatorForLanguageModeling(
-    tokenizer=tokenizer,
-    mlm_probability=0.15
-)
+filename = os.path.join(OUT_DIR, "val_dataset")
+# train_dataset = pickle.load(open(filename, 'rb'))
+f = open(filename, 'wb')
+pickle.dump(val_dataset, f)
 
-batch_size = 64
-logging_steps = len(train_dataset) // batch_size
+# # create data collator for adding masks to input
+# data_collator = DataCollatorForLanguageModeling(
+#     tokenizer=tokenizer,
+#     mlm_probability=0.15
+# )
 
-training_args = TrainingArguments(
-    output_dir=f"models/roberta_classifier/{model_checkpoint}-finetuned-masked-2",
-    overwrite_output_dir=True,
-    evaluation_strategy="epoch",
-    learning_rate=2e-5,
-    weight_decay=0.01,
-    per_device_train_batch_size=batch_size,
-    per_device_eval_batch_size=batch_size,
-    fp16=True,
-    logging_steps=logging_steps,
-)
+# print(len(train_dataset))
+# print(len(val_dataset))
 
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=train_dataset,
-    eval_dataset=val_dataset,
-    data_collator=data_collator,
-    tokenizer=tokenizer,
-)
+# # batch_size = 8
+# batch_size = 64
+# logging_steps = len(train_dataset) // batch_size
 
-eval_results = trainer.evaluate()
-print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+# training_args = TrainingArguments(
+#     output_dir=f"models/roberta_classifier/{model_checkpoint}-finetuned-masked-2",
+#     overwrite_output_dir=True,
+#     evaluation_strategy="epoch",
+#     learning_rate=2e-5,
+#     weight_decay=0.01,
+#     per_device_train_batch_size=batch_size,
+#     per_device_eval_batch_size=batch_size,
+#     fp16=True,
+#     logging_steps=logging_steps,
+# )
 
-trainer.train()
+# trainer = Trainer(
+#     model=model,
+#     args=training_args,
+#     train_dataset=train_dataset,
+#     eval_dataset=val_dataset,
+#     data_collator=data_collator,
+#     tokenizer=tokenizer,
+# )
 
-eval_results = trainer.evaluate()
-print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+# eval_results = trainer.evaluate()
+# print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
-trainer.save_model()
+# trainer.train()
+
+# eval_results = trainer.evaluate()
+# print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+
+# trainer.save_model()
 # trainer.save_metrics()
 
 

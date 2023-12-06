@@ -42,9 +42,10 @@ def get_texts(db_filename: str,
 
     for id in article_ids:
         if annotation_component in agreed_anns_dict[id].keys():
-            texts.append(gs.get_text(id, db_filename, clean=False))
-            label = agreed_anns_dict[id][annotation_component]
-            labels.append(label_maps[task][label])
+            if agreed_anns_dict[id][annotation_component] !='\x00':
+                texts.append(gs.get_text(id, db_filename, clean=False))
+                label = agreed_anns_dict[id][annotation_component]
+                labels.append(label_maps[task][label])
 
     return texts, labels
 
@@ -58,7 +59,7 @@ def main(args):
     models/roberta/best_models.
     """
 
-    split_dir = "models/utils/splits/"
+    split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
 
@@ -123,10 +124,8 @@ def main(args):
             print(">>> Predictions: " + str(y_predicted))
             print('\n\n')
 
-            dest = f"models/roberta_classifier/best_models/fold{k}/qual/"
-
-            if not os.path.isdir(dest): 
-                os.makedirs(dest)
+            dest = f"models/roberta_classifier/tuned_models/masked_folds/fold{k}/qual/"
+            os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
                 task,
@@ -138,13 +137,10 @@ def main(args):
             model.save_pretrained(model_dest)
             
     for task in label_maps.keys():
-        dest = f"models/roberta_classifier/best_models/results/"
+        dest = f"models/roberta_classifier/tuned_models/masked_folds/"
 
-        if not os.path.isdir(dest):
-                os.makedirs(dest)
+        os.makedirs(dest, exist_ok=True)
 
-        if not os.path.isdir(dest):
-            os.makedirs(dest)
         d.to_csv(task,
                  results[task]['labels'],
                  results[task]['predictions'],
