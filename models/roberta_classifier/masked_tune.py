@@ -2,18 +2,14 @@ from transformers import AutoTokenizer, TrainingArguments, Trainer, \
     AutoModelForMaskedLM, DataCollatorForLanguageModeling
 from sklearn.model_selection import train_test_split
 
-import torch
 from torch.utils.data import Dataset
 
 import math
 import random
-# import json
+
 import os
 import pickle
-# import collections
-# import numpy as np
 
-# from data_utils.get_annotation_stats import get_all_text
 import sqlite3
 import re
 
@@ -171,7 +167,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 # Get list of all articles in db, split into train and val
 db_filename = "data/data.db"
 texts = load_dataset(db_filename)
-texts = random.sample(texts, 10)
+# texts = random.sample(texts, 10)
 train_texts, val_texts = train_test_split(
     texts,
     test_size=0.15,

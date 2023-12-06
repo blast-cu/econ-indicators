@@ -163,6 +163,6 @@ data/
 !models/psl/data/
 database.db
 models/roberta_classifier/tuned_models/
-
+models/roberta_classifier/tokenized/
 
 .vscode/
