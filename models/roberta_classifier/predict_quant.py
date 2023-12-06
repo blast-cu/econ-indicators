@@ -41,6 +41,9 @@ label_maps = {
     }
 }
 
+
+
+
 class PredictionDataset(Dataset):
     def __init__(self, articles:{}, tokenizer=None, max_length=512):
         """
@@ -82,6 +85,9 @@ class PredictionDataset(Dataset):
             'attention_mask': encoding['attention_mask'].flatten(),
             'ids': id
         }
+
+
+
 
 def remove_dates():
     """
