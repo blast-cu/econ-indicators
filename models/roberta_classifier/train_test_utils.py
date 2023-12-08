@@ -86,7 +86,7 @@ def validate(model, val_loader, class_weights):
     Returns:
     - float: The average validation loss.
     """
-    print("validating")
+
     model.eval()
     with torch.no_grad():
 
@@ -100,10 +100,10 @@ def validate(model, val_loader, class_weights):
             labels = batch['label'].to('cuda')
 
             outputs = model(input_ids,
-                            attention_mask=attention_mask,
-                            labels=labels)
+                            attention_mask)
 
-            _, predicted = torch.max(outputs.logits, 1)
+            _, predicted = torch.max(outputs, 1)
+
             predicted_labels += predicted.tolist()
             true_labels += labels.tolist()
 
@@ -286,7 +286,8 @@ def get_weights(y, annotation_map: dict):
     """
 
     # compute class weights for weighted loss
-    classes = list(annotation_map.values())
+    classes = list(set(list(annotation_map.values())))
+
     if len(classes) != len(set(y)):
         y = y + classes
 

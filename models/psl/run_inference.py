@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import argparse
 
 from pslpython.model import Model
 from pslpython.partition import Partition
@@ -11,7 +12,6 @@ MODEL_NAME = 'annotations'
 
 THIS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.join(THIS_DIR, 'data')
-SPLIT_DIR = os.path.join(DATA_DIR, 'split0')
 
 VERBOSE = True
 
@@ -21,9 +21,13 @@ ADDITIONAL_PSL_OPTIONS = {
     # 'runtime.db.pg.name': 'psl',
 }
 
-NUM_CATEGORIES = 7
 
-def main():
+
+def main(args):
+
+    split_num = args.split
+    global SPLIT_DIR
+    SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
 
     model = Model(MODEL_NAME)
     predicates = add_predicates(model)
@@ -55,16 +59,18 @@ def write_results(results, model):
 
 def add_predicates(model):
 
-    if VERBOSE: print('Adding predicates...')
+    if VERBOSE: 
+        print('Adding predicates...')
 
-    predicate_file=os.path.join(DATA_DIR, 'predicates.txt')
+    predicate_file = os.path.join(DATA_DIR, 'predicates.txt')
     with open(predicate_file) as f:
-        predicate_strs=f.readlines()
+        predicate_strs = f.readlines()
 
     predicates = []
     for p in predicate_strs:
         p = p.strip()
-        if VERBOSE: print(p)
+        if VERBOSE: 
+            print(p)
         predicate = Predicate(p, size=2)
         model.add_predicate(predicate)
         predicates.append(predicate)
@@ -74,15 +80,17 @@ def add_predicates(model):
 
 def add_rules(model):
 
-    if VERBOSE: print('\nAdding rules...')
+    if VERBOSE: 
+        print('\nAdding rules...')
 
     predicate_file = os.path.join(DATA_DIR, 'rules.txt')
     with open(predicate_file) as f:
         rule_strs = f.readlines()
-    
+
     for r in rule_strs:
         r = r.strip()
-        if VERBOSE: print(r)
+        if VERBOSE:
+            print(r)
         rule = Rule(r)
         model.add_rule(rule)
 
@@ -94,15 +102,16 @@ def add_learn_data(predicates):
 def add_eval_data(predicates):
     _add_data('eval', predicates)
 
-def _add_data(split, predicates):
 
-    if VERBOSE: print('\nAdding data files for ' + split + '...')
+def _add_data(type, predicates):
 
-    split_data_dir = os.path.join(SPLIT_DIR, split)
+    if VERBOSE: 
+        print('\nAdding data files for ' + type + '...')
+
+    split_data_dir = os.path.join(SPLIT_DIR, type)
     filenames = os.listdir(split_data_dir)
     files = [f.split('.')[0] for f in filenames]
     files = [[f.split('_')[0].upper(),f.split('_')[1]]  for f in files]
-    
 
     for p in predicates:
         for i, f in enumerate(files): 
@@ -121,17 +130,22 @@ def _add_data(split, predicates):
                 else:
                     raise ValueError('Unknown predicate: ' + f[1])
 
-                if VERBOSE: print(filename + ' added to ' + p.name())
-
+                if VERBOSE: 
+                    print(filename + ' added to ' + p.name())
 
 
 def learn(model, predicates):
     add_learn_data(predicates)
-    model.learn(psl_options = ADDITIONAL_PSL_OPTIONS)
+    model.learn(psl_options=ADDITIONAL_PSL_OPTIONS)
+
 
 def infer(model, predicates):
     add_eval_data(predicates)
-    return model.infer(psl_options = ADDITIONAL_PSL_OPTIONS)
+    return model.infer(psl_options=ADDITIONAL_PSL_OPTIONS)
+
 
 if (__name__ == '__main__'):
-    main()
+    parser = argparse.ArgumentParser(description='Description of your program')
+    parser.add_argument('--split', type=str, required=True, help='split number 0-4')
+    args = parser.parse_args()
+    main(args)

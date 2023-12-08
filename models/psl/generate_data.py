@@ -345,47 +345,46 @@ def main():
     quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
 
     split_num = 0
-    # TODO: loop over splits
-    # for split_num in splits_dict.keys():
-    
-    # make directories for split data
-    split_learn_dir = os.path.join(OUT_DIR, f'split{split_num}/learn')
-    os.makedirs(split_learn_dir, exist_ok=True)
 
-    split_eval_dir = os.path.join(OUT_DIR, f'split{split_num}/eval')
-    os.makedirs(split_eval_dir, exist_ok=True)
+    for split_num in splits_dict.keys():
+        # make directories for split data
+        split_learn_dir = os.path.join(OUT_DIR, f'split{split_num}/learn')
+        os.makedirs(split_learn_dir, exist_ok=True)
 
-    # load train and test data for split    
-    learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
-        load_train_test_data(splits_dict[split_num],
-                             qual_dict,
-                             quant_dict)
+        split_eval_dir = os.path.join(OUT_DIR, f'split{split_num}/eval')
+        os.makedirs(split_eval_dir, exist_ok=True)
 
-    # GENERATE LEARN DATA #
-    # write contains file linking articles and excerpts
-    write_contains_file(split_learn_dir, learn_articles)  # contains
+        # load train and test data for split    
+        learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
+            load_train_test_data(splits_dict[split_num],
+                                 qual_dict,
+                                 quant_dict)
 
-    # write target and truth files for validation data
-    write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
-    write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        # GENERATE LEARN DATA #
+        # write contains file linking articles and excerpts
+        write_contains_file(split_learn_dir, learn_articles)  # contains
 
-    # predictions for validation set
-    article_preds = predict_article_annotations(learn_articles, split_num)
-    write_pred_files(split_learn_dir, article_preds)  # pred
+        # write target and truth files for validation data
+        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
-    exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-    write_pred_files(split_learn_dir, exerpt_preds)  # pred
+        # predictions for validation set
+        article_preds = predict_article_annotations(learn_articles, split_num)
+        write_pred_files(split_learn_dir, article_preds)  # pred
 
-    # GENERATE EVAL DATA #
-    # write_contains_file(split_eval_dir, eval_articles)  # contains
-    write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-    write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
-    
-    article_preds = predict_article_annotations(eval_articles, split_num)
-    write_pred_files(split_eval_dir, article_preds)  # pred
+        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
-    excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-    write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        # GENERATE EVAL DATA #
+        # write_contains_file(split_eval_dir, eval_articles)  # contains
+        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        
+        article_preds = predict_article_annotations(eval_articles, split_num)
+        write_pred_files(split_eval_dir, article_preds)  # pred
+
+        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 if (__name__ == '__main__'):

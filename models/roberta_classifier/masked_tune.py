@@ -17,30 +17,6 @@ def extract_strings(dirty_str: str):
     clean = re.sub('<[^>]+>', '', dirty_str)
     return clean
 
-def get_all_text(db_filename: str, clean: bool = True):
-    """
-    Retrieves the text data from the specified SQLite database file.
-
-    Parameters:
-    - db_filename (str): The path to the SQLite database file.
-    - clean (bool): Flag indicating whether to clean the text data. Default is True.
-
-    Returns:
-    - text (list): The list of text data retrieved from the database.
-    """
-    conn = sqlite3.connect(db_filename)
-    cur = conn.cursor()
-
-    query = 'SELECT text FROM article;'
-    res = cur.execute(query)
-    text = [t[0] for t in res.fetchall()]
-
-    if clean:
-        text = [extract_strings(t) for t in text]
-
-    conn.close()
-    return text 
-
 
 def group_texts(examples):
     """
@@ -134,120 +110,134 @@ class EconomicArticlesDatataset(Dataset):
 
 
 def load_dataset(db_filename: str):
-    """
-    Load dataset from a database file.
 
-    Args:
-    - db_filename (str): The filename of the database.
+    """
+    Retrieves the text data from the specified SQLite database file.
+
+    Parameters:
+    - db_filename (str): The path to the SQLite database file.
+    - clean (bool): Flag indicating whether to clean the text data. Default is True.
 
     Returns:
-    - list: A list of strings representing the loaded articles from the db.
+    - text (list): The list of text data retrieved from the database.
     """
+    conn = sqlite3.connect(db_filename)
+    cur = conn.cursor()
 
-    text = get_all_text(db_filename, clean=True)  # list of strings
+    query = 'SELECT text FROM article;'
+    res = cur.execute(query)
+    text = [t[0] for t in res.fetchall()]
+
+    text = [extract_strings(t) for t in text]
+
+    conn.close()
+
     return text
 
 
-# def main(args):
-"""
-Main function for training and evaluating a masked language model using RoBERTa.
+def main():
+    """
+    Main function for training and evaluating a masked language model using RoBERTa.
 
-Args:
-    args: Command-line arguments passed to the script.
-"""
+    Args:
+        args: Command-line arguments passed to the script.
+    """
 
-OUT_DIR = 'models/roberta_classifier/tokenized'
-os.makedirs(OUT_DIR, exist_ok=True)
+    OUT_DIR = 'models/roberta_classifier/tokenized'
+    os.makedirs(OUT_DIR, exist_ok=True)
 
-# Load pretrained model and tokenizer
-model_checkpoint = "roberta-base"
-model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+    # Load pretrained model and tokenizer
+    model_checkpoint = "roberta-base"
+    model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
+    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-# Get list of all articles in db, split into train and val
-db_filename = "data/data.db"
-texts = load_dataset(db_filename)
-# texts = random.sample(texts, 10)
-train_texts, val_texts = train_test_split(
-    texts,
-    test_size=0.15,
-    random_state=42
-)
+    # Get list of all articles in db, split into train and val
+    db_filename = "data/data.db"
+    texts = load_dataset(db_filename)
+    # texts = random.sample(texts, 10)
+    train_texts, val_texts = train_test_split(
+        texts,
+        test_size=0.15,
+        random_state=42
+    )
 
-print(f'>>> Loaded {len(train_texts)} training texts')
-print(f'>>> Loaded {len(val_texts)} validation texts')
+    print(f'>>> Loaded {len(train_texts)} training texts')
+    print(f'>>> Loaded {len(val_texts)} validation texts')
 
-print('>>> Tokenizing train texts')
-train_dataset = EconomicArticlesDatataset(
-    train_texts,
-    tokenizer
-)
+    # print('>>> Tokenizing train texts')
+    # train_dataset = EconomicArticlesDatataset(
+    #     train_texts,
+    #     tokenizer
+    # )
 
-filename = os.path.join(OUT_DIR, "train_dataset")
-# train_dataset = pickle.load(open(filename, 'rb'))
-f = open(filename, 'wb')
-pickle.dump(train_dataset, f)
-
-
-print('>>> Tokenizing val texts')
-val_dataset = EconomicArticlesDatataset(
-    val_texts,
-    tokenizer
-)
-
-filename = os.path.join(OUT_DIR, "val_dataset")
-# train_dataset = pickle.load(open(filename, 'rb'))
-f = open(filename, 'wb')
-pickle.dump(val_dataset, f)
-
-# # create data collator for adding masks to input
-# data_collator = DataCollatorForLanguageModeling(
-#     tokenizer=tokenizer,
-#     mlm_probability=0.15
-# )
-
-# print(len(train_dataset))
-# print(len(val_dataset))
-
-# # batch_size = 8
-# batch_size = 64
-# logging_steps = len(train_dataset) // batch_size
-
-# training_args = TrainingArguments(
-#     output_dir=f"models/roberta_classifier/{model_checkpoint}-finetuned-masked-2",
-#     overwrite_output_dir=True,
-#     evaluation_strategy="epoch",
-#     learning_rate=2e-5,
-#     weight_decay=0.01,
-#     per_device_train_batch_size=batch_size,
-#     per_device_eval_batch_size=batch_size,
-#     fp16=True,
-#     logging_steps=logging_steps,
-# )
-
-# trainer = Trainer(
-#     model=model,
-#     args=training_args,
-#     train_dataset=train_dataset,
-#     eval_dataset=val_dataset,
-#     data_collator=data_collator,
-#     tokenizer=tokenizer,
-# )
-
-# eval_results = trainer.evaluate()
-# print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
-
-# trainer.train()
-
-# eval_results = trainer.evaluate()
-# print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
-
-# trainer.save_model()
-# trainer.save_metrics()
+    # filename = os.path.join(OUT_DIR, "train_dataset")
+    # # train_dataset = pickle.load(open(filename, 'rb'))
+    # f = open(filename, 'wb')
+    # pickle.dump(train_dataset, f)
 
 
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--db", required=True, help="path to database")
-#     args = parser.parse_args()
-#     main(args)
+    # print('>>> Tokenizing val texts')
+    # val_dataset = EconomicArticlesDatataset(
+    #     val_texts,
+    #     tokenizer
+    # )
+
+    # filename = os.path.join(OUT_DIR, "val_dataset")
+    # # train_dataset = pickle.load(open(filename, 'rb'))
+    # f = open(filename, 'wb')
+    # pickle.dump(val_dataset, f)
+
+
+
+    # # create data collator for adding masks to input
+    # data_collator = DataCollatorForLanguageModeling(
+    #     tokenizer=tokenizer,
+    #     mlm_probability=0.15
+    # )
+
+    # print(len(train_dataset))
+    # print(len(val_dataset))
+
+    # # batch_size = 8
+    # batch_size = 64
+    # logging_steps = len(train_dataset) // batch_size
+
+    # training_args = TrainingArguments(
+    #     output_dir=f"models/roberta_classifier/{model_checkpoint}-finetuned-masked-2",
+    #     overwrite_output_dir=True,
+    #     evaluation_strategy="epoch",
+    #     learning_rate=2e-5,
+    #     weight_decay=0.01,
+    #     per_device_train_batch_size=batch_size,
+    #     per_device_eval_batch_size=batch_size,
+    #     fp16=True,
+    #     logging_steps=logging_steps,
+    # )
+
+    # trainer = Trainer(
+    #     model=model,
+    #     args=training_args,
+    #     train_dataset=train_dataset,
+    #     eval_dataset=val_dataset,
+    #     data_collator=data_collator,
+    #     tokenizer=tokenizer,
+    # )
+
+    # eval_results = trainer.evaluate()
+    # print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+
+    # trainer.train()
+
+    # eval_results = trainer.evaluate()
+    # print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+
+    # trainer.save_model()
+    # trainer.save_metrics()
+
+
+if __name__ == "__main__":
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--db", required=True, help="path to database")
+    # args = parser.parse_args()
+    # main(args)
+    main()

@@ -3,7 +3,7 @@ import models.psl.generate_rules as gd
 import models.utils.dataset as d
 import pickle
 import os
-import sklearn.metrics
+import shutil
 
 DATA_DIR = 'models/psl/data'
 
@@ -48,6 +48,9 @@ def get_labels_dict(articles, annotation_type):
 
 def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, doc_type='quant'):
 
+    labels = {}
+    predictions = {}
+
     for annotation_type in annotation_map.keys():
         file_pred = annotation_type.replace('_', '')
         file_pred = file_pred.upper()
@@ -76,10 +79,13 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
             if label_list[-1] != prediction_list[-1]:
                 print(f'ID: {id} \t Prediction: {prediction_list[-1]} \t Label: {label_list[-1]}')
 
-                
-
-        os.makedirs(report_dir, exist_ok=True)
         d.to_csv(annotation_type, label_list, prediction_list, report_dir)
+
+        labels[annotation_type] = label_list
+        predictions[annotation_type] = prediction_list
+
+    return labels, predictions
+
 
 def write_data_file(articles, excerpts, report_dir, type):
 
@@ -108,31 +114,16 @@ def write_data_file(articles, excerpts, report_dir, type):
                 f.write(line + '\n')
             f.write('\n')
 
+
+def write_eval_report(labels, predictions, report_dir, doc_type):
+    for annotation_type in labels.keys():
+        label_list = labels[annotation_type]
+        prediction_list = predictions[annotation_type]
+        d.to_csv(annotation_type, label_list, prediction_list, report_dir)
+
+
 def main():
 
     # load train and test articles
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
-    qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
-
-    split_num = 0
-    # TODO: loop over splits
-    # for split_num in splits_dict.keys():
-
-    learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
-        load_train_test_data(splits_dict[split_num],
-                             qual_dict,
-                             quant_dict)
-
-    inference_dir = os.path.join(DATA_DIR, f'split{split_num}', 'inferred-predicates')
-    report_dir = os.path.join(DATA_DIR, f'split{split_num}', 'psl_results')
-
-    write_data_file(learn_articles, learn_excerpts, report_dir, type='learn')
-    write_data_file(eval_articles, eval_excerpts, report_dir, type='eval')
-
-    evaluate(gd.qual_map, eval_articles, inference_dir, report_dir, split_num, doc_type='qual')
-    evaluate(gd.quant_map, eval_excerpts, inference_dir, report_dir, split_num)
-
-if __name__ == "__main__":
-    main()
