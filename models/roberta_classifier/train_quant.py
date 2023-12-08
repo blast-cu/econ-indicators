@@ -109,11 +109,21 @@ def main(args):
     results to a CSV file.
     """
 
+<<<<<<< HEAD
     model_checkpoint = args.model
   
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
     quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
+=======
+
+
+
+    split_dir = "data/clean/"
+    splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
+    qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
+    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
+>>>>>>> main
 
     type_filters = {
         'type': ['industry', 'macro'],
