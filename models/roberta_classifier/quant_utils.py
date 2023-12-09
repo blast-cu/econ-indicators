@@ -1,4 +1,4 @@
-import models.roberta_classifier.train_test_utils as tt
+
 from transformers import RobertaTokenizer, RobertaModel, RobertaConfig
 import torch
 from torch import nn
@@ -6,6 +6,8 @@ from torch.utils.data import DataLoader, Dataset
 from sklearn.model_selection import train_test_split
 import re
 from sklearn.metrics import f1_score
+import os
+from torch.nn.functional import cross_entropy
 
 
 
@@ -34,7 +36,53 @@ class QuantModel(nn.Module):
         self.activation = nn.ReLU()
         self.roberta = RobertaModel.from_pretrained(model_checkpoint)
         self.softmax = nn.Softmax(dim=0)
+
     
+    def from_pretrained(self, path, task):
+
+        rob_path = os.path.join(path, task + '_roberta') 
+        self.roberta = RobertaModel.from_pretrained(rob_path)
+
+        dense_path = os.path.join(path, task + '_dense')
+        self.dense.load_state_dict(torch.load(dense_path))
+                                   
+        dropout_path = os.path.join(path, task + '_dropout')
+        self.dropout.load_state_dict(torch.load(dropout_path))
+
+        out_proj_path = os.path.join(path, task + '_out_proj')
+        self.out_proj.load_state_dict(torch.load(out_proj_path))
+
+        linear_path = os.path.join(path, task + '_linear')
+        self.linear.load_state_dict(torch.load(linear_path))
+
+        activation_path = os.path.join(path, task + '_activation')
+        self.activation.load_state_dict(torch.load(activation_path))
+
+        return self
+
+
+    
+    def save(self, path, task):
+
+        # load pretrained roberta from path
+        rob_path = os.path.join(path, task + '_roberta')
+        self.roberta.save_pretrained(rob_path)
+
+        dense_path = os.path.join(path, task + '_dense')
+        torch.save(self.dense.state_dict(), dense_path)
+
+        dropout_path = os.path.join(path, task + '_dropout')
+        torch.save(self.dropout.state_dict(), dropout_path)
+
+        out_proj_path = os.path.join(path, task + '_out_proj')
+        torch.save(self.out_proj.state_dict(), out_proj_path)
+
+        linear_path = os.path.join(path, task + '_linear')
+        torch.save(self.linear.state_dict(), linear_path)
+
+        activation_path = os.path.join(path, task + '_activation')
+        torch.save(self.activation.state_dict(), activation_path)
+        
 
     def forward(self,
                 start_index,
@@ -56,27 +104,36 @@ class QuantModel(nn.Module):
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
         lin_out = self.linear(lin_in).to('cuda')
-        activation = self.activation(lin_out) 
+        activation = self.activation(lin_out).to('cuda')
         # probs = self.softmax(activation)  # size = [8, 2]
-        x = self.dropout(activation)
-        x = self.dense(x)
+        x = self.dropout(activation).to('cuda')
+        x = self.dense(x).to('cuda')
         x = torch.tanh(x)
-        x = self.dropout(x)
-        logits = self.out_proj(x)
+        x = self.dropout(x).to('cuda')
+        logits = self.out_proj(x).to('cuda')
 
         return logits
 
 
 class TextClassificationDataset(Dataset):
-    def __init__(self, texts, labels=[], tokenizer=None, max_length=512):
+    def __init__(self, texts, labels=[], ids=[], tokenizer=None, max_length=512):
         """
         Initializes a dataset for text classification
         """
         self.indicator_texts = [t[0] for t in texts]
         self.texts = [t[1] for t in texts]
         self.labels = labels
+
+        self.article_ids = []
+        self.ann_ids = []
+        for id in ids:
+            article_id, ann_id = id.split('_')
+            self.article_ids.append(int(article_id))
+            self.ann_ids.append(int(ann_id))
+        
         self.tokenizer = tokenizer
         self.max_length = max_length
+
 
     def __len__(self):
         """
@@ -89,7 +146,18 @@ class TextClassificationDataset(Dataset):
         Returns a single tokenized  item from the dataset
         """
         text = self.texts[idx]
-        label = self.labels[idx]
+        if len(self.labels) > 0:
+            label = self.labels[idx]
+        else:
+            label = -1
+
+        if len(self.article_ids) > 0:
+            article_id = self.article_ids[idx]
+            ann_id = self.ann_ids[idx]
+        else:
+            article_id = -1
+            ann_id = -1
+
         indicator_text = self.indicator_texts[idx]
 
         i = text.find(indicator_text)
@@ -136,14 +204,16 @@ class TextClassificationDataset(Dataset):
             print(indicator_text)
             print(text)
             print()
-            indicator_indices = [0, 2]
+            indicator_indices = [0, 1]
 
         return {
             'start_index': torch.tensor(indicator_indices[0]),
             'end_index': torch.tensor(indicator_indices[1]),
             'input_ids': excerpt_encoding['input_ids'].flatten(),
             'attention_mask': excerpt_encoding['attention_mask'].flatten(),
-            'label': torch.tensor(label)
+            'label': torch.tensor(label),
+            'article_ids': torch.tensor(article_id),
+            'ann_ids': torch.tensor(ann_id)
         }
 
 def setup(train_texts,
@@ -191,7 +261,7 @@ def setup(train_texts,
     # Define model
     num_labels = len(set(annotation_map.values()))
     model = QuantModel(model_checkpoint, num_labels=num_labels).to('cuda')
-    # model = QuantModel(model_checkpoint, num_labels=num_labels)
+
 
     # Define optimizer and loss function
     optimizer = torch.optim\
@@ -243,6 +313,32 @@ def validate(model, val_loader, class_weights):
 
     return f1
 
+def check_done(val_f1_history: list, val_f1, patience, history_len):
+    """
+    Check if the model has stopped improving based on the validation loss history.
+
+    Parameters:
+    - val_loss_history (list): A list of previous validation losses.
+    - val_loss (float): The current validation loss.
+    - patience (float): The minimum difference between the current validation loss and the previous one to consider improvement.
+    - history_len (int): The maximum length of the validation loss history.
+
+    Returns:
+    - improving (bool): True if the model is still improving, False otherwise.
+    - val_loss_history (list): The updated validation loss history.
+    """
+    improving = True
+    if len(val_f1_history) == history_len:
+        val_f1_history.pop(0)  # remove at index 0
+
+        if val_f1_history[-1] > val_f1:  # overfitting training data
+            improving = False
+        elif val_f1_history[0] - val_f1 < patience:
+            improving = False
+
+    val_f1_history.append(val_f1)
+    return improving, val_f1_history
+
 
 def train(model, train_loader, val_loader, optimizer, class_weights):
 
@@ -269,19 +365,19 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
                             excerpt_input_ids,
                             excerpt_attention_mask=excerpt_attention_mask)
             
-            loss = tt.cross_entropy(outputs,
-                                    labels,
-                                    weight=class_weights)
+            loss = cross_entropy(outputs,
+                                 labels,
+                                 weight=class_weights)
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
 
         val_f1 = validate(model, val_loader, class_weights)
 
-        improving, val_f1_history = tt.check_done(val_f1_history,
-                                                  val_f1,
-                                                  patience,
-                                                  history_len)
+        improving, val_f1_history = check_done(val_f1_history,
+                                                val_f1,
+                                                patience,
+                                                history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1

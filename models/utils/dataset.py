@@ -63,7 +63,7 @@ def get_ann_dict(article_html: str,
             ann_dict[span_id] = a.text
     
     if len(ann_dict.keys()) != len(annotation_ids):
-        print(">>> Annotations not found in html")
+        print(">>> ERROR: Annotations not found in html in get_ann_dict()")
         not_found = []
         for id in annotation_ids:
             if id not in ann_dict.keys():
@@ -136,7 +136,7 @@ def get_excerpts(ann_ids: list,
                 found = True
             i += 1
             if i == len(article_sentences) and not found:
-                print(">>> Error: Annotation not found")
+                print(">>> ERROR: Annotation not found in get_excerpts()")
                 print(ann_id)
                 print(ann_text)
                 print(article_sentences)
@@ -159,8 +159,9 @@ def save_progress(to_save,
         pickle.dump(to_save, progress_file)
         progress_file.close()
 
-    except:
-        print("Something went wrong")
+    except Exception as e:
+        print(e)
+        print("Could not dump object to picle file in save_progress()")
 
 
 def get_excerpts_dict(db_filename: str):
@@ -175,7 +176,7 @@ def get_excerpts_dict(db_filename: str):
         dict: keys are global quant_ann IDs and the values are the corresponding excerpts + context.
     """
 
-    try: 
+    try:
         # return id and text
         excerpt_dict = {}
 
@@ -218,14 +219,15 @@ def get_excerpts_dict(db_filename: str):
                     if article_sentences[i].find(ann_text) != -1:
                         context = get_context(i, article_sentences)
                         id = f"{article_id}_{ann_id}"
-                        excerpt_dict[id] = context
+                        text_list = [ann_text, context]
+                        excerpt_dict[id] = text_list
                         found = True
                     i += 1
 
-    except:
-
+    except Exception as e:
+        print(e)
         # If the program is interrupted, save the progress
-        save_progress(excerpt_dict, 'models/utils/splits/quant_excerpts_dict')
+        save_progress(excerpt_dict, 'data/clean/excerpts_dict_partial')
         sys.exit()
 
     return excerpt_dict

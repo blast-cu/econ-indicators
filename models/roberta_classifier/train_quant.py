@@ -10,7 +10,9 @@ import models.roberta_classifier.quant_utils as qu
 
 # nltk.download('punkt')
 
-OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
+# OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
+OUT_DIR = "models/roberta_classifier/tuned_models/temp_test"
+
 SPLIT_DIR = "data/clean/"
 
 # maps annotation labels to integers for each prediction task
@@ -22,13 +24,13 @@ label_maps = {
             'personal': 3,
             'business': 4,
             'other': 5},
-    'type-binary': {
-            'macro': 0,
-            'industry': 1,
-            'government': 1,
-            'personal': 1,
-            'business': 1,
-            'other': 1},
+    # 'type-binary': {
+    #         'macro': 0,
+    #         'industry': 1,
+    #         'government': 1,
+    #         'personal': 1,
+    #         'business': 1,
+    #         'other': 1}
     'spin': {
             'pos': 0,
             'neg': 1,
@@ -75,7 +77,7 @@ def get_texts(
             - labels (list): The list of labels for the given text
     """
     
-    texts = []
+    texts = []  # list of [indicator text, text with context]
     labels = []
 
     for id in article_ids:
@@ -108,25 +110,14 @@ def main(args):
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-
-<<<<<<< HEAD
     model_checkpoint = args.model
-  
+    
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
     quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
-=======
-
-
-
-    split_dir = "data/clean/"
-    splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
-    qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
->>>>>>> main
 
     type_filters = {
-        'type': ['industry', 'macro'],
+        'type': [],
         'type-binary': [],
         'spin': ['industry', 'macro'],
         'macro_type': ['macro']
@@ -184,7 +175,6 @@ def main(args):
                                    val_loader,
                                    optimizer,
                                    class_weights)
-            tuned_model = model
 
             y, y_predicted, f1 = qu.test(tuned_model,
                                          test_loader)
@@ -196,7 +186,7 @@ def main(args):
             print(">>> Predictions:\t" + str(y_predicted))
             print('\n\n')
 
-            dest = os.path.join(OUT_DIR, f"fold{k}/quant/")
+            dest = os.path.join(OUT_DIR, f"fold{k}/quant/{task}_model/")
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
@@ -205,9 +195,25 @@ def main(args):
                 y_predicted,
                 dest)
 
-            model_dest = dest + task + "_model"
-            # model.save_pretrained(model_dest)
-            qu.torch.save(model.state_dict(), model_dest)
+            tuned_model.save(dest, task)  # TODO: change this back to model_dest
+
+
+            # checking load from checkpoint
+            num_labels = len(set(label_maps[task].values()))
+            new_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+            new_model = new_model.from_pretrained(dest, task).to('cuda')
+
+            y, y_predicted, f1 = qu.test(new_model,
+                                         test_loader)
+
+            task = task + '-checkpoint'
+            d.to_csv(
+                task,
+                y,
+                y_predicted,
+                dest)
+
+
 
     for task in label_maps.keys():
         dest = os.path.join(OUT_DIR, "quant_results/")
