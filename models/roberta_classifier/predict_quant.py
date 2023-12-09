@@ -106,7 +106,8 @@ def save_progress(to_save,
         pickle.dump(to_save, progress_file)
         progress_file.close()
 
-    except:
+    except Exception as e:
+        print(e)
         print("Something went wrong")
 
 
@@ -144,17 +145,18 @@ def main():
     # save_progress(excerpt_dict, excerpts_file)
 
     # # smaller excerpts for testing
-    random_keys = random.sample(excerpt_dict.keys(), 100)
-    excerpt_dict_small = {k: excerpt_dict[k] for k in random_keys}
-    excerpt_dict = excerpt_dict_small
+    # random_keys = random.sample(excerpt_dict.keys(), 100)
+    # excerpt_dict_small = {k: excerpt_dict[k] for k in random_keys}
+    # excerpt_dict = excerpt_dict_small
 
     texts = [[v['indicator'], v['excerpt']] for v in excerpt_dict.values()]
     ids = [k for k in excerpt_dict.keys()]
 
-    for index, id in enumerate(ids):
-        print(f"ID: {id}")
-        print(f"Text: {texts[index]}")
-        print()
+    # for index, id in enumerate(ids):
+    #     print(f"ID: {id}")
+    #     print(f"Text: {texts[index]}")
+    #     print()
+    print(f">>> Loaded {len(texts)} excerpts")
 
 
     torch.manual_seed(42)  # Set random seed for reproducibility
@@ -176,11 +178,11 @@ def main():
     type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
     type_model = type_model.from_pretrained(path, task).to('cuda')
 
-    # num_batches = len(loader)
-    # freq_report = 100
+    num_batches = len(loader)
+    freq_report = 100
     for i, batch in enumerate(loader):
-        # if i % freq_report == 0:
-        #     print(f"Batch {i+1}/{num_batches}")
+        if i % freq_report == 0:
+            print(f"Type Batch {i+1}/{num_batches}")
         start_index = batch['start_index'].to('cuda')
         end_index = batch['end_index'].to('cuda')
         input_ids = batch['input_ids'].to('cuda')
@@ -207,11 +209,11 @@ def main():
                 annotations[global_id]['macro_type'] = ''
 
         
-    # # print(">>> Saving type annotations")
-    # # save_progress(annotations, 'outputs/annotations_type_predictions')
+    print(">>> Saving type annotations")
+    save_progress(annotations, 'outputs/annotations_type_predictions')
 
-    for id, ann_dict in annotations.items():
-        print(f"{id}: {ann_dict}")
+    # for id, ann_dict in annotations.items():
+    #     print(f"{id}: {ann_dict}")
 
     filtered_text = {k: v for k, v in excerpt_dict.items() if k in annotations.keys()}
 
@@ -239,10 +241,10 @@ def main():
     macro_type_model = macro_type_model.from_pretrained(path, task).to('cuda')
     
 
-    # num_batches = len(filtered_loader)
+    num_batches = len(loader)
     for i, batch in enumerate(loader):
-        # if i % freq_report == 0:
-        #     print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
+        if i % freq_report == 0:
+            print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
 
         start_index = batch['start_index'].to('cuda')
         end_index = batch['end_index'].to('cuda')
@@ -280,17 +282,15 @@ def main():
 
     # clean dictionary, save to csv 
     output_dict = {k: [v['type'], v['macro_type'], v['spin'] ] for k, v in annotations.items()}
-    
-
     save_progress(output_dict, 'outputs/annotations_final')
     # pd.DataFrame.from_dict(output_dict,
     #                        orient='index',
     #                        columns=['type', 'macro_type', 'spin']
     #                        ).to_csv('annotations.csv')
 
-    check = pickle.load(open('outputs/annotations_final', 'rb'))
-    for id, ann_dict in output_dict.items():
-        print(f"{id}: {ann_dict}")
+    # check = pickle.load(open('outputs/annotations_final', 'rb'))
+    # for id, ann_dict in output_dict.items():
+    #     print(f"{id}: {ann_dict}")
 
 
 
