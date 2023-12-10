@@ -34,7 +34,6 @@ sys.path.insert(0, LLAMA_MODULE_PATH)
 
 ####~~~~ Regular imports ~~~~~####
 
-import fire
 import os
 import random
 from itertools import product

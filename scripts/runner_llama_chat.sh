@@ -11,14 +11,13 @@
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="dasr8731@colorado.edu"
 
-module load slurm/blanca
 module load cuda
 module load cudnn
 
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-source activate ./venv
+source /rc_scratch/dasr8731/llama_env
 
 mkdir -p metadata
 mkdir -p outputs
