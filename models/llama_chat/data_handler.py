@@ -51,7 +51,7 @@ personal: If data point focuses on the economic condition of a single person, or
         for article_id, excerpt_id in id2excerpts.items() : 
             for e_id in excerpt_id : 
                 prompt = self.create_prompt(self.excerpts[e_id]['excerpt'])
-                label = self.create_prompt(self.excerpts[e_id]['type'])
+                label = self.excerpts[e_id]['type']
                 yield (article_id, e_id , prompt, label)
 
     def save_prediction(self, e_id, predicted_label, flush=False) : 
@@ -92,9 +92,16 @@ personal: If data point focuses on the economic condition of a single person, or
     def get_examples_for_each_label(self) : 
 
         examples = {}
-        excerpt_split_for_examples = self.excerpts[self.train_split_to_use_for_prompt_example]["train"]
+        sample_ids_for_examples = self.splits[self.train_split_to_use_for_prompt_example]["train"]
+        sample_ids_2_excerpt_ids = self.get_id2excerpts(sample_ids_for_examples)
+        excerpt_ids_for_examples = []
 
-        for excerpt_id, excerpt in excerpt_split_for_examples.items() : 
+        for sample_id, excerpt_ids in sample_ids_2_excerpt_ids.items() : 
+            excerpt_ids_for_examples.extend(excerpt_ids)
+        
+        excerpts_for_examples = {excerpt_id:self.excerpts[excerpt_id] for excerpt_id in excerpt_ids_for_examples}
+
+        for excerpt_id, excerpt in excerpts_for_examples.items() : 
 
             excerpt_label = excerpt["type"]
             if excerpt_label not in examples : 

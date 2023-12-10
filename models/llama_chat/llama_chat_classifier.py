@@ -86,6 +86,7 @@ for article_id, excerpt_id, prompt, label in prompt_generator :
         )
 
     print(f"PREDICTION : {prediction}")
+    print("\n****~~~~++++++++~~~~****\n")
 
     prompts.save_prediction(prediction)
 
