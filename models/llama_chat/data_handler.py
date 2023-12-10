@@ -54,7 +54,7 @@ personal: If data point focuses on the economic condition of a single person, or
                 label = self.excerpts[e_id]['type']
                 yield (article_id, e_id , prompt, label)
 
-    def save_prediction(self, e_id, predicted_label, flush=False) : 
+    def save_prediction(self, e_id, predicted_label) : 
         self.predicted_excerpts[e_id]['predicted_type'] = predicted_label
 
             

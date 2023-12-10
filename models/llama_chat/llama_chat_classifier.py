@@ -62,6 +62,17 @@ model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 
 model = model.to('cuda')
 
+print("Testing...")
+
+inputs = tokenizer("Hello there, why is Liverpool the best club in the world right now?", return_tensors="pt")
+generate_ids = model.generate(inputs.input_ids.to("cuda"))
+prediction = tokenizer.batch_decode(generate_ids, 
+                                        skip_special_tokens=True, 
+                                        clean_up_tokenization_spaces=False)[0]
+
+
+print(prediction)
+
 # LLAMA_TOKENIZER_PATH = os.path.join(LLAMA_MODULE_PATH , "tokenizer.model")
 
 # generator = Llama.build(
@@ -86,8 +97,10 @@ for article_id, excerpt_id, prompt, label in prompt_generator :
     print(f"LABEL : {label}")
 
     inputs = tokenizer(prompt, return_tensors="pt")
-    generate_ids = model.generate(inputs.input_ids.to("cuda"), max_length=30)
-    prediction = tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+    generate_ids = model.generate(inputs.input_ids.to("cuda"))
+    prediction = tokenizer.batch_decode(generate_ids, 
+                                        skip_special_tokens=True, 
+                                        clean_up_tokenization_spaces=False)[0]
 
     # prediction = generator.text_completion(
     #         prompt,
@@ -99,7 +112,7 @@ for article_id, excerpt_id, prompt, label in prompt_generator :
     print(f"PREDICTION : {prediction}")
     print("\n****~~~~++++++++~~~~****\n")
 
-    prompts.save_prediction(prediction)
+    prompts.save_prediction(excerpt_id , prediction)
 
 prompts.flush_predictions()
 
