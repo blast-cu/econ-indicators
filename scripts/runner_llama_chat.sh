@@ -17,7 +17,7 @@ module load cudnn
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-source /rc_scratch/dasr8731/llama_env
+source activate /rc_scratch/dasr8731/llama_env
 
 mkdir -p metadata
 mkdir -p outputs
