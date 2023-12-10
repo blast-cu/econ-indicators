@@ -42,6 +42,8 @@ from models.llama_chat.data_handler import LlamaChatPromptGenerator
 
 from llama import Llama
 
+from transformers import AutoTokenizer, AutoModelForCausalLM 
+
 
 '''
 3. Setting up data
@@ -54,14 +56,19 @@ prompts = LlamaChatPromptGenerator()
 4. Initializing Models
 '''
 
-LLAMA_TOKENIZER_PATH = os.path.join(LLAMA_MODULE_PATH , "tokenizer.model")
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
 
-generator = Llama.build(
-    ckpt_dir=LLAMA_CKPT_DIR,
-    tokenizer_path=LLAMA_TOKENIZER_PATH,
-    max_seq_len=max_seq_len,
-    max_batch_size=batch_size,
-)
+model = model.to('cuda')
+
+# LLAMA_TOKENIZER_PATH = os.path.join(LLAMA_MODULE_PATH , "tokenizer.model")
+
+# generator = Llama.build(
+#     ckpt_dir=LLAMA_CKPT_DIR,
+#     tokenizer_path=LLAMA_TOKENIZER_PATH,
+#     max_seq_len=max_seq_len,
+#     max_batch_size=batch_size,
+# )
 
 
 '''
@@ -77,13 +84,16 @@ for article_id, excerpt_id, prompt, label in prompt_generator :
     print(f"PROMPT : {prompt}")
     print(f"LABEL : {label}")
 
+    inputs = tokenizer(prompt, return_tensors="pt")
+    generate_ids = model.generate(inputs.input_ids.to("cuda"), max_length=30)
+    prediction = tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
-    prediction = generator.text_completion(
-            prompt,
-            max_gen_len=max_gen_len,
-            temperature=temperature,
-            top_p=top_p,
-        )
+    # prediction = generator.text_completion(
+    #         prompt,
+    #         max_gen_len=max_gen_len,
+    #         temperature=temperature,
+    #         top_p=top_p,
+    #     )
 
     print(f"PREDICTION : {prediction}")
     print("\n****~~~~++++++++~~~~****\n")
