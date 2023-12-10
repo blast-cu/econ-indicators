@@ -40,7 +40,8 @@ from itertools import product
 
 from models.llama_chat.data_handler import LlamaChatPromptGenerator
 
-from llama import Llama
+from huggingface_hub import login
+login("")
 
 from transformers import AutoTokenizer, AutoModelForCausalLM 
 
