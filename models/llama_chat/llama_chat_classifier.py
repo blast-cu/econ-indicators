@@ -4,9 +4,9 @@
 '''
 
 ####~~~~ Llama Related Variables ~~~~~####
-LLAMA_MODULE_PATH = "/rc_scratch"
-LLAMA_CKPT_DIR = "/rc_scratch/"
-LLAMA_MODELS = ["/rc_scratch"]
+LLAMA_MODULE_PATH = "/rc_scratch/dasr8731/llama"
+LLAMA_CKPT_DIR = "/rc_scratch/dasr8731/llama-2-models/llama-2-7b-chat"
+# LLAMA_MODELS = ["/rc_scratch"]
 
 
 ####~~~~ Data Related Variables ~~~~~####
