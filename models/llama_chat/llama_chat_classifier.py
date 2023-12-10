@@ -12,7 +12,7 @@ LLAMA_CKPT_DIR = "/rc_scratch/dasr8731/llama-2-models/llama-2-7b-chat"
 ####~~~~ Data Related Variables ~~~~~####
 path_to_splits_dict = 'data/splits_dict'
 path_to_quant_dict = "data/quant_dict"
-path_to_save_predictions = "data/preds_dict"
+path_to_save_predictions = "data/preds_70B_dict"
 train_split_to_use_for_prompt_example = 0
 test_splits_to_predict = 0
 
@@ -57,8 +57,8 @@ prompts = LlamaChatPromptGenerator()
 4. Initializing Models
 '''
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-70b-chat-hf")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-70b-chat-hf")
 
 model = model.to('cuda')
 
