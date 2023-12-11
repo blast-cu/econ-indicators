@@ -136,6 +136,42 @@ macro_data %>%
            curvature = .3, arrow = arrow(length = unit(2, "mm"))) +
   ggtitle("Breakdown of macro quantity types in NYT articles by year (prices, energy, and retail combined)")
 
+#
+#
+# article level
+#
+#
+macro_data %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep="."))) %>% 
+  group_by(source, article_id, yq, spin) %>% 
+  summarise(count = n()) %>% 
+  pivot_wider(names_from = spin, values_from = count) %>% 
+  ungroup() %>% 
+  mutate(negative = replace_na(negative, 0),
+         positive = replace_na(positive, 0),
+         neutral = replace_na(neutral, 0),
+         total= negative+neutral+positive,
+         per_neg = negative / total,
+         per_neu = neutral / total,
+         per_pos = positive / total,
+         article_spin = if_else(per_neg >= 2*per_pos, "negative", "neutral"),
+         article_spin = if_else(per_pos >= 2*per_neg, "positive", article_spin)) %>% 
+  filter(str_detect(source, "nytimes|foxnews"),
+         !is.na(yq)) %>% 
+  group_by(source, yq, article_spin) %>% 
+  summarise(count = n()) %>% 
+  mutate(total = sum(count),
+         per = count / total) %>% 
+  ungroup() %>% 
+  filter(yq < as.Date("2023-01-01")) %>% 
+  ggplot(aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
+  geom_line(size=1) +
+  ggtitle("Article level spin in Fox and NYT (Quarterly)")
+
 
 macro_data %>% 
   mutate(year = year(date),
