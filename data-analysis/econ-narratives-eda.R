@@ -1,7 +1,7 @@
 library(tidyverse)
 library(lubridate)
 
-macro_data = read_delim("~/Documents/macro_quant_annotations.csv")
+macro_data = read_delim("data/macro_quant_annotations.csv")
 
 # macro_data %>% 
 #   select(spin) %>% 
@@ -18,25 +18,30 @@ macro_data %>%
   select(macro_type) %>% 
   distinct()
 
-macro_data %>% 
-  filter(macro_type == "prices") %>% 
-  mutate(year = year(date),
-         month = month(date),
-         ym = ym(paste(year, month, sep="-"))) %>% 
-  group_by(source, ym, spin) %>% 
-  summarise(count = n()) %>% 
-  pivot_wider(names_from = spin, values_from = count) %>% 
-  # select(-pos, -neg)  %>% 
-  mutate(total= negative+neutral+positive,
-         per_neg = negative / total,
-         per_neu = neutral / total,
-         per_pos = positive / total) %>% 
-  filter(ym > as.Date("2015-12-01"),
-         source %in% c("nytimes", "wsj")) %>% 
-  ggplot(aes(x=ym, group=source, color=source)) +
-  geom_line(aes(y=per_neg))
+# macro_data %>% 
+#   filter(macro_type == "prices") %>% 
+#   mutate(year = year(date),
+#          month = month(date),
+#          ym = ym(paste(year, month, sep="-"))) %>% 
+#   group_by(source, ym, spin) %>% 
+#   summarise(count = n()) %>% 
+#   pivot_wider(names_from = spin, values_from = count) %>% 
+#   # select(-pos, -neg)  %>% 
+#   mutate(total= negative+neutral+positive,
+#          per_neg = negative / total,
+#          per_neu = neutral / total,
+#          per_pos = positive / total) %>% 
+#   filter(ym > as.Date("2015-12-01"),
+#          source %in% c("nytimes", "wsj")) %>% 
+#   ggplot(aes(x=ym, group=source, color=source)) +
+#   geom_line(aes(y=per_neg))
   
 
+#
+#
+# Annual jobs % positive
+#
+#
 macro_data %>% 
   filter(macro_type == "jobs") %>% 
   mutate(year = year(date),
@@ -63,12 +68,49 @@ macro_data %>%
            curvature = -.3, arrow = arrow(length = unit(2, "mm"))) +
   ggtitle("% of 'jobs' quantities rated as positive by year")
 
+# Quarterly
+macro_data %>% 
+  filter(macro_type == "jobs") %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep="."))) %>% 
+  group_by(source, yq, spin) %>% 
+  summarise(count = n()) %>% 
+  pivot_wider(names_from = spin, values_from = count) %>% 
+  mutate(total= negative+neutral+positive,
+         per_neg = negative / total,
+         per_neu = neutral / total,
+         per_pos = positive / total) %>% 
+  filter(yq >as.Date("2015-01-01"),
+         source %in% c("nytimes", "foxnews")) %>% 
+  ungroup() %>% 
+  # filter(is.na(yq))
+  ggplot(aes(x=yq, group=source, color=source)) +
+  geom_line(aes(y=per_pos)) + 
+  geom_vline(aes(xintercept=as.Date("2017-01-20")), linetype="dashed") + 
+  geom_vline(aes(xintercept=as.Date("2021-01-20")), linetype="dashed") +
+  annotate("text", as.Date("2017-11-01"), 0.43, label="Trump takes office") + 
+  annotate("text", as.Date("2021-11-01"), 0.33, label="Biden takes office") + 
+  annotate("curve", x=as.Date("2017-11-01"), y =0.42, xend = as.Date("2017-02-10"), yend = 0.38, 
+           curvature = -.3, arrow = arrow(length = unit(2, "mm"))) +
+  annotate("curve", x=as.Date("2021-11-01"), y =0.34, xend = as.Date("2021-02-10"), yend = 0.385, 
+           curvature = .3, arrow = arrow(length = unit(2, "mm"))) +
+  ggtitle("% of 'jobs' quantities rated as positive by quarter")
 
 
+
+#
+#
+# quantity breakdown
+#
+#
 macro_data %>% 
   mutate(year = year(date),
          month = month(date),
-         ym = ym(paste(year, month, sep="-"))) %>% 
+         ym = ym(paste(year, month, sep="-")),
+         macro_type = if_else(str_detect(macro_type, "energy|retail|prices"), "prices+", macro_type)) %>% 
   group_by(source, year, macro_type) %>% 
   summarise(count = n()) %>% 
   # pivot_wider(names_from = spin, values_from = count) %>% 
@@ -92,5 +134,38 @@ macro_data %>%
            curvature = -.3, arrow = arrow(length = unit(2, "mm"))) +
   annotate("curve", x=2021.5, y =0.25, xend = 2020.55, yend = 0.285, 
            curvature = .3, arrow = arrow(length = unit(2, "mm"))) +
-  ggtitle("Breakdown of macro quantity types in NYT articles by year")
+  ggtitle("Breakdown of macro quantity types in NYT articles by year (prices, energy, and retail combined)")
+
+
+macro_data %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep="."))) %>% 
+  group_by(source, article_id, yq, spin) %>% 
+  summarise(count = n()) %>% 
+  pivot_wider(names_from = spin, values_from = count) %>% 
+  ungroup() %>% 
+  mutate(negative = replace_na(negative, 0),
+         positive = replace_na(positive, 0),
+         neutral = replace_na(neutral, 0),
+         total= negative+neutral+positive,
+         per_neg = negative / total,
+         per_neu = neutral / total,
+         per_pos = positive / total,
+         article_spin = if_else(per_neg >= 2*per_pos, "negative", "neutral"),
+         article_spin = if_else(per_pos >= 2*per_neg, "positive", article_spin),
+         article_spin = if_else(per_neu >= .5, "neutral", article_spin)) %>% 
+  filter(str_detect(source, "nytimes|foxnews"),
+         !is.na(yq)) %>% 
+  group_by(source, yq, article_spin) %>% 
+  summarise(count = n()) %>% 
+  mutate(total = sum(count),
+         per = count / total) %>% 
+  ungroup() %>% 
+  filter(yq < as.Date("2023-01-01")) %>% 
+  ggplot(aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
+  geom_line(size=1) +
+  ggtitle("Article level spin in Fox and NYT (Quarterly, Forced Neutral)")
 
