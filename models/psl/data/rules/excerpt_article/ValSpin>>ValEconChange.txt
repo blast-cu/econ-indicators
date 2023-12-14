@@ -1,0 +1,12 @@
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2

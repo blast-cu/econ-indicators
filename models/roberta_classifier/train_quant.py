@@ -11,30 +11,30 @@ import models.roberta_classifier.quant_utils as qu
 # nltk.download('punkt')
 
 # OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
-OUT_DIR = "models/roberta_classifier/tuned_models/temp_test"
+OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
 
 SPLIT_DIR = "data/clean/"
 
 # maps annotation labels to integers for each prediction task
 label_maps = {
-    'type': {
-            'macro': 0,
-            'industry': 1,
-            'government': 2,
-            'personal': 3,
-            'business': 4,
-            'other': 5},
+    # 'type': {
+    #         'macro': 0,
+    #         'industry': 1,
+    #         'government': 2,
+    #         'personal': 3,
+    #         'business': 4,
+    #         'other': 5},
     # 'type-binary': {
     #         'macro': 0,
     #         'industry': 1,
     #         'government': 1,
-    #         'personal': 1,
+    #         'personal': 1, 
     #         'business': 1,
     #         'other': 1}
-    'spin': {
-            'pos': 0,
-            'neg': 1,
-            'neutral': 2}, 
+    # 'spin': {
+    #         'pos': 0,
+    #         'neg': 1,
+    #         'neutral': 2},
     'macro_type': {
             'jobs': 0,
             'retail': 1,
@@ -46,7 +46,8 @@ label_maps = {
             'market': 7,
             'currency': 8,
             'housing': 9,
-            'other': 10}
+            'other': 10,
+            'none': 11}
 }
 
 def get_texts(
@@ -83,23 +84,37 @@ def get_texts(
     for id in article_ids:
         if 'quant_list' in qual_dict[id].keys():
             for quant_id in qual_dict[id]['quant_list']:
+                valid_entry = False
                 if quant_dict[quant_id][annotation_component] != '\x00':
 
-                    valid_entry = False
+                    
                     if len(type_filter) == 0:
                         valid_entry = True
                     elif 'type' in quant_dict[quant_id].keys():
                         if quant_dict[quant_id]['type'] in type_filter:
                             valid_entry = True
-                    
-                    if valid_entry:
-                        indicator_text = quant_dict[quant_id]['indicator']
-                        excerpt_text = quant_dict[quant_id]['excerpt']
-                        text = [indicator_text, excerpt_text]
-                        texts.append(text)
 
+                elif annotation_component == 'macro_type':
+
+                    if quant_dict[quant_id]['type'] != 'macro':
+                        valid_entry = True
+
+                if valid_entry:
+                    indicator_text = quant_dict[quant_id]['indicator']
+                    excerpt_text = quant_dict[quant_id]['excerpt']
+                    text = [indicator_text, excerpt_text]
+                    texts.append(text)
+
+                    try:
                         label = quant_dict[quant_id][annotation_component]
                         labels.append(label_maps[task][label])
+                    except KeyError:
+                        label = 'none'
+                        labels.append(label_maps[task][label])
+                        continue
+
+                    
+
 
     return texts, labels
 
@@ -119,8 +134,8 @@ def main(args):
     type_filters = {
         'type': [],
         'type-binary': [],
-        'spin': ['industry', 'macro'],
-        'macro_type': ['macro']
+        'spin': [],
+        'macro_type': []
     }
 
     # dict for tracking results across folds
@@ -139,6 +154,8 @@ def main(args):
         split_test_ids = split['test']
 
         for task in list(label_maps.keys()):
+        # for task in ['spin']:
+
 
             ann_component = task.split('-')[0]
 
@@ -198,25 +215,29 @@ def main(args):
             tuned_model.save(dest, task)  # TODO: change this back to model_dest
 
 
-            # checking load from checkpoint
-            num_labels = len(set(label_maps[task].values()))
-            new_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-            new_model = new_model.from_pretrained(dest, task).to('cuda')
+            # # checking load from checkpoint
+            # num_labels = len(set(label_maps[task].values()))
+            # new_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+            # new_model = new_model.from_pretrained(dest, task).to('cuda')
 
-            y, y_predicted, f1 = qu.test(new_model,
-                                         test_loader)
+            # y, y_predicted, f1 = qu.test(new_model,
+            #                              test_loader)
+            
+            # # REMOVE THIS LATER
+            # results[task]['labels'] += y
+            # results[task]['predictions'] += y_predicted
 
-            task = task + '-checkpoint'
-            d.to_csv(
-                task,
-                y,
-                y_predicted,
-                dest)
+            # task = task + '-checkpoint'
+            # d.to_csv(
+            #     task,
+            #     y,
+            #     y_predicted,
+            #     dest)
 
 
 
     for task in label_maps.keys():
-        dest = os.path.join(OUT_DIR, "quant_results/")
+        dest = os.path.join(OUT_DIR, "results")
         os.makedirs(dest, exist_ok=True)
 
         d.to_csv(task,

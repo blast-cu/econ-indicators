@@ -1,0 +1,82 @@
+0.009728: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.009556: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.007925: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.014880: PredType(E, B) >> ValType(E, B) ^2
+0.013385: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+0.015748: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'business') ^2
+0.013006: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'government') ^2
+0.013001: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'industry') ^2
+0.013007: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'macro') ^2
+0.013014: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'other') ^2
+0.013005: Neighbors(A, E) & ValType(A, 'business') >> ValType(E, 'personal') ^2
+0.010691: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'business') ^2
+0.014157: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'government') ^2
+0.010678: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'industry') ^2
+0.011099: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'macro') ^2
+0.010587: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'other') ^2
+0.010674: Neighbors(A, E) & ValType(A, 'government') >> ValType(E, 'personal') ^2
+0.014763: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'business') ^2
+0.014745: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'government') ^2
+0.015108: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'industry') ^2
+0.014708: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'macro') ^2
+0.014577: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'other') ^2
+0.014575: Neighbors(A, E) & ValType(A, 'industry') >> ValType(E, 'personal') ^2
+0.006690: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'business') ^2
+0.006719: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'government') ^2
+0.006554: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'industry') ^2
+0.014533: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'macro') ^2
+0.006611: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'other') ^2
+0.006611: Neighbors(A, E) & ValType(A, 'macro') >> ValType(E, 'personal') ^2
+0.015747: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'business') ^2
+0.015745: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'government') ^2
+0.015745: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'industry') ^2
+0.015745: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'macro') ^2
+0.015747: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'other') ^2
+0.015747: Neighbors(A, E) & ValType(A, 'other') >> ValType(E, 'personal') ^2
+0.015534: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'business') ^2
+0.015527: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'government') ^2
+0.015530: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'industry') ^2
+0.015531: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'macro') ^2
+0.015534: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'other') ^2
+0.015748: Neighbors(A, E) & ValType(A, 'personal') >> ValType(E, 'personal') ^2
+0.014908: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'business') ^2
+0.012571: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'government') ^2
+0.012566: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'industry') ^2
+0.012715: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'macro') ^2
+0.012441: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'other') ^2
+0.012433: Neighbors(A, E) & ValType(E, 'business') >> ValType(A, 'personal') ^2
+0.011001: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'business') ^2
+0.014912: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'government') ^2
+0.011097: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'industry') ^2
+0.011321: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'macro') ^2
+0.010997: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'other') ^2
+0.010985: Neighbors(A, E) & ValType(E, 'government') >> ValType(A, 'personal') ^2
+0.014763: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'business') ^2
+0.014941: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'government') ^2
+0.015315: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'industry') ^2
+0.014706: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'macro') ^2
+0.014768: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'other') ^2
+0.014768: Neighbors(A, E) & ValType(E, 'industry') >> ValType(A, 'personal') ^2
+0.006609: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'business') ^2
+0.006803: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'government') ^2
+0.006594: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'industry') ^2
+0.014530: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'macro') ^2
+0.006611: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'other') ^2
+0.006611: Neighbors(A, E) & ValType(E, 'macro') >> ValType(A, 'personal') ^2
+0.015747: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'business') ^2
+0.015746: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'government') ^2
+0.015745: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'industry') ^2
+0.015745: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'macro') ^2
+0.015747: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'other') ^2
+0.015747: Neighbors(A, E) & ValType(E, 'other') >> ValType(A, 'personal') ^2
+0.015322: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'business') ^2
+0.015527: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'government') ^2
+0.015318: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'industry') ^2
+0.015319: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'macro') ^2
+0.015322: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'other') ^2
+0.015528: Neighbors(A, E) & ValType(E, 'personal') >> ValType(A, 'personal') ^2

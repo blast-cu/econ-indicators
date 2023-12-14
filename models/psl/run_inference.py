@@ -2,16 +2,20 @@
 
 import os
 import argparse
+import itertools
 
 from pslpython.model import Model
 from pslpython.partition import Partition
 from pslpython.predicate import Predicate
 from pslpython.rule import Rule
 
+from models.psl.SETTINGS import SETTINGS
+
 MODEL_NAME = 'annotations'
 
 THIS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR = os.path.join(THIS_DIR, 'data')
+RULE_DIR = os.path.join(DATA_DIR, 'rules')
 
 VERBOSE = True
 
@@ -25,28 +29,72 @@ ADDITIONAL_PSL_OPTIONS = {
 
 def main(args):
 
-    split_num = args.split
-    global SPLIT_DIR
-    SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
+    # establish setting parameters
+    setting = args.s
+    
+    print('Setting: ' + setting)
+    try:
+        setting_dict = SETTINGS[setting]
+    except Exception as e:
+        print(e)
+        raise ValueError('Unknown setting: ' + setting)
+    
+    try:
+        rule_files = os.listdir(setting_dict['rule_dir'])
+    except FileNotFoundError:
+        raise ValueError('Unknown rule directory: ' + setting_dict['rule_dir'])
+    
+    # remove rule files without frame or macro_type for speeeed
+    
 
-    model = Model(MODEL_NAME)
-    predicates = add_predicates(model)
-    add_rules(model)
+    for split_num in range(5):
 
-    # Weight Learning
-    learn(model, predicates)
+        global SPLIT_DIR
+        SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
+        SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
+        os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
-    print('Learned Rules:')
-    for rule in model.get_rules():
-        print('   ' + str(rule))
+        ### temporary for fixing lack of macro type
+        if split_num == 2:
+            filtered_rule_files = rule_files
+        else:
+            filtered_rule_files = [f for f in rule_files if 'Frame' in f or 'MacroType' in f]
 
-    # Inference
-    results = infer(model, predicates)
-    write_results(results, model)
+        for rule_file in filtered_rule_files:
+        ########
+        # for rule_file in rule_files:
+
+            rule_name = rule_file.split('.')[0]
+            rule_file = os.path.join(setting_dict['rule_dir'], rule_file)
+        
+            # create directory for split data
+            output_dir = os.path.join(SPLIT_SETTING_DIR, rule_name)
+            os.makedirs(output_dir, exist_ok=False)
+
+            # create model instance
+            model_name = f'{MODEL_NAME}_{setting}_{rule_name}_{split_num}'
+            model = Model(model_name)
+
+            predicates = add_predicates(model)
+            add_rules(model, rule_file)
+
+            # Weight Learning
+            if setting_dict['learn']:
+                learn(model, predicates)
+
+            learned_rule_file = os.path.join(output_dir, 'learned_rules.txt')
+            with open(learned_rule_file, 'w') as f:
+                for rule in model.get_rules():
+                    f.write(str(rule) + '\n')
+
+            # Inference
+            results = infer(model, predicates)
+            write_results(results, model, output_dir)
 
 
-def write_results(results, model):
-    out_dir = os.path.join(SPLIT_DIR, 'inferred-predicates')
+def write_results(results, model, dir):
+    out_dir = os.path.join(SPLIT_DIR, dir)
+    out_dir = os.path.join(out_dir, 'inferred_predicates')
     os.makedirs(out_dir, exist_ok=True)
 
     for predicate in model.get_predicates().values():
@@ -69,7 +117,8 @@ def add_predicates(model):
     predicates = []
     for p in predicate_strs:
         p = p.strip()
-        if VERBOSE: 
+
+        if VERBOSE:
             print(p)
         predicate = Predicate(p, size=2)
         model.add_predicate(predicate)
@@ -78,13 +127,23 @@ def add_predicates(model):
     return predicates
 
 
-def add_rules(model):
+def add_rules(model, rule_file):
 
     if VERBOSE: 
         print('\nAdding rules...')
 
-    predicate_file = os.path.join(DATA_DIR, 'rules.txt')
-    with open(predicate_file) as f:
+    constraint_file = os.path.join(DATA_DIR, 'constraints.txt')
+    with open(constraint_file) as f:
+        constraint_strs = f.readlines()
+    
+    for c in constraint_strs:
+        c = c.strip()
+        if VERBOSE:
+            print(c)
+        constraint = Rule(c)
+        model.add_rule(constraint)
+
+    with open(rule_file) as f:
         rule_strs = f.readlines()
 
     for r in rule_strs:
@@ -146,6 +205,6 @@ def infer(model, predicates):
 
 if (__name__ == '__main__'):
     parser = argparse.ArgumentParser(description='Description of your program')
-    parser.add_argument('--split', type=str, required=True, help='split number 0-4')
+    parser.add_argument('--s', required=True, help='setting mode')
     args = parser.parse_args()
     main(args)

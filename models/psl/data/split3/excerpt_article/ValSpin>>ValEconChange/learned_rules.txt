@@ -1,0 +1,22 @@
+0.074530: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.054751: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.038096: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.028583: PredType(E, B) >> ValType(E, B) ^2
+0.353834: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+0.023274: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
+0.024979: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
+0.022772: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
+0.050558: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+0.032610: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
+0.030258: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
+0.030584: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
+0.033187: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
+0.093177: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
+0.033881: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
+0.033620: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
+0.041305: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2

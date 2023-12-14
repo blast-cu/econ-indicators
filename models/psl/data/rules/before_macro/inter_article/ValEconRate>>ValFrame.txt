@@ -1,0 +1,15 @@
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'other') ^2

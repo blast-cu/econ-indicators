@@ -1,0 +1,10 @@
+,lhs,rhs,count
+0,pos,good,28
+1,pos,poor,3
+2,pos,none,0
+3,neg,good,3
+4,neg,poor,14
+5,neg,none,4
+6,neutral,good,4
+7,neutral,poor,6
+8,neutral,none,8

@@ -2,8 +2,13 @@ ValFrame
 ValEconRate
 ValEconChange
 ValType
+ValMacroType
+ValSpin
 PredFrame
 PredEconRate
 PredEconChange
 PredType
+PredMacroType
+PredSpin
 Contains
+Neighbors

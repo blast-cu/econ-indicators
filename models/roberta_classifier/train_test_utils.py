@@ -102,7 +102,7 @@ def validate(model, val_loader, class_weights):
             outputs = model(input_ids,
                             attention_mask)
 
-            _, predicted = torch.max(outputs, 1)
+            _, predicted = torch.max(outputs.logits, 1)
 
             predicted_labels += predicted.tolist()
             true_labels += labels.tolist()
@@ -145,9 +145,11 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
             labels = batch['label'].to('cuda')
+
             outputs = model(input_ids,
                             attention_mask=attention_mask,
                             labels=labels)
+            
 
             loss = cross_entropy(outputs.logits, labels, weight=class_weights)
             loss.backward()
@@ -240,7 +242,7 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
         .from_pretrained(pretrained_model_name_or_path=model_checkpoint,
                          problem_type="single_label_classification")
 
-    max_length = 514
+    max_length = 512
     train_data = TextClassificationDataset(texts=train_texts,
                                            labels=train_labels,
                                            tokenizer=tokenizer,
@@ -265,6 +267,8 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
     num_labels = len(annotation_map)
     model = RobertaForSequenceClassification\
         .from_pretrained(model_checkpoint, num_labels=num_labels).to('cuda')
+    # model = RobertaForSequenceClassification\
+    #     .from_pretrained(model_checkpoint, num_labels=num_labels)
 
     # Define optimizer and loss function
     optimizer = torch.optim\

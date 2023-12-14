@@ -1,0 +1,2 @@
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2

@@ -1,0 +1,22 @@
+0.028947: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.027261: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.018626: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.016583: PredType(E, B) >> ValType(E, B) ^2
+0.046461: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+0.071280: ValEconChange(A, 'better') >> ValEconRate(A, 'good') ^2
+0.050894: ValEconChange(A, 'better') >> ValEconRate(A, 'none') ^2
+0.062887: ValEconChange(A, 'better') >> ValEconRate(A, 'poor') ^2
+0.081521: ValEconChange(A, 'none') >> ValEconRate(A, 'good') ^2
+0.104228: ValEconChange(A, 'none') >> ValEconRate(A, 'none') ^2
+0.081257: ValEconChange(A, 'none') >> ValEconRate(A, 'poor') ^2
+0.071166: ValEconChange(A, 'same') >> ValEconRate(A, 'good') ^2
+0.071400: ValEconChange(A, 'same') >> ValEconRate(A, 'none') ^2
+0.104207: ValEconChange(A, 'same') >> ValEconRate(A, 'poor') ^2
+0.042100: ValEconChange(A, 'worse') >> ValEconRate(A, 'good') ^2
+0.043548: ValEconChange(A, 'worse') >> ValEconRate(A, 'none') ^2
+0.077632: ValEconChange(A, 'worse') >> ValEconRate(A, 'poor') ^2

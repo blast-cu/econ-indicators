@@ -1,0 +1,10 @@
+,lhs,rhs,count
+0,pos,pos,16
+1,pos,neg,2
+2,pos,neutral,4
+3,neg,pos,6
+4,neg,neg,26
+5,neg,neutral,3
+6,neutral,pos,0
+7,neutral,neg,3
+8,neutral,neutral,20

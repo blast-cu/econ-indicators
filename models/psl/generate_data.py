@@ -8,9 +8,12 @@ from torch.utils.data import DataLoader
 import models.psl.generate_rules as gd
 import models.roberta_classifier.predict_qual as pq
 import models.roberta_classifier.predict_quant as pqt
+import models.roberta_classifier.quant_utils as qu
 import data_utils.get_annotation_stats as gs
 
-MODELS_DIR = 'models/roberta_classifier/tuned_models/'
+import models.utils.dataset as d
+
+QUANT_MODELS_DIR = 'models/roberta_classifier/tuned_models/masked_folds'
 OUT_DIR = 'models/psl/data'
 DB_FILENAME = 'data/data.db'
 
@@ -70,6 +73,8 @@ def write_data_file(out_dir, predicate, file_type, values):
 
     filename = f'{predicate}_{file_type}.txt'
     file_path = os.path.join(out_dir, filename)
+
+    print(f'Writing {file_path}')
     with open(file_path, 'w') as f:
         for value in values:
             f.write(f'{value}\n')
@@ -196,11 +201,12 @@ def predict_article_annotations(articles, split_num):
                 prediction probabilities.
     """
 
-    articles = {k: gs.get_text(k, DB_FILENAME, clean=True) for k, v in articles.items()}
-
+    articles = {k: gs.get_text(k, DB_FILENAME, clean=False) for k, v in articles.items()}
+    articles = {k: v.replace('\n', '') for k, v in articles.items()}
+    
     torch.manual_seed(42)  # Set random seed for reproducibility
 
-    tokenizer = pqt.RobertaTokenizer\
+    tokenizer = pq.RobertaTokenizer\
         .from_pretrained(pretrained_model_name_or_path="roberta-base",
                          problem_type="single_label_classification")
 
@@ -214,8 +220,8 @@ def predict_article_annotations(articles, split_num):
     # load fine-tuned model for each annotation component
     models = {}
     for k in pq.label_maps.keys():
-        model_path = f"models/roberta_classifier/tuned_models/fold{split_num}/qual/{k}_model"
-        models[k] = pqt.RobertaForSequenceClassification\
+        model_path = f"models/roberta_classifier/tuned_models/masked_folds/fold{split_num}/qual/{k}_model"
+        models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
     # create dictionary to store annotations
@@ -265,50 +271,78 @@ def generate_predict_excerpts(excerpts, split_num):
         dict: A dictionary containing the probabilities for each possible 
             value of each ann component.
     """
-
-    excerpts = {k: v['excerpt'] for k, v in excerpts.items()}
-
-    pqt.torch.manual_seed(42)  # Set random seed for reproducibility
-    tokenizer = pq.RobertaTokenizer\
-        .from_pretrained(pretrained_model_name_or_path="roberta-base",
-                         problem_type="single_label_classification")
-
-    data = pq.PredictionDataset(articles=excerpts,
-                                tokenizer=tokenizer,
-                                max_length=512)
-    
-    batch_size = 8
-    loader = DataLoader(data, batch_size=batch_size, shuffle=False)
-
-    model_path = os.path.join(MODELS_DIR, f'fold{split_num}/quant/type_model')
-    type_model = pqt.RobertaForSequenceClassification\
-        .from_pretrained(model_path).to("cuda")
-
-    # TODO: loop over all desired annotation components
-    annotation_component = 'type'
     predict_dict = {}
-    # for annotation_component in gd.qual_map.keys():
-    predict_dict[annotation_component] = []
+    # for annotation_component in gd.quant_map.keys():
+    for annotation_component in ['macro_type']:
 
-    for i, batch in enumerate(loader):
+        # print(annotation_component)
 
-        input_ids = batch['input_ids'].to('cuda')
-        attention_mask = batch['attention_mask'].to('cuda')
-        ids = batch['ids']
+        # excerpts = {k: v['excerpt'] for k, v in excerpts.items()}
+        texts = [[v['indicator'], v['excerpt']] for k, v in excerpts.items() if v[annotation_component] != '\x00']
+        ids = [k for k in excerpts.keys() if excerpts[k][annotation_component] != '\x00']
 
-        outputs = type_model(input_ids, attention_mask=attention_mask)
-        type_outputs = outputs.logits.tolist()
+        # print(texts)
 
-        for i, id in enumerate(ids):
+        pqt.torch.manual_seed(42)  # Set random seed for reproducibility
+        tokenizer = pq.RobertaTokenizer\
+            .from_pretrained(pretrained_model_name_or_path="roberta-base",
+                             problem_type="single_label_classification")
 
-            for j, output in enumerate(type_outputs[i]):
-                probability = logit_to_prob(output)
-                probability = round(probability, 4)
-                annotation_value = pqt.label_maps[annotation_component][j]
+        data = qu.TextClassificationDataset(texts=texts,
+                                            tokenizer=tokenizer,
+                                            ids=ids,
+                                            max_length=512)
+        
+        batch_size = 8
+        loader = DataLoader(data, batch_size=batch_size, shuffle=False)
 
-                to_write = f'{id}\t{annotation_value}\t{probability}'
-                predict_dict[annotation_component].append(to_write)
+        task = annotation_component
+        num_labels = len(set(pqt.label_maps[task].keys()))
+        model_path = os.path.join(QUANT_MODELS_DIR, f'fold{split_num}/quant/{task}_model')
+        type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+        type_model = type_model.from_pretrained(model_path, task).to('cuda')
 
+        # for annotation_component in gd.qual_map.keys():
+        predict_dict[annotation_component] = []
+
+        type_model.eval()
+        with torch.no_grad():
+
+            for i, batch in enumerate(loader):
+
+                start_index = batch['start_index'].to('cuda')
+                end_index = batch['end_index'].to('cuda')
+                input_ids = batch['input_ids'].to('cuda')
+                attention_mask = batch['attention_mask'].to('cuda')
+                article_ids = batch['article_ids'].tolist()
+                ann_ids = batch['ann_ids'].tolist()
+
+                outputs = type_model(start_index,
+                                     end_index,
+                                     input_ids,
+                                     attention_mask)
+
+                type_outputs = outputs.tolist()
+                
+
+                for i, id in enumerate(article_ids):
+
+                    global_id = str(id) + '_' + str(ann_ids[i])
+                    # print(type_outputs[i])
+                    probs = []
+
+
+                    for j, output in enumerate(type_outputs[i]):
+                        probability = logit_to_prob(output)
+                        probability = round(probability, 4)
+                        probs.append(probability)
+                        annotation_value = pqt.label_maps[annotation_component][j]
+
+                        to_write = f'{global_id}\t{annotation_value}\t{probability}'
+                        predict_dict[annotation_component].append(to_write)
+                    
+
+    
     return predict_dict
 
 
@@ -319,6 +353,25 @@ def write_pred_files(out_dir, predict_dict):
         predicate = f'Pred{annotation_component}'
         write_data_file(out_dir, predicate, 'obs', values)
 
+
+def write_preceeds_file(out_dir, articles):
+
+    predicate = 'Neighbors'
+    to_write = []
+    for article_id, article_dict in articles.items():
+        excerpt_ids = article_dict['quant_list']
+        for i, excerpt_id in enumerate(excerpt_ids):
+            if i == 0:
+                continue
+            else: 
+                prev = excerpt_ids[i-1].split('_')
+                curr = excerpt_id.split('_')
+                if prev[0] == curr[0]:  # same article
+                    if int(prev[1]) + 1 == int(curr[1]):
+                        temp = [f'{excerpt_ids[i-1]}\t{excerpt_id}\t1.0']
+                        to_write += temp
+
+    write_data_file(out_dir, predicate, 'obs', to_write)
 
 def main():
     """
@@ -344,9 +397,12 @@ def main():
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
     quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
 
-    split_num = 0
+    predictions = []
+    test_predictions = []
+    labels = []
 
-    for split_num in splits_dict.keys():
+    split_num = 0
+    for split_num in range(5):
         # make directories for split data
         split_learn_dir = os.path.join(OUT_DIR, f'split{split_num}/learn')
         os.makedirs(split_learn_dir, exist_ok=True)
@@ -364,27 +420,37 @@ def main():
         # write contains file linking articles and excerpts
         write_contains_file(split_learn_dir, learn_articles)  # contains
 
+        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+
         # write target and truth files for validation data
         write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+
         write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
-        # predictions for validation set
-        article_preds = predict_article_annotations(learn_articles, split_num)
-        write_pred_files(split_learn_dir, article_preds)  # pred
+        # # # predictions for validation set
+        # article_preds = predict_article_annotations(learn_articles, split_num)
+        # write_pred_files(split_learn_dir, article_preds)  # pred  
 
         exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
         write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
         # GENERATE EVAL DATA #
-        # write_contains_file(split_eval_dir, eval_articles)  # contains
+        write_contains_file(split_eval_dir, eval_articles)  # contains
+
+        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+
         write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
         write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
-        article_preds = predict_article_annotations(eval_articles, split_num)
-        write_pred_files(split_eval_dir, article_preds)  # pred
+        # article_preds = predict_article_annotations(eval_articles, split_num)
+        # write_pred_files(split_eval_dir, article_preds)  # pred
 
         excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
         write_pred_files(split_eval_dir, excerpt_preds)  # pred
+
+
+
+
 
 
 if (__name__ == '__main__'):

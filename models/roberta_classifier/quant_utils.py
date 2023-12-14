@@ -200,10 +200,10 @@ class TextClassificationDataset(Dataset):
             #     print(complete)
         
         if indicator_indices is None:
-            print('Indicator not found in excerpt')
-            print(indicator_text)
-            print(text)
-            print()
+            # print('Indicator not found in excerpt')
+            # print(indicator_text)
+            # print(text)
+            # print()
             indicator_indices = [0, 1]
 
         return {
@@ -433,4 +433,3 @@ def test(model, test_loader):
         print(f"Test F1: {test_f1:.4f}")
 
         return out_labels, out_predicted, test_f1
-        return None

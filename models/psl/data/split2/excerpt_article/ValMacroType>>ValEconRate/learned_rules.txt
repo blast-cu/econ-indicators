@@ -1,0 +1,52 @@
+0.017693: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.015882: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.011762: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.013782: PredType(E, B) >> ValType(E, B) ^2
+0.009764: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.024683: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValMacroType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'none') .
+Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'none') .
+Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'none') .
+Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'none') .
+0.028841: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'good') ^2
+0.029526: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'none') ^2
+0.028825: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'poor') ^2
+0.031776: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'good') ^2
+0.031776: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'none') ^2
+0.032604: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'poor') ^2
+0.024256: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'good') ^2
+0.024749: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'none') ^2
+0.022454: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'poor') ^2
+0.025798: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'good') ^2
+0.025801: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'none') ^2
+0.031780: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'poor') ^2
+0.012909: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'good') ^2
+0.008772: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'none') ^2
+0.013995: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'poor') ^2
+0.013333: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'good') ^2
+0.012087: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'none') ^2
+0.016095: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'poor') ^2
+0.013994: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'good') ^2
+0.013347: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'none') ^2
+0.021281: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'poor') ^2
+0.032734: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'good') ^2
+0.032667: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'none') ^2
+0.032610: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'poor') ^2
+0.030234: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'good') ^2
+0.029516: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'none') ^2
+0.029511: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'poor') ^2
+0.026358: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'good') ^2
+0.026360: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'none') ^2
+0.032605: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'poor') ^2
+0.031776: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'good') ^2
+0.029518: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'none') ^2
+0.030232: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'poor') ^2
+0.030241: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'good') ^2
+0.023329: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'none') ^2
+0.024744: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'poor') ^2

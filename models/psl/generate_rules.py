@@ -5,6 +5,8 @@ import pickle
 import itertools
 from torch.utils.data import DataLoader, Dataset
 
+from itertools import permutations
+
 OUT_DIR = 'models/psl/data'
 
 qual_map = {
@@ -38,18 +40,26 @@ quant_map = {
         'personal': 3,
         'business': 4,
         'other': 5
+    },
+    'macro_type': {
+        'jobs': 0,
+        'retail': 1,
+        'interest': 2,
+        'prices': 3,
+        'energy': 4,
+        'wages': 5,
+        'macro': 6,
+        'market': 7,
+        'currency': 8,
+        'housing': 9,
+        'other': 10,
+        'none': 11
+    },
+    'spin': {
+        'pos': 0,
+        'neg': 1,
+        'neutral': 2
     }
-    # },
-    # 'macro_type': {}, 
-    # 'industry_type': {},
-    # 'gov_type': {},
-    # 'expenditure_type': {},
-    # 'revenue_type': {},
-    # 'spin': {
-    #     'pos': 0,
-    #     'neg': 1,
-    #     'neutral': 2
-    # }
 }
 
 qual_pred_map = {
@@ -205,6 +215,9 @@ def get_inter_rules(predicates, pred_map, map):
                 rule_str = f"1.0: {c[0]}(A, '{v1}') >> {c[1]}(A, '{v2}') ^2"
                 rules.append(rule_str)
 
+                rule_str = f"1.0: {c[1]}(A, '{v2}') >> {c[0]}(A, '{v1}') ^2"
+                rules.append(rule_str)
+
     return rules
 
 def get_inter_rules_2(qual_predicates, quant_predicates):
@@ -238,6 +251,44 @@ def get_inter_rules_2(qual_predicates, quant_predicates):
 
     return rules
 
+
+def get_inter_rules_3(quant_predicates):
+
+    rules = []
+
+    for quant in quant_predicates:
+        ann_type = quant_pred_map[quant]
+        quant_vals = quant_map[ann_type].keys()
+
+        for quant_val in quant_vals:
+
+            for quant_type2 in quant_predicates:
+                ann_type = quant_pred_map[quant_type2]
+                quant_vals2 = quant_map[ann_type].keys()
+
+                for quant_val in quant_vals:
+                    for quant_val2 in quant_vals2:
+                        rule_str = f"1.0: Neighbors(A, E) & {quant}(A, '{quant_val}') >> {quant_type2}(E, '{quant_val2}') ^2"
+                        rules.append(rule_str)
+
+                        rule_str = f"1.0: Neighbors(A, E) & {quant}(E, '{quant_val}') >> {quant_type2}(A, '{quant_val2}') ^2"
+                        rules.append(rule_str)
+
+    rules = list(set(rules))
+
+    return rules
+
+def macro_type_constraints():
+
+    constraints = []
+    frame_vals = qual_map['frame'].keys()
+    for frame_val in frame_vals:
+        if frame_val != 'macro':
+            constraint_str = f"Contains(A, E) & ValFrame(A, '{frame_val}') >> ValMacroType(E, 'none') ."
+            constraints.append(constraint_str)
+
+    return constraints
+
 def main(args):
 
     # ensure output directory exists
@@ -251,35 +302,110 @@ def main(args):
 
     predicates = val_qual_predicates + val_quant_predicates + \
         pred_qual_predicates + pred_quant_predicates \
-        + ['Contains']
+        + ['Contains', 'Neighbors']
 
     # write predicates to file
     filename = 'predicates.txt'
     file_path = os.path.join(OUT_DIR, filename)
     write_file(file_path, predicates)
 
+    constraints = []
     # rules linking predictions and values
     qual_predicates = zip(pred_qual_predicates, val_qual_predicates)
-    rules = get_pred_val_rules(qual_predicates, 'qual')
+    constraints += get_pred_val_rules(qual_predicates, 'qual')
 
     quant_predicates = zip(pred_quant_predicates, val_quant_predicates)
-    rules += get_pred_val_rules(quant_predicates, 'quant')
+    constraints += get_pred_val_rules(quant_predicates, 'quant')
 
     # interrelatedness between qual and quant, respectively
-    rules += get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
+    rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
     rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
 
     # interrelatedness between qual and quant
     rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
 
-    # mutex constraints
-    rules += mutex_constraint(val_qual_predicates, 'qual')
-    rules += mutex_constraint(val_quant_predicates, 'quant')
+    # interrelatedness between quants
+    rules += get_inter_rules_3(val_quant_predicates)
+
+    # # mutex constraints
+    constraints += mutex_constraint(val_qual_predicates, 'qual')
+    constraints += mutex_constraint(val_quant_predicates, 'quant')
+
+    # macro type constraint
+    constraints += macro_type_constraints()
+
+    rules.sort()
     
     # write rules to file
-    filename = 'rules.txt'
-    file_path = os.path.join(OUT_DIR, filename)
-    write_file(file_path, rules)
+    rule_dir = os.path.join(OUT_DIR, 'rules')
+    filename = os.path.join(rule_dir, 'all_rules', 'all_rules.txt')
+    write_file(filename, rules)
+
+    constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
+    write_file(constraint_filename, constraints)
+
+    article_predicates = [ 'ValFrame', 'ValEconRate', 'ValEconChange']
+    excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
+
+
+    # INTER ARTICLE RULES ##########################################
+    # generate inter-annotation rule files
+    article_perms = list(permutations(article_predicates, 2))
+    print(article_perms)
+    setting_dir = os.path.join(rule_dir, 'inter_article')
+    os.makedirs(setting_dir, exist_ok=False)
+    for p in article_perms:
+        filename = f'{p[0]}>>{p[1]}.txt'
+        file_path = os.path.join(setting_dir, filename)
+        out_rules = []
+        for r in rules:
+            r_split = r.split('>>')
+            if p[0] in r_split[0] and p[1] in r_split[1]:
+                out_rules.append(r.strip())
+        write_file(file_path, out_rules)
+
+    
+    # excerpt >> article rules ##########################################
+    combinations = []
+    setting_dir = os.path.join(rule_dir, 'excerpt_article')
+    os.makedirs(setting_dir, exist_ok=False)
+
+    for i in excerpt_predicates:
+        for j in article_predicates:
+            limit = [i,j]
+            combinations.append(limit)
+    print(combinations)
+
+    for p in combinations:
+        filename = f'{p[0]}>>{p[1]}.txt'
+        file_path = os.path.join(setting_dir, filename)
+        out_rules = []
+        for r in rules:
+            r_split = r.split('>>')
+            if p[0] in r_split[0] and p[1] in r_split[1]:
+                out_rules.append(r.strip())
+        write_file(file_path, out_rules)
+    
+
+
+    # # NEIGHBOR RULES ##########################################
+    combinations = []
+    setting_dir = os.path.join(rule_dir, 'neighbors')
+    os.makedirs(setting_dir, exist_ok=False)
+    for i in excerpt_predicates:
+        for j in excerpt_predicates:
+            limit = [i, j]
+            combinations.append(limit)
+    print(combinations)
+    for p in combinations:
+        filename = f'{p[0]}>>{p[1]}.txt'
+        file_path = os.path.join(setting_dir, filename)
+        out_rules = []
+        for r in rules:
+            r_split = r.split('>>')
+            if p[0] in r_split[0] and p[1] in r_split[1]:
+                out_rules.append(r.strip())
+        write_file(file_path, out_rules)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

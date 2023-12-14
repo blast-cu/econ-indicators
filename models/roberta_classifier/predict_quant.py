@@ -27,11 +27,11 @@ label_maps = {
         1: 'other'
     },
     'spin': {
-        0: 'positive',
-        1: 'negative',
+        0: 'pos',
+        1: 'neg',
         2: 'neutral'
     },
-    'macro_type': {
+    'macro_type': { 
         0: 'jobs',
         1: 'retail',
         2: 'interest',
@@ -42,7 +42,8 @@ label_maps = {
         7: 'market',
         8: 'currency',
         9: 'housing',
-        10: 'other'
+        10: 'other',
+        11: 'none'
     }
 }
 
@@ -272,7 +273,7 @@ def main():
             spin_prediction = int(spin_predicted[i].item())
             macro_type_prediction = int(macro_type_predicted[i].item())
 
-            if annotations[global_id]['spin'] == '':
+            if annotations[global_id]['spin'] == '' or annotations[global_id]['spin'] == '\x00':
                 annotations[global_id]['spin'] = label_maps['spin'][spin_prediction]
             if annotations[global_id]['macro_type'] == '' or annotations[global_id]['macro_type'] == '\x00':
                 annotations[global_id]['macro_type'] = label_maps['macro_type'][macro_type_prediction]

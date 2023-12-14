@@ -106,17 +106,18 @@ def main(args):
     # for k, v in agreed_quant_ann.items():
     #     print(k, v)
 
-    # print split dictionary
-    for k in split_dict.keys():
-        print(f"Fold {k}")
-        print(f"Train: {split_dict[k]['train']}")
-        print(f"Test: {split_dict[k]['test']}")
+    # # print split dictionary
+    # for k in split_dict.keys():
+    #     print(f"Fold {k}")
+    #     print(f"Train: {split_dict[k]['train']}")
+    #     print(f"Test: {split_dict[k]['test']}")
 
-    # save dictionaries as pickles 
-    base_dir = 'data/clean/'
-    d.save_progress(split_dict, f'{base_dir}splits_dict')
-    d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
-    d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
+    # # save dictionaries as pickles 
+    # base_dir = 'data/clean/'
+    # d.save_progress(split_dict, f'{base_dir}splits_dict')
+    # d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
+    # d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
+    print(agreed_quant_ann)
 
 
 if __name__ == '__main__':
