@@ -38,7 +38,7 @@ import os
 import random
 from itertools import product
 
-from models.llama_chat.data_handler import LlamaChatPromptGenerator
+from models.llama_chat.data_handler import ExcerptTypePromptHandler
 
 from huggingface_hub import login
 login("")
@@ -50,7 +50,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 3. Setting up data
 '''
 
-prompts = LlamaChatPromptGenerator()
+prompts = ExcerptTypePromptHandler()
 
 
 '''

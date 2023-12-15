@@ -1,7 +1,7 @@
 import pickle
 import random
 
-class LlamaChatPromptGenerator(object) :
+class ExcerptTypePromptHandler(object) :
 
     prompt = '''
 Take a look at the following definitions of economic domains that newspaper excerpts cover.
@@ -29,6 +29,7 @@ government: Any value that describes how a government earned or spent its income
 
 personal: If data point focuses on the economic condition of a single person, or a group of individuals that \
     is not large enough to represent an entire demographic then we consider it personal
+
     '''
 
     def __init__(self, path_to_splits_dict:str="data/splits_dict", 
@@ -54,17 +55,13 @@ personal: If data point focuses on the economic condition of a single person, or
                 label = self.excerpts[e_id]['type']
                 yield (article_id, e_id , prompt, label)
 
-    def save_prediction(self, e_id, predicted_label) : 
-        self.predicted_excerpts[e_id]['predicted_type'] = predicted_label
-
-            
+    def save_prediction(self, e_id, prediction_category:str, predicted_label) : 
+        self.predicted_excerpts[e_id][f'predicted_{prediction_category}'] = predicted_label
 
     def flush_predictions(self) : 
         with open(self.path_to_save_predictions, 'wb') as f : 
                 pickle.dump(self.predicted_excerpts, f)
 
-
-        
     def create_prompt(self, excerpt_to_predict) : 
 
         example_texts = []
@@ -104,11 +101,15 @@ personal: If data point focuses on the economic condition of a single person, or
         for excerpt_id, excerpt in excerpts_for_examples.items() : 
 
             excerpt_label = excerpt["type"]
-            if excerpt_label not in examples : 
+            if excerpt_label in ['macro' , 'government' , 'industry' , 'business' , 'personal'] : 
+                if excerpt_label not in examples :  
 
-                examples[excerpt_label] = [excerpt["excerpt"]]
-            else : 
-                examples[excerpt_label].append(excerpt["excerpt"])
+                    examples[excerpt_label] = [excerpt["excerpt"]]
+                else : 
+                    examples[excerpt_label].append(excerpt["excerpt"])
+
+            if len(examples) == 5 : 
+                return examples
 
         return examples
     
@@ -131,4 +132,16 @@ personal: If data point focuses on the economic condition of a single person, or
 
             
 
-        
+if __name__ == "__main__" : 
+
+    prompts = ExcerptTypePromptHandler()
+
+    for i, p in enumerate(prompts.generator(0)) : 
+         
+        # if p[3] != "government" : 
+        print((p[2]))
+        print(p[3])
+
+        print("----****____----")
+
+        break
