@@ -56,7 +56,7 @@ article_spin_jobs = macro_data %>%
          per_pos = positive / total,
          article_spin = if_else(per_neg >= 2*per_pos, "negative", "neutral"),
          article_spin = if_else(per_pos >= 2*per_neg, "positive", article_spin)) %>% 
-  filter(total > 0) %>%
+  filter(total > 1) %>%
   group_by(source, yq, article_spin) %>% 
   summarise(count = n()) %>% 
   mutate(total = sum(count),
