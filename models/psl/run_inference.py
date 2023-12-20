@@ -54,22 +54,22 @@ def main(args):
         SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
         os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
-        ### temporary for fixing lack of macro type
-        if split_num == 2:
-            filtered_rule_files = rule_files
-        else:
-            filtered_rule_files = [f for f in rule_files if 'Frame' in f or 'MacroType' in f]
+        ## temporary for fixing lack of macro type
+        # if split_num == 2:
+        #     filtered_rule_files = rule_files
+        # else:
+        #     filtered_rule_files = [f for f in rule_files if 'MacroType' in f]
 
-        for rule_file in filtered_rule_files:
-        ########
-        # for rule_file in rule_files:
+        # for rule_file in filtered_rule_files:
+        #######
+        for rule_file in rule_files:
 
             rule_name = rule_file.split('.')[0]
             rule_file = os.path.join(setting_dict['rule_dir'], rule_file)
         
             # create directory for split data
             output_dir = os.path.join(SPLIT_SETTING_DIR, rule_name)
-            os.makedirs(output_dir, exist_ok=False)
+            os.makedirs(output_dir, exist_ok=True)
 
             # create model instance
             model_name = f'{MODEL_NAME}_{setting}_{rule_name}_{split_num}'
@@ -120,7 +120,11 @@ def add_predicates(model):
 
         if VERBOSE:
             print(p)
-        predicate = Predicate(p, size=2)
+        
+        size = 2
+        if p == 'HasTypeAnn':
+            size = 1
+        predicate = Predicate(p, size=size)
         model.add_predicate(predicate)
         predicates.append(predicate)
 

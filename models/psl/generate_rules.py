@@ -136,15 +136,23 @@ def get_pred_val_rules(predicates, annotation_type):
 
     """
     rules = []
+    if annotation_type == 'qual' or annotation_type == 'quant':
+        if annotation_type == 'qual':
+            sym1 = 'A'
+        elif annotation_type == 'quant':
+            sym1 = 'E'
+        
+        for pred_predicate, val_predicate in predicates:
+            rule = f'1.0: {pred_predicate}({sym1}, B) >> {val_predicate}({sym1}, B) ^2'
+            rules.append(rule)
 
-    if annotation_type == 'qual':
-        sym1 = 'A'
-    elif annotation_type == 'quant':
-        sym1 = 'E'
-    
-    for pred_predicate, val_predicate in predicates:
-        rule = f'1.0: {pred_predicate}({sym1}, B) >> {val_predicate}({sym1}, B) ^2'
-        rules.append(rule)
+    elif annotation_type == 'agreement':
+        sym1 = 'E1'
+        sym2 = 'E2'
+        for pred_predicate, val_predicate in predicates:
+            rule = f'1.0: {pred_predicate}({sym1}, {sym2}, B) >> {val_predicate}({sym1}, {sym2}, B) ^2'
+            rules.append(rule)
+
 
     return rules
 
@@ -281,11 +289,23 @@ def get_inter_rules_3(quant_predicates):
 def macro_type_constraints():
 
     constraints = []
-    frame_vals = qual_map['frame'].keys()
-    for frame_val in frame_vals:
-        if frame_val != 'macro':
-            constraint_str = f"Contains(A, E) & ValFrame(A, '{frame_val}') >> ValMacroType(E, 'none') ."
+    for val in quant_map['type'].keys():
+        if val != 'macro':
+            constraint_str = f"ValType(A, '{val}') >> ValMacroType(A, 'none') ."
             constraints.append(constraint_str)
+
+    for val in quant_map['macro_type'].keys():
+        if val != 'none':
+            constraint_str = f"HasTypeAnn(A) & ValMacroType(A, '{val}') >> ValType(A, 'macro') ."
+            constraints.append(constraint_str)
+    
+    constraint_str = f"HasTypeAnn(A) & ValMacroType(A, 'none') >> "
+    for val in quant_map['type'].keys():
+        if val != 'macro':
+            constraint_str += f" ValType(A, '{val}') |"
+    constraint_str = constraint_str[:-1]
+
+    constraints.append(constraint_str + '.')
 
     return constraints
 
@@ -300,9 +320,14 @@ def main(args):
     pred_qual_predicates = get_predicates(qual_map, 'Pred')
     pred_quant_predicates = get_predicates(quant_map, 'Pred')
 
+    agreement_pred_predicates = ['PredAgreeType', 'PredAgreeSpin', 'PredAgreeMacroType']
+    agreement_val_predicates = ['ValAgreeType', 'ValAgreeSpin', 'ValAgreeMacroType']
+    agreement_predicates = agreement_pred_predicates + agreement_val_predicates
+
     predicates = val_qual_predicates + val_quant_predicates + \
         pred_qual_predicates + pred_quant_predicates \
-        + ['Contains', 'Neighbors']
+        + agreement_predicates \
+        + ['Contains', 'Neighbors', 'HasTypeAnn']
 
     # write predicates to file
     filename = 'predicates.txt'
@@ -317,15 +342,19 @@ def main(args):
     quant_predicates = zip(pred_quant_predicates, val_quant_predicates)
     constraints += get_pred_val_rules(quant_predicates, 'quant')
 
-    # interrelatedness between qual and quant, respectively
-    rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
-    rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
+    agreement_predicates = zip(agreement_pred_predicates, agreement_val_predicates)
+    
+    constraints += get_pred_val_rules(agreement_predicates, 'agreement')
 
-    # interrelatedness between qual and quant
-    rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
+    # # interrelatedness between qual and quant, respectively
+    # rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
+    # rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
 
-    # interrelatedness between quants
-    rules += get_inter_rules_3(val_quant_predicates)
+    # # interrelatedness between qual and quant
+    # rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
+
+    # # interrelatedness between quants
+    # rules += get_inter_rules_3(val_quant_predicates)
 
     # # mutex constraints
     constraints += mutex_constraint(val_qual_predicates, 'qual')
@@ -334,78 +363,83 @@ def main(args):
     # macro type constraint
     constraints += macro_type_constraints()
 
-    rules.sort()
+    # rules.sort()
     
-    # write rules to file
-    rule_dir = os.path.join(OUT_DIR, 'rules')
-    filename = os.path.join(rule_dir, 'all_rules', 'all_rules.txt')
-    write_file(filename, rules)
+    # # write rules to file
+    # rule_dir = os.path.join(OUT_DIR, 'rules')
+    # filename = os.path.join(rule_dir, 'all_rules', 'all_rules.txt')
+    # write_file(filename, rules)
 
     constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
     write_file(constraint_filename, constraints)
 
-    article_predicates = [ 'ValFrame', 'ValEconRate', 'ValEconChange']
-    excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
 
 
-    # INTER ARTICLE RULES ##########################################
-    # generate inter-annotation rule files
-    article_perms = list(permutations(article_predicates, 2))
-    print(article_perms)
-    setting_dir = os.path.join(rule_dir, 'inter_article')
-    os.makedirs(setting_dir, exist_ok=False)
-    for p in article_perms:
-        filename = f'{p[0]}>>{p[1]}.txt'
-        file_path = os.path.join(setting_dir, filename)
-        out_rules = []
-        for r in rules:
-            r_split = r.split('>>')
-            if p[0] in r_split[0] and p[1] in r_split[1]:
-                out_rules.append(r.strip())
-        write_file(file_path, out_rules)
+
+
+
+    # article_predicates = [ 'ValFrame', 'ValEconRate', 'ValEconChange']
+    # excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
+
+
+    # # INTER ARTICLE RULES ##########################################
+    # # generate inter-annotation rule files
+    # article_perms = list(permutations(article_predicates, 2))
+    # print(article_perms)
+    # setting_dir = os.path.join(rule_dir, 'inter_article')
+    # os.makedirs(setting_dir, exist_ok=False)
+    # for p in article_perms:
+    #     filename = f'{p[0]}>>{p[1]}.txt'
+    #     file_path = os.path.join(setting_dir, filename)
+    #     out_rules = []
+    #     for r in rules:
+    #         r_split = r.split('>>')
+    #         if p[0] in r_split[0] and p[1] in r_split[1]:
+    #             out_rules.append(r.strip())
+    #     write_file(file_path, out_rules)
 
     
-    # excerpt >> article rules ##########################################
-    combinations = []
-    setting_dir = os.path.join(rule_dir, 'excerpt_article')
-    os.makedirs(setting_dir, exist_ok=False)
+    # # excerpt >> article rules ##########################################
+    # combinations = []
+    # setting_dir = os.path.join(rule_dir, 'excerpt_article')
+    # os.makedirs(setting_dir, exist_ok=False)
 
-    for i in excerpt_predicates:
-        for j in article_predicates:
-            limit = [i,j]
-            combinations.append(limit)
-    print(combinations)
+    # for i in excerpt_predicates:
+    #     for j in article_predicates:
+    #         limit = [i,j]
+    #         combinations.append(limit)
+    # print(combinations)
 
-    for p in combinations:
-        filename = f'{p[0]}>>{p[1]}.txt'
-        file_path = os.path.join(setting_dir, filename)
-        out_rules = []
-        for r in rules:
-            r_split = r.split('>>')
-            if p[0] in r_split[0] and p[1] in r_split[1]:
-                out_rules.append(r.strip())
-        write_file(file_path, out_rules)
+    # for p in combinations:
+    #     filename = f'{p[0]}>>{p[1]}.txt'
+    #     file_path = os.path.join(setting_dir, filename)
+    #     out_rules = []
+    #     for r in rules:
+    #         r_split = r.split('>>')
+    #         if p[0] in r_split[0] and p[1] in r_split[1]:
+    #             out_rules.append(r.strip())
+    #     write_file(file_path, out_rules)
     
 
 
-    # # NEIGHBOR RULES ##########################################
-    combinations = []
-    setting_dir = os.path.join(rule_dir, 'neighbors')
-    os.makedirs(setting_dir, exist_ok=False)
-    for i in excerpt_predicates:
-        for j in excerpt_predicates:
-            limit = [i, j]
-            combinations.append(limit)
-    print(combinations)
-    for p in combinations:
-        filename = f'{p[0]}>>{p[1]}.txt'
-        file_path = os.path.join(setting_dir, filename)
-        out_rules = []
-        for r in rules:
-            r_split = r.split('>>')
-            if p[0] in r_split[0] and p[1] in r_split[1]:
-                out_rules.append(r.strip())
-        write_file(file_path, out_rules)
+    # # # NEIGHBOR RULES ##########################################
+    # combinations = []
+    # setting_dir = os.path.join(rule_dir, 'neighbors')
+    # os.makedirs(setting_dir, exist_ok=False)
+    # for i in excerpt_predicates:
+    #     for j in excerpt_predicates:
+    #         limit = [i, j]
+    #         combinations.append(limit)
+    # print(combinations)
+    # for p in combinations:
+    #     filename = f'{p[0]}>>{p[1]}.txt'
+    #     file_path = os.path.join(setting_dir, filename)
+    #     out_rules = []
+    #     for r in rules:
+    #         r_split = r.split('>>')
+    #         if p[0] in r_split[0] and p[1] in r_split[1]:
+    #             out_rules.append(r.strip())
+    #     write_file(file_path, out_rules)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

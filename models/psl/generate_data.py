@@ -41,7 +41,9 @@ def load_train_test_data(split_dict, qual_dict, quant_dict):
     train_excerpt_ids = []
     for id in train_article_ids:
         train_excerpt_ids += qual_dict[id]['quant_list']
+
     train_excerpts = {id: quant_dict[id] for id in train_excerpt_ids}
+
 
     # load test article and excerpt dicts
     test_article_ids = split_dict['test']
@@ -50,6 +52,7 @@ def load_train_test_data(split_dict, qual_dict, quant_dict):
     test_excerpt_ids = []
     for id in test_article_ids:
         test_excerpt_ids += qual_dict[id]['quant_list']
+
     test_excerpts = {id: quant_dict[id] for id in test_excerpt_ids}
 
     return train_articles, train_excerpts, test_articles, test_excerpts
@@ -147,27 +150,37 @@ def write_target_files(out_dir, articles, map, truth=True):
     """
     
     article_ann_dict = {}
+    truth_ann_dict = {}
     for id in articles.keys():
         for ann in map.keys():
             if ann != 'quant_list' and ann != 'excerpts':
                 if ann not in article_ann_dict:
                     article_ann_dict[ann] = []
+                    truth_ann_dict[ann] = []
+                truth_list = []
+                found_val = False
                 for value in map[ann]:
                     if articles[id][ann] == value:
                         weight = 1.0
+                        found_val = True
                     else:
                         weight = 0.0
                     to_write = f'{id}\t{value}\t{weight}'
                     article_ann_dict[ann].append(to_write)
-    
+                    truth_list.append(to_write)
+                if found_val:
+                    truth_ann_dict[ann] += truth_list
+
+    print(truth_ann_dict)
     for ann, values in article_ann_dict.items():
-        ann = gd.camel_case(ann, upper=True)
-        predicate = f'Val{ann}'
+        ann2 = gd.camel_case(ann, upper=True)
+        predicate = f'Val{ann2}'
         target_values = [value[:-4] for value in values]
-        write_data_file(out_dir, predicate, 'target', target_values)
+        # write_data_file(out_dir, predicate, 'target', target_values)
 
         if truth:
-            write_data_file(out_dir, predicate, 'truth', values)
+            
+            write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
 
 def logit_to_prob(logit):
@@ -220,7 +233,7 @@ def predict_article_annotations(articles, split_num):
     # load fine-tuned model for each annotation component
     models = {}
     for k in pq.label_maps.keys():
-        model_path = f"models/roberta_classifier/tuned_models/masked_folds/fold{split_num}/qual/{k}_model"
+        model_path = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/fold{split_num}/qual/{k}_model"
         models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
@@ -246,7 +259,7 @@ def predict_article_annotations(articles, split_num):
             outputs = outputs.logits.tolist()
 
             for i, id in enumerate(ids.tolist()):
-
+                probs = []
                 for j, output in enumerate(outputs[i]):
                     probability = logit_to_prob(output)
                     probability = round(probability, 4)
@@ -254,6 +267,7 @@ def predict_article_annotations(articles, split_num):
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
                     predict_dict[annotation_component].append(to_write)
+                
 
     return predict_dict
 
@@ -272,10 +286,8 @@ def generate_predict_excerpts(excerpts, split_num):
             value of each ann component.
     """
     predict_dict = {}
-    # for annotation_component in gd.quant_map.keys():
-    for annotation_component in ['macro_type']:
 
-        # print(annotation_component)
+    for annotation_component in gd.quant_map.keys():
 
         # excerpts = {k: v['excerpt'] for k, v in excerpts.items()}
         texts = [[v['indicator'], v['excerpt']] for k, v in excerpts.items() if v[annotation_component] != '\x00']
@@ -342,6 +354,7 @@ def generate_predict_excerpts(excerpts, split_num):
                         predict_dict[annotation_component].append(to_write)
                     
 
+
     
     return predict_dict
 
@@ -373,6 +386,18 @@ def write_preceeds_file(out_dir, articles):
 
     write_data_file(out_dir, predicate, 'obs', to_write)
 
+def write_has_frame_ann_file(out_dir, excerpts):
+
+    predicate = 'HasTypeAnn'
+    to_write = []
+    for article_id, ann_dict in excerpts.items():
+        if ann_dict['type'] != '\x00':
+            temp = [f'{article_id}\t1.0']
+            to_write += temp
+        
+
+    write_data_file(out_dir, predicate, 'obs', to_write)
+
 def main():
     """
     Main function for generating data.
@@ -382,7 +407,7 @@ def main():
     2. Loads train and test articles from pickle files.
     3. Creates directories for split data.
     4. Loads learn and eval data for the split.
-    5. For learn and eval: 
+    5. For learn and eval:
         a. Writes contains file linking articles and excerpts.
         b. Writes target and truth files for articles and excerpts.
         c. Writes prediction files for articles and excerpts.
@@ -395,7 +420,7 @@ def main():
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
+    quant_dict = pickle.load(open(split_dir + 'quant_dict_clean', 'rb'))
 
     predictions = []
     test_predictions = []
@@ -416,37 +441,41 @@ def main():
                                  qual_dict,
                                  quant_dict)
 
-        # GENERATE LEARN DATA #
-        # write contains file linking articles and excerpts
-        write_contains_file(split_learn_dir, learn_articles)  # contains
+        # # GENERATE LEARN DATA #
+        # # write contains file linking articles and excerpts
+        # write_contains_file(split_learn_dir, learn_articles)  # contains
 
-        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+        # write_has_frame_ann_file(split_learn_dir, learn_excerpts)  # HasFrameAnn
+
+        # write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
         # write target and truth files for validation data
-        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        # write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
 
-        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        # write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
-        # # # predictions for validation set
-        # article_preds = predict_article_annotations(learn_articles, split_num)
-        # write_pred_files(split_learn_dir, article_preds)  # pred  
+        # # predictions for validation set
+        article_preds = predict_article_annotations(learn_articles, split_num)
+        write_pred_files(split_learn_dir, article_preds)  # pred  
 
-        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-        write_pred_files(split_learn_dir, exerpt_preds)  # pred
+        # # exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        # # write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
-        # GENERATE EVAL DATA #
-        write_contains_file(split_eval_dir, eval_articles)  # contains
+        # # GENERATE EVAL DATA #
+        # write_contains_file(split_eval_dir, eval_articles)  # contains
 
-        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+        # write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
 
-        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        # write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+
+        # write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        # write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
-        # article_preds = predict_article_annotations(eval_articles, split_num)
-        # write_pred_files(split_eval_dir, article_preds)  # pred
+        article_preds = predict_article_annotations(eval_articles, split_num)
+        write_pred_files(split_eval_dir, article_preds)  # pred
 
-        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-        write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        # excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        # write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 

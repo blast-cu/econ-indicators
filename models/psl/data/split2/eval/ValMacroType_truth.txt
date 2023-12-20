@@ -9,7 +9,7 @@
 439_1	currency	0.0
 439_1	housing	0.0
 439_1	other	0.0
-439_1	none	0.0
+439_1	none	1.0
 439_2	jobs	0.0
 439_2	retail	0.0
 439_2	interest	0.0
@@ -21,7 +21,7 @@
 439_2	currency	0.0
 439_2	housing	0.0
 439_2	other	0.0
-439_2	none	0.0
+439_2	none	1.0
 44_15	jobs	0.0
 44_15	retail	0.0
 44_15	interest	0.0
@@ -33,7 +33,7 @@
 44_15	currency	0.0
 44_15	housing	0.0
 44_15	other	0.0
-44_15	none	0.0
+44_15	none	1.0
 44_20	jobs	0.0
 44_20	retail	0.0
 44_20	interest	0.0
@@ -45,7 +45,7 @@
 44_20	currency	0.0
 44_20	housing	0.0
 44_20	other	0.0
-44_20	none	0.0
+44_20	none	1.0
 44_23	jobs	0.0
 44_23	retail	0.0
 44_23	interest	0.0
@@ -57,7 +57,7 @@
 44_23	currency	0.0
 44_23	housing	0.0
 44_23	other	0.0
-44_23	none	0.0
+44_23	none	1.0
 44_24	jobs	0.0
 44_24	retail	0.0
 44_24	interest	0.0
@@ -69,7 +69,7 @@
 44_24	currency	0.0
 44_24	housing	0.0
 44_24	other	0.0
-44_24	none	0.0
+44_24	none	1.0
 44_25	jobs	0.0
 44_25	retail	0.0
 44_25	interest	0.0
@@ -81,19 +81,7 @@
 44_25	currency	0.0
 44_25	housing	0.0
 44_25	other	0.0
-44_25	none	0.0
-44_11	jobs	0.0
-44_11	retail	0.0
-44_11	interest	0.0
-44_11	prices	0.0
-44_11	energy	0.0
-44_11	wages	0.0
-44_11	macro	0.0
-44_11	market	0.0
-44_11	currency	0.0
-44_11	housing	0.0
-44_11	other	0.0
-44_11	none	0.0
+44_25	none	1.0
 44_18	jobs	0.0
 44_18	retail	0.0
 44_18	interest	0.0
@@ -105,7 +93,7 @@
 44_18	currency	0.0
 44_18	housing	0.0
 44_18	other	0.0
-44_18	none	0.0
+44_18	none	1.0
 258_0	jobs	0.0
 258_0	retail	0.0
 258_0	interest	0.0
@@ -117,7 +105,7 @@
 258_0	currency	0.0
 258_0	housing	0.0
 258_0	other	0.0
-258_0	none	0.0
+258_0	none	1.0
 258_3	jobs	0.0
 258_3	retail	0.0
 258_3	interest	0.0
@@ -129,7 +117,7 @@
 258_3	currency	0.0
 258_3	housing	0.0
 258_3	other	0.0
-258_3	none	0.0
+258_3	none	1.0
 258_4	jobs	0.0
 258_4	retail	0.0
 258_4	interest	0.0
@@ -141,7 +129,7 @@
 258_4	currency	0.0
 258_4	housing	0.0
 258_4	other	0.0
-258_4	none	0.0
+258_4	none	1.0
 258_7	jobs	0.0
 258_7	retail	0.0
 258_7	interest	0.0
@@ -153,7 +141,7 @@
 258_7	currency	0.0
 258_7	housing	0.0
 258_7	other	0.0
-258_7	none	0.0
+258_7	none	1.0
 258_9	jobs	0.0
 258_9	retail	0.0
 258_9	interest	1.0
@@ -189,7 +177,7 @@
 286_0	currency	0.0
 286_0	housing	0.0
 286_0	other	0.0
-286_0	none	0.0
+286_0	none	1.0
 286_2	jobs	0.0
 286_2	retail	0.0
 286_2	interest	0.0
@@ -201,7 +189,7 @@
 286_2	currency	0.0
 286_2	housing	0.0
 286_2	other	0.0
-286_2	none	0.0
+286_2	none	1.0
 286_3	jobs	0.0
 286_3	retail	0.0
 286_3	interest	0.0
@@ -213,7 +201,7 @@
 286_3	currency	0.0
 286_3	housing	0.0
 286_3	other	0.0
-286_3	none	0.0
+286_3	none	1.0
 286_5	jobs	0.0
 286_5	retail	0.0
 286_5	interest	0.0
@@ -225,7 +213,7 @@
 286_5	currency	0.0
 286_5	housing	0.0
 286_5	other	0.0
-286_5	none	0.0
+286_5	none	1.0
 286_6	jobs	0.0
 286_6	retail	0.0
 286_6	interest	0.0
@@ -237,7 +225,7 @@
 286_6	currency	0.0
 286_6	housing	0.0
 286_6	other	0.0
-286_6	none	0.0
+286_6	none	1.0
 286_7	jobs	0.0
 286_7	retail	0.0
 286_7	interest	0.0
@@ -249,7 +237,7 @@
 286_7	currency	0.0
 286_7	housing	0.0
 286_7	other	0.0
-286_7	none	0.0
+286_7	none	1.0
 286_8	jobs	0.0
 286_8	retail	0.0
 286_8	interest	0.0
@@ -261,7 +249,7 @@
 286_8	currency	0.0
 286_8	housing	0.0
 286_8	other	0.0
-286_8	none	0.0
+286_8	none	1.0
 286_9	jobs	0.0
 286_9	retail	0.0
 286_9	interest	0.0
@@ -273,7 +261,7 @@
 286_9	currency	0.0
 286_9	housing	0.0
 286_9	other	0.0
-286_9	none	0.0
+286_9	none	1.0
 286_16	jobs	0.0
 286_16	retail	0.0
 286_16	interest	0.0
@@ -285,7 +273,7 @@
 286_16	currency	0.0
 286_16	housing	0.0
 286_16	other	0.0
-286_16	none	0.0
+286_16	none	1.0
 286_1	jobs	0.0
 286_1	retail	0.0
 286_1	interest	0.0
@@ -297,7 +285,7 @@
 286_1	currency	0.0
 286_1	housing	0.0
 286_1	other	0.0
-286_1	none	0.0
+286_1	none	1.0
 654_3	jobs	0.0
 654_3	retail	0.0
 654_3	interest	1.0
@@ -345,7 +333,7 @@
 124_0	currency	0.0
 124_0	housing	0.0
 124_0	other	0.0
-124_0	none	0.0
+124_0	none	1.0
 124_1	jobs	0.0
 124_1	retail	0.0
 124_1	interest	0.0
@@ -357,7 +345,7 @@
 124_1	currency	0.0
 124_1	housing	0.0
 124_1	other	0.0
-124_1	none	0.0
+124_1	none	1.0
 124_4	jobs	0.0
 124_4	retail	0.0
 124_4	interest	0.0
@@ -369,7 +357,7 @@
 124_4	currency	0.0
 124_4	housing	0.0
 124_4	other	0.0
-124_4	none	0.0
+124_4	none	1.0
 124_5	jobs	0.0
 124_5	retail	0.0
 124_5	interest	0.0
@@ -381,7 +369,7 @@
 124_5	currency	0.0
 124_5	housing	0.0
 124_5	other	0.0
-124_5	none	0.0
+124_5	none	1.0
 124_7	jobs	0.0
 124_7	retail	0.0
 124_7	interest	0.0
@@ -393,7 +381,7 @@
 124_7	currency	0.0
 124_7	housing	0.0
 124_7	other	0.0
-124_7	none	0.0
+124_7	none	1.0
 124_8	jobs	0.0
 124_8	retail	0.0
 124_8	interest	0.0
@@ -405,7 +393,7 @@
 124_8	currency	0.0
 124_8	housing	0.0
 124_8	other	0.0
-124_8	none	0.0
+124_8	none	1.0
 199_0	jobs	0.0
 199_0	retail	0.0
 199_0	interest	0.0
@@ -609,7 +597,7 @@
 6164_10	currency	0.0
 6164_10	housing	0.0
 6164_10	other	0.0
-6164_10	none	0.0
+6164_10	none	1.0
 6164_12	jobs	0.0
 6164_12	retail	0.0
 6164_12	interest	0.0
@@ -645,7 +633,7 @@
 6164_26	currency	0.0
 6164_26	housing	0.0
 6164_26	other	0.0
-6164_26	none	0.0
+6164_26	none	1.0
 6164_13	jobs	0.0
 6164_13	retail	0.0
 6164_13	interest	0.0
@@ -669,7 +657,7 @@
 6164_21	currency	0.0
 6164_21	housing	0.0
 6164_21	other	0.0
-6164_21	none	0.0
+6164_21	none	1.0
 6164_20	jobs	0.0
 6164_20	retail	0.0
 6164_20	interest	0.0
@@ -681,7 +669,7 @@
 6164_20	currency	0.0
 6164_20	housing	0.0
 6164_20	other	0.0
-6164_20	none	0.0
+6164_20	none	1.0
 6164_23	jobs	0.0
 6164_23	retail	0.0
 6164_23	interest	0.0
@@ -693,7 +681,7 @@
 6164_23	currency	0.0
 6164_23	housing	0.0
 6164_23	other	0.0
-6164_23	none	0.0
+6164_23	none	1.0
 11040_0	jobs	0.0
 11040_0	retail	0.0
 11040_0	interest	0.0
@@ -705,7 +693,7 @@
 11040_0	currency	0.0
 11040_0	housing	0.0
 11040_0	other	0.0
-11040_0	none	0.0
+11040_0	none	1.0
 11040_3	jobs	0.0
 11040_3	retail	0.0
 11040_3	interest	0.0
@@ -717,7 +705,7 @@
 11040_3	currency	0.0
 11040_3	housing	0.0
 11040_3	other	0.0
-11040_3	none	0.0
+11040_3	none	1.0
 11040_5	jobs	0.0
 11040_5	retail	0.0
 11040_5	interest	0.0
@@ -729,7 +717,7 @@
 11040_5	currency	0.0
 11040_5	housing	0.0
 11040_5	other	0.0
-11040_5	none	0.0
+11040_5	none	1.0
 11040_1	jobs	0.0
 11040_1	retail	0.0
 11040_1	interest	0.0
@@ -741,7 +729,7 @@
 11040_1	currency	0.0
 11040_1	housing	0.0
 11040_1	other	0.0
-11040_1	none	0.0
+11040_1	none	1.0
 11040_4	jobs	0.0
 11040_4	retail	0.0
 11040_4	interest	0.0
@@ -753,7 +741,7 @@
 11040_4	currency	0.0
 11040_4	housing	0.0
 11040_4	other	0.0
-11040_4	none	0.0
+11040_4	none	1.0
 11040_6	jobs	0.0
 11040_6	retail	0.0
 11040_6	interest	0.0
@@ -765,7 +753,7 @@
 11040_6	currency	0.0
 11040_6	housing	0.0
 11040_6	other	0.0
-11040_6	none	0.0
+11040_6	none	1.0
 14431_0	jobs	0.0
 14431_0	retail	0.0
 14431_0	interest	0.0
@@ -777,7 +765,7 @@
 14431_0	currency	0.0
 14431_0	housing	0.0
 14431_0	other	0.0
-14431_0	none	0.0
+14431_0	none	1.0
 14431_1	jobs	1.0
 14431_1	retail	0.0
 14431_1	interest	0.0
@@ -813,7 +801,7 @@
 14431_3	currency	0.0
 14431_3	housing	0.0
 14431_3	other	0.0
-14431_3	none	0.0
+14431_3	none	1.0
 14431_4	jobs	0.0
 14431_4	retail	0.0
 14431_4	interest	0.0
@@ -825,7 +813,7 @@
 14431_4	currency	0.0
 14431_4	housing	0.0
 14431_4	other	0.0
-14431_4	none	0.0
+14431_4	none	1.0
 85614_0	jobs	0.0
 85614_0	retail	0.0
 85614_0	interest	0.0
@@ -838,18 +826,6 @@
 85614_0	housing	0.0
 85614_0	other	0.0
 85614_0	none	0.0
-85614_2	jobs	0.0
-85614_2	retail	0.0
-85614_2	interest	0.0
-85614_2	prices	0.0
-85614_2	energy	0.0
-85614_2	wages	0.0
-85614_2	macro	0.0
-85614_2	market	0.0
-85614_2	currency	0.0
-85614_2	housing	0.0
-85614_2	other	0.0
-85614_2	none	0.0
 85614_3	jobs	0.0
 85614_3	retail	0.0
 85614_3	interest	0.0
@@ -861,7 +837,7 @@
 85614_3	currency	0.0
 85614_3	housing	0.0
 85614_3	other	0.0
-85614_3	none	0.0
+85614_3	none	1.0
 4255_0	jobs	0.0
 4255_0	retail	0.0
 4255_0	interest	0.0
@@ -873,7 +849,7 @@
 4255_0	currency	0.0
 4255_0	housing	0.0
 4255_0	other	0.0
-4255_0	none	0.0
+4255_0	none	1.0
 4255_2	jobs	0.0
 4255_2	retail	0.0
 4255_2	interest	0.0
@@ -885,7 +861,7 @@
 4255_2	currency	0.0
 4255_2	housing	0.0
 4255_2	other	0.0
-4255_2	none	0.0
+4255_2	none	1.0
 4255_3	jobs	0.0
 4255_3	retail	0.0
 4255_3	interest	0.0
@@ -897,7 +873,7 @@
 4255_3	currency	0.0
 4255_3	housing	0.0
 4255_3	other	0.0
-4255_3	none	0.0
+4255_3	none	1.0
 4255_4	jobs	0.0
 4255_4	retail	0.0
 4255_4	interest	0.0
@@ -909,7 +885,7 @@
 4255_4	currency	0.0
 4255_4	housing	0.0
 4255_4	other	0.0
-4255_4	none	0.0
+4255_4	none	1.0
 4255_9	jobs	0.0
 4255_9	retail	0.0
 4255_9	interest	0.0
@@ -921,7 +897,7 @@
 4255_9	currency	0.0
 4255_9	housing	0.0
 4255_9	other	0.0
-4255_9	none	0.0
+4255_9	none	1.0
 4255_12	jobs	0.0
 4255_12	retail	0.0
 4255_12	interest	0.0
@@ -933,7 +909,7 @@
 4255_12	currency	0.0
 4255_12	housing	0.0
 4255_12	other	0.0
-4255_12	none	0.0
+4255_12	none	1.0
 64028_0	jobs	0.0
 64028_0	retail	0.0
 64028_0	interest	0.0
@@ -945,7 +921,7 @@
 64028_0	currency	0.0
 64028_0	housing	0.0
 64028_0	other	0.0
-64028_0	none	0.0
+64028_0	none	1.0
 64028_1	jobs	0.0
 64028_1	retail	0.0
 64028_1	interest	0.0
@@ -957,7 +933,7 @@
 64028_1	currency	0.0
 64028_1	housing	0.0
 64028_1	other	0.0
-64028_1	none	0.0
+64028_1	none	1.0
 64028_2	jobs	0.0
 64028_2	retail	0.0
 64028_2	interest	0.0
@@ -969,7 +945,7 @@
 64028_2	currency	0.0
 64028_2	housing	0.0
 64028_2	other	0.0
-64028_2	none	0.0
+64028_2	none	1.0
 64028_3	jobs	0.0
 64028_3	retail	0.0
 64028_3	interest	0.0
@@ -981,7 +957,7 @@
 64028_3	currency	0.0
 64028_3	housing	0.0
 64028_3	other	0.0
-64028_3	none	0.0
+64028_3	none	1.0
 64028_4	jobs	0.0
 64028_4	retail	0.0
 64028_4	interest	0.0
@@ -1185,7 +1161,7 @@
 5800_7	currency	0.0
 5800_7	housing	0.0
 5800_7	other	0.0
-5800_7	none	0.0
+5800_7	none	1.0
 5800_0	jobs	0.0
 5800_0	retail	0.0
 5800_0	interest	0.0
@@ -1197,19 +1173,7 @@
 5800_0	currency	0.0
 5800_0	housing	0.0
 5800_0	other	0.0
-5800_0	none	0.0
-5800_4	jobs	0.0
-5800_4	retail	0.0
-5800_4	interest	0.0
-5800_4	prices	0.0
-5800_4	energy	0.0
-5800_4	wages	0.0
-5800_4	macro	0.0
-5800_4	market	0.0
-5800_4	currency	0.0
-5800_4	housing	0.0
-5800_4	other	0.0
-5800_4	none	0.0
+5800_0	none	1.0
 1550_1	jobs	0.0
 1550_1	retail	0.0
 1550_1	interest	0.0
@@ -1221,7 +1185,7 @@
 1550_1	currency	0.0
 1550_1	housing	0.0
 1550_1	other	0.0
-1550_1	none	0.0
+1550_1	none	1.0
 1550_0	jobs	1.0
 1550_0	retail	0.0
 1550_0	interest	0.0
@@ -1245,7 +1209,7 @@
 1550_3	currency	0.0
 1550_3	housing	0.0
 1550_3	other	0.0
-1550_3	none	0.0
+1550_3	none	1.0
 1550_4	jobs	1.0
 1550_4	retail	0.0
 1550_4	interest	0.0
@@ -1269,7 +1233,7 @@
 1550_2	currency	0.0
 1550_2	housing	0.0
 1550_2	other	0.0
-1550_2	none	0.0
+1550_2	none	1.0
 1550_10	jobs	1.0
 1550_10	retail	0.0
 1550_10	interest	0.0
@@ -1318,18 +1282,6 @@
 96354_6	housing	0.0
 96354_6	other	0.0
 96354_6	none	0.0
-96354_14	jobs	0.0
-96354_14	retail	0.0
-96354_14	interest	0.0
-96354_14	prices	0.0
-96354_14	energy	0.0
-96354_14	wages	0.0
-96354_14	macro	0.0
-96354_14	market	0.0
-96354_14	currency	0.0
-96354_14	housing	0.0
-96354_14	other	0.0
-96354_14	none	0.0
 96354_21	jobs	0.0
 96354_21	retail	0.0
 96354_21	interest	0.0
@@ -1341,7 +1293,7 @@
 96354_21	currency	0.0
 96354_21	housing	0.0
 96354_21	other	0.0
-96354_21	none	0.0
+96354_21	none	1.0
 96354_13	jobs	0.0
 96354_13	retail	0.0
 96354_13	interest	0.0
@@ -1353,7 +1305,7 @@
 96354_13	currency	0.0
 96354_13	housing	0.0
 96354_13	other	0.0
-96354_13	none	0.0
+96354_13	none	1.0
 19782_3	jobs	0.0
 19782_3	retail	0.0
 19782_3	interest	0.0
@@ -1365,7 +1317,7 @@
 19782_3	currency	0.0
 19782_3	housing	0.0
 19782_3	other	0.0
-19782_3	none	0.0
+19782_3	none	1.0
 19782_5	jobs	0.0
 19782_5	retail	0.0
 19782_5	interest	0.0
@@ -1377,7 +1329,7 @@
 19782_5	currency	0.0
 19782_5	housing	0.0
 19782_5	other	0.0
-19782_5	none	0.0
+19782_5	none	1.0
 19782_14	jobs	0.0
 19782_14	retail	0.0
 19782_14	interest	0.0
@@ -1389,7 +1341,7 @@
 19782_14	currency	0.0
 19782_14	housing	0.0
 19782_14	other	0.0
-19782_14	none	0.0
+19782_14	none	1.0
 19782_32	jobs	0.0
 19782_32	retail	0.0
 19782_32	interest	0.0
@@ -1401,19 +1353,7 @@
 19782_32	currency	0.0
 19782_32	housing	0.0
 19782_32	other	0.0
-19782_32	none	0.0
-73580_3	jobs	0.0
-73580_3	retail	0.0
-73580_3	interest	0.0
-73580_3	prices	0.0
-73580_3	energy	0.0
-73580_3	wages	0.0
-73580_3	macro	0.0
-73580_3	market	0.0
-73580_3	currency	0.0
-73580_3	housing	0.0
-73580_3	other	0.0
-73580_3	none	0.0
+19782_32	none	1.0
 7277_25	jobs	0.0
 7277_25	retail	0.0
 7277_25	interest	0.0
@@ -1425,7 +1365,7 @@
 7277_25	currency	0.0
 7277_25	housing	0.0
 7277_25	other	0.0
-7277_25	none	0.0
+7277_25	none	1.0
 7277_26	jobs	0.0
 7277_26	retail	0.0
 7277_26	interest	0.0
@@ -1437,7 +1377,7 @@
 7277_26	currency	0.0
 7277_26	housing	0.0
 7277_26	other	0.0
-7277_26	none	0.0
+7277_26	none	1.0
 7277_29	jobs	0.0
 7277_29	retail	0.0
 7277_29	interest	0.0
@@ -1449,7 +1389,7 @@
 7277_29	currency	0.0
 7277_29	housing	0.0
 7277_29	other	0.0
-7277_29	none	0.0
+7277_29	none	1.0
 7277_27	jobs	0.0
 7277_27	retail	0.0
 7277_27	interest	0.0
@@ -1461,7 +1401,7 @@
 7277_27	currency	0.0
 7277_27	housing	0.0
 7277_27	other	0.0
-7277_27	none	0.0
+7277_27	none	1.0
 7277_30	jobs	0.0
 7277_30	retail	0.0
 7277_30	interest	0.0
@@ -1473,7 +1413,7 @@
 7277_30	currency	0.0
 7277_30	housing	0.0
 7277_30	other	0.0
-7277_30	none	0.0
+7277_30	none	1.0
 7277_36	jobs	0.0
 7277_36	retail	0.0
 7277_36	interest	0.0
@@ -1485,7 +1425,7 @@
 7277_36	currency	0.0
 7277_36	housing	0.0
 7277_36	other	0.0
-7277_36	none	0.0
+7277_36	none	1.0
 7277_37	jobs	0.0
 7277_37	retail	0.0
 7277_37	interest	0.0
@@ -1497,19 +1437,7 @@
 7277_37	currency	0.0
 7277_37	housing	0.0
 7277_37	other	0.0
-7277_37	none	0.0
-71631_3	jobs	0.0
-71631_3	retail	0.0
-71631_3	interest	0.0
-71631_3	prices	0.0
-71631_3	energy	0.0
-71631_3	wages	0.0
-71631_3	macro	0.0
-71631_3	market	0.0
-71631_3	currency	0.0
-71631_3	housing	0.0
-71631_3	other	0.0
-71631_3	none	0.0
+7277_37	none	1.0
 76649_0	jobs	0.0
 76649_0	retail	0.0
 76649_0	interest	0.0
@@ -1521,7 +1449,7 @@
 76649_0	currency	0.0
 76649_0	housing	0.0
 76649_0	other	0.0
-76649_0	none	0.0
+76649_0	none	1.0
 76649_1	jobs	0.0
 76649_1	retail	0.0
 76649_1	interest	0.0
@@ -1533,7 +1461,7 @@
 76649_1	currency	0.0
 76649_1	housing	0.0
 76649_1	other	0.0
-76649_1	none	0.0
+76649_1	none	1.0
 76649_15	jobs	0.0
 76649_15	retail	0.0
 76649_15	interest	0.0

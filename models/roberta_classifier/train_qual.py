@@ -126,7 +126,7 @@ def main(args):
             print(">>> Predictions: " + str(y_predicted))
             print('\n\n')
 
-            dest = f"models/roberta_classifier/tuned_models/masked_folds/fold{k}/qual/"
+            dest = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/fold{k}/qual/"
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
@@ -139,7 +139,7 @@ def main(args):
             model.save_pretrained(model_dest)
             
     for task in label_maps.keys():
-        dest = f"models/roberta_classifier/tuned_models/masked_folds/results/"
+        dest = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/results/"
 
         os.makedirs(dest, exist_ok=True)
 

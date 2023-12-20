@@ -19,27 +19,29 @@ def main(args):
     rows = ['frame', 'econ_rate', 'econ_change', 'type', 'spin', 'macro_type']
 
     for rule_name in rule_dirs:
-        rule_dict = {}
+        macro_rule_dict = {}
+        weighted_rule_dict = {}
         for r in rows:
             filename = r + '_classification_report.csv'
 
             try:
                 df = pd.read_csv(os.path.join(setting_dir, rule_name, filename), header=0)
-                f1 = df.iloc[metric]['f1-score']
-                rule_dict[r] = f1
+                f1 = df.iloc[-1]['f1-score']
+                weighted_rule_dict[r] = f1
+                f1 = df.iloc[-2]['f1-score']
+                macro_rule_dict[r] = f1
             except NotADirectoryError:
                 print("Skipping unformatted directory")
                 continue
-        if len(rule_dict) != 0:
-            setting_dict[rule_name] = rule_dict
+        if len(macro_rule_dict) != 0:
+            name = rule_name + '_macro'
+            setting_dict[name] = macro_rule_dict
+        if len(weighted_rule_dict) != 0:
+            name = rule_name + '_weighted'
+            setting_dict[name] = weighted_rule_dict
 
     df = pd.DataFrame().from_dict(setting_dict).reindex(rows)
-    if metric == -1:
-        filename = 'weighted_f1.csv'
-    elif metric == -2:
-        filename = 'macro_f1.csv'
-    else:
-        raise ValueError('Unknown metric: ' + str(metric))
+    filename = f"{arg_dir}_classification_report.csv"
     df.to_csv(os.path.join(setting_dir, filename))
 
 

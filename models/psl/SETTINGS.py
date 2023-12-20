@@ -45,7 +45,18 @@ SETTINGS = {
         'learn': True,
         'combinations': [['ValSpin', 'ValEconRate'],
                          ['ValSpin', 'ValEconChange']]
-    }
+    },
+    'experiment1': {
+        'rule_dir': os.path.join(RULE_DIR, 'experiment1'),
+        'learn': True
+    },
+    'experiment2': {
+        'rule_dir': os.path.join(RULE_DIR, 'experiment2'),
+        'learn': True
+    },'neighbors_agreement': {
+        'rule_dir': os.path.join(RULE_DIR, 'neighbors_agreement'),
+        'learn': True
+    },
 
 }
 

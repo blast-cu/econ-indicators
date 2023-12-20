@@ -108,7 +108,7 @@ def main(args):
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
+    quant_dict = pickle.load(open(split_dir + 'quant_dict_clean', 'rb'))
 
 
     # establish setting parameters

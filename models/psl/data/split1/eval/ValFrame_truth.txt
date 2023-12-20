@@ -3,11 +3,6 @@
 409	macro	0.0
 409	government	1.0
 409	other	0.0
-6188	business	0.0
-6188	industry	0.0
-6188	macro	0.0
-6188	government	0.0
-6188	other	0.0
 879	business	0.0
 879	industry	0.0
 879	macro	1.0

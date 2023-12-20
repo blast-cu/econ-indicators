@@ -12,3 +12,4 @@ PredMacroType
 PredSpin
 Contains
 Neighbors
+HasTypeAnn

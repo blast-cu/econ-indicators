@@ -8,11 +8,12 @@ import models.roberta_classifier.train_test_utils as tt
 import models.utils.dataset as d
 import models.roberta_classifier.quant_utils as qu
 
+
+
 # nltk.download('punkt')
 
 # OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
 OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
-
 SPLIT_DIR = "data/clean/"
 
 # maps annotation labels to integers for each prediction task
@@ -84,37 +85,23 @@ def get_texts(
     for id in article_ids:
         if 'quant_list' in qual_dict[id].keys():
             for quant_id in qual_dict[id]['quant_list']:
-                valid_entry = False
                 if quant_dict[quant_id][annotation_component] != '\x00':
 
-                    
+                    valid_entry = False
                     if len(type_filter) == 0:
                         valid_entry = True
                     elif 'type' in quant_dict[quant_id].keys():
                         if quant_dict[quant_id]['type'] in type_filter:
                             valid_entry = True
+                    
+                    if valid_entry:
+                        indicator_text = quant_dict[quant_id]['indicator']
+                        excerpt_text = quant_dict[quant_id]['excerpt']
+                        text = [indicator_text, excerpt_text]
+                        texts.append(text)
 
-                elif annotation_component == 'macro_type':
-
-                    if quant_dict[quant_id]['type'] != 'macro':
-                        valid_entry = True
-
-                if valid_entry:
-                    indicator_text = quant_dict[quant_id]['indicator']
-                    excerpt_text = quant_dict[quant_id]['excerpt']
-                    text = [indicator_text, excerpt_text]
-                    texts.append(text)
-
-                    try:
                         label = quant_dict[quant_id][annotation_component]
                         labels.append(label_maps[task][label])
-                    except KeyError:
-                        label = 'none'
-                        labels.append(label_maps[task][label])
-                        continue
-
-                    
-
 
     return texts, labels
 
@@ -129,7 +116,7 @@ def main(args):
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
+    quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict_clean', 'rb'))
 
     type_filters = {
         'type': [],
@@ -251,3 +238,4 @@ if __name__ == "__main__":
     parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
     args = parser.parse_args()
     main(args)
+ 
