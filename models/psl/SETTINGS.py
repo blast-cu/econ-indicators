@@ -32,8 +32,8 @@ SETTINGS = {
                          ['ValType', 'ValEconRate'],
                          ['ValType', 'ValEconChange']]
     },
-    'neighbors': {
-        'rule_dir': os.path.join(RULE_DIR, 'neighbors'),
+    'precedes': {
+        'rule_dir': os.path.join(RULE_DIR, 'precedes'),
         'learn': True,
         'combinations': [['ValSpin', 'ValSpin'],
                          ['ValSpin', 'ValType'],

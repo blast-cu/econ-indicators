@@ -1,9 +1,0 @@
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neg') >> ValSpin(E, 'neg') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neg') >> ValSpin(E, 'neutral') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neg') >> ValSpin(E, 'pos') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neutral') >> ValSpin(E, 'neg') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neutral') >> ValSpin(E, 'neutral') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'neutral') >> ValSpin(E, 'pos') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'pos') >> ValSpin(E, 'neg') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'pos') >> ValSpin(E, 'neutral') ^2
-1.0: Neighbors(A, E) & ValSpinAgree(A, E, 'agree') & ValSpin(A, 'pos') >> ValSpin(E, 'pos') ^2

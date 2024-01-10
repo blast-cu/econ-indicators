@@ -4,6 +4,9 @@
 1.0: PredType(E, B) >> ValType(E, B) ^2
 1.0: PredMacroType(E, B) >> ValMacroType(E, B) ^2
 1.0: PredSpin(E, B) >> ValSpin(E, B) ^2
+1.0: PredAgreeType(E1, E2, B) >> ValAgreeType(E1, E2, B) ^2
+1.0: PredAgreeSpin(E1, E2, B) >> ValAgreeSpin(E1, E2, B) ^2
+1.0: PredAgreeMacroType(E1, E2, B) >> ValAgreeMacroType(E1, E2, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .

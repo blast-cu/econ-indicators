@@ -10,6 +10,12 @@ PredEconChange
 PredType
 PredMacroType
 PredSpin
+PredAgreeType
+PredAgreeSpin
+PredAgreeMacroType
+ValAgreeType
+ValAgreeSpin
+ValAgreeMacroType
 Contains
-Neighbors
+Precedes
 HasTypeAnn

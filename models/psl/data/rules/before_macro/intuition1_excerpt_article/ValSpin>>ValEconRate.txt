@@ -1,2 +1,0 @@
-1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'poor') ^2
-1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'good') ^2
