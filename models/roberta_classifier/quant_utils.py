@@ -1,5 +1,5 @@
 
-from transformers import RobertaTokenizer, RobertaModel, RobertaConfig
+from transformers import RobertaTokenizerFast, RobertaModel, RobertaConfig
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
@@ -11,12 +11,25 @@ from torch.nn.functional import cross_entropy
 
 
 
-def find_sub_list(sub_list, list):
+def find_sub_list(indicator_text, excerpt_encoding, text):
 
-    sub_len = len(sub_list)
-    for ind in (i for i, e in enumerate(list) if e == sub_list[0]):
-        if list[ind:ind+sub_len] == sub_list:
-            return ind, ind+sub_len-1
+    sub_start = text.find(indicator_text)
+    sub_end = sub_start + len(indicator_text)
+    offset_map = excerpt_encoding['offset_mapping'].tolist()
+
+    start_index = None
+    end_index = None
+    for i, token in enumerate(offset_map[0]):
+        token_start = token[0]
+        token_end = token[1]
+        if start_index is None:
+            if sub_start >= token_start and sub_start <= token_end:
+                start_index = i
+        else:
+            if sub_end > token_start and sub_end <= token_end:
+                end_index = i + 1
+                break
+    return start_index, end_index
 
 
 class QuantModel(nn.Module):
@@ -36,7 +49,6 @@ class QuantModel(nn.Module):
         self.activation = nn.ReLU()
         self.roberta = RobertaModel.from_pretrained(model_checkpoint)
         self.softmax = nn.Softmax(dim=0)
-
     
     def from_pretrained(self, path, task):
 
@@ -160,17 +172,23 @@ class TextClassificationDataset(Dataset):
 
         indicator_text = self.indicator_texts[idx]
 
-        i = text.find(indicator_text)
-        if i != 0:
-            indicator_text = ' ' + indicator_text
-        
-        indicator_encoding = self.tokenizer(
-            indicator_text,
+        temp_encoding = self.tokenizer(
+            text,
             return_tensors='pt',
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True
+            truncation=False,
+            return_offsets_mapping=True
         )
+
+        start_index, end_index = find_sub_list(indicator_text, temp_encoding, text)
+
+        if start_index is None or end_index is None:
+            print('Substring: ' + indicator_text)
+            print('Original text: ' + text)
+            raise Exception('Could not find indicator text in excerpt')
+
+        if end_index > self.max_length:
+            text_start = end_index + int(self.max_length / 2) - self.max_length
+            text = text[text_start:]
 
         excerpt_encoding = self.tokenizer(
             text,
@@ -179,36 +197,11 @@ class TextClassificationDataset(Dataset):
             padding='max_length',
             truncation=True
         )
-
-        complete = self.tokenizer.convert_ids_to_tokens(excerpt_encoding['input_ids'].flatten())
-        complete = [re.sub('Ġ', '', s) for s in complete if s != '<pad>']
-
-        sub = self.tokenizer.convert_ids_to_tokens(indicator_encoding['input_ids'].flatten())
-        sub = [re.sub('Ġ', '', s) for s in sub if s != '<pad>']
-        sub = [s for s in sub if s != '']
-        sub = sub[1:-1]
-
-        print_counter = 0
-        indicator_indices = None
-        while indicator_indices is None and len(sub) > 0:
-            indicator_indices = find_sub_list(sub, complete)
-            sub = sub[1:]
-
-            print_counter += 1
-            # if print_counter > 2: 
-            #     print(type(sub))
-            #     print(complete)
-        
-        if indicator_indices is None:
-            # print('Indicator not found in excerpt')
-            # print(indicator_text)
-            # print(text)
-            # print()
-            indicator_indices = [0, 1]
+            
 
         return {
-            'start_index': torch.tensor(indicator_indices[0]),
-            'end_index': torch.tensor(indicator_indices[1]),
+            'start_index': torch.tensor(start_index),
+            'end_index': torch.tensor(end_index),
             'input_ids': excerpt_encoding['input_ids'].flatten(),
             'attention_mask': excerpt_encoding['attention_mask'].flatten(),
             'label': torch.tensor(label),
@@ -233,7 +226,7 @@ def setup(train_texts,
         train_test_split(train_texts, train_labels,
                          test_size=0.1, random_state=42)
 
-    tokenizer = RobertaTokenizer\
+    tokenizer = RobertaTokenizerFast\
         .from_pretrained(pretrained_model_name_or_path=model_checkpoint,
                          problem_type="single_label_classification")
 
@@ -313,28 +306,27 @@ def validate(model, val_loader, class_weights):
 
     return f1
 
-def check_done(val_f1_history: list, val_f1, patience, history_len):
+def check_done(val_f1_history: list, val_f1, history_len):
     """
     Check if the model has stopped improving based on the validation loss history.
 
     Parameters:
     - val_loss_history (list): A list of previous validation losses.
     - val_loss (float): The current validation loss.
-    - patience (float): The minimum difference between the current validation loss and the previous one to consider improvement.
     - history_len (int): The maximum length of the validation loss history.
 
     Returns:
     - improving (bool): True if the model is still improving, False otherwise.
     - val_loss_history (list): The updated validation loss history.
     """
+
     improving = True
     if len(val_f1_history) == history_len:
         val_f1_history.pop(0)  # remove at index 0
 
-        if val_f1_history[-1] > val_f1:  # overfitting training data
-            improving = False
-        elif val_f1_history[0] - val_f1 < patience:
-            improving = False
+        if val_f1_history[0] == val_f1_history[1]:
+            if val_f1_history[1] == val_f1:
+                improving = False
 
     val_f1_history.append(val_f1)
     return improving, val_f1_history
@@ -345,10 +337,9 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
     improving = True
     val_f1_history = []
 
-    patience = 0.03
-    history_len = 5
+    history_len = 3
     epoch = 0
-
+    
     while improving:
         model.train()
         for batch in train_loader:
@@ -375,9 +366,8 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
         val_f1 = validate(model, val_loader, class_weights)
 
         improving, val_f1_history = check_done(val_f1_history,
-                                                val_f1,
-                                                patience,
-                                                history_len)
+                                               val_f1,
+                                               history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1
