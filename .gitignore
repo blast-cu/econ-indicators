@@ -335,5 +335,6 @@ models/roberta_classifier/tuned_models/
 models/roberta_classifier/tokenized/
 models/roberta_classifier/best_models/
 models/agreement/tuned_models/
-
+logs/
 .vscode/
+*~
