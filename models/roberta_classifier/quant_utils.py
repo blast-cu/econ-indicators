@@ -110,6 +110,15 @@ class QuantModel(nn.Module):
         for i in range(batch_size):
             indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
 
+        if torch.isnan(last_layer).any():
+            raise Exception('Last layer contains NaN values')
+
+        if torch.isnan(cls).any():
+            raise Exception('CLS token contains NaN values')
+
+        if torch.isnan(indicator_token[1]).any():
+            raise Exception('Indicator token contains NaN values')
+
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
         lin_out = self.linear(lin_in).to('cuda')
@@ -182,6 +191,12 @@ class TextClassificationDataset(Dataset):
             print('Substring: ' + indicator_text)
             print('Original text: ' + text)
             raise Exception('Could not find indicator text in excerpt')
+
+        if start_index == end_index:
+            print('Substring: ' + indicator_text)
+            print('Original text: ' + text)
+            print('Index: ' + str(start_index))
+            raise Exception('Start and end index are the same')
 
         if end_index > self.max_length:
             text_start = end_index + int(self.max_length / 2) - self.max_length
