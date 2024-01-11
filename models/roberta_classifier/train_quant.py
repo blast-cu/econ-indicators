@@ -1,5 +1,3 @@
-from torch import nn
-
 # import argparse
 import pickle
 import os
@@ -9,10 +7,6 @@ import models.utils.dataset as d
 import models.roberta_classifier.quant_utils as qu
 
 
-
-# nltk.download('punkt')
-
-# OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
 OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
 SPLIT_DIR = "data/clean/"
 
@@ -114,7 +108,7 @@ def main():
     results to a CSV file.
     """
     # model_checkpoint = args.model
-    model_checkpoint = "roberta-base"
+    model_checkpoint = "data/masked"
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -201,28 +195,7 @@ def main():
                 y_predicted,
                 dest)
 
-            tuned_model.save(dest, task)  # TODO: change this back to model_dest
-
-
-            # # checking load from checkpoint
-            # num_labels = len(set(label_maps[task].values()))
-            # new_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-            # new_model = new_model.from_pretrained(dest, task).to('cuda')
-
-            # y, y_predicted, f1 = qu.test(new_model,
-            #                              test_loader)
-            
-            # # REMOVE THIS LATER
-            # results[task]['labels'] += y
-            # results[task]['predictions'] += y_predicted
-
-            # task = task + '-checkpoint'
-            # d.to_csv(
-            #     task,
-            #     y,
-            #     y_predicted,
-            #     dest)
-
+            tuned_model.save(dest, task)
 
 
     for task in label_maps.keys():
