@@ -106,8 +106,6 @@ class QuantModel(nn.Module):
             raise Exception('Excerpt attention mask contains NaN values')
 
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
-        if torch.isnan(rob_out).any():
-            raise Exception('Roberta output contains NaN values')
 
         last_layer = rob_out.last_hidden_state  # size = [8, 514, 768]
 
@@ -275,6 +273,7 @@ def setup(train_texts,
 
     # Define model
     num_labels = len(set(annotation_map.values()))
+    model_checkpoint = "roberta-base"
     model = QuantModel(model_checkpoint, num_labels=num_labels).to('cuda')
 
 
