@@ -126,7 +126,7 @@ def main():
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    model_checkpoint = 'models/roberta_classifier/tuned_models/masked_checkpoint/masked'
+    model_checkpoint = 'models/roberta_classifier/tuned_models/masked'
     
     splits_dict = pickle.load(open(DATA_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(DATA_DIR + 'qual_dict', 'rb'))
@@ -215,9 +215,9 @@ def main():
         os.makedirs(dest, exist_ok=True)
         name = f'{task}_agreement'
         d.to_csv(name,
-                results[task]['labels'],
-                results[task]['predictions'],
-                dest)
+                 results[task]['labels'],
+                 results[task]['predictions'],
+                 dest)
 
 
 if __name__ == "__main__":
