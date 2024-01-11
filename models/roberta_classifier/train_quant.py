@@ -1,4 +1,4 @@
-# import argparse
+import argparse
 import pickle
 import os
 
@@ -100,15 +100,13 @@ def get_texts(
     return texts, labels
 
 
-# def main(args):
-def main():
+def main(args):
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    # model_checkpoint = args.model
-    model_checkpoint = "data/masked"
+    model_checkpoint = args.model
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -209,9 +207,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    # args = parser.parse_args()
-    # main(args)
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
+    args = parser.parse_args()
+    main(args)
  
