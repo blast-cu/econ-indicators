@@ -109,6 +109,10 @@ class QuantModel(nn.Module):
         indicator_token = torch.zeros((batch_size, 768)).to('cuda')
         for i in range(batch_size):
             indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
+            if torch.isnan(indicator_token[i]).any():
+                print('Start index: ' + str(start_index[i]))
+                print('End index: ' + str(end_index[i]))
+                raise Exception('Indicator token contains NaN values')
 
         if torch.isnan(last_layer).any():
             raise Exception('Last layer contains NaN values')
@@ -116,8 +120,7 @@ class QuantModel(nn.Module):
         if torch.isnan(cls).any():
             raise Exception('CLS token contains NaN values')
 
-        if torch.isnan(indicator_token[1]).any():
-            raise Exception('Indicator token contains NaN values')
+        
 
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
