@@ -106,6 +106,9 @@ class QuantModel(nn.Module):
             raise Exception('Excerpt attention mask contains NaN values')
 
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
+        if torch.isnan(rob_out).any():
+            raise Exception('Roberta output contains NaN values')
+
         last_layer = rob_out.last_hidden_state  # size = [8, 514, 768]
 
         cls = last_layer[:, 0, :]  # size = [8, 768], CLS token

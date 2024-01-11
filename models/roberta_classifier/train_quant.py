@@ -128,7 +128,10 @@ def main():
         results[task]['labels'] = []
         results[task]['predictions'] = []
 
-    for k, split in splits_dict.items():
+    # for k, split in splits_dict.items():
+    for i in range(1):
+        k = 1
+        split = splits_dict[k]
 
         print("Fold " + str(k+1) + " of 5")
         print()
