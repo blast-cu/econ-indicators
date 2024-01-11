@@ -1,6 +1,4 @@
-from torch import nn
-
-import argparse
+# import argparse
 import pickle
 import os
 
@@ -9,10 +7,6 @@ import models.utils.dataset as d
 import models.roberta_classifier.quant_utils as qu
 
 
-
-# nltk.download('punkt')
-
-# OUT_DIR = "models/roberta_classifier/tuned_models/quant_edits/"
 OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
 SPLIT_DIR = "data/clean/"
 
@@ -32,23 +26,23 @@ label_maps = {
     #         'personal': 1, 
     #         'business': 1,
     #         'other': 1}
-    # 'spin': {
-    #         'pos': 0,
-    #         'neg': 1,
-    #         'neutral': 2},
-    # 'macro_type': {
-    #         'jobs': 0,
-    #         'retail': 1,
-    #         'interest': 2,
-    #         'prices': 3,
-    #         'energy': 4,
-    #         'wages': 5,
-    #         'macro': 6,
-    #         'market': 7,
-    #         'currency': 8,
-    #         'housing': 9,
-    #         'other': 10,
-    #         'none': 11}
+    'spin': {
+            'pos': 0,
+            'neg': 1,
+            'neutral': 2},
+    'macro_type': {
+            'jobs': 0,
+            'retail': 1,
+            'interest': 2,
+            'prices': 3,
+            'energy': 4,
+            'wages': 5,
+            'macro': 6,
+            'market': 7,
+            'currency': 8,
+            'housing': 9,
+            'other': 10,
+            'none': 11}
 }
 
 def get_texts(
@@ -106,13 +100,15 @@ def get_texts(
     return texts, labels
 
 
-def main(args):
+# def main(args):
+def main():
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    model_checkpoint = args.model
+    # model_checkpoint = args.model
+    model_checkpoint = "data/masked"
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -199,28 +195,7 @@ def main(args):
                 y_predicted,
                 dest)
 
-            tuned_model.save(dest, task)  # TODO: change this back to model_dest
-
-
-            # # checking load from checkpoint
-            # num_labels = len(set(label_maps[task].values()))
-            # new_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-            # new_model = new_model.from_pretrained(dest, task).to('cuda')
-
-            # y, y_predicted, f1 = qu.test(new_model,
-            #                              test_loader)
-            
-            # # REMOVE THIS LATER
-            # results[task]['labels'] += y
-            # results[task]['predictions'] += y_predicted
-
-            # task = task + '-checkpoint'
-            # d.to_csv(
-            #     task,
-            #     y,
-            #     y_predicted,
-            #     dest)
-
+            tuned_model.save(dest, task)
 
 
     for task in label_maps.keys():
@@ -234,8 +209,9 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    args = parser.parse_args()
-    main(args)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
+    # args = parser.parse_args()
+    # main(args)
+    main()
  

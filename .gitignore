@@ -336,5 +336,7 @@ models/roberta_classifier/tokenized/
 models/roberta_classifier/best_models/
 models/agreement/tuned_models/
 logs/
+*.zip
+
 .vscode/
 *~

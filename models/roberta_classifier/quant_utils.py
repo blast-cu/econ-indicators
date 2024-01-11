@@ -3,13 +3,10 @@ from transformers import RobertaTokenizerFast, RobertaModel, RobertaConfig
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
+from torch.nn.functional import cross_entropy
 from sklearn.model_selection import train_test_split
-import re
 from sklearn.metrics import f1_score
 import os
-from torch.nn.functional import cross_entropy
-
-
 
 def find_sub_list(indicator_text, excerpt_encoding, text):
 
