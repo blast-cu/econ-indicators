@@ -210,6 +210,9 @@ class TextClassificationDataset(Dataset):
             text_start = end_index + int(self.max_length / 2) - self.max_length
             text = text[text_start:]
 
+            start_index = start_index - text_start
+            end_index = end_index - text_start
+
         excerpt_encoding = self.tokenizer(
             text,
             return_tensors='pt',
@@ -217,7 +220,6 @@ class TextClassificationDataset(Dataset):
             padding='max_length',
             truncation=True
         )
-            
 
         return {
             'start_index': torch.tensor(start_index),
@@ -273,7 +275,7 @@ def setup(train_texts,
 
     # Define model
     num_labels = len(set(annotation_map.values()))
-    model_checkpoint = "roberta-base"
+    
     model = QuantModel(model_checkpoint, num_labels=num_labels).to('cuda')
 
 

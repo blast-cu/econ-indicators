@@ -108,7 +108,8 @@ def main():
     results to a CSV file.
     """
     # model_checkpoint = args.model
-    model_checkpoint = "data/masked"
+    model_checkpoint = "data/masked/"
+    # model_checkpoint = "models/roberta_classifier/tuned_models/masked/"
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -128,10 +129,10 @@ def main():
         results[task]['labels'] = []
         results[task]['predictions'] = []
 
-    # for k, split in splits_dict.items():
-    for i in range(1):
-        k = 1
-        split = splits_dict[k]
+    # for i in range(1):
+    #     k = 1
+    #     split = splits_dict[k]
+    for k, split in splits_dict.items():
 
         print("Fold " + str(k+1) + " of 5")
         print()
