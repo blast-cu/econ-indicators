@@ -112,7 +112,6 @@ class QuantModel(nn.Module):
             if torch.isnan(indicator_token[i]).any():
                 print('Start index: ' + str(start_index[i]))
                 print('End index: ' + str(end_index[i]))
-                raise Exception('Indicator token contains NaN values')
 
         if torch.isnan(last_layer).any():
             raise Exception('Last layer contains NaN values')
