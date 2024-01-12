@@ -98,12 +98,9 @@ class AgreementModel(nn.Module):
         batch_size = input_ids.size(dim=0)
         indicator_token = torch.zeros((batch_size, 768)).to('cuda')
         for i in range(batch_size):
-            if start_index[i] != end_index[i]:
-                layers = last_layer[i][start_index[i]:end_index[i]]
-                indicator_token[i] = \
-                    torch.mean(layers, dim=0)
-            else:
-                raise Exception('Start and end excerpt index are equal')
+            indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
+            if torch.isnan(indicator_token[i]).any():
+                raise Exception('Indicator token contains NaN values')
 
         if torch.isnan(last_layer).any():
             raise Exception('Last layer contains NaN values')
@@ -111,8 +108,6 @@ class AgreementModel(nn.Module):
         if torch.isnan(cls).any():
             raise Exception('CLS token contains NaN values')
 
-        if torch.isnan(indicator_token[1]).any():
-            raise Exception('Indicator token contains NaN values')
 
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
@@ -442,10 +437,9 @@ def check_done(val_f1_history: list, val_f1, patience, history_len):
     if len(val_f1_history) == history_len:
         val_f1_history.pop(0)  # remove at index 0
 
-        if val_f1_history[-1] > val_f1:  # overfitting training data
-            improving = False
-        elif val_f1_history[0] - val_f1 < patience:
-            improving = False
+        if val_f1_history[0] == val_f1_history[1]:
+            if val_f1_history[1] == val_f1:
+                improving = False
 
     val_f1_history.append(val_f1)
     return improving, val_f1_history
@@ -456,8 +450,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
     improving = True
     val_f1_history = []
 
-    patience = 0.03
-    history_len = 5
+    history_len = 3
     epoch = 0
 
     while improving:
@@ -475,21 +468,6 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             n2_excerpt_attention_mask = batch['n2_attention_mask'].to('cuda')
             labels = batch['label'].to('cuda')
 
-            # print("in train func before model")
-            # print(n1_start_index)
-            # print(n1_end_index)
-            # print(n1_excerpt_input_ids)
-            # print(n1_excerpt_attention_mask)
-            # print(n2_start_index)
-            # print(n2_end_index)
-            # print(n2_excerpt_input_ids)
-            # print(n2_excerpt_attention_mask)
-            # print(labels)
-            # print()
-
-
-            
-
             outputs = model(n1_start_index,
                             n1_end_index,
                             n1_excerpt_input_ids,
@@ -498,10 +476,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
                             n2_end_index,
                             n2_excerpt_input_ids,
                             n2_excerpt_attention_mask)
-            # print("in train func before loss")
-            # print(outputs.tolist())
-            # # print(labels.tolist())
-            # print()
+
             loss = cross_entropy(outputs,
                                  labels,
                                  weight=class_weights)
@@ -513,7 +488,6 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
         improving, val_f1_history = check_done(val_f1_history,
                                                 val_f1,
-                                                patience,
                                                 history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
