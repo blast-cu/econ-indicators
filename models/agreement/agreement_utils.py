@@ -419,7 +419,7 @@ def validate(model, val_loader, class_weights):
 
     return f1
 
-def check_done(val_f1_history: list, val_f1, patience, history_len):
+def check_done(val_f1_history: list, val_f1, history_len):
     """
     Check if the model has stopped improving based on the validation loss history.
 
