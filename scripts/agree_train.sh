@@ -2,13 +2,16 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --time=1:00:00
-#SBATCH --partition=atesting_a100
+#SBATCH --time=3:00:00
+#SBATCH --account=blanca-curc-gpu
+#SBATCH --qos=blanca-curc-gpu
+#SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=mask_tune_test-%j.out
+#SBATCH --output=agree_train-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
+mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
@@ -22,4 +25,4 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.mask_tune
+python -m models.agreement.agreement_train
