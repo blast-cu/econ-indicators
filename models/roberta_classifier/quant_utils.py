@@ -114,7 +114,7 @@ class QuantModel(nn.Module):
 
         lin_out = self.linear(lin_in).to('cuda')
         activation = self.activation(lin_out).to('cuda')
-        # probs = self.softmax(activation)  # size = [8, 2]
+
         x = self.dropout(activation).to('cuda')
         x = self.dense(x).to('cuda')
         x = torch.tanh(x)
