@@ -253,6 +253,9 @@ class AgreementPredictDataset(Dataset):
             text_start = end_index + int(self.max_length / 2) - self.max_length
             text = text[text_start:]
 
+            start_index = start_index - text_start
+            end_index = end_index - text_start
+
         excerpt_encoding = self.tokenizer(
             text,
             return_tensors='pt',
