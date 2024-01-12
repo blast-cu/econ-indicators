@@ -280,10 +280,13 @@ class AgreementPredictDataset(Dataset):
 
         if len(self.article_ids) > 0:
             article_id = self.article_ids[idx]
-            ann_id = self.ann_ids[idx]
+            n1_ann_id = self.n1_ann_ids[idx]
+            n2_ann_id = self.n2_ann_ids[idx]
+
         else:
             article_id = -1
-            ann_id = -1
+            n1_ann_id = -1
+            n2_ann_id = -1
 
         n1_start, n1_end, n1_encoding = \
             self.tokenize(n1_indicator_text, n1_text)
