@@ -98,14 +98,21 @@ def get_texts(
 
             neighbor_text = []
             indicator_text = quant_dict[id1]['indicator']
-            excerpt_text = quant_dict[id2]['excerpt']
+            excerpt_text = quant_dict[id1]['excerpt']
+
+            if indicator_text not in excerpt_text:
+                print("ERROR: indicator not in excerpt 1")
+
             text = [indicator_text, excerpt_text]
             neighbor_text.append(text)
 
             indicator_text = quant_dict[id2]['indicator']
-            excerpt_text = quant_dict[id1]['excerpt']
+            excerpt_text = quant_dict[id2]['excerpt']
             text = [indicator_text, excerpt_text]
             neighbor_text.append(text)
+
+            if indicator_text not in excerpt_text:
+                print("ERROR: indicator not in excerpt 2")
 
             if quant_dict[id1][annotation_component] == \
                 quant_dict[id2][annotation_component]:
@@ -174,7 +181,7 @@ def main():
             class_weights = tt.get_weights(train_labels,
                                            agreement_map)
             
-            print(class_weights)
+            # print(class_weights)
 
 
             model, train_loader, val_loader, test_loader, optimizer = \

@@ -182,17 +182,19 @@ class AgreementPredictDataset(Dataset):
         self.article_ids = []
         self.n1_ann_ids = []
         self.n2_ann_ids = []
-    
-        n1_article_id, ann_id = id.split('_')
-        self.n1_ann_ids.append(int(ann_id))
 
-        n2_article_id, ann_id = id.split('_')
-        self.n2_ann_ids.append(int(ann_id))
+        for id in ids:
 
-        if n1_article_id == n2_article_id:
-            self.article_ids.append(int(n1_article_id))
-        else:
-            raise Exception('Article IDs do not match between neighbors')
+            n1_article_id, ann_id = id.split('_')
+            self.n1_ann_ids.append(int(ann_id))
+
+            n2_article_id, ann_id = id.split('_')
+            self.n2_ann_ids.append(int(ann_id))
+
+            if n1_article_id == n2_article_id:
+                self.article_ids.append(int(n1_article_id))
+            else:
+                raise Exception('Article IDs do not match between neighbors')
         
         self.tokenizer = tokenizer
         self.max_length = max_length
@@ -204,7 +206,8 @@ class AgreementPredictDataset(Dataset):
         """
         return len(self.n1_texts)
 
-    def find_sub_list(indicator_text,
+    def find_sub_list(self,
+                      indicator_text,
                       excerpt_encoding,
                       text):
 
@@ -242,7 +245,9 @@ class AgreementPredictDataset(Dataset):
         )
 
         start_index, end_index = \
-            self.find_sub_list(indicator_text, temp_encoding, text)
+            self.find_sub_list(indicator_text,
+                               temp_encoding,
+                               text)
 
         if start_index is None or end_index is None:
             print('Substring: ' + indicator_text)
