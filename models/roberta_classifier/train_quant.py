@@ -108,8 +108,9 @@ def main():
     results to a CSV file.
     """
     # model_checkpoint = args.model
-    model_checkpoint = "data/masked/"
+    # model_checkpoint = "data/masked/"
     # model_checkpoint = "models/roberta_classifier/tuned_models/masked/"
+    model_checkpoint = "roberta-base"
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
