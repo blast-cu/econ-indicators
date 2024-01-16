@@ -1,5 +1,5 @@
 import torch
-from transformers import RobertaTokenizer
+from transformers import RobertaTokenizerFast
 from torch.utils.data import DataLoader
 import pickle
 import os
@@ -161,7 +161,7 @@ def main():
 
 
     torch.manual_seed(42)  # Set random seed for reproducibility
-    tokenizer = RobertaTokenizer\
+    tokenizer = RobertaTokenizerFast\
         .from_pretrained(pretrained_model_name_or_path="roberta-base",
                          problem_type="single_label_classification")
 

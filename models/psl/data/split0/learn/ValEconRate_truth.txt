@@ -1,56 +1,10 @@
-<<<<<<< HEAD
 258	good	0.0
 258	poor	1.0
 258	none	0.0
 879	good	0.0
 879	poor	1.0
 879	none	0.0
-19 4	good	0.0
-=======
-135	good	0.0
-135	poor	0.0
-135	none	0.0
-410	good	0.0
-410	poor	0.0
-410	none	0.0
-439	good	0.0
-439	poor	0.0
-439	none	0.0
-44	good	0.0
-44	poor	0.0
-44	none	0.0
-195	good	0.0
-195	poor	0.0
-195	none	0.0
-258	good	0.0
-258	poor	1.0
-258	none	0.0
-286	good	0.0
-286	poor	0.0
-286	none	0.0
-409	good	0.0
-409	poor	0.0
-409	none	0.0
-6188	good	0.0
-6188	poor	0.0
-6188	none	0.0
-654	good	0.0
-654	poor	0.0
-654	none	0.0
-952	good	0.0
-952	poor	0.0
-952	none	0.0
-879	good	0.0
-879	poor	1.0
-879	none	0.0
-124	good	0.0
-124	poor	0.0
-124	none	0.0
-199	good	0.0
-199	poor	0.0
-199	none	0.0
 19134	good	0.0
->>>>>>> origin
 19134	poor	1.0
 19134	none	0.0
 1311	good	0.0
@@ -59,12 +13,6 @@
 13929	good	0.0
 13929	poor	1.0
 13929	none	0.0
-<<<<<<< HEAD
-=======
-86954	good	0.0
-86954	poor	0.0
-86954	none	0.0
->>>>>>> origin
 568	good	0.0
 568	poor	1.0
 568	none	0.0
@@ -101,60 +49,18 @@
 10205	good	0.0
 10205	poor	1.0
 10205	none	0.0
-<<<<<<< HEAD
 14431	good	0.0
 14431	poor	1.0
 14431	none	0.0
-=======
-11040	good	0.0
-11040	poor	0.0
-11040	none	0.0
-14431	good	0.0
-14431	poor	1.0
-14431	none	0.0
-7	good	0.0
-7	poor	0.0
-7	none	0.0
->>>>>>> origin
 31058	good	0.0
 31058	poor	0.0
 31058	none	1.0
 85614	good	0.0
 85614	poor	0.0
 85614	none	1.0
-<<<<<<< HEAD
 64028	good	0.0
 64028	poor	1.0
 64028	none	0.0
-=======
-16121	good	0.0
-16121	poor	0.0
-16121	none	0.0
-30092	good	0.0
-30092	poor	0.0
-30092	none	0.0
-78753	good	0.0
-78753	poor	0.0
-78753	none	0.0
-4255	good	0.0
-4255	poor	0.0
-4255	none	0.0
-4806	good	0.0
-4806	poor	0.0
-4806	none	0.0
-22064	good	0.0
-22064	poor	0.0
-22064	none	0.0
-40041	good	0.0
-40041	poor	0.0
-40041	none	0.0
-64028	good	0.0
-64028	poor	1.0
-64028	none	0.0
-71054	good	0.0
-71054	poor	0.0
-71054	none	0.0
->>>>>>> origin
 35182	good	0.0
 35182	poor	0.0
 35182	none	1.0
@@ -176,12 +82,6 @@
 19642	good	1.0
 19642	poor	0.0
 19642	none	0.0
-<<<<<<< HEAD
-=======
-19949	good	0.0
-19949	poor	0.0
-19949	none	0.0
->>>>>>> origin
 32637	good	0.0
 32637	poor	1.0
 32637	none	0.0
@@ -191,36 +91,12 @@
 56329	good	1.0
 56329	poor	0.0
 56329	none	0.0
-<<<<<<< HEAD
-=======
-24673	good	0.0
-24673	poor	0.0
-24673	none	0.0
-245	good	0.0
-245	poor	0.0
-245	none	0.0
-515	good	0.0
-515	poor	0.0
-515	none	0.0
-5443	good	0.0
-5443	poor	0.0
-5443	none	0.0
-5800	good	0.0
-5800	poor	0.0
-5800	none	0.0
->>>>>>> origin
 2022	good	0.0
 2022	poor	1.0
 2022	none	0.0
 4934	good	0.0
 4934	poor	1.0
 4934	none	0.0
-<<<<<<< HEAD
-=======
-5339	good	0.0
-5339	poor	0.0
-5339	none	0.0
->>>>>>> origin
 11913	good	0.0
 11913	poor	1.0
 11913	none	0.0
@@ -233,45 +109,15 @@
 6200	good	0.0
 6200	poor	1.0
 6200	none	0.0
-<<<<<<< HEAD
-=======
-1317	good	0.0
-1317	poor	0.0
-1317	none	0.0
-66	good	0.0
-66	poor	0.0
-66	none	0.0
-203	good	0.0
-203	poor	0.0
-203	none	0.0
-2075	good	0.0
-2075	poor	0.0
-2075	none	0.0
->>>>>>> origin
 11343	good	0.0
 11343	poor	1.0
 11343	none	0.0
 1550	good	0.0
 1550	poor	1.0
 1550	none	0.0
-<<<<<<< HEAD
 32870	good	0.0
 32870	poor	1.0
 32870	none	0.0
-=======
-24	good	0.0
-24	poor	0.0
-24	none	0.0
-35510	good	0.0
-35510	poor	0.0
-35510	none	0.0
-32870	good	0.0
-32870	poor	1.0
-32870	none	0.0
-58353	good	0.0
-58353	poor	0.0
-58353	none	0.0
->>>>>>> origin
 96354	good	0.0
 96354	poor	1.0
 96354	none	0.0
@@ -302,51 +148,6 @@
 37453	good	0.0
 37453	poor	1.0
 37453	none	0.0
-<<<<<<< HEAD
 73580	good	0.0
 73580	poor	0.0
 73580	none	1.0
-=======
-51228	good	0.0
-51228	poor	0.0
-51228	none	0.0
-8735	good	0.0
-8735	poor	0.0
-8735	none	0.0
-73580	good	0.0
-73580	poor	0.0
-73580	none	1.0
-29994	good	0.0
-29994	poor	0.0
-29994	none	0.0
-16829	good	0.0
-16829	poor	0.0
-16829	none	0.0
-26853	good	0.0
-26853	poor	0.0
-26853	none	0.0
-582	good	0.0
-582	poor	0.0
-582	none	0.0
-7277	good	0.0
-7277	poor	0.0
-7277	none	0.0
-68959	good	0.0
-68959	poor	0.0
-68959	none	0.0
-71631	good	0.0
-71631	poor	0.0
-71631	none	0.0
-61646	good	0.0
-61646	poor	0.0
-61646	none	0.0
-21481	good	0.0
-21481	poor	0.0
-21481	none	0.0
-76649	good	0.0
-76649	poor	0.0
-76649	none	0.0
-43627	good	0.0
-43627	poor	0.0
-43627	none	0.0
->>>>>>> origin

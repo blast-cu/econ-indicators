@@ -13,7 +13,9 @@ import data_utils.get_annotation_stats as gs
 
 import models.utils.dataset as d
 
-QUANT_MODELS_DIR = 'models/roberta_classifier/tuned_models/masked_folds'
+QUANT_MODELS_DIR = 'models/roberta_classifier/tuned_models/quant_masked'
+QUAL_MODELS_DIR = 'models/roberta_classifier/tuned_models/qual_base'
+
 OUT_DIR = 'models/psl/data'
 DB_FILENAME = 'data/data.db'
 
@@ -176,7 +178,7 @@ def write_target_files(out_dir, articles, map, truth=True):
         ann2 = gd.camel_case(ann, upper=True)
         predicate = f'Val{ann2}'
         target_values = [value[:-4] for value in values]
-        # write_data_file(out_dir, predicate, 'target', target_values)
+        write_data_file(out_dir, predicate, 'target', target_values)
 
         if truth:
             
@@ -233,7 +235,7 @@ def predict_article_annotations(articles, split_num):
     # load fine-tuned model for each annotation component
     models = {}
     for k in pq.label_maps.keys():
-        model_path = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/fold{split_num}/qual/{k}_model"
+        model_path = os.path.join(QUAL_MODELS_DIR, f'fold{split_num}/{k}_model')
         models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
@@ -296,7 +298,7 @@ def generate_predict_excerpts(excerpts, split_num):
         # print(texts)
 
         pqt.torch.manual_seed(42)  # Set random seed for reproducibility
-        tokenizer = pq.RobertaTokenizer\
+        tokenizer = pqt.RobertaTokenizerFast\
             .from_pretrained(pretrained_model_name_or_path="roberta-base",
                              problem_type="single_label_classification")
 
@@ -310,7 +312,7 @@ def generate_predict_excerpts(excerpts, split_num):
 
         task = annotation_component
         num_labels = len(set(pqt.label_maps[task].keys()))
-        model_path = os.path.join(QUANT_MODELS_DIR, f'fold{split_num}/quant/{task}_model')
+        model_path = os.path.join(QUANT_MODELS_DIR, f'fold{split_num}/{task}_model')
         type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
         type_model = type_model.from_pretrained(model_path, task).to('cuda')
 
@@ -369,7 +371,7 @@ def write_pred_files(out_dir, predict_dict):
 
 def write_preceeds_file(out_dir, articles):
 
-    predicate = 'Neighbors'
+    predicate = 'Precedes'
     to_write = []
     for article_id, article_dict in articles.items():
         excerpt_ids = article_dict['quant_list']
@@ -422,10 +424,6 @@ def main():
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
     quant_dict = pickle.load(open(split_dir + 'quant_dict_clean', 'rb'))
 
-    predictions = []
-    test_predictions = []
-    labels = []
-
     split_num = 0
     for split_num in range(5):
         # make directories for split data
@@ -441,41 +439,41 @@ def main():
                                  qual_dict,
                                  quant_dict)
 
-        # # GENERATE LEARN DATA #
-        # # write contains file linking articles and excerpts
-        # write_contains_file(split_learn_dir, learn_articles)  # contains
+        # GENERATE LEARN DATA #
+        # write contains file linking articles and excerpts
+        write_contains_file(split_learn_dir, learn_articles)  # contains
 
-        # write_has_frame_ann_file(split_learn_dir, learn_excerpts)  # HasFrameAnn
+        write_has_frame_ann_file(split_learn_dir, learn_excerpts)  # HasFrameAnn
 
-        # write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
         # write target and truth files for validation data
-        # write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
 
-        # write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
         # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, split_num)
         write_pred_files(split_learn_dir, article_preds)  # pred  
 
-        # # exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-        # # write_pred_files(split_learn_dir, exerpt_preds)  # pred
+        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
-        # # GENERATE EVAL DATA #
-        # write_contains_file(split_eval_dir, eval_articles)  # contains
+        # GENERATE EVAL DATA #
+        write_contains_file(split_eval_dir, eval_articles)  # contains
 
-        # write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
+        write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
 
-        # write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        # write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        # write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
         article_preds = predict_article_annotations(eval_articles, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 
-        # excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-        # write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 

@@ -38,14 +38,6 @@
 409	macro	0.0
 409	government	1.0
 409	other	0.0
-<<<<<<< HEAD
-=======
-6188	business	0.0
-6188	industry	0.0
-6188	macro	0.0
-6188	government	0.0
-6188	other	0.0
->>>>>>> origin
 654	business	0.0
 654	industry	0.0
 654	macro	0.0
@@ -321,14 +313,6 @@
 11913	macro	1.0
 11913	government	0.0
 11913	other	0.0
-<<<<<<< HEAD
-=======
-75	business	0.0
-75	industry	0.0
-75	macro	0.0
-75	government	0.0
-75	other	0.0
->>>>>>> origin
 3224	business	0.0
 3224	industry	0.0
 3224	macro	1.0
@@ -459,56 +443,3 @@
 29994	macro	1.0
 29994	government	0.0
 29994	other	0.0
-<<<<<<< HEAD
-=======
-16829	business	0.0
-16829	industry	0.0
-16829	macro	0.0
-16829	government	0.0
-16829	other	0.0
-26853	business	0.0
-26853	industry	0.0
-26853	macro	0.0
-26853	government	0.0
-26853	other	0.0
-582	business	0.0
-582	industry	0.0
-582	macro	0.0
-582	government	0.0
-582	other	0.0
-7277	business	0.0
-7277	industry	0.0
-7277	macro	0.0
-7277	government	0.0
-7277	other	0.0
-68959	business	0.0
-68959	industry	0.0
-68959	macro	0.0
-68959	government	0.0
-68959	other	0.0
-71631	business	0.0
-71631	industry	0.0
-71631	macro	0.0
-71631	government	0.0
-71631	other	0.0
-61646	business	0.0
-61646	industry	0.0
-61646	macro	0.0
-61646	government	0.0
-61646	other	0.0
-21481	business	0.0
-21481	industry	0.0
-21481	macro	0.0
-21481	government	0.0
-21481	other	0.0
-76649	business	0.0
-76649	industry	0.0
-76649	macro	0.0
-76649	government	0.0
-76649	other	0.0
-43627	business	0.0
-43627	industry	0.0
-43627	macro	0.0
-43627	government	0.0
-43627	other	0.0
->>>>>>> origin
