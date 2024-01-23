@@ -340,30 +340,30 @@ def visualize_anns(ann_dict: dict):
     X_axis = np.arange(bins)
     tot_articles = [199996]*bins
 
-    bin_names = ['type', 'econ_conditions', 'econ_change']
+    bin_names = ['Type', 'Condition', 'Direction']
 
 
-    plt.bar(X_axis, tot_articles, 0.4, color='#FED766')
-    plt.bar(X_axis, ann_dict.values(), 0.4, label='annotated', color='#a4649c') 
+    plt.bar(X_axis, tot_articles, 0.4, color='#5296fa')
+    plt.bar(X_axis, ann_dict.values(), 0.4, label='annotated', color='#dd6031') 
 
     plt.xticks(X_axis, bin_names)
     plt.yscale('log')
     plt.legend()
 
     plt.ylabel('Number of Articles (log scale)')
-    plt.xlabel('Annotation Component')
-    plt.savefig(fname='plot.pdf')
+    plt.xlabel('Article-level Annotation Component')
+    plt.savefig(fname='plot.png', dpi=300)
     
     plt.show()
 
 
 def main(args):
 
-    # qual_ann = get_qual_dict(args.db)
-    # agreed_qual_ann = get_agreed_anns(qual_ann)
-    # print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
-    # qual_label_counts, label_counts = print_agreed_anns_counts(agreed_qual_ann)
-    # visualize_anns(label_counts)
+    qual_ann = get_qual_dict(args.db)
+    agreed_qual_ann = get_agreed_anns(qual_ann)
+    print(gpt_cost(args.db, agreed_qual_ann, 0.0015))
+    qual_label_counts, label_counts = print_agreed_anns_counts(agreed_qual_ann)
+    visualize_anns(label_counts)
     # print_article_examples('econ_change', agreed_qual_ann, 'econ_change.txt', args.db)
 
 
@@ -388,7 +388,7 @@ def main(args):
     # for t in topics:
     #     print(t)
 
-    get_no_anns(args.db)
+    # get_no_anns(args.db)
 
 
 if __name__ == "__main__":
