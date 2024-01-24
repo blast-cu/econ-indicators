@@ -187,6 +187,7 @@ def get_agreement_matrix(article2ann):
             if len(article2ann[article_id][ann_comp]) >= 2:
                 combinations = itertools.combinations(article2ann[article_id][ann_comp], 2)
                 for c in combinations:
+                   
                     if c[0][1] != c[1][1]:
                         print(c)
                     x_ann.append(label_map[c[0][1]])
@@ -293,11 +294,9 @@ def main(args):
     # for user in sorted(user_disagreements.keys()):
     #     print("user", user, ":", round(user_disagreements[user]/user_total_anns[user], 2), user_total_anns[user])
     #     print(user_disagreements[user])
-        
 
     get_agreement_matrix(article2ann)
 
-        
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
