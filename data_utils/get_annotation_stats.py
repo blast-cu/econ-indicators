@@ -388,7 +388,8 @@ def main(args):
     # for t in topics:
     #     print(t)
 
-    get_no_anns(args.db)
+    # get_no_anns(args.db)
+    
 
 
 if __name__ == "__main__":
