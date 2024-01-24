@@ -18,13 +18,13 @@ SPLIT_DIR = "data/clean/"
 
 # maps annotation labels to integers for each prediction task
 label_maps = {
-    # 'type': {
-    #         'macro': 0,
-    #         'industry': 1,
-    #         'government': 2,
-    #         'personal': 3,
-    #         'business': 4,
-    #         'other': 5},
+    'type': {
+            'macro': 0,
+            'industry': 1,
+            'government': 2,
+            'personal': 3,
+            'business': 4,
+            'other': 5},
     # 'type-binary': {
     #         'macro': 0,
     #         'industry': 1,
@@ -32,10 +32,10 @@ label_maps = {
     #         'personal': 1, 
     #         'business': 1,
     #         'other': 1}
-    # 'spin': {
-    #         'pos': 0,
-    #         'neg': 1,
-    #         'neutral': 2},
+    'spin': {
+            'pos': 0,
+            'neg': 1,
+            'neutral': 2},
     'macro_type': {
             'jobs': 0,
             'retail': 1,
