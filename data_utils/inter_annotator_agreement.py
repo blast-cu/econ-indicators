@@ -10,7 +10,7 @@ from sklearn.utils.multiclass import unique_labels
 import numpy as np
 import itertools
 
-ann_structure = {
+qual_ann_structure = {
     'frame': {
             'business': 0,
             'industry': 1,
@@ -26,6 +26,33 @@ ann_structure = {
             'worse': 1,
             'same': 2,
             'none': 3}
+}
+
+quant_ann_structure = {
+    'type': {
+            'macro': 0,
+            'industry': 1,
+            'government': 2,
+            'personal': 3,
+            'business': 4,
+            'other': 5},
+    'spin': {
+            'pos': 0,
+            'neg': 1,
+            'neutral': 2},
+    'macro_type': {
+            'jobs': 0,
+            'retail': 1,
+            'interest': 2,
+            'prices': 3,
+            'energy': 4,
+            'wages': 5,
+            'macro': 6,
+            'market': 7,
+            'currency': 8,
+            'housing': 9,
+            'other': 10,
+            'none': 11}
 }
 
 component_name = {
@@ -174,9 +201,10 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     fig.tight_layout()
     return ax
 
-def get_agreement_matrix(article2ann):
+def get_agreement_matrix(article2ann, ann_structure):
 
     for ann_comp in ann_structure.keys():
+        
         x_ann = []
         y_ann = []
         classes = np.array(list(ann_structure[ann_comp].keys()))
@@ -189,9 +217,44 @@ def get_agreement_matrix(article2ann):
                 for c in combinations:
                    
                     if c[0][1] != c[1][1]:
+                        
+                        print(article2ann[article_id]['headline'])
+                        print(article2ann[article_id]['source'])
+                        print(article2ann[article_id]['url'])
+                        print(ann_comp)
                         print(c)
+                        print()
                     x_ann.append(label_map[c[0][1]])
                     y_ann.append(label_map[c[1][1]])
+
+        # plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
+        # plt.savefig("confusion_matrix_{}.png".format(ann_comp), dpi=300)
+                    
+def annotator_quant_percentages(article2ann, ann_structure):
+
+    for ann_comp in ann_structure.keys():
+        ann_count = {2: 0, 3: 0, 4: 0}
+
+        for article_id in article2ann:
+            if len(article2ann[article_id][ann_comp]) == 2:
+                ann_count[2] += 1
+            elif len(article2ann[article_id][ann_comp]) == 3:
+                ann_count[3] += 1
+            elif len(article2ann[article_id][ann_comp]) >= 4:
+                ann_count[4] += 1
+        
+        print(ann_comp, ann_count)
+
+        total = 0
+        for k in ann_count:
+            total += ann_count[k]
+
+        print("2 annotators: " + str(round(ann_count[2]/total*100, 2)) + "%")
+        print("3 annotators: " + str(round(ann_count[3]/total*100, 2)) + "%")
+        print("4+ annotators: " + str(round(ann_count[4]/total*100, 2)) + "%")
+        print("\n")
+
+                
 
         # plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
         # plt.savefig("confusion_matrix_{}.png".format(ann_comp), dpi=300)
@@ -295,7 +358,9 @@ def main(args):
     #     print("user", user, ":", round(user_disagreements[user]/user_total_anns[user], 2), user_total_anns[user])
     #     print(user_disagreements[user])
 
-    get_agreement_matrix(article2ann)
+    get_agreement_matrix(article2ann, qual_ann_structure)
+    # annotator_quant_percentages(article2ann, qual_ann_structure)
+    # annotator_quant_percentages(quantity2ann, quant_ann_structure)
 
 
 if __name__ == "__main__":
