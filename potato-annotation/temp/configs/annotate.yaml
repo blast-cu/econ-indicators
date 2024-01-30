@@ -1,15 +1,15 @@
 {
-    "port": 9001,
+    "port": 8000,
     "server_name": "potato annotator",
     "annotation_task_name": "Article Annotation",
-    "output_annotation_dir": "annotation_output/pilot/Computer_Science/",
+    "output_annotation_dir": "annotation_output/pilot/article_annotation/",
     "output_annotation_format": "tsv",
     "annotation_codebook_url": "",
     "data_files": [
-        "data_files/articles.csv"
+        "data_files/articles.json"
     ],
     "item_properties": {
-        "id_key": "id",
+        "id_key": id,
         "text_key": "text"
     },
     "list_as_text": {
@@ -65,7 +65,7 @@
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
         "labels_per_instance": 3,
-        "instance_per_annotator": 5,
+        "instance_per_annotator": 10,
         "test_question_per_annotator": 0,
         "users": []
     },
