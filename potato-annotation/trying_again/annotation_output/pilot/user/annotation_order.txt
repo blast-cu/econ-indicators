@@ -1,0 +1,15 @@
+Economic-Article-Annotation-intro.html
+Economic-Article-Annotation-1_Completely_different.html
+Economic-Article-Annotation-2_Mostly_different.html
+Economic-Article-Annotation-3_Somewhat_similar.html
+Economic-Article-Annotation-4_Mostly_the_same.html
+Economic-Article-Annotation-5_Completely_the_same.html
+Economic-Article-Annotation-consent.html
+Economic-Article-Annotation-instruction.html
+18738
+72116
+84464
+3475
+32615
+Economic-Article-Annotation-experience.html
+Economic-Article-Annotation-end.html
