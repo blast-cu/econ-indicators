@@ -52,17 +52,29 @@ def main(args):
     # get agreed article-level annotations
     # {key = articleid, value = dict of annotations}
     qual_ann = gs.get_qual_dict(db_filename)
+
     agreed_qual_ann = gs.get_agreed_anns(qual_ann)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
+
+    qual_ann = gs.get_qual_dict(db_filename)
+    noisy_qual_ann = gs.get_noisy_anns(qual_ann)
+    noisy_qual_ann = remove_empty(noisy_qual_ann)
     
     for k in agreed_qual_ann.keys():
         agreed_qual_ann[k]['quant_list'] = []
+
+    for k in noisy_qual_ann.keys():
+        noisy_qual_ann[k]['quant_list'] = []
 
     # get agreed quantitative annotations in dict where 
     # {key = "articleid_localid", value = dict of annotations}
     quant_ann = gs.get_quant_dict(db_filename)
     agreed_quant_ann = gs.get_agreed_anns(quant_ann)
     agreed_quant_ann = remove_empty(agreed_quant_ann)
+
+    quant_ann = gs.get_quant_dict(db_filename)
+    noisy_quant_ann = gs.get_noisy_anns(quant_ann)
+    noisy_quant_ann = remove_empty(noisy_quant_ann)
 
 
     # add quant_ids to agreed_qual_ann dict
@@ -78,6 +90,19 @@ def main(args):
 
         agreed_qual_ann[article_id]['quant_list'].append(quant_id)
 
+    # add quant_ids to noisy_qual_ann dict
+    for quant_id in noisy_quant_ann.keys():
+        article_id, local_id = quant_id.split('_')
+        article_id = int(article_id)
+        if article_id not in noisy_qual_ann.keys():
+            noisy_qual_ann[article_id] = {}
+            noisy_qual_ann[article_id]['frame'] = '\x00'
+            noisy_qual_ann[article_id]['econ_rate'] = '\x00'
+            noisy_qual_ann[article_id]['econ_change'] = '\x00'
+            noisy_qual_ann[article_id]['quant_list'] = []
+
+        noisy_qual_ann[article_id]['quant_list'].append(quant_id)
+
     # add text excerpts w/ context to agreed_quant_ann dict
     for id in agreed_qual_ann.keys():
         if len(agreed_qual_ann[id]['quant_list']) > 0:
@@ -87,6 +112,18 @@ def main(args):
             for id, text in excerpts.items():
                 agreed_quant_ann[id]['indicator'] = text[0]
                 agreed_quant_ann[id]['excerpt'] = text[1]
+                print(text[0])
+                print(text[1])
+    
+    # add text excerpts w/ context to noisy_quant_ann dict
+    for id in noisy_qual_ann.keys():
+        if len(noisy_qual_ann[id]['quant_list']) > 0:
+            excerpts = d.get_excerpts(noisy_qual_ann[id]['quant_list'],
+                                      db_filename)
+
+            for id, text in excerpts.items():
+                noisy_quant_ann[id]['indicator'] = text[0]
+                noisy_quant_ann[id]['excerpt'] = text[1]
                 print(text[0])
                 print(text[1])
 
@@ -113,11 +150,15 @@ def main(args):
     #     print(f"Test: {split_dict[k]['test']}")
 
     # # save dictionaries as pickles 
-    # base_dir = 'data/clean/'
+    base_dir = 'data/clean/'
     # d.save_progress(split_dict, f'{base_dir}splits_dict')
     # d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
     # d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
-    print(agreed_quant_ann)
+        
+    # save noisy dictionaries as pickles
+    d.save_progress(noisy_qual_ann, f'{base_dir}noisy_qual_dict')
+    d.save_progress(noisy_quant_ann, f'{base_dir}noisy_quant_dict')
+    
 
 
 if __name__ == '__main__':

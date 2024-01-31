@@ -24,7 +24,7 @@ def get_qual_dict(db_filename: str):
                 + ' FROM articleann ' \
                 + 'WHERE ' + comp + ' is NOT NULL and ' + comp + ' != "None";'
         res = cur.execute(query)
-        retrieve_anns(ann, res, comp) 
+        retrieve_anns(ann, res, comp)
 
     con.close()
     return ann
@@ -83,6 +83,30 @@ def get_agreed_anns(ann_dict: dict, type_filter: list = []):
         ann_dict = filtered_dict
 
     return ann_dict
+
+def get_noisy_anns(ann_dict: dict):
+
+    for id in ann_dict.keys(): 
+        curr_ent = ann_dict[id]
+        for type in curr_ent.keys():
+            curr_t = curr_ent[type]
+            result = '\0'
+
+            if len(curr_t) >= 2:  # 2 or more annotations
+                anns = [a[1] for a in curr_t]
+                c = Counter(anns).most_common()
+
+                # check for tie (first result count matches second)-> no consensus
+                if len(c) != 1 and c[0][1] == c[1][1]:
+                    result = c[0][0]
+    
+            elif len(curr_t) == 1:
+                result = curr_t[0][1]
+
+            ann_dict[id][type] = result
+    
+    return ann_dict
+    
 
 
 def print_agreed_anns_counts(ann_dict: dict):
@@ -389,7 +413,12 @@ def main(args):
     #     print(t)
 
     # get_no_anns(args.db)
-    print()
+    db_filename = args.db
+    qual_ann = get_qual_dict(db_filename)
+    noisy = get_noisy_anns(qual_ann)
+    for n in noisy.items():
+        print(n)
+
     
 
 
