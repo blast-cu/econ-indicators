@@ -7,6 +7,8 @@ import models.roberta_classifier.train_test_utils as tt
 import models.utils.dataset as d
 from data_utils import get_annotation_stats as gs
 
+ADD_NOISE = True
+
 label_maps = {
     'frame': {
             'business': 0,
@@ -51,13 +53,16 @@ def get_texts(db_filename: str,
 
 
 
-def main(args):
+# def main(args):
+def main():
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file. The best model for each task is exported to 
     models/roberta/best_models.
     """
+    db_filename = "data/data.db"
+    model_checkpoint = "data/masked/"
 
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
@@ -78,19 +83,37 @@ def main(args):
         split_train_ids = split['train']
         split_test_ids = split['test']
 
+        if ADD_NOISE:
+            noisy_qual_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
+            split_train_ids += noisy_qual_dict.keys()
+
+            for id in noisy_qual_dict.keys():
+                if id not in qual_dict.keys():
+                    qual_dict[id] = noisy_qual_dict[id]
+                else: 
+                    for k, v in noisy_qual_dict[id].items():
+                        if v != '\x00' and k != 'quant_list':
+                            if qual_dict[id][k] != '\x00':
+                                print(v)
+                                print(qual_dict[id][k])
+                                raise ValueError("Overwriting non-empty annotation")
+                                
+                            else:
+                                qual_dict[id][k] = v
+
         for task in list(label_maps.keys()):
 
             annotation_component = task.split('-')[0]
 
             train_texts, train_labels = \
-                get_texts(args.db,
+                get_texts(db_filename,
                           annotation_component,
                           task,
                           qual_dict,
                           split_train_ids)
             
             test_texts, test_labels = \
-                get_texts(args.db,
+                get_texts(db_filename,
                           annotation_component,
                           task,
                           qual_dict,
@@ -113,7 +136,7 @@ def main(args):
                          train_labels,
                          test_labels,
                          label_maps[task],
-                         model_checkpoint=args.model)
+                         model_checkpoint=model_checkpoint)
 
             tuned_model = tt.train(model, train_loader, val_loader,
                                    optimizer, class_weights)
@@ -126,7 +149,7 @@ def main(args):
             print(">>> Predictions: " + str(y_predicted))
             print('\n\n')
 
-            dest = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/fold{k}/qual/"
+            dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/fold{k}/qual/"
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
@@ -139,7 +162,7 @@ def main(args):
             model.save_pretrained(model_dest)
             
     for task in label_maps.keys():
-        dest = f"models/roberta_classifier/tuned_models/roberta_base_unfiltered/results/"
+        dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/results/"
 
         os.makedirs(dest, exist_ok=True)
 
@@ -150,8 +173,9 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--db", required=True, help="path to db file")
-    parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    args = parser.parse_args()
-    main(args)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--db", required=True, help="path to db file")
+    # parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
+    # args = parser.parse_args()
+    # main(args)
+    main()
