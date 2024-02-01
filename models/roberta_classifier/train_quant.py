@@ -9,6 +9,7 @@ import models.roberta_classifier.quant_utils as qu
 
 OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
 SPLIT_DIR = "data/clean/"
+ADD_NOISE = True
 
 # maps annotation labels to integers for each prediction task
 label_maps = {
@@ -44,6 +45,33 @@ label_maps = {
             'other': 10,
             'none': 11}
 }
+
+
+def get_noise(annotation_component: str,
+                task: str,
+                noise_dict: {}
+                ):
+    """
+    Retrieves texts and labels for split from the given dictionaries for
+    the given task.
+    """
+
+    texts = []  # list of [indicator text, text with context]
+    labels = []
+
+    for id in noise_dict.keys():
+        if noise_dict[id][annotation_component] != '\x00':
+            for ann in noise_dict[id][annotation_component]:
+                indicator_text = ann['indicator']
+                excerpt_text = ann['excerpt']
+                text = [indicator_text, excerpt_text]
+                texts.append(text)
+
+                label = ann['label']
+                labels.append(label_maps[task][label])
+    
+    return texts, labels
+    
 
 def get_texts(
               annotation_component: str,
@@ -100,13 +128,16 @@ def get_texts(
     return texts, labels
 
 
-def main(args):
+# def main(args):
+def main():
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    model_checkpoint = args.model
+    # model_checkpoint = args.model
+    model_checkpoint = "models/roberta_classifier/tuned_models/masked"
+    # model_checkpoint = "data/masked/"
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -135,8 +166,6 @@ def main(args):
         split_test_ids = split['test']
 
         for task in list(label_maps.keys()):
-        # for task in ['spin']:
-
 
             ann_component = task.split('-')[0]
 
@@ -147,6 +176,16 @@ def main(args):
                           quant_dict,
                           split_train_ids,
                           type_filter=type_filters[task])
+
+            if ADD_NOISE:
+                noise_dict = pickle.load(open(SPLIT_DIR + 'noisy_qual_dict', 'rb'))
+                noise_text, noise_labels = \
+                    get_noise(ann_component,
+                                task,
+                                noise_dict)
+                
+                train_texts += noise_text
+                train_labels += noise_labels
 
             test_texts, test_labels = \
                 get_texts(ann_component,
@@ -207,8 +246,9 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    args = parser.parse_args()
-    main(args)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
+    # args = parser.parse_args()
+    # main(args)
+    main()
  

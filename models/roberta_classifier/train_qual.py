@@ -33,6 +33,24 @@ label_maps = {
             'none': 3}
 }
 
+def get_noise(db_filename: str,
+              annotation_component: str,
+              task: str,
+              noise_dict: {}
+             ):
+    
+    texts = []
+    labels = []
+
+    for id in noise_dict.keys():
+        if noise_dict[id][annotation_component] !='\x00':
+            for label in noise_dict[id][annotation_component]:
+                texts.append(gs.get_text(id, db_filename, clean=False))
+                labels.append(label_maps[task][label])
+    
+    return texts, labels
+
+
 def get_texts(db_filename: str,
               annotation_component: str,
               task: str,
@@ -62,7 +80,8 @@ def main():
     models/roberta/best_models.
     """
     db_filename = "data/data.db"
-    model_checkpoint = "data/masked/"
+    # model_checkpoint = "data/masked/"
+    model_checkpoint = "roberta-base"
 
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
@@ -83,24 +102,6 @@ def main():
         split_train_ids = split['train']
         split_test_ids = split['test']
 
-        if ADD_NOISE:
-            noisy_qual_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
-            split_train_ids += noisy_qual_dict.keys()
-
-            for id in noisy_qual_dict.keys():
-                if id not in qual_dict.keys():
-                    qual_dict[id] = noisy_qual_dict[id]
-                else: 
-                    for k, v in noisy_qual_dict[id].items():
-                        if v != '\x00' and k != 'quant_list':
-                            if qual_dict[id][k] != '\x00':
-                                print(v)
-                                print(qual_dict[id][k])
-                                raise ValueError("Overwriting non-empty annotation")
-                                
-                            else:
-                                qual_dict[id][k] = v
-
         for task in list(label_maps.keys()):
 
             annotation_component = task.split('-')[0]
@@ -111,6 +112,20 @@ def main():
                           task,
                           qual_dict,
                           split_train_ids)
+            
+            if ADD_NOISE:
+                noise_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
+                noise_ids = list(noise_dict.keys())
+                noise_text, noise_labels = \
+                    get_noise(db_filename,
+                              annotation_component,
+                              task,
+                              noise_dict
+                              )
+                # print(">>> Number Noise texts: " + str(len(noise_text)))
+                # print(">>> Number Noise labels: " + str(len(noise_labels)))
+                train_texts += noise_text
+                train_labels += noise_labels
             
             test_texts, test_labels = \
                 get_texts(db_filename,

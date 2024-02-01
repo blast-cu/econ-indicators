@@ -70,7 +70,7 @@ def get_ann_dict(article_html: str,
                 not_found.append(id)
         # print("Desired ids: " + str(annotation_ids))
         print("Ids not found: " + str(not_found))
-        print("Article html\n" + str(article_html))
+        # print("Article html\n" + str(article_html))
         print()
 
     return ann_dict
@@ -97,6 +97,8 @@ def get_context(i: int,
         context = context + ' ' + sentences[i+1]
 
     return context
+
+
 
 
 def get_excerpts(ann_ids: list,
@@ -139,7 +141,7 @@ def get_excerpts(ann_ids: list,
                 print(">>> ERROR: Annotation not found in get_excerpts()")
                 print(ann_id)
                 print(ann_text)
-                print(article_sentences)
+                # print(article_sentences)
                 print()
 
     return excerpt_dict

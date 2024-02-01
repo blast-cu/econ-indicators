@@ -112,8 +112,6 @@ def main(args):
             for id, text in excerpts.items():
                 agreed_quant_ann[id]['indicator'] = text[0]
                 agreed_quant_ann[id]['excerpt'] = text[1]
-                print(text[0])
-                print(text[1])
     
     # add text excerpts w/ context to noisy_quant_ann dict
     for id in noisy_qual_ann.keys():
@@ -124,8 +122,6 @@ def main(args):
             for id, text in excerpts.items():
                 noisy_quant_ann[id]['indicator'] = text[0]
                 noisy_quant_ann[id]['excerpt'] = text[1]
-                print(text[0])
-                print(text[1])
 
 
     # create splits 
@@ -152,11 +148,11 @@ def main(args):
     # # save dictionaries as pickles 
     base_dir = 'data/clean/'
     # d.save_progress(split_dict, f'{base_dir}splits_dict')
-
-    
-
     # d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
     # d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
+
+    for i in noisy_qual_ann.items():
+        print(i)
         
     # save noisy dictionaries as pickles
     d.save_progress(noisy_qual_ann, f'{base_dir}noisy_qual_dict')

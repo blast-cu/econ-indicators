@@ -86,11 +86,11 @@ def get_agreed_anns(ann_dict: dict, type_filter: list = []):
 
 def get_noisy_anns(ann_dict: dict):
 
-    for id in ann_dict.keys(): 
+    for id in ann_dict.keys():
         curr_ent = ann_dict[id]
         for type in curr_ent.keys():
             curr_t = curr_ent[type]
-            result = '\0'
+            result = []
 
             if len(curr_t) >= 2:  # 2 or more annotations
                 anns = [a[1] for a in curr_t]
@@ -98,12 +98,16 @@ def get_noisy_anns(ann_dict: dict):
 
                 # check for tie (first result count matches second)-> no consensus
                 if len(c) != 1 and c[0][1] == c[1][1]:
-                    result = c[0][0]
+                    for ann in c:
+                        result.append(ann[0])
     
             elif len(curr_t) == 1:
-                result = curr_t[0][1]
+                result.append(curr_t[0][1])
 
-            ann_dict[id][type] = result
+            if result != []:
+                ann_dict[id][type] = result
+            else: 
+                ann_dict[id][type] = '\0'
     
     return ann_dict
     
