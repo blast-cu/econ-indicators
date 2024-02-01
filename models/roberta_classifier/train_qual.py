@@ -164,7 +164,7 @@ def main():
             print(">>> Predictions: " + str(y_predicted))
             print('\n\n')
 
-            dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/fold{k}/qual/"
+            dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/fold{k}/"
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
@@ -185,6 +185,9 @@ def main():
                  results[task]['labels'],
                  results[task]['predictions'],
                  dest)
+        
+        d.to_f1_csv(results, dest, f1='macro')
+        d.to_f1_csv(results, dest, f1='weighted')
 
 
 if __name__ == "__main__":
