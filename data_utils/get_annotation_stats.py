@@ -1,4 +1,5 @@
 from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
+
 import argparse
 import sqlite3
 from collections import Counter
@@ -49,67 +50,79 @@ def get_quant_dict(db_filename: str):
     return ann
 
 
-def get_agreed_anns(ann_dict: dict, type_filter: list = []):
+def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
     """
     Takes a nested dictionary of annotations (list) and returns
     nested dictionary of final annotations (str) wrt full agreement
     """
 
+    agreed_dict = {}
+
     for id in ann_dict.keys(): 
         curr_ent = ann_dict[id]
         # TODO: for quant anns, check type before subtypes
         for type in curr_ent.keys():
-            curr_t = curr_ent[type]
-            result = '\0'
+            if type in label_maps:
+                curr_t = curr_ent[type]
+                result = '\0'
 
-            if len(curr_t) >= 2:  # 2 or more annotations
-                anns = [a[1] for a in curr_t]
-                c = Counter(anns).most_common()
+                if len(curr_t) >= 2:  # 2 or more annotations
+                    anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
+                    c = Counter(anns).most_common()
 
-                # check for tie (first result count matches second)
-                if len(c) == 1 or c[0][1] != c[1][1]:
+                    # check for tie (first result count matches second)
+                    if len(c) == 1 or c[0][1] != c[1][1]:
 
-                    result = c[0][0]
+                        result = c[0][0]
 
-            ann_dict[id][type] = result
+                if id not in agreed_dict:
+                    agreed_dict[id] = {}
+
+                agreed_dict[id][type] = result
 
     if type_filter != []:
         filtered_dict = {}
-        for id in ann_dict.keys():
-            curr_ent = ann_dict[id]
+        for id in agreed_dict.keys():
+            curr_ent = agreed_dict[id]
             if curr_ent['type'] in type_filter:
                 filtered_dict[id] = curr_ent
-                
-        ann_dict = filtered_dict
 
-    return ann_dict
+        agreed_dict = filtered_dict
 
-def get_noisy_anns(ann_dict: dict):
+    return agreed_dict
+
+def get_noisy_anns(ann_dict: dict, label_maps: dict):
+
+    noisy_dict = {}
 
     for id in ann_dict.keys():
         curr_ent = ann_dict[id]
         for type in curr_ent.keys():
-            curr_t = curr_ent[type]
-            result = []
+            if type in label_maps:
+                curr_t = curr_ent[type]
+                result = []
 
-            if len(curr_t) >= 2:  # 2 or more annotations
-                anns = [a[1] for a in curr_t]
-                c = Counter(anns).most_common()
+                if len(curr_t) >= 2:  # 2 or more annotations
+                    anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
+                    c = Counter(anns).most_common()
 
-                # check for tie (first result count matches second)-> no consensus
-                if len(c) != 1 and c[0][1] == c[1][1]:
-                    for ann in c:
-                        result.append(ann[0])
+                    # check for tie (first result count matches second)-> no consensus
+                    if len(c) != 1 and c[0][1] == c[1][1]:
+                        for ann in c:
+                            result.append(ann[0])
+        
+                elif len(curr_t) == 1:
+                    result.append(curr_t[0][1])
+
+                if id not in noisy_dict:
+                    noisy_dict[id] = {}
+
+                if result != []:
+                    noisy_dict[id][type] = result
+                else:
+                    noisy_dict[id][type] = '\0'
     
-            elif len(curr_t) == 1:
-                result.append(curr_t[0][1])
-
-            if result != []:
-                ann_dict[id][type] = result
-            else: 
-                ann_dict[id][type] = '\0'
-    
-    return ann_dict
+    return noisy_dict
     
 
 

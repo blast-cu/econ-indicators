@@ -1,6 +1,6 @@
 from models.psl.generate_data import load_train_test_data
 import models.psl.generate_rules as gd
-import models.utils.dataset as d
+import data_utils.dataset as d
 import models.psl.run_inference as ri
 import pickle
 import os

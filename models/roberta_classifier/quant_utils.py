@@ -7,6 +7,8 @@ from torch.nn.functional import cross_entropy
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 import os
+from data_utils.dataset import quant_label_maps as label_maps
+
 
 def find_sub_list(indicator_text, excerpt_encoding, text):
 
@@ -380,6 +382,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
     return model
 
+
 def test(model, test_loader):
     """
     Evaluate the performance of a given model on a test dataset.
@@ -429,3 +432,92 @@ def test(model, test_loader):
         print(f"Test F1: {test_f1:.4f}")
 
         return out_labels, out_predicted, test_f1
+
+
+def get_noise(annotation_component: str,
+              task: str,
+              noise_dict: {}
+             ):
+    """
+    Retrieves noise data from the given noise dictionary based on the specified annotation component and task.
+
+    Args:
+        annotation_component (str): The annotation component to retrieve noise data for.
+        task (str): The task for which noise data is being retrieved.
+        noise_dict (dict): The dictionary containing the noise data.
+
+    Returns:
+        tuple: A tuple containing two lists - texts and labels. The texts list contains pairs of indicator text and text with context,
+               and the labels list contains the corresponding labels for each pair of texts.
+    """
+
+    texts = []  # list of [indicator text, text with context]
+    labels = []
+
+    for id in noise_dict.keys():
+        if noise_dict[id][annotation_component] != '\x00':
+            if 'indicator' in noise_dict[id].keys(): # temp fix
+                indicator_text = noise_dict[id]['indicator']
+                excerpt_text = noise_dict[id]['excerpt']
+                text = [indicator_text, excerpt_text]
+                for label in noise_dict[id][annotation_component]:
+
+                    texts.append(text)
+                    labels.append(label_maps[task][label])
+
+    return texts, labels
+
+
+def get_texts(
+              annotation_component: str,
+              task: str,
+              qual_dict: {},
+              quant_dict: {},
+              article_ids: [],
+              type_filter: [] = []
+              ):
+    """
+    Retrieves texts and labels for split from the given dictionaries for 
+    the given task.
+
+    Args:
+        annotation_component (str): The annotation component to retrieve labels from.
+        task (str): The task to perform.
+        qual_dict (dict): Dictionary of article-level anns.
+        quant_dict (dict): Dictionary of quant annotations.
+        article_ids (list): The list of article IDs to retrieve texts and
+                labels from.
+        type_filter (list, optional): The list of ann types to filter the entries.
+                Defaults to an empty list (no filter).
+
+    Returns:
+        tuple: A tuple containing the retrieved texts and labels.
+            - texts (list): [indicator text, text with context]
+            - labels (list): The list of labels for the given text
+    """
+
+    texts = []  # list of [indicator text, text with context]
+    labels = []
+
+    for id in article_ids:
+        if 'quant_list' in qual_dict[id].keys():
+            for quant_id in qual_dict[id]['quant_list']:
+                if quant_dict[quant_id][annotation_component] != '\x00':
+
+                    valid_entry = False
+                    if len(type_filter) == 0:
+                        valid_entry = True
+                    elif 'type' in quant_dict[quant_id].keys():
+                        if quant_dict[quant_id]['type'] in type_filter:
+                            valid_entry = True
+
+                    if valid_entry:
+                        indicator_text = quant_dict[quant_id]['indicator']
+                        excerpt_text = quant_dict[quant_id]['excerpt']
+                        text = [indicator_text, excerpt_text]
+                        texts.append(text)
+
+                        label = quant_dict[quant_id][annotation_component]
+                        labels.append(label_maps[task][label])
+
+    return texts, labels

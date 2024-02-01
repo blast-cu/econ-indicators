@@ -1,7 +1,7 @@
 import pickle
 import os
 from models.psl.evaluate_inference import load_train_test_data
-import models.utils.dataset as d
+import data_utils.dataset as d
 PRED_DIR = 'models/gpt/predictions/'
 LABEL_DIR = 'data/clean/'
 RESULTS_DIR = 'models/gpt/results/'

@@ -11,7 +11,7 @@ import models.roberta_classifier.predict_quant as pqt
 import models.roberta_classifier.quant_utils as qu
 import data_utils.get_annotation_stats as gs
 
-import models.utils.dataset as d
+import data_utils.dataset as d
 
 QUANT_MODELS_DIR = 'models/roberta_classifier/tuned_models/quant_masked'
 QUAL_MODELS_DIR = 'models/roberta_classifier/tuned_models/qual_base'

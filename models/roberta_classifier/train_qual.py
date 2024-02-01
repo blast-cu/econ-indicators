@@ -4,7 +4,8 @@ import pickle
 import os
 
 import models.roberta_classifier.train_test_utils as tt
-import models.utils.dataset as d
+import data_utils.dataset as d
+from data_utils.dataset import qual_label_maps as label_maps
 from data_utils import get_annotation_stats as gs
 
 SETTING = "roberta_noise"
@@ -16,30 +17,6 @@ MODEL_CHECKPOINT = "roberta-base"
 DB_FILENAME = "data/data.db"
 
 ADD_NOISE = True
-
-label_maps = {
-    'frame': {
-            'business': 0,
-            'industry': 1,
-            'macro': 2,
-            'government': 3,
-            'other': 4},
-    # 'frame-binary': {
-    #         'business': 0,
-    #         'industry': 1,
-    #         'macro': 1,
-    #         'government': 1,
-    #         'other': 1},
-    'econ_rate': {
-            'good': 0,
-            'poor': 1,
-            'none': 2},
-    'econ_change': {
-            'better': 0,
-            'worse': 1,
-            'same': 2,
-            'none': 3}
-}
 
 def get_noise(db_filename: str,
               annotation_component: str,
