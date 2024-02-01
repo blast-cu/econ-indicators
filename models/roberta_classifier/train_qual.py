@@ -191,8 +191,8 @@ def main():
                  results[task]['predictions'],
                  dest)
         
-        d.to_f1_csv(results, dest, f1='macro')
-        d.to_f1_csv(results, dest, f1='weighted')
+    d.to_f1_csv(results, dest, f1='macro')
+    d.to_f1_csv(results, dest, f1='weighted')
 
 
 if __name__ == "__main__":
