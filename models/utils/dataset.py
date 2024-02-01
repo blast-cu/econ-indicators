@@ -257,7 +257,7 @@ def to_csv(annotation_component: str,
     df.to_csv(f"{destination}/{annotation_component}_classification_report.csv")
 
 def to_f1_csv(results,
-              detination,
+              destination,
               f1):
     
     destination = destination + f1 + "_f1_report.csv"
