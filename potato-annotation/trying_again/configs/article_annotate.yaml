@@ -80,7 +80,7 @@
     "alert_time_each_instance": 10000000,
     "annotation_schemes": [
         {
-            "annotation_type": "likert",
+            "annotation_type": "radio",
             "name": "Economic Conditions",
             "description": "How does this article rate economic conditions in the US?",
             "labels": [
@@ -121,7 +121,48 @@
             }
         },
         {
-            "annotation_type": "likert",
+            "annotation_type": "radio",
+            "name": "Economic Conditions",
+            "description": "How does this article rate economic conditions in the US?",
+            "labels": [
+                {
+                    "name": "Excellent",
+                    "tooltip": "",
+                    "key_value": "1"
+                },
+                {
+                    "name": "Good",
+                    "tooltip": "",
+                    "key_value": "2"
+                },
+                {
+                    "name": "Fair",
+                    "tooltip": "",
+                    "key_value": "3"
+                },
+                {
+                    "name": "Poor",
+                    "tooltip": "",
+                    "key_value": "4"
+                },
+                {
+                    "name": "No Opinion",
+                    "tooltip": "",
+                    "key_value": "5"
+                },
+                {
+                    "name": "Not relevant to the US economy",
+                    "tooltip": "",
+                    "key_value": "6"
+                },
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        },
+        {
+            "annotation_type": "radio",
             "name": "Economic Direction",
             "description": "Does this article state/imply that economic conditions in the US as a whole are. . . ?",
             "labels": [

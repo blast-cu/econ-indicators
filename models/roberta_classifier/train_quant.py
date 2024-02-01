@@ -6,12 +6,12 @@ import models.roberta_classifier.train_test_utils as tt
 import models.utils.dataset as d
 import models.roberta_classifier.quant_utils as qu
 
-# SETTING = "roberta_masked_noise"
-SETTING = "test"
+SETTING = "roberta_masked_noise"
+# SETTING = "test"
 OUT_DIR = "models/roberta_classifier/tuned_models/quant" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
-MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
-# MODEL_CHECKPOINT = "data/masked/"
+# MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
+MODEL_CHECKPOINT = "data/masked/"
 
 ADD_NOISE = True
 
@@ -170,9 +170,7 @@ def main():
         split_train_ids = split['train']
         split_test_ids = split['test']
 
-        # for task in list(label_maps.keys()):
-        for task in ['type']:
-
+        for task in list(label_maps.keys()):
 
             ann_component = task.split('-')[0]
 
@@ -240,9 +238,6 @@ def main():
                 dest)
 
             tuned_model.save(dest, task)
-
-            break  # for testing
-        break
     
 
 
