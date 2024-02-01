@@ -7,6 +7,14 @@ import models.roberta_classifier.train_test_utils as tt
 import models.utils.dataset as d
 from data_utils import get_annotation_stats as gs
 
+SETTING = "roberta_noise"
+# SETTING = "test"
+OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
+SPLIT_DIR = "data/clean/"
+# MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
+MODEL_CHECKPOINT = "roberta-base"
+DB_FILENAME = "data/data.db"
+
 ADD_NOISE = True
 
 label_maps = {
@@ -79,9 +87,6 @@ def main():
     results to a CSV file. The best model for each task is exported to 
     models/roberta/best_models.
     """
-    db_filename = "data/data.db"
-    # model_checkpoint = "data/masked/"
-    model_checkpoint = "roberta-base"
 
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
@@ -107,7 +112,7 @@ def main():
             annotation_component = task.split('-')[0]
 
             train_texts, train_labels = \
-                get_texts(db_filename,
+                get_texts(DB_FILENAME,
                           annotation_component,
                           task,
                           qual_dict,
@@ -117,7 +122,7 @@ def main():
                 noise_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
                 noise_ids = list(noise_dict.keys())
                 noise_text, noise_labels = \
-                    get_noise(db_filename,
+                    get_noise(DB_FILENAME,
                               annotation_component,
                               task,
                               noise_dict
@@ -128,7 +133,7 @@ def main():
                 train_labels += noise_labels
             
             test_texts, test_labels = \
-                get_texts(db_filename,
+                get_texts(DB_FILENAME,
                           annotation_component,
                           task,
                           qual_dict,
@@ -151,7 +156,7 @@ def main():
                          train_labels,
                          test_labels,
                          label_maps[task],
-                         model_checkpoint=model_checkpoint)
+                         model_checkpoint=MODEL_CHECKPOINT)
 
             tuned_model = tt.train(model, train_loader, val_loader,
                                    optimizer, class_weights)
@@ -164,7 +169,7 @@ def main():
             print(">>> Predictions: " + str(y_predicted))
             print('\n\n')
 
-            dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/fold{k}/"
+            dest = f"{OUT_DIR}fold{k}/"
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
@@ -177,7 +182,7 @@ def main():
             model.save_pretrained(model_dest)
             
     for task in label_maps.keys():
-        dest = f"models/roberta_classifier/tuned_models/roberta_masked_noise/results/"
+        dest = f"{OUT_DIR}results/"
 
         os.makedirs(dest, exist_ok=True)
 

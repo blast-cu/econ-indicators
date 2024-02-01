@@ -8,7 +8,7 @@ import models.roberta_classifier.quant_utils as qu
 
 SETTING = "roberta_masked_noise"
 # SETTING = "test"
-OUT_DIR = "models/roberta_classifier/tuned_models/quant" + SETTING + "/"
+OUT_DIR = "models/roberta_classifier/tuned_models/quant_" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
 # MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
 MODEL_CHECKPOINT = "data/masked/"
@@ -228,7 +228,7 @@ def main():
             print(">>> Predictions:\t" + str(y_predicted))
             print('\n\n')
 
-            dest = os.path.join(OUT_DIR, f"fold{k}/quant/{task}_model/")
+            dest = os.path.join(OUT_DIR, f"fold{k}/{task}_model/")
             os.makedirs(dest, exist_ok=True)
 
             d.to_csv(
