@@ -268,6 +268,7 @@ def to_f1_csv(results,
         labels = results[task]['labels']
         predictions = results[task]['predictions']
         score = f1_score(labels, predictions, average=f1)
+        score = round(score, 3)
         results_formatted[task].append(score)
 
     df = pd.DataFrame(results_formatted)
