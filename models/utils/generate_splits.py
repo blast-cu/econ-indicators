@@ -150,9 +150,6 @@ def main(args):
     # d.save_progress(split_dict, f'{base_dir}splits_dict')
     # d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
     # d.save_progress(agreed_qual_ann, f'{base_dir}qual_dict')
-
-    for i in noisy_qual_ann.items():
-        print(i)
         
     # save noisy dictionaries as pickles
     d.save_progress(noisy_qual_ann, f'{base_dir}noisy_qual_dict')

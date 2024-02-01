@@ -13,26 +13,26 @@ def main():
     col_names = ['id', 'text']
     
 
-    articles = gs.get_no_anns(db_filename=DB_FILENAME, num_samples=num_articles)
+    articles = gs.get_no_anns(db_filename=DB_FILENAME, num_samples=num_articles, clean=False)
     # print(articles)
 
-    data_list = []
-    out_file = OUTPUT_DIR + '/articles.json'
-    for id, text in articles.items():
-        temp_dict = {}
-        temp_dict['id'] = str(id)
-        temp_dict['text'] = text
-        # data_list.append(temp_dict)
-        with open(out_file, 'a+') as f:
-            f.write('\n')
-            json.dump(temp_dict, f)
+    # data_list = []
+    # out_file = OUTPUT_DIR + '/articles.json'
+    # for id, text in articles.items():
+    #     temp_dict = {}
+    #     temp_dict['id'] = str(id)
+    #     temp_dict['text'] = text
+    #     # data_list.append(temp_dict)
+    #     with open(out_file, 'a+') as f:
+    #         f.write('\n')
+    #         json.dump(temp_dict, f)
 
-    # csv_dict = {}
-    # csv_dict['id'] = list(articles.keys())
-    # csv_dict['text'] = list(articles.values())
+    csv_dict = {}
+    csv_dict['id'] = list(articles.keys())
+    csv_dict['text'] = list(articles.values())
 
-    # df = pd.DataFrame(csv_dict)
-    # df.to_csv(OUTPUT_DIR + '/articles.csv', index=False)
+    df = pd.DataFrame(csv_dict)
+    df.to_csv(OUTPUT_DIR + '/articles.csv', index=False)
 
     # split_dir = 'data/clean/'
     # qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))

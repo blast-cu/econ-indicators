@@ -23,9 +23,10 @@ def find_sub_list(indicator_text, excerpt_encoding, text):
             if sub_start >= token_start and sub_start <= token_end:
                 start_index = i
         else:
-            if sub_end > token_start and sub_end <= token_end:
+            if sub_end >= token_start and sub_end <= token_end:
                 end_index = i + 1
                 break
+
     return start_index, end_index
 
 
@@ -181,6 +182,11 @@ class TextClassificationDataset(Dataset):
         if start_index is None or end_index is None:
             print('Substring: ' + indicator_text)
             print('Original text: ' + text)
+            print('Start index: ' + str(start_index))
+            print('End index: ' + str(end_index))
+            print('Offset mapping: \n')
+            for i, token in enumerate(temp_encoding['offset_mapping'][0]):
+                print(f"Token {i}: {token}")
             raise Exception('Could not find indicator text in excerpt')
 
         if end_index > self.max_length:

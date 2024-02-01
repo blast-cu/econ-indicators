@@ -2,7 +2,7 @@ import data_utils.get_annotation_stats as gs  # msql queries
 
 from bs4 import BeautifulSoup
 import nltk
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score
 import pandas as pd
 import sys
 import pickle
@@ -255,3 +255,25 @@ def to_csv(annotation_component: str,
 
     df = pd.DataFrame(report).transpose()
     df.to_csv(f"{destination}/{annotation_component}_classification_report.csv")
+
+def to_f1_csv(results,
+              detination,
+              f1):
+    
+    destination = destination + f1 + "_f1_report.csv"
+
+    results_formatted = {}
+    for task in results.keys():
+        results_formatted[task] = []
+        labels = results[task]['labels']
+        predictions = results[task]['predictions']
+        score = f1_score(labels, predictions, average=f1)
+        results_formatted[task].append(score)
+
+    df = pd.DataFrame(results_formatted)
+    df.to_csv(destination)
+
+
+
+
+

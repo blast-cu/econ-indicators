@@ -259,7 +259,7 @@ def get_text(article_id: int, db_filename: str, clean: bool = True):
 
     return text
 
-def get_no_anns(db_filename: str, num_samples: int = None):
+def get_no_anns(db_filename: str, num_samples: int = None, clean: bool = True):
     """
     Retrieves a dictionary of articles with no annotations from a SQLite database.
 
@@ -288,7 +288,9 @@ def get_no_anns(db_filename: str, num_samples: int = None):
         samples = random.sample(samples, num_samples)
 
     for id, text in samples:
-        articles[id] = extract_strings(text)
+        if clean:
+            text = extract_strings(text)
+        articles[id] = text
 
     con.close()
     return articles

@@ -6,7 +6,7 @@
     "output_annotation_format": "tsv",
     "annotation_codebook_url": "",
     "data_files": [
-        "data_files/articles.json"
+        "data_files/articles.csv"
     ],
     "item_properties": {
         "id_key": "id",

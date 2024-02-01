@@ -6,10 +6,15 @@ import models.roberta_classifier.train_test_utils as tt
 import models.utils.dataset as d
 import models.roberta_classifier.quant_utils as qu
 
-
-OUT_DIR = "models/roberta_classifier/tuned_models/masked_folds"
+# SETTING = "roberta_masked_noise"
+SETTING = "test"
+OUT_DIR = "models/roberta_classifier/tuned_models/quant" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
+MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
+# MODEL_CHECKPOINT = "data/masked/"
+
 ADD_NOISE = True
+
 
 # maps annotation labels to integers for each prediction task
 label_maps = {
@@ -61,14 +66,14 @@ def get_noise(annotation_component: str,
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
-            for ann in noise_dict[id][annotation_component]:
-                indicator_text = ann['indicator']
-                excerpt_text = ann['excerpt']
+            if 'indicator' in noise_dict[id].keys(): # temp fix
+                indicator_text = noise_dict[id]['indicator']
+                excerpt_text = noise_dict[id]['excerpt']
                 text = [indicator_text, excerpt_text]
-                texts.append(text)
+                for label in noise_dict[id][annotation_component]:
 
-                label = ann['label']
-                labels.append(label_maps[task][label])
+                    texts.append(text)
+                    labels.append(label_maps[task][label])
     
     return texts, labels
     
@@ -135,9 +140,8 @@ def main():
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    # model_checkpoint = args.model
-    model_checkpoint = "models/roberta_classifier/tuned_models/masked"
-    # model_checkpoint = "data/masked/"
+    # MODEL_CHECKPOINT = args.model
+    
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -158,6 +162,7 @@ def main():
         results[task]['predictions'] = []
 
     for k, split in splits_dict.items():
+        
 
         print("Fold " + str(k+1) + " of 5")
         print()
@@ -165,7 +170,9 @@ def main():
         split_train_ids = split['train']
         split_test_ids = split['test']
 
-        for task in list(label_maps.keys()):
+        # for task in list(label_maps.keys()):
+        for task in ['type']:
+
 
             ann_component = task.split('-')[0]
 
@@ -178,7 +185,7 @@ def main():
                           type_filter=type_filters[task])
 
             if ADD_NOISE:
-                noise_dict = pickle.load(open(SPLIT_DIR + 'noisy_qual_dict', 'rb'))
+                noise_dict = pickle.load(open(SPLIT_DIR + 'noisy_quant_dict', 'rb'))
                 noise_text, noise_labels = \
                     get_noise(ann_component,
                                 task,
@@ -205,7 +212,7 @@ def main():
                          train_labels,
                          test_labels,
                          label_maps[task],
-                         model_checkpoint=model_checkpoint)
+                         model_checkpoint=MODEL_CHECKPOINT)
 
             tuned_model = qu.train(model,
                                    train_loader,
@@ -234,6 +241,10 @@ def main():
 
             tuned_model.save(dest, task)
 
+            break  # for testing
+        break
+    
+
 
     for task in label_maps.keys():
         dest = os.path.join(OUT_DIR, "results")
@@ -244,6 +255,8 @@ def main():
                  results[task]['predictions'],
                  dest)
 
+    d.to_f1_csv(results, dest, f1='macro')
+    d.to_f1_csv(results, dest, f1='weighted')
 
 if __name__ == "__main__":
     # parser = argparse.ArgumentParser()
