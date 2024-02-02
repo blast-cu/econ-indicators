@@ -1,0 +1,6 @@
+Fold,frame_agreed,frame_noisy,econ_rate_agreed,econ_rate_noisy,econ_change_agreed,econ_change_noisy,type_agreed,type_noisy,macro_type_agreed,macro_type_noisy,spin_agreed,spin_noisy
+0,22,58,15,68,15,74,110,831,56,432,78,952
+1,25,58,17,68,17,74,133,831,108,432,85,952
+2,22,58,11,68,10,74,124,831,50,432,77,952
+3,20,58,11,68,10,74,108,831,65,432,82,952
+4,22,58,12,68,12,74,137,831,66,432,105,952

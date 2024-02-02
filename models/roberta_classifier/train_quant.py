@@ -25,7 +25,7 @@ def main():
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict_clean', 'rb'))
+    quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
 
     type_filters = {
         'type': [],
@@ -73,7 +73,7 @@ def main():
                 train_labels += noise_labels
 
             test_texts, test_labels = \
-                get_texts(ann_component,
+                qu.get_texts(ann_component,
                           task,
                           qual_dict,
                           quant_dict,

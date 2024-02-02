@@ -463,6 +463,11 @@ def get_noise(annotation_component: str,
                 for label in noise_dict[id][annotation_component]:
 
                     texts.append(text)
+                    if label not in label_maps[task].keys():
+                        print(f"Label {label} not found in label_maps")
+                        print(id)
+                        # print(noise_dict[id])
+                        exit()
                     labels.append(label_maps[task][label])
 
     return texts, labels
@@ -502,6 +507,11 @@ def get_texts(
     for id in article_ids:
         if 'quant_list' in qual_dict[id].keys():
             for quant_id in qual_dict[id]['quant_list']:
+                if quant_id not in quant_dict.keys():
+                    print(f"Quant ID {quant_id} not found in quant_dict")
+                    print(qual_dict[id])
+                    print(quant_dict)
+                    exit()
                 if quant_dict[quant_id][annotation_component] != '\x00':
 
                     valid_entry = False

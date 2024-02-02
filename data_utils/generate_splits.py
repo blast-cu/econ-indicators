@@ -142,15 +142,8 @@ def main(args):
     agreed_qual_ann = gs.get_agreed_anns(qual_ann, qual_label_maps)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
 
-    qual_ann = gs.get_qual_dict(db_filename)
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
     noisy_qual_ann = remove_empty(noisy_qual_ann)
-    
-    for k in agreed_qual_ann.keys():
-        agreed_qual_ann[k]['quant_list'] = []
-
-    for k in noisy_qual_ann.keys():
-        noisy_qual_ann[k]['quant_list'] = []
 
     # get agreed quantitative annotations in dict where 
     # {key = "articleid_localid", value = dict of annotations}
@@ -158,9 +151,16 @@ def main(args):
     agreed_quant_ann = gs.get_agreed_anns(quant_ann, quant_label_maps)
     agreed_quant_ann = remove_empty(agreed_quant_ann)
 
-    quant_ann = gs.get_quant_dict(db_filename)
     noisy_quant_ann = gs.get_noisy_anns(quant_ann, quant_label_maps)
     noisy_quant_ann = remove_empty(noisy_quant_ann)
+    
+    for k in agreed_qual_ann.keys():
+        agreed_qual_ann[k]['quant_list'] = []
+
+    for k in noisy_qual_ann.keys():
+        noisy_qual_ann[k]['quant_list'] = []
+
+    
 
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
@@ -184,7 +184,6 @@ def main(args):
 
     sanity_check(agreed_qual_ann, noisy_qual_ann)
     sanity_check(agreed_quant_ann, noisy_quant_ann)
-
 
     # # save dictionaries as pickles 
     base_dir = 'data/clean/'

@@ -33,10 +33,6 @@ quant_label_maps = {
             'personal': 3,
             'business': 4,
             'other': 5},
-    'spin': {
-            'pos': 0,
-            'neg': 1,
-            'neutral': 2},
     'macro_type': {
             'jobs': 0,
             'retail': 1,
@@ -49,7 +45,11 @@ quant_label_maps = {
             'currency': 8,
             'housing': 9,
             'other': 10,
-            'none': 11}
+            'none': 11},
+    'spin': {
+            'pos': 0,
+            'neg': 1,
+            'neutral': 2}
 }
 
 

@@ -18,42 +18,6 @@ DB_FILENAME = "data/data.db"
 
 ADD_NOISE = True
 
-def get_noise(db_filename: str,
-              annotation_component: str,
-              task: str,
-              noise_dict: {}
-             ):
-    
-    texts = []
-    labels = []
-
-    for id in noise_dict.keys():
-        if noise_dict[id][annotation_component] !='\x00':
-            for label in noise_dict[id][annotation_component]:
-                texts.append(gs.get_text(id, db_filename, clean=False))
-                labels.append(label_maps[task][label])
-    
-    return texts, labels
-
-
-def get_texts(db_filename: str,
-              annotation_component: str,
-              task: str,
-              agreed_anns_dict: {},
-              article_ids: []):
-
-    texts = []
-    labels = []
-
-    for id in article_ids:
-        if annotation_component in agreed_anns_dict[id].keys():
-            if agreed_anns_dict[id][annotation_component] !='\x00':
-                texts.append(gs.get_text(id, db_filename, clean=False))
-                label = agreed_anns_dict[id][annotation_component]
-                labels.append(label_maps[task][label])
-
-    return texts, labels
-
 
 
 # def main(args):
@@ -89,7 +53,7 @@ def main():
             annotation_component = task.split('-')[0]
 
             train_texts, train_labels = \
-                get_texts(DB_FILENAME,
+                tt.get_texts(DB_FILENAME,
                           annotation_component,
                           task,
                           qual_dict,
@@ -97,9 +61,8 @@ def main():
             
             if ADD_NOISE:
                 noise_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
-                noise_ids = list(noise_dict.keys())
                 noise_text, noise_labels = \
-                    get_noise(DB_FILENAME,
+                    tt.get_noise(DB_FILENAME,
                               annotation_component,
                               task,
                               noise_dict
@@ -110,7 +73,7 @@ def main():
                 train_labels += noise_labels
             
             test_texts, test_labels = \
-                get_texts(DB_FILENAME,
+                tt.get_texts(DB_FILENAME,
                           annotation_component,
                           task,
                           qual_dict,

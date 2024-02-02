@@ -7,6 +7,8 @@ from torch.utils.data import DataLoader, Dataset
 import pandas as pd
 from torch.nn.functional import cross_entropy
 from sklearn.utils.class_weight import compute_class_weight
+from data_utils.dataset import qual_label_maps as label_maps
+import data_utils.get_annotation_stats as gs
 
 
 class TextClassificationDataset(Dataset):
@@ -301,3 +303,40 @@ def get_weights(y, annotation_map: dict):
     weight = [float(w) for w in weight]
     class_weights = torch.tensor(weight).to('cuda')
     return class_weights
+
+
+def get_noise(db_filename: str,
+              annotation_component: str,
+              task: str,
+              noise_dict: {}
+             ):
+    
+    texts = []
+    labels = []
+
+    for id in noise_dict.keys():
+        if noise_dict[id][annotation_component] !='\x00':
+            for label in noise_dict[id][annotation_component]:
+                texts.append(gs.get_text(id, db_filename, clean=False))
+                labels.append(label_maps[task][label])
+    
+    return texts, labels
+
+
+def get_texts(db_filename: str,
+              annotation_component: str,
+              task: str,
+              agreed_anns_dict: {},
+              article_ids: []):
+
+    texts = []
+    labels = []
+
+    for id in article_ids:
+        if annotation_component in agreed_anns_dict[id].keys():
+            if agreed_anns_dict[id][annotation_component] !='\x00':
+                texts.append(gs.get_text(id, db_filename, clean=False))
+                label = agreed_anns_dict[id][annotation_component]
+                labels.append(label_maps[task][label])
+
+    return texts, labels

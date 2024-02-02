@@ -111,7 +111,7 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
                         for ann in c:
                             result.append(ann[0])
         
-                elif len(curr_t) == 1:
+                elif len(curr_t) == 1 and curr_t[0][1] in label_maps[type]:
                     result.append(curr_t[0][1])
 
                 if id not in noisy_dict:
