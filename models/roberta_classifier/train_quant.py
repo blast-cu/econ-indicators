@@ -74,11 +74,11 @@ def main():
 
             test_texts, test_labels = \
                 qu.get_texts(ann_component,
-                          task,
-                          qual_dict,
-                          quant_dict,
-                          split_test_ids,
-                          type_filter=type_filters[task])
+                             task,
+                             qual_dict,
+                             quant_dict,
+                             split_test_ids,
+                             type_filter=type_filters[task])
 
             # gets class weights for loss function
             class_weights = tt.get_weights(train_labels,
