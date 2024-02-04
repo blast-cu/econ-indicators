@@ -12,8 +12,8 @@ SETTING = "roberta_noise"
 # SETTING = "test"
 OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
-# MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
-MODEL_CHECKPOINT = "roberta-base"
+MODEL_CHECKPOINT = "data/masked/"
+# MODEL_CHECKPOINT = "roberta-base"
 DB_FILENAME = "data/data.db"
 
 ADD_NOISE = True
