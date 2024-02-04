@@ -34,13 +34,13 @@
         ],
         "pre_annotation": [
             "surveyflow/intro.jsonl",
-            "surveyflow/1_Completely_different.jsonl",
-            "surveyflow/2_Mostly_different.jsonl",
-            "surveyflow/3_Somewhat_similar.jsonl",
-            "surveyflow/4_Mostly_the_same.jsonl",
-            "surveyflow/5_Completely_the_same.jsonl",
-            "surveyflow/consent.jsonl",
-            "surveyflow/instruction.jsonl"
+            # "surveyflow/1_Completely_different.jsonl",
+            # "surveyflow/2_Mostly_different.jsonl",
+            # "surveyflow/3_Somewhat_similar.jsonl",
+            # "surveyflow/4_Mostly_the_same.jsonl",
+            # "surveyflow/5_Completely_the_same.jsonl",
+            # "surveyflow/consent.jsonl",
+            # "surveyflow/instruction.jsonl"
         ],
         "prestudy_passed": [
             "surveyflow/prestudy_pass.jsonl"

@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --time=24:00:00
+#SBATCH --time=3:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
@@ -25,4 +25,4 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_quant
+python -m models.roberta_classifier.train_qual

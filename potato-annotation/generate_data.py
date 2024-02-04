@@ -4,7 +4,7 @@ import json
 
 import data_utils.get_annotation_stats as gs
 
-OUTPUT_DIR = "potato-annotation/trying_again/data_files"
+OUTPUT_DIR = "potato-annotation/article_annotate/data_files"
 DB_FILENAME =  "data/data.db"
 
 def save_progress(to_save,
@@ -32,7 +32,10 @@ def main():
     col_names = ['id', 'text']
     
 
-    articles = gs.get_no_anns(db_filename=DB_FILENAME, num_samples=num_articles, clean=False)
+    articles = gs.get_no_anns(db_filename=DB_FILENAME,
+                              num_samples=num_articles,
+                              clean=False,
+                              headline=True)
     # print(articles)
 
     # json
@@ -47,28 +50,32 @@ def main():
     #         f.write('\n')
     #         json.dump(temp_dict, f)
 
-    # # csv
-    # csv_dict = {}
-    # csv_dict['id'] = list(articles.keys())
-    # csv_dict['text'] = list(articles.values())
+    for id, text in articles.items():
+        headline = "<h3>" + text[0] + "</h3>"
+        articles[id] = headline + text[1]
 
-    # df = pd.DataFrame(csv_dict)
-    # df.to_csv(OUTPUT_DIR + '/articles.csv', index=False)
+    # csv
+    csv_dict = {}
+    csv_dict['id'] = list(articles.keys())
+    csv_dict['text'] = list(articles.values())
+
+    df = pd.DataFrame(csv_dict)
+    df.to_csv(OUTPUT_DIR + '/articles.csv', index=False)
 
 
 
-    temp = pickle.load(open('data/clean/quant_excerpts_dict', 'rb'))
-    article_excerpt_dict = {}
-    for global_id in temp.keys():
-        article_id, local_id = global_id.split('_')
-        article_id = int(article_id)
-        if article_id not in article_excerpt_dict:
-            article_excerpt_dict[article_id] = []
-        article_excerpt_dict[article_id].append(global_id)
+    # temp = pickle.load(open('data/clean/quant_excerpts_dict', 'rb'))
+    # article_excerpt_dict = {}
+    # for global_id in temp.keys():
+    #     article_id, local_id = global_id.split('_')
+    #     article_id = int(article_id)
+    #     if article_id not in article_excerpt_dict:
+    #         article_excerpt_dict[article_id] = []
+    #     article_excerpt_dict[article_id].append(global_id)
 
-    for id in article_excerpt_dict.items():
-        print(id)
-    # save_progress(article_excerpt_dict, 'data/clean/article_excerpt_dict')
+    # for id in article_excerpt_dict.items():
+    #     print(id)
+    # # save_progress(article_excerpt_dict, 'data/clean/article_excerpt_dict')
     
 
 

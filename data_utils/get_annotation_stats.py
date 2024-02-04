@@ -272,7 +272,7 @@ def get_text(article_id: int, db_filename: str, clean: bool = True):
 
     return text
 
-def get_no_anns(db_filename: str, num_samples: int = None, clean: bool = True):
+def get_no_anns(db_filename: str, num_samples: int = None, clean: bool = True, headline: bool = False):
     """
     Retrieves a dictionary of articles with no annotations from a SQLite database.
 
@@ -303,7 +303,12 @@ def get_no_anns(db_filename: str, num_samples: int = None, clean: bool = True):
     for id, text in samples:
         if clean:
             text = extract_strings(text)
-        articles[id] = text
+        if headline:
+            query = "SELECT headline FROM article WHERE id is " + str(id) + ";"
+            headline = cur.execute(query).fetchone()
+            articles[id] = (headline[0], text)
+        else: 
+            articles[id] = text
 
     con.close()
     return articles

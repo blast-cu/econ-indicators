@@ -19,8 +19,6 @@ DB_FILENAME = "data/data.db"
 ADD_NOISE = True
 
 
-
-# def main(args):
 def main():
     """
     Performs k-fold cross-validation for a set of classification tasks on
@@ -39,7 +37,6 @@ def main():
         results[task]['labels'] = []
         results[task]['predictions'] = []
 
-
     for k, split in splits_dict.items():
 
         print("Fold " + str(k+1) + " of 5")
@@ -54,31 +51,31 @@ def main():
 
             train_texts, train_labels = \
                 tt.get_texts(DB_FILENAME,
-                          annotation_component,
-                          task,
-                          qual_dict,
-                          split_train_ids)
-            
+                             annotation_component,
+                             task,
+                             qual_dict,
+                             split_train_ids)
+
             if ADD_NOISE:
                 noise_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
                 noise_text, noise_labels = \
                     tt.get_noise(DB_FILENAME,
-                              annotation_component,
-                              task,
-                              noise_dict
-                              )
+                                 annotation_component,
+                                 task,
+                                 noise_dict)
+
                 # print(">>> Number Noise texts: " + str(len(noise_text)))
                 # print(">>> Number Noise labels: " + str(len(noise_labels)))
                 train_texts += noise_text
                 train_labels += noise_labels
-            
+
             test_texts, test_labels = \
                 tt.get_texts(DB_FILENAME,
-                          annotation_component,
-                          task,
-                          qual_dict,
-                          split_test_ids)
-            
+                             annotation_component,
+                             task,
+                             qual_dict,
+                             split_test_ids)
+
             class_weights = tt.get_weights(
                 train_labels,
                 label_maps[task])
@@ -86,7 +83,7 @@ def main():
             print(">>> Annotation component: " + annotation_component)
             print(">>> Number Train texts: " + str(len(train_texts)))
             print(">>> Number Test texts: " + str(len(test_texts)))
-            
+
             train_texts = [t.replace('\n', '') for t in train_texts]
             test_texts = [t.replace('\n', '') for t in test_texts]
 
@@ -120,7 +117,7 @@ def main():
 
             model_dest = dest + task + "_model"
             model.save_pretrained(model_dest)
-            
+
     for task in label_maps.keys():
         dest = f"{OUT_DIR}results/"
 
@@ -130,15 +127,10 @@ def main():
                  results[task]['labels'],
                  results[task]['predictions'],
                  dest)
-        
+
     d.to_f1_csv(results, dest, f1='macro')
     d.to_f1_csv(results, dest, f1='weighted')
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--db", required=True, help="path to db file")
-    # parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    # args = parser.parse_args()
-    # main(args)
     main()

@@ -7,10 +7,13 @@ import data_utils.dataset as d
 from data_utils.dataset import quant_label_maps as label_maps
 import models.roberta_classifier.quant_utils as qu
 
-SETTING = "roberta_masked_noise"
+# takes about 12 hours to run on CURC
+
+SETTING = "roberta_base_noise"
 ADD_NOISE = True
+MODEL_CHECKPOINT = "roberta-base"
 # MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
-MODEL_CHECKPOINT = "data/masked/"
+# MODEL_CHECKPOINT = "data/masked/"
 
 OUT_DIR = "models/roberta_classifier/tuned_models/quant_" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
@@ -118,12 +121,11 @@ def main():
                 dest)
 
             tuned_model.save(dest, task)
-    
-
 
     for task in label_maps.keys():
         dest = os.path.join(OUT_DIR, "results")
         os.makedirs(dest, exist_ok=True)
+        dest += "/"
 
         d.to_csv(task,
                  results[task]['labels'],
