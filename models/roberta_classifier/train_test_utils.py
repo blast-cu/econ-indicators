@@ -67,10 +67,9 @@ def check_done(val_f1_history: list, val_f1, patience, history_len):
     if len(val_f1_history) == history_len:
         val_f1_history.pop(0)  # remove at index 0
 
-        if val_f1_history[-1] > val_f1:  # overfitting training data
-            improving = False
-        elif val_f1_history[0] - val_f1 < patience:
-            improving = False
+        if val_f1_history[0] == val_f1_history[1]:
+            if val_f1_history[1] == val_f1:
+                improving = False
 
     val_f1_history.append(val_f1)
     return improving, val_f1_history
@@ -133,36 +132,38 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
     """
     
     improving = True
-    # val_loss_history = []
     val_f1_history = []
 
-    patience = 0.03
-    history_len = 5
+    history_len = 3
     epoch = 0
-
+    
     while improving:
         model.train()
         for batch in train_loader:
 
-            input_ids = batch['input_ids'].to('cuda')
-            attention_mask = batch['attention_mask'].to('cuda')
+            start_index = batch['start_index'].to('cuda')
+            end_index = batch['end_index'].to('cuda')
+            excerpt_input_ids = batch['input_ids'].to('cuda')
+            excerpt_attention_mask = batch['attention_mask'].to('cuda')
+
             labels = batch['label'].to('cuda')
 
-            outputs = model(input_ids,
-                            attention_mask=attention_mask,
-                            labels=labels)
+            outputs = model(start_index,
+                            end_index,
+                            excerpt_input_ids,
+                            excerpt_attention_mask=excerpt_attention_mask)
             
-
-            loss = cross_entropy(outputs.logits, labels, weight=class_weights)
+            loss = cross_entropy(outputs,
+                                 labels,
+                                 weight=class_weights)
             loss.backward()
-
             optimizer.step()
             optimizer.zero_grad()
 
         val_f1 = validate(model, val_loader, class_weights)
+
         improving, val_f1_history = check_done(val_f1_history,
                                                val_f1,
-                                               patience,
                                                history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
