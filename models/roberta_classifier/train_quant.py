@@ -70,7 +70,8 @@ def main():
                 noise_text, noise_labels = \
                     qu.get_noise(ann_component,
                                  task,
-                                 noise_dict)
+                                 noise_dict,
+                                 split_test_ids)
                 
                 train_texts += noise_text
                 train_labels += noise_labels

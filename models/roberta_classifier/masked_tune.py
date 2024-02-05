@@ -192,6 +192,7 @@ def main():
     # # create data collator for adding masks to input
     # data_collator = DataCollatorForLanguageModeling(
     #     tokenizer=tokenizer,
+    #     mlm=True,
     #     mlm_probability=0.15
     # )
 

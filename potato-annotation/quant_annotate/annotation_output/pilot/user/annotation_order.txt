@@ -1,8 +1,8 @@
 Economic-Article-Quant-Annotation-intro.html
 Economic-Article-Quant-Annotation-instructions.html
-96827_27
-96827_22
-96827_36
-96827_31
-96827_29
+83682_41
+83682_37
+43627_16
+43627_10
+43627_2
 Economic-Article-Quant-Annotation-end.html

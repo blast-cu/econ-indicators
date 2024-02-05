@@ -436,8 +436,8 @@ def test(model, test_loader):
 
 def get_noise(annotation_component: str,
               task: str,
-              noise_dict: {}
-             ):
+              noise_dict: {},
+              test_article_ids: []):
     """
     Retrieves noise data from the given noise dictionary based on the specified annotation component and task.
 
@@ -456,19 +456,21 @@ def get_noise(annotation_component: str,
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
-            if 'indicator' in noise_dict[id].keys(): # temp fix
-                indicator_text = noise_dict[id]['indicator']
-                excerpt_text = noise_dict[id]['excerpt']
-                text = [indicator_text, excerpt_text]
-                for label in noise_dict[id][annotation_component]:
+            article_id, _ = id.split('_')
+            if int(article_id) not in test_article_ids:
+                if 'indicator' in noise_dict[id].keys(): # temp fix
+                    indicator_text = noise_dict[id]['indicator']
+                    excerpt_text = noise_dict[id]['excerpt']
+                    text = [indicator_text, excerpt_text]
+                    for label in noise_dict[id][annotation_component]:
 
-                    texts.append(text)
-                    if label not in label_maps[task].keys():
-                        print(f"Label {label} not found in label_maps")
-                        print(id)
-                        # print(noise_dict[id])
-                        exit()
-                    labels.append(label_maps[task][label])
+                        texts.append(text)
+                        if label not in label_maps[task].keys():
+                            print(f"Label {label} not found in label_maps")
+                            print(id)
+                            # print(noise_dict[id])
+                            exit()
+                        labels.append(label_maps[task][label])
 
     return texts, labels
 
