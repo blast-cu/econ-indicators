@@ -45,7 +45,7 @@
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
         "labels_per_instance": 3,
-        "instance_per_annotator": 5,
+        "instance_per_annotator": 25,
         "test_question_per_annotator": 0,
         "users": []
     },
@@ -145,22 +145,22 @@
             "labels": [
                 {
                     "name": "Firm-specific",
-                    "tooltip": "",
+                    "tooltip": "e.g., discusses stock prices, debt offerings, and capital investments",
                     "key_value": "0"
                 },
                 {
                     "name": "Industry-specific",
-                    "tooltip": "",
+                    "tooltip": "e.g., discusses agricultural prices, manufacturing output, and retail sales",
                     "key_value": "1"
                 },
                 {
                     "name": "Government revenue and expenses",
-                    "tooltip": "",
+                    "tooltip": "e.g., discusses taxes, budgets, and treasury issuances",
                     "key_value": "2"
                 },
                 {
                     "name": "Personal",
-                    "tooltip": "",
+                    "tooltip": "e.g., discusses household expenditures and personal debts",
                     "key_value": "3"
                 },
                 {

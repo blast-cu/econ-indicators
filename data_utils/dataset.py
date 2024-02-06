@@ -52,6 +52,33 @@ quant_label_maps = {
             'neutral': 2}
 }
 
+quant_predict_maps = {
+    'type': {
+            0: 'macro',
+            1: 'industry',
+            2: 'government',
+            3: 'personal',
+            4: 'business',
+            5: 'other'},
+    'macro_type': {
+            0: 'jobs',
+            1: 'retail',
+            2: 'interest',
+            3: 'prices',
+            4: 'energy',
+            5: 'wages',
+            6: 'macro',
+            7: 'market',
+            8: 'currency',
+            9: 'housing',
+            10: 'other',
+            11: 'none'},
+    'spin': {
+            0: 'pos',
+            1: 'neg',
+            2: 'neutral'}
+}
+
 
 def get_article_dict(agreed_quant_ann: dict, label_ann: str):
     """
