@@ -1,6 +1,7 @@
 import pickle
 import pandas as pd
 import json
+import random
 
 import data_utils.get_annotation_stats as gs
 
@@ -28,15 +29,35 @@ def save_progress(to_save,
 
 def main():
 
-    num_articles = 10
+    num_articles = 25
     col_names = ['id', 'text']
     
 
-    articles = gs.get_no_anns(db_filename=DB_FILENAME,
-                              num_samples=num_articles,
-                              clean=False,
-                              headline=True)
-    # print(articles)
+
+    
+    qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
+    contendors = []
+    for id, anns in qual_dict.items():
+        if anns['frame'] == '\x00':
+            if anns['econ_rate'] == '\x00':
+                if anns['econ_change'] == '\x00':
+                    contendors.append(id)
+    print(len(contendors))
+    article_choices = random.choices(contendors, k=25)
+    articles = {}
+    for id in article_choices:
+        text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
+        articles[id] = text
+
+    num_articles = num_articles - len(articles)
+    more_articles = gs.get_no_anns(db_filename=DB_FILENAME,
+                            num_samples=num_articles,
+                            clean=False,
+                            headline=True)
+    
+    articles.update(more_articles)
+
+    print(len(articles))
 
     # json
     # data_list = []
@@ -56,6 +77,7 @@ def main():
 
     # csv
     csv_dict = {}
+    print(articles.keys())
     csv_dict['id'] = list(articles.keys())
     csv_dict['text'] = list(articles.values())
 

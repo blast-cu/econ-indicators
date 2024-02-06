@@ -249,7 +249,7 @@ def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename
 
     con.close()
 
-def get_text(article_id: int, db_filename: str, clean: bool = True):
+def get_text(article_id: int, db_filename: str, clean: bool = True, headline: bool = False):
     """
     Takes article_id and db filename
     Returns cleaned text of article as string
@@ -267,6 +267,10 @@ def get_text(article_id: int, db_filename: str, clean: bool = True):
     text = article_txt[0]
     if clean:
         text = extract_strings(article_txt[0])
+    if headline:
+        query = "SELECT headline FROM article WHERE id is " + str(article_id) + ";"
+        headline = cur.execute(query).fetchone()
+        text = [headline[0], text]
         
     con.close()
 
