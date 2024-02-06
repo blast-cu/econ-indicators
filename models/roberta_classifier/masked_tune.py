@@ -29,7 +29,7 @@ def group_texts(examples):
         dict: A dictionary containing the grouped texts.
 
     """
-    chunk_size = 128
+    chunk_size = 512
 
     concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
     total_length = len(concatenated_examples[list(examples.keys())[0]])
@@ -164,76 +164,76 @@ def main():
     print(f'>>> Loaded {len(train_texts)} training texts')
     print(f'>>> Loaded {len(val_texts)} validation texts')
 
-    # print('>>> Tokenizing train texts')
-    # train_dataset = EconomicArticlesDatataset(
-    #     train_texts,
-    #     tokenizer
-    # )
+    print('>>> Tokenizing train texts')
+    train_dataset = EconomicArticlesDatataset(
+        train_texts,
+        tokenizer
+    )
 
-    # filename = os.path.join(OUT_DIR, "train_dataset")
-    # # train_dataset = pickle.load(open(filename, 'rb'))
-    # f = open(filename, 'wb')
-    # pickle.dump(train_dataset, f)
-
-
-    # print('>>> Tokenizing val texts')
-    # val_dataset = EconomicArticlesDatataset(
-    #     val_texts,
-    #     tokenizer
-    # )
-
-    # filename = os.path.join(OUT_DIR, "val_dataset")
-    # # train_dataset = pickle.load(open(filename, 'rb'))
-    # f = open(filename, 'wb')
-    # pickle.dump(val_dataset, f)
+    filename = os.path.join(OUT_DIR, "train_dataset")
+    # train_dataset = pickle.load(open(filename, 'rb'))
+    f = open(filename, 'wb')
+    pickle.dump(train_dataset, f)
 
 
+    print('>>> Tokenizing val texts')
+    val_dataset = EconomicArticlesDatataset(
+        val_texts,
+        tokenizer
+    )
 
-    # # create data collator for adding masks to input
-    # data_collator = DataCollatorForLanguageModeling(
-    #     tokenizer=tokenizer,
-    #     mlm=True,
-    #     mlm_probability=0.15
-    # )
+    filename = os.path.join(OUT_DIR, "val_dataset")
+    # train_dataset = pickle.load(open(filename, 'rb'))
+    f = open(filename, 'wb')
+    pickle.dump(val_dataset, f)
 
-    # print(len(train_dataset))
-    # print(len(val_dataset))
 
-    # # batch_size = 8
-    # batch_size = 64
-    # logging_steps = len(train_dataset) // batch_size
 
-    # training_args = TrainingArguments(
-    #     output_dir=f"models/roberta_classifier/{model_checkpoint}-finetuned-masked-2",
-    #     overwrite_output_dir=True,
-    #     evaluation_strategy="epoch",
-    #     learning_rate=2e-5,
-    #     weight_decay=0.01,
-    #     per_device_train_batch_size=batch_size,
-    #     per_device_eval_batch_size=batch_size,
-    #     fp16=True,
-    #     logging_steps=logging_steps,
-    # )
+    # create data collator for adding masks to input
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer,
+        mlm=True,
+        mlm_probability=0.15
+    )
 
-    # trainer = Trainer(
-    #     model=model,
-    #     args=training_args,
-    #     train_dataset=train_dataset,
-    #     eval_dataset=val_dataset,
-    #     data_collator=data_collator,
-    #     tokenizer=tokenizer,
-    # )
+    print(len(train_dataset))
+    print(len(val_dataset))
 
-    # eval_results = trainer.evaluate()
-    # print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    # batch_size = 8
+    batch_size = 64
+    logging_steps = len(train_dataset) // batch_size
 
-    # trainer.train()
+    training_args = TrainingArguments(
+        output_dir=f"models/roberta_classifier/tuned_models/{model_checkpoint}-dapt-checkpoint",
+        overwrite_output_dir=True,
+        evaluation_strategy="epoch",
+        learning_rate=2e-5,
+        weight_decay=0.01,
+        per_device_train_batch_size=batch_size,
+        per_device_eval_batch_size=batch_size,
+        fp16=True,
+        logging_steps=logging_steps,
+    )
 
-    # eval_results = trainer.evaluate()
-    # print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset,
+        data_collator=data_collator,
+        tokenizer=tokenizer,
+    )
 
-    # trainer.save_model()
-    # trainer.save_metrics()
+    eval_results = trainer.evaluate()
+    print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+
+    trainer.train()
+
+    eval_results = trainer.evaluate()
+    print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+
+    trainer.save_model()
+    trainer.save_metrics()
 
 
 if __name__ == "__main__":

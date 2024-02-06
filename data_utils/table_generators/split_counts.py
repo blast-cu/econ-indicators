@@ -93,7 +93,8 @@ def main(args):
             _, test_labels_noisy = \
                 qtu.get_noise(ann_component,
                               task,
-                              noisy_quant_dict)
+                              noisy_quant_dict,
+                              split_test_ids)
             
             split_counts[agreed_key].append(len(test_labels))
             split_counts[noisy_key].append(len(test_labels_noisy))

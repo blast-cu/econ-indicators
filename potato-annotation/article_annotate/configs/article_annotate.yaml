@@ -75,7 +75,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Conditions",
-            "description": "If you answered 'Yes' to the first question, how does this article rate economic conditions in the US?",
+            "description": "If you answered 'No' to the first question, please select 'Not relevant to the US economy'. If you answered 'Yes', how does this article rate economic conditions in the US?",
             "labels": [
                 {
                     "name": "Good",
@@ -106,7 +106,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Direction",
-            "description": "If you answered 'Yes' to the first question, does this article state/imply that economic conditions in the US as a whole are. . . ?",
+            "description": "If you answered 'No' to the first question, please select 'Not relevant to the US economy'. If you answered 'Yes', does this article state/imply that economic conditions in the US as a whole are. . . ?",
             "labels": [
                 {
                     "name": "Getting better",
@@ -141,7 +141,7 @@
         {
             "annotation_type": "radio",
             "name": "frame",
-            "description": "If you answered 'No' to the first question, what is the dominant frame in the article?",
+            "description": "If you answered 'Yes' to the first question, please select 'Not Applicable'. If you answered 'No', what is the dominant frame in the article?",
             "labels": [
                 {
                     "name": "Firm-specific",
@@ -167,6 +167,11 @@
                     "name": "Other",
                     "tooltip": "",
                     "key_value": "4"
+                },
+                {
+                    "name": "Not Applicable",
+                    "tooltip": "",
+                    "key_value": "5"
                 },
             ],
             "displaying_score": true,
