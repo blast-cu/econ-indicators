@@ -110,6 +110,22 @@ def get_split_dict(qual_dict: dict):
 
     return split_dict
 
+def add_none(ann_dict: dict):
+    none_ids = []
+    for id in ann_dict.keys():
+        if ann_dict[id]['type'] != '\x00':
+            if ann_dict[id]['type'] != 'macro':
+                ann_dict[id]['macro_type'] = 'none'
+                none_ids.append(id)
+
+    return ann_dict, none_ids
+
+def remove_nones(ann_dict: dict, none_ids: list):
+    for id in none_ids:
+        if id in ann_dict.keys():
+            ann_dict.pop(id)
+    return ann_dict
+
 
 def sanity_check(agreed_dict: dict, noisy_dict: dict):
     # sanity check
@@ -149,10 +165,12 @@ def main(args):
     # {key = "articleid_localid", value = dict of annotations}
     quant_ann = gs.get_quant_dict(db_filename)
     agreed_quant_ann = gs.get_agreed_anns(quant_ann, quant_label_maps)
+    agreed_quant_ann, none_ids = add_none(agreed_quant_ann)
     agreed_quant_ann = remove_empty(agreed_quant_ann)
 
     noisy_quant_ann = gs.get_noisy_anns(quant_ann, quant_label_maps)
     noisy_quant_ann = remove_empty(noisy_quant_ann)
+    noisy_quant_ann = remove_nones(noisy_quant_ann, none_ids)
     
     for k in agreed_qual_ann.keys():
         agreed_qual_ann[k]['quant_list'] = []

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.utils.multiclass import unique_labels
 import numpy as np
 import itertools
+import pandas as pd
 
 qual_ann_structure = {
     'frame': {
@@ -101,7 +102,7 @@ def retrieve_quant_anns(quantity2ann, query_res):
             #values.append(expenditure_type)
     #print(Counter(values))
 
-def create_triplets(article2ann, ann_name, min_ann, max_ann=None):
+def create_triplets(article2ann, ann_name, min_ann=2, max_ann=None):
     ann_triplets = []
     for article_id in article2ann:
         _anns = []
@@ -143,8 +144,10 @@ def measure_percentage_agreement(article2ann, ann_name, user_disagreements, user
                     user_total_anns[user] += 1
             elif len(_anns) >= 2:
                 num_total += 1
-
-    print("{} full".format(ann_name), round(num_full/num_total*100, 2), "partial", round((num_full + num_partial)/num_total*100, 2))
+    full = round(num_full/num_total*100, 2)
+    partial = round((num_full + num_partial)/num_total*100, 2)
+    # print("{} full".format(ann_name), full, "partial", partial)
+    return full, partial
 
 
 def plot_confusion_matrix(y_true, y_pred, classes,
@@ -172,7 +175,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     else:
         print('Confusion matrix, without normalization')
 
-    print(cm)
+    # print(cm)
 
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -201,7 +204,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     fig.tight_layout()
     return ax
 
-def get_agreement_matrix(article2ann, ann_structure):
+def get_agreement_matrix(article2ann, ann_structure, show_examples=False):
 
     for ann_comp in ann_structure.keys():
         
@@ -216,7 +219,7 @@ def get_agreement_matrix(article2ann, ann_structure):
                 combinations = itertools.combinations(article2ann[article_id][ann_comp], 2)
                 for c in combinations:
                    
-                    if c[0][1] != c[1][1]:
+                    if c[0][1] != c[1][1] and show_examples:
                         
                         print(article2ann[article_id]['headline'])
                         print(article2ann[article_id]['source'])
@@ -224,6 +227,7 @@ def get_agreement_matrix(article2ann, ann_structure):
                         print(ann_comp)
                         print(c)
                         print()
+
                     x_ann.append(label_map[c[0][1]])
                     y_ann.append(label_map[c[1][1]])
 
@@ -259,8 +263,8 @@ def annotator_quant_percentages(article2ann, ann_structure):
         # plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
         # plt.savefig("confusion_matrix_{}.png".format(ann_comp), dpi=300)
 
-def main(args):
-    con = sqlite3.connect(args.db)
+def get_anns(db_filename):
+    con = sqlite3.connect(db_filename)
     cur = con.cursor()
     article2ann = {}
     quantity2ann = {}
@@ -290,13 +294,18 @@ def main(args):
         article2ann[article_id]['headline'] = headline
         article2ann[article_id]['source'] = source
         article2ann[article_id]['url'] = url
+    
+    return article2ann, quantity2ann
 
+def main(args):
+
+    article2ann, quantity2ann = get_anns(args.db)
     for min, max in [(2, 2), (3, 3), [4, None]]:
 
         print("Min", min, "Max", max)
 
         frame_triplets = create_triplets(article2ann, 'frame', min, max)
-        print(frame_triplets)
+        # print(frame_triplets)
         t = AnnotationTask(frame_triplets, distance=binary_distance)
         result = t.alpha()
         print("Frame", round(result, 2))
@@ -348,11 +357,9 @@ def main(args):
 
         print('\n')
 
-    user_disagreements = {}; user_total_anns = {}
-    for ann_name in ['frame', 'econ_rate', 'econ_change']:
-        measure_percentage_agreement(article2ann, ann_name, user_disagreements, user_total_anns)
-    for ann_name in ['type', 'spin', 'macro_type', 'industry_type', 'gov_type', 'revenue_type', 'expenditure_type']:
-        measure_percentage_agreement(quantity2ann, ann_name, user_disagreements, user_total_anns)
+
+
+
 
     # for user in sorted(user_disagreements.keys()):
     #     print("user", user, ":", round(user_disagreements[user]/user_total_anns[user], 2), user_total_anns[user])

@@ -7,6 +7,8 @@ import pandas as pd
 import sys
 import pickle
 
+DB_FILENAME = 'data/data.db'
+
 qual_label_maps = {
     'frame': {
             'business': 0,

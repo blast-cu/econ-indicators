@@ -9,6 +9,14 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+def get_site(article_id, db_filename):
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+    query = "SELECT source FROM article WHERE id is " + str(article_id) + ";"
+    site = cur.execute(query).fetchone()
+    con.close()
+    return site[0]
+
 def get_qual_dict(db_filename: str):
     """
     Takes file location of database
@@ -28,7 +36,13 @@ def get_qual_dict(db_filename: str):
         retrieve_anns(ann, res, comp)
 
     con.close()
-    return ann
+
+    clean_ann = {}
+    for a in ann.keys():
+        if get_site(a, db_filename) != 'bbc':
+            clean_ann[a] = ann[a]
+
+    return clean_ann
 
 def get_quant_dict(db_filename: str): 
     """
@@ -47,7 +61,14 @@ def get_quant_dict(db_filename: str):
     res = cur.execute(query)
     retrieve_quant_anns(ann, res)
     con.close()
-    return ann
+
+    clean_ann = {}
+    for a in ann.keys():
+        a_id = int(a.split('_')[0])
+        if get_site(a_id, db_filename) != 'bbc':
+            clean_ann[a] = ann[a]
+
+    return clean_ann
 
 
 def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
@@ -420,9 +441,9 @@ def main(args):
 
 
     # quant_ann = get_quant_dict(args.db)
-    # agreed_quant_ann = get_agreed_anns(quant_ann)
+    # agreed_quant_ann = get_agreed_anns(quant_ann, quant_label_maps)
     # quant_labels = print_agreed_anns_counts(agreed_quant_ann)
-    # # export_quants_to_csv(quant_labels, 'annotation_count.csv')
+    # export_quants_to_csv(quant_labels, 'annotation_count.csv')
 
     # con = sqlite3.connect(args.db)
     # cur = con.cursor()
@@ -441,11 +462,12 @@ def main(args):
     #     print(t)
 
     # get_no_anns(args.db)
-    db_filename = args.db
-    qual_ann = get_qual_dict(db_filename)
-    noisy = get_noisy_anns(qual_ann)
-    for n in noisy.items():
-        print(n)
+    # db_filename = args.db
+    # qual_ann = get_qual_dict(db_filename)
+    # noisy = get_noisy_anns(qual_ann)
+    # for n in noisy.items():
+    #     print(n)
+    print("temp")
 
     
 

@@ -15,7 +15,6 @@ def main():
             article_preds[article_id] = []
 
         pred = preds['type']
-        print(pred)
         article_preds[article_id].append(pred)
 
     article_labels = {} # {article_id: [labels]}
@@ -32,7 +31,12 @@ def main():
 
     for article_id, label in article_labels.items():
         if article_id not in qual_dict:
-            bins[label].append(article_id)
+            try: 
+                bins[label].append(article_id)
+            except KeyError as e:
+                print(f'Key error: {e} not in article frames')
+                continue
+
     
     for key, value in bins.items():
         print(key, len(value))
