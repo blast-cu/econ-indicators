@@ -1,0 +1,7 @@
+,Component,2 annotators,3 annotators,4+ annotators
+0,frame,17.19%,49.22%,33.59%
+1,econ_rate,26.92%,55.13%,17.95%
+2,econ_change,26.92%,55.13%,17.95%
+3,type,55.59%,35.85%,8.56%
+4,macro_type,51.6%,41.44%,6.95%
+5,spin,78.46%,21.18%,0.36%

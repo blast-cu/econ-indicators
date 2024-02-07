@@ -1,18 +1,16 @@
 import pickle
-import argparse
 import pandas as pd
 
 import data_utils.dataset as d
 from sklearn.metrics import f1_score
-from data_utils.dataset import quant_label_maps, qual_label_maps
+from data_utils.dataset import DB_FILENAME, quant_label_maps, qual_label_maps
 import models.roberta_classifier.quant_utils as qtu
 import models.roberta_classifier.train_test_utils as tt
 
+
 SPLIT_DIR = "data/clean/"
-MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/acl_models/masked_folds/"
 
-
-def main(args):
+def main():
 
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -40,14 +38,14 @@ def main(args):
                 split_counts[noisy_key] = []
 
             _, test_labels = \
-                tt.get_texts(args.db,
+                tt.get_texts(DB_FILENAME,
                              ann_component,
                              task,
                              qual_dict,
                              split_test_ids
                              )
             _, noise_labels = \
-                tt.get_noise(args.db,
+                tt.get_noise(DB_FILENAME,
                              ann_component,
                              task,
                              noisy_qual_dict
@@ -103,8 +101,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--db", required=True, help="path to db file")
-    parser.add_argument("--model", required=False, default="roberta-base", help="model checkpoint")
-    args = parser.parse_args()
-    main(args)
+    main()

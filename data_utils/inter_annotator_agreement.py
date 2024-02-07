@@ -204,7 +204,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     fig.tight_layout()
     return ax
 
-def get_agreement_matrix(article2ann, ann_structure, show_examples=False):
+def get_agreement_matrix(article2ann, ann_structure, show_examples=False, output_dir=""):
 
     for ann_comp in ann_structure.keys():
         
@@ -231,10 +231,16 @@ def get_agreement_matrix(article2ann, ann_structure, show_examples=False):
                     x_ann.append(label_map[c[0][1]])
                     y_ann.append(label_map[c[1][1]])
 
-        # plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
-        # plt.savefig("confusion_matrix_{}.png".format(ann_comp), dpi=300)
+        plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
+        plt.savefig(f"{output_dir}confusion_matrix_{ann_comp}.png", dpi=300)
                     
-def annotator_quant_percentages(article2ann, ann_structure):
+def annotator_percentages(article2ann, ann_structure):
+
+    ann_table = {}
+    ann_table['Component'] = []
+    ann_table['2 annotators'] = []
+    ann_table['3 annotators'] = []
+    ann_table['4+ annotators'] = []
 
     for ann_comp in ann_structure.keys():
         ann_count = {2: 0, 3: 0, 4: 0}
@@ -246,22 +252,22 @@ def annotator_quant_percentages(article2ann, ann_structure):
                 ann_count[3] += 1
             elif len(article2ann[article_id][ann_comp]) >= 4:
                 ann_count[4] += 1
-        
-        print(ann_comp, ann_count)
 
         total = 0
         for k in ann_count:
             total += ann_count[k]
 
-        print("2 annotators: " + str(round(ann_count[2]/total*100, 2)) + "%")
-        print("3 annotators: " + str(round(ann_count[3]/total*100, 2)) + "%")
-        print("4+ annotators: " + str(round(ann_count[4]/total*100, 2)) + "%")
-        print("\n")
+        
+        ann_table['Component'].append(ann_comp)
+        ann_table['2 annotators'].append(str(round(ann_count[2]/total*100, 2)) + "%")
+        ann_table['3 annotators'].append(str(round(ann_count[3]/total*100, 2)) + "%")
+        ann_table['4+ annotators'].append(str(round(ann_count[4]/total*100, 2)) + "%")
 
                 
 
         # plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
         # plt.savefig("confusion_matrix_{}.png".format(ann_comp), dpi=300)
+    return ann_table
 
 def get_anns(db_filename):
     con = sqlite3.connect(db_filename)
@@ -365,9 +371,8 @@ def main(args):
     #     print("user", user, ":", round(user_disagreements[user]/user_total_anns[user], 2), user_total_anns[user])
     #     print(user_disagreements[user])
 
-    get_agreement_matrix(article2ann, qual_ann_structure)
-    # annotator_quant_percentages(article2ann, qual_ann_structure)
-    # annotator_quant_percentages(quantity2ann, quant_ann_structure)
+    
+
 
 
 if __name__ == "__main__":
