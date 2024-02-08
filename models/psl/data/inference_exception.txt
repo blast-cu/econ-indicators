@@ -1,0 +1,446 @@
+Setting: precedes
+Adding predicates...
+ValFrame
+ValEconRate
+ValEconChange
+ValType
+ValMacroType
+ValSpin
+PredFrame
+PredEconRate
+PredEconChange
+PredType
+PredMacroType
+PredSpin
+PredAgreeType
+PredAgreeSpin
+PredAgreeMacroType
+ValAgreeType
+ValAgreeSpin
+ValAgreeMacroType
+Contains
+Precedes
+HasTypeAnn
+
+Adding rules...
+1.0: PredFrame(A, B) >> ValFrame(A, B) ^2
+1.0: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+1.0: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+1.0: PredType(E, B) >> ValType(E, B) ^2
+1.0: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+1.0: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValMacroType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+ValType(A, 'industry') >> ValMacroType(A, 'none') .
+ValType(A, 'government') >> ValMacroType(A, 'none') .
+ValType(A, 'personal') >> ValMacroType(A, 'none') .
+ValType(A, 'business') >> ValMacroType(A, 'none') .
+ValType(A, 'other') >> ValMacroType(A, 'none') .
+HasTypeAnn(A) & ValMacroType(A, 'jobs') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'retail') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'interest') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'prices') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'energy') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'wages') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'macro') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'market') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'wages') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'wages') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'wages') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'wages') ^2
+
+Adding data files for learn...
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValFrame_target.txt added to VALFRAME
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValFrame_truth.txt added to VALFRAME
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValEconRate_target.txt added to VALECONRATE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValEconRate_truth.txt added to VALECONRATE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValEconChange_truth.txt added to VALECONCHANGE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValEconChange_target.txt added to VALECONCHANGE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValType_target.txt added to VALTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValType_truth.txt added to VALTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValMacroType_truth.txt added to VALMACROTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValMacroType_target.txt added to VALMACROTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValSpin_truth.txt added to VALSPIN
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+ValSpin_target.txt added to VALSPIN
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredFrame_obs.txt added to PREDFRAME
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredEconRate_obs.txt added to PREDECONRATE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredEconChange_obs.txt added to PREDECONCHANGE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredType_obs.txt added to PREDTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredMacroType_obs.txt added to PREDMACROTYPE
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+PredSpin_obs.txt added to PREDSPIN
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+Contains_obs.txt added to CONTAINS
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+Precedes_obs.txt added to PRECEDES
+/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/predicate.py:180: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self._data[partition] = pandas.concat([self._data[partition], data], ignore_index = True)
+HasTypeAnn_obs.txt added to HASTYPEANN
+904  [main] INFO  org.linqs.psl.runtime.Runtime  - PSL Runtime Version 2.4.0-aad67da
+7017 [main] INFO  org.linqs.psl.util.RandUtils  - Using random seed: 96859163
+7028 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding out model.
+7506 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding complete.
+7506 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Loading deep predicates.
+7579 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding out model.
+7865 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding complete.
+8017 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Gradient Descent Weight Learning Start.
+8069 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+151944 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 188.64285, Violated Constraints: 34, Total Optimization Time: 143301, Total Number of Iterations: 25001
+151944 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+152025 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+157227 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 69.121445, Violated Constraints: 0, Total Optimization Time: 5177, Total Number of Iterations: 905
+157228 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+157283 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+297343 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 120.959785, Violated Constraints: 34, Total Optimization Time: 139536, Total Number of Iterations: 25001
+297343 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+297389 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+301011 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 65.41168, Violated Constraints: 0, Total Optimization Time: 3606, Total Number of Iterations: 632
+301011 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+301043 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+440503 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 129.93414, Violated Constraints: 34, Total Optimization Time: 138985, Total Number of Iterations: 25001
+440503 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+440530 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+444162 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 65.264275, Violated Constraints: 0, Total Optimization Time: 3618, Total Number of Iterations: 641
+444162 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+444190 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+583315 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 111.39943, Violated Constraints: 34, Total Optimization Time: 138695, Total Number of Iterations: 25001
+583315 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+583342 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+586484 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 58.919266, Violated Constraints: 0, Total Optimization Time: 3130, Total Number of Iterations: 553
+586484 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+586512 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+731545 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 117.61154, Violated Constraints: 34, Total Optimization Time: 144575, Total Number of Iterations: 25001
+731545 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+731570 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+732910 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 61.73335, Violated Constraints: 0, Total Optimization Time: 1334, Total Number of Iterations: 229
+732910 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+732938 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+878474 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 120.57516, Violated Constraints: 34, Total Optimization Time: 145066, Total Number of Iterations: 25001
+878474 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+878505 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+880913 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 62.335438, Violated Constraints: 0, Total Optimization Time: 2399, Total Number of Iterations: 334
+880913 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+880947 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1031900 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 116.613846, Violated Constraints: 34, Total Optimization Time: 150464, Total Number of Iterations: 25001
+1031900 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1031927 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1032638 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 60.49889, Violated Constraints: 0, Total Optimization Time: 707, Total Number of Iterations: 119
+1032638 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1032666 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1178604 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 118.143654, Violated Constraints: 34, Total Optimization Time: 145472, Total Number of Iterations: 25001
+1178604 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1178629 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1179227 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 61.068394, Violated Constraints: 0, Total Optimization Time: 593, Total Number of Iterations: 103
+1179227 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1179253 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1326332 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 117.6954, Violated Constraints: 34, Total Optimization Time: 146607, Total Number of Iterations: 25001
+1326332 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1326357 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1326936 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 60.8945, Violated Constraints: 0, Total Optimization Time: 575, Total Number of Iterations: 102
+1326936 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1326961 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1475096 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 117.69561, Violated Constraints: 34, Total Optimization Time: 147663, Total Number of Iterations: 25001
+1475096 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1475124 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1475772 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 60.868294, Violated Constraints: 0, Total Optimization Time: 644, Total Number of Iterations: 102
+1475772 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1475787 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Gradient Descent Weight Learning Finished.
+1475789 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Final Model [0.02570089: PREDFRAME(A, B) >> VALFRAME(A, B) ^2, 0.028415551: PREDECONRATE(A, B) >> VALECONRATE(A, B) ^2, 0.0265479: PREDECONCHANGE(A, B) >> VALECONCHANGE(A, B) ^2, 0.0098955715: PREDTYPE(E, B) >> VALTYPE(E, B) ^2, 0.005714078: PREDMACROTYPE(E, B) >> VALMACROTYPE(E, B) ^2, 0.10764409: PREDSPIN(E, B) >> VALSPIN(E, B) ^2, 0.017702978: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2, 0.017948609: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2, 0.017449267: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2, 0.017445829: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2, 0.018445427: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2, 0.017959667: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2, 0.018811766: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2, 0.019407786: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2, 0.0173664: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2, 0.018528117: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2, 0.017317254: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2, 0.017170964: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2, 0.015401149: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2, 0.015845472: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2, 0.015417862: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2, 0.015425788: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2, 0.016261311: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2, 0.015421642: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2, 0.015562328: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2, 0.023594154: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2, 0.015125122: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2, 0.015192016: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2, 0.015315326: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2, 0.015613565: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2, 0.014958373: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2, 0.0141981505: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2, 0.014415669: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2, 0.01423366: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2, 0.015697002: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2, 0.0151499: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2, 0.016810045: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2, 0.01740123: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2, 0.0145235425: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2, 0.01440428: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2, 0.014328902: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2, 0.014752474: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2, 0.0050413203: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'currency') ^2, 0.0051321466: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'energy') ^2, 0.0051063886: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'housing') ^2, 0.004804332: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'interest') ^2, 0.0054593114: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'jobs') ^2, 0.0049646036: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'macro') ^2, 0.0051506017: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'market') ^2, 0.0065124994: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'none') ^2, 0.004488263: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'other') ^2, 0.005020363: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'prices') ^2, 0.004893533: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'retail') ^2, 0.004895563: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'wages') ^2, 0.005326093: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'currency') ^2, 0.00539625: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'energy') ^2, 0.00530462: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'housing') ^2, 0.005179525: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'interest') ^2, 0.00519253: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'jobs') ^2, 0.004946019: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'macro') ^2, 0.0049503874: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'market') ^2, 0.011711812: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'none') ^2, 0.00485062: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'other') ^2, 0.005021988: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'prices') ^2, 0.00517816: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'retail') ^2, 0.0048942408: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'wages') ^2, 0.0063232444: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'currency') ^2, 0.006079149: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'energy') ^2, 0.0061562792: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'housing') ^2, 0.0058268886: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'interest') ^2, 0.0070216535: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'jobs') ^2, 0.00631931: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'macro') ^2, 0.007307167: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'market') ^2, 0.007338008: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'none') ^2, 0.0055508832: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'other') ^2, 0.0058447495: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'prices') ^2, 0.0059971097: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'retail') ^2, 0.006293498: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'wages') ^2] 
+1475789 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Final Weight Learning Loss: 373.5819, Final Gradient Magnitude: 0.003943946, Total optimization time: 1467761
+1475789 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Writing results to Database.
+1476133 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Results committed to database.
+1476135 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Writing results to Database.
+1476470 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Results committed to database.
+1476475 [main] INFO  org.linqs.psl.runtime.Runtime  - Learned Model:
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.02570089: PREDFRAME(A, B) >> VALFRAME(A, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.028415551: PREDECONRATE(A, B) >> VALECONRATE(A, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0265479: PREDECONCHANGE(A, B) >> VALECONCHANGE(A, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0098955715: PREDTYPE(E, B) >> VALTYPE(E, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.005714078: PREDMACROTYPE(E, B) >> VALMACROTYPE(E, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.10764409: PREDSPIN(E, B) >> VALSPIN(E, B) ^2
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALFRAME(A, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALECONRATE(A, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALECONCHANGE(A, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALTYPE(E, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALMACROTYPE(E, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALSPIN(E, +B) = 1.0 .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'industry') >> VALMACROTYPE(A, 'none') .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'government') >> VALMACROTYPE(A, 'none') .
+1476476 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'personal') >> VALMACROTYPE(A, 'none') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'business') >> VALMACROTYPE(A, 'none') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'other') >> VALMACROTYPE(A, 'none') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'jobs') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'retail') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'interest') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'prices') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'energy') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'wages') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'macro') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'market') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'currency') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'housing') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'other') ) >> VALTYPE(A, 'macro') .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'none') & HASTYPEANN(A) ) >> ( VALTYPE(A, 'business') | VALTYPE(A, 'industry') | VALTYPE(A, 'other') | VALTYPE(A, 'government') | VALTYPE(A, 'personal') ) .
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017702978: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017948609: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2
+1476477 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017449267: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017445829: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.018445427: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017959667: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.018811766: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.019407786: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0173664: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.018528117: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017317254: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017170964: ( VALSPIN(A, 'neg') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015401149: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015845472: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015417862: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015425788: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.016261311: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2
+1476478 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015421642: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015562328: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.023594154: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015125122: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015192016: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015315326: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015613565: ( VALSPIN(A, 'neutral') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2
+1476479 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014958373: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'currency') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0141981505: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'energy') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014415669: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'housing') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.01423366: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'interest') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.015697002: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'jobs') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0151499: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'macro') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.016810045: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'market') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.01740123: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'none') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0145235425: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'other') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.01440428: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'prices') ^2
+1476480 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014328902: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'retail') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014752474: ( VALSPIN(A, 'pos') & PRECEDES(A, E) ) >> VALMACROTYPE(E, 'wages') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0050413203: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'currency') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0051321466: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'energy') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0051063886: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'housing') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.004804332: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'interest') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0054593114: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'jobs') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0049646036: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'macro') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0051506017: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'market') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0065124994: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'none') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.004488263: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'other') ^2
+1476481 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.005020363: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'prices') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.004893533: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'retail') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.004895563: VALSPIN(A, 'neg') >> VALMACROTYPE(A, 'wages') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.005326093: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'currency') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00539625: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'energy') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00530462: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'housing') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.005179525: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'interest') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00519253: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'jobs') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.004946019: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'macro') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0049503874: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'market') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.011711812: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'none') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00485062: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'other') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.005021988: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'prices') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00517816: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'retail') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0048942408: VALSPIN(A, 'neutral') >> VALMACROTYPE(A, 'wages') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0063232444: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'currency') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.006079149: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'energy') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0061562792: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'housing') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0058268886: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'interest') ^2
+1476482 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0070216535: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'jobs') ^2
+1476483 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00631931: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'macro') ^2
+1476483 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.007307167: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'market') ^2
+1476483 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.007338008: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'none') ^2
+1476483 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0055508832: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'other') ^2
+1476484 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0058447495: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'prices') ^2
+1476484 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0059971097: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'retail') ^2
+1476484 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.006293498: VALSPIN(A, 'pos') >> VALMACROTYPE(A, 'wages') ^2
+
+Adding data files for eval...
+ValFrame_target.txt added to VALFRAME
+ValFrame_truth.txt added to VALFRAME
+ValEconRate_target.txt added to VALECONRATE
+ValEconRate_truth.txt added to VALECONRATE
+ValEconChange_truth.txt added to VALECONCHANGE
+ValEconChange_target.txt added to VALECONCHANGE
+ValType_target.txt added to VALTYPE
+ValType_truth.txt added to VALTYPE
+ValMacroType_truth.txt added to VALMACROTYPE
+ValMacroType_target.txt added to VALMACROTYPE
+ValSpin_truth.txt added to VALSPIN
+ValSpin_target.txt added to VALSPIN
+PredFrame_obs.txt added to PREDFRAME
+PredEconRate_obs.txt added to PREDECONRATE
+PredEconChange_obs.txt added to PREDECONCHANGE
+PredType_obs.txt added to PREDTYPE
+PredMacroType_obs.txt added to PREDMACROTYPE
+PredSpin_obs.txt added to PREDSPIN
+Contains_obs.txt added to CONTAINS
+Precedes_obs.txt added to PRECEDES
+HasTypeAnn_obs.txt added to HASTYPEANN
+1476685 [main] INFO  org.linqs.psl.runtime.Runtime  - PSL Runtime Version 2.4.0-aad67da
+1477297 [main] ERROR org.linqs.psl.database.rdbms.RDBMSInserter  - [SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: VALECONRATE_PREDICATE.UniqueStringID_0, VALECONRATE_PREDICATE.UniqueStringID_1, VALECONRATE_PREDICATE.partition_id)
+Traceback (most recent call last):
+  File "Runtime.java", line 108, in org.linqs.psl.runtime.Runtime.serializedRun
+  File "Runtime.java", line 122, in org.linqs.psl.runtime.Runtime.run
+  File "Runtime.java", line 172, in org.linqs.psl.runtime.Runtime.runInternal
+  File "Runtime.java", line 365, in org.linqs.psl.runtime.Runtime.runInference
+  File "Runtime.java", line 405, in org.linqs.psl.runtime.Runtime.runInferenceInternal
+  File "Runtime.java", line 301, in org.linqs.psl.runtime.Runtime.loadData
+  File "Runtime.java", line 349, in org.linqs.psl.runtime.Runtime.loadDataPoints
+  File "Inserter.java", line 89, in org.linqs.psl.database.loading.Inserter.insertValue
+  File "RDBMSInserter.java", line 123, in org.linqs.psl.database.rdbms.RDBMSInserter.insertAllValues
+  File "RDBMSInserter.java", line 239, in org.linqs.psl.database.rdbms.RDBMSInserter.insertInternal
+  File "HikariProxyPreparedStatement.java", line -1, in com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch
+  File "ProxyStatement.java", line 127, in com.zaxxer.hikari.pool.ProxyStatement.executeBatch
+  File "CorePreparedStatement.java", line 57, in org.sqlite.core.CorePreparedStatement.executeBatch
+  File "CorePreparedStatement.java", line 69, in org.sqlite.core.CorePreparedStatement.executeLargeBatch
+  File "DB.java", line 872, in org.sqlite.core.DB.executeBatch
+  File "SafeStmtPtr.java", line 128, in org.sqlite.core.SafeStmtPtr.safeRun
+  File "DB.java", line 872, in org.sqlite.core.DB.lambda$executeBatch$0
+  File "DB.java", line 907, in org.sqlite.core.DB.executeBatch
+  File "DB.java", line 1106, in org.sqlite.core.DB.throwex
+  File "DB.java", line 1146, in org.sqlite.core.DB.newSQLException
+  File "DB.java", line 1135, in org.sqlite.core.DB.newSQLException
+org.sqlite.org.sqlite.SQLiteException: org.sqlite.SQLiteException: [SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: VALECONRATE_PREDICATE.UniqueStringID_0, VALECONRATE_PREDICATE.UniqueStringID_1, VALECONRATE_PREDICATE.partition_id)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "Runtime.java", line 108, in org.linqs.psl.runtime.Runtime.serializedRun
+  File "Runtime.java", line 122, in org.linqs.psl.runtime.Runtime.run
+  File "Runtime.java", line 172, in org.linqs.psl.runtime.Runtime.runInternal
+  File "Runtime.java", line 365, in org.linqs.psl.runtime.Runtime.runInference
+  File "Runtime.java", line 405, in org.linqs.psl.runtime.Runtime.runInferenceInternal
+  File "Runtime.java", line 301, in org.linqs.psl.runtime.Runtime.loadData
+  File "Runtime.java", line 349, in org.linqs.psl.runtime.Runtime.loadDataPoints
+  File "Inserter.java", line 89, in org.linqs.psl.database.loading.Inserter.insertValue
+  File "RDBMSInserter.java", line 123, in org.linqs.psl.database.rdbms.RDBMSInserter.insertAllValues
+  File "RDBMSInserter.java", line 247, in org.linqs.psl.database.rdbms.RDBMSInserter.insertInternal
+Exception: Java Exception
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aleto/research/econ-indicators/models/psl/run_inference.py", line 214, in <module>
+    main(args)
+  File "/home/aleto/research/econ-indicators/models/psl/run_inference.py", line 91, in main
+    results = infer(model, predicates)
+  File "/home/aleto/research/econ-indicators/models/psl/run_inference.py", line 207, in infer
+    return model.infer(psl_options=ADDITIONAL_PSL_OPTIONS)
+  File "/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/model.py", line 123, in infer
+    raw_results = pslpython.runtime.run(config, jvm_options = jvm_options)
+  File "/home/aleto/research/econ-indicators/env/lib/python3.10/site-packages/pslpython/runtime.py", line 34, in run
+    raw_output = Runtime.serializedRun(json.dumps(config), base_path)
+java.lang.java.lang.RuntimeException: java.lang.RuntimeException: Error inserting into RDBMS.

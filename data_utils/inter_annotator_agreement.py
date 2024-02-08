@@ -59,7 +59,10 @@ quant_ann_structure = {
 component_name = {
     'frame': 'Article Type',
     'econ_rate': 'Economic Conditions',
-    'econ_change': 'Economic Direction'
+    'econ_change': 'Economic Direction',
+    'type': 'Quantity Type',
+    'macro_type': 'Indicator',
+    'spin': '+/-'
 }
 
 
@@ -208,7 +211,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
     fig.tight_layout()
     return ax
 
-def get_agreement_matrix(article2ann, ann_structure, show_examples=False, output_dir=""):
+def get_agreement_matrix(article2ann, ann_structure, show_examples=False, output_dir="", excerpts_dict=None):
 
     for ann_comp in ann_structure.keys():
         
@@ -223,17 +226,27 @@ def get_agreement_matrix(article2ann, ann_structure, show_examples=False, output
                 combinations = itertools.combinations(article2ann[article_id][ann_comp], 2)
                 for c in combinations:
                    
-                    if c[0][1] != c[1][1] and show_examples:
-                        
-                        print(article2ann[article_id]['headline'])
-                        print(article2ann[article_id]['source'])
-                        print(article2ann[article_id]['url'])
-                        print(ann_comp)
-                        print(c)
-                        print()
+                    if c[1][1] in label_map and c[0][1] in label_map:
+                        x_ann.append(label_map[c[0][1]])
+                        y_ann.append(label_map[c[1][1]])
 
-                    x_ann.append(label_map[c[0][1]])
-                    y_ann.append(label_map[c[1][1]])
+                        if c[0][1] != c[1][1] and show_examples:
+                            print(ann_comp)
+
+                            if excerpts_dict is None:
+                                print(article2ann[article_id]['headline'])
+                                print(article2ann[article_id]['source'])
+                                print(article2ann[article_id]['url'])
+                            else:
+                                try: 
+                                    print(excerpts_dict[article_id]['excerpt'])
+                                    print(excerpts_dict[article_id]['indicator'])
+                                except Exception as e:
+                                    print(e)
+                                    continue
+
+                            print(c)
+                            print()
 
         plot_confusion_matrix(x_ann, y_ann, classes, normalize=False, title=plot_title)
         plt.savefig(f"{output_dir}confusion_matrix_{ann_comp}.png", dpi=300)
