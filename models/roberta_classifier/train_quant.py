@@ -8,16 +8,38 @@ from data_utils.dataset import quant_label_maps as label_maps
 import models.roberta_classifier.quant_utils as qu
 
 # takes about 12 hours to run on CURC
-
-SETTING = "roberta_base_noise"
-ADD_NOISE = True
-BEST_NOISE = True
-MODEL_CHECKPOINT = "roberta-base"
-# MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
-# MODEL_CHECKPOINT = "data/masked/"
-
-OUT_DIR = "models/roberta_classifier/tuned_models/quant_" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
+
+
+def settings(args):
+
+    global SETTING
+    SETTING = args.s
+    global OUT_DIR
+    OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
+
+    global MODEL_CHECKPOINT
+    MODEL_CHECKPOINT = None
+    global ADD_NOISE
+    ADD_NOISE = False
+    global BEST_NOISE
+    BEST_NOISE = False
+
+    if 'dapt' in SETTING:
+        MODEL_CHECKPOINT = "data/masked/"
+    elif 'base' in SETTING:
+        MODEL_CHECKPOINT = "roberta-base"
+    else:
+        raise ValueError("Invalid setting: {}".format(SETTING))
+
+    if 'noise' in SETTING:
+        ADD_NOISE = True
+        if 'best' in SETTING:
+            BEST_NOISE = True
+        elif 'all' in SETTING:
+            BEST_NOISE = False
+        else:
+            raise ValueError("Invalid setting: {}".format(SETTING))
 
 
 def main():
