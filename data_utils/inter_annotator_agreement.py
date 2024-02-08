@@ -144,6 +144,10 @@ def measure_percentage_agreement(article2ann, ann_name, user_disagreements, user
                     user_total_anns[user] += 1
             elif len(_anns) >= 2:
                 num_total += 1
+
+    for user in user_total_anns:
+        if user not in user_disagreements:
+            user_disagreements[user] = user_total_anns[user]
     full = round(num_full/num_total*100, 2)
     partial = round((num_full + num_partial)/num_total*100, 2)
     # print("{} full".format(ann_name), full, "partial", partial)

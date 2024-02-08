@@ -1,6 +1,7 @@
 import data_utils.get_annotation_stats as gs # msql queries
 import data_utils.dataset as d
 from data_utils.dataset import qual_label_maps, quant_label_maps
+from data_utils.dataset import DB_FILENAME
 
 import argparse
 from sklearn.model_selection import KFold
@@ -161,6 +162,10 @@ def main(args):
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
     noisy_qual_ann = remove_empty(noisy_qual_ann)
 
+    # TODO: implement this
+    noisy_best_qual_ann = gs.get_best_noisy_anns(qual_ann, qual_label_maps, DB_FILENAME)
+    noisy_best_qual_ann = remove_empty(noisy_best_qual_ann)
+
     # get agreed quantitative annotations in dict where 
     # {key = "articleid_localid", value = dict of annotations}
     quant_ann = gs.get_quant_dict(db_filename)
@@ -171,6 +176,11 @@ def main(args):
     noisy_quant_ann = gs.get_noisy_anns(quant_ann, quant_label_maps)
     noisy_quant_ann = remove_empty(noisy_quant_ann)
     noisy_quant_ann = remove_nones(noisy_quant_ann, none_ids)
+
+    noisy_best_quant_ann = gs.get_best_noisy_anns(quant_ann, quant_label_maps, DB_FILENAME, quant=True)
+    noisy_best_quant_ann = remove_empty(noisy_best_quant_ann)
+    noisy_best_quant_ann = remove_nones(noisy_best_quant_ann, none_ids)
+    
     
     for k in agreed_qual_ann.keys():
         agreed_qual_ann[k]['quant_list'] = []
@@ -178,15 +188,20 @@ def main(args):
     for k in noisy_qual_ann.keys():
         noisy_qual_ann[k]['quant_list'] = []
 
+    for k in noisy_best_qual_ann.keys():
+        noisy_best_qual_ann[k]['quant_list'] = []
+
     
 
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
     noisy_qual_ann = populate_quant_list(noisy_qual_ann, noisy_quant_ann)
+    noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
 
     # add text excerpts w/ context to agreed_quant_ann dict
     agreed_quant_ann = populate_quant_text(agreed_qual_ann, agreed_quant_ann, db_filename)
     noisy_quant_ann = populate_quant_text(noisy_qual_ann, noisy_quant_ann, db_filename)
+    noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
 
     # create splits 
     split_dict = get_split_dict(agreed_qual_ann)
@@ -202,8 +217,10 @@ def main(args):
 
     sanity_check(agreed_qual_ann, noisy_qual_ann)
     sanity_check(agreed_quant_ann, noisy_quant_ann)
+    sanity_check(agreed_qual_ann, noisy_best_qual_ann)
+    sanity_check(agreed_quant_ann, noisy_best_quant_ann)
 
-    # # save dictionaries as pickles 
+    # # # save dictionaries as pickles 
     base_dir = 'data/clean/'
     d.save_progress(split_dict, f'{base_dir}splits_dict')
     d.save_progress(agreed_quant_ann, f'{base_dir}quant_dict')
@@ -212,6 +229,9 @@ def main(args):
     # save noisy dictionaries as pickles
     d.save_progress(noisy_qual_ann, f'{base_dir}noisy_qual_dict')
     d.save_progress(noisy_quant_ann, f'{base_dir}noisy_quant_dict')
+
+    d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
+    d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
 
 
 

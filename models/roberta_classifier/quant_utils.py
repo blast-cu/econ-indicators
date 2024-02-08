@@ -454,6 +454,7 @@ def get_noise(annotation_component: str,
     texts = []  # list of [indicator text, text with context]
     labels = []
 
+
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
             article_id, _ = id.split('_')
@@ -462,8 +463,12 @@ def get_noise(annotation_component: str,
                     indicator_text = noise_dict[id]['indicator']
                     excerpt_text = noise_dict[id]['excerpt']
                     text = [indicator_text, excerpt_text]
-                    for label in noise_dict[id][annotation_component]:
 
+                    if type(noise_dict[id][annotation_component]) is not list:
+                        noise_dict[id][annotation_component] = \
+                            [noise_dict[id][annotation_component]]
+
+                    for label in noise_dict[id][annotation_component]:
                         texts.append(text)
                         if label not in label_maps[task].keys():
                             print(f"Label {label} not found in label_maps")
@@ -473,7 +478,7 @@ def get_noise(annotation_component: str,
                         labels.append(label_maps[task][label])
 
     return texts, labels
-
+                   
 
 def get_texts(
               annotation_component: str,

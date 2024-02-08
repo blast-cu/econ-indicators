@@ -98,6 +98,11 @@
 56172	macro
 56172	government
 56172	other
+45296	business
+45296	industry
+45296	macro
+45296	government
+45296	other
 6393	business
 6393	industry
 6393	macro
@@ -113,11 +118,6 @@
 16829	macro
 16829	government
 16829	other
-61646	business
-61646	industry
-61646	macro
-61646	government
-61646	other
 43627	business
 43627	industry
 43627	macro

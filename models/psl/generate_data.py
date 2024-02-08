@@ -10,17 +10,22 @@ import models.roberta_classifier.predict_qual as pq
 import models.roberta_classifier.predict_quant as pqt
 import models.roberta_classifier.quant_utils as qu
 import data_utils.get_annotation_stats as gs
-
-import data_utils.dataset as d
-
-QUANT_MODELS_DIR = 'models/roberta_classifier/tuned_models/quant_masked'
-QUAL_MODELS_DIR = 'models/roberta_classifier/tuned_models/qual_base'
+from data_utils.dataset import DB_FILENAME
 
 OUT_DIR = 'models/psl/data'
-DB_FILENAME = 'data/data.db'
+NOISE = True
+
+BEST_MODELS = {
+    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
+    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise',
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise'
+}
 
 
-def load_train_test_data(split_dict, qual_dict, quant_dict):
+def load_train_test_data(split_dict, qual_dict, quant_dict, qual_noise_dict={}, quant_noise_dict={}):
     """
     Load train and test data for the PSL model.
 
@@ -38,6 +43,8 @@ def load_train_test_data(split_dict, qual_dict, quant_dict):
     """
     # load train article and excerpt dicts
     train_article_ids = split_dict['train']
+    test_article_ids = split_dict['test']
+
     train_articles = {id: qual_dict[id] for id in train_article_ids}
 
     train_excerpt_ids = []
@@ -46,9 +53,12 @@ def load_train_test_data(split_dict, qual_dict, quant_dict):
 
     train_excerpts = {id: quant_dict[id] for id in train_excerpt_ids}
 
+    # add noisy excerpts to train excerpts
+    train_articles.update(qual_noise_dict)
+    noisy_excerpts = {id: quant_noise_dict[id] for id in quant_noise_dict.keys() if int(id.split('_')[0]) not in test_article_ids}
+    train_excerpts.update(noisy_excerpts)
 
     # load test article and excerpt dicts
-    test_article_ids = split_dict['test']
     test_articles = {id: qual_dict[id] for id in test_article_ids}
 
     test_excerpt_ids = []
@@ -56,7 +66,6 @@ def load_train_test_data(split_dict, qual_dict, quant_dict):
         test_excerpt_ids += qual_dict[id]['quant_list']
 
     test_excerpts = {id: quant_dict[id] for id in test_excerpt_ids}
-
     return train_articles, train_excerpts, test_articles, test_excerpts
 
 
@@ -173,7 +182,6 @@ def write_target_files(out_dir, articles, map, truth=True):
                 if found_val:
                     truth_ann_dict[ann] += truth_list
 
-    print(truth_ann_dict)
     for ann, values in article_ann_dict.items():
         ann2 = gd.camel_case(ann, upper=True)
         predicate = f'Val{ann2}'
@@ -235,7 +243,8 @@ def predict_article_annotations(articles, split_num):
     # load fine-tuned model for each annotation component
     models = {}
     for k in pq.label_maps.keys():
-        model_path = os.path.join(QUAL_MODELS_DIR, f'fold{split_num}/{k}_model')
+        best_model = BEST_MODELS[k]
+        model_path = os.path.join(best_model, f'fold{split_num}/{k}_model')
         models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
@@ -291,11 +300,9 @@ def generate_predict_excerpts(excerpts, split_num):
 
     for annotation_component in gd.quant_map.keys():
 
-        # excerpts = {k: v['excerpt'] for k, v in excerpts.items()}
-        texts = [[v['indicator'], v['excerpt']] for k, v in excerpts.items() if v[annotation_component] != '\x00']
+        texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if v[annotation_component] != '\x00']
         ids = [k for k in excerpts.keys() if excerpts[k][annotation_component] != '\x00']
 
-        # print(texts)
 
         pqt.torch.manual_seed(42)  # Set random seed for reproducibility
         tokenizer = pqt.RobertaTokenizerFast\
@@ -312,7 +319,8 @@ def generate_predict_excerpts(excerpts, split_num):
 
         task = annotation_component
         num_labels = len(set(pqt.label_maps[task].keys()))
-        model_path = os.path.join(QUANT_MODELS_DIR, f'fold{split_num}/{task}_model')
+        best_model = BEST_MODELS[task]
+        model_path = os.path.join(best_model, f'fold{split_num}/{task}_model')
         type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
         type_model = type_model.from_pretrained(model_path, task).to('cuda')
 
@@ -342,7 +350,6 @@ def generate_predict_excerpts(excerpts, split_num):
                 for i, id in enumerate(article_ids):
 
                     global_id = str(id) + '_' + str(ann_ids[i])
-                    # print(type_outputs[i])
                     probs = []
 
 
@@ -355,9 +362,6 @@ def generate_predict_excerpts(excerpts, split_num):
                         to_write = f'{global_id}\t{annotation_value}\t{probability}'
                         predict_dict[annotation_component].append(to_write)
                     
-
-
-    
     return predict_dict
 
 
@@ -396,9 +400,9 @@ def write_has_frame_ann_file(out_dir, excerpts):
         if ann_dict['type'] != '\x00':
             temp = [f'{article_id}\t1.0']
             to_write += temp
-        
 
     write_data_file(out_dir, predicate, 'obs', to_write)
+
 
 def main():
     """
@@ -422,7 +426,7 @@ def main():
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(split_dir + 'quant_dict_clean', 'rb'))
+    quant_dict = pickle.load(open(split_dir + 'quant_dict', 'rb'))
 
     split_num = 0
     for split_num in range(5):
@@ -433,11 +437,24 @@ def main():
         split_eval_dir = os.path.join(OUT_DIR, f'split{split_num}/eval')
         os.makedirs(split_eval_dir, exist_ok=True)
 
-        # load train and test data for split    
-        learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
-            load_train_test_data(splits_dict[split_num],
-                                 qual_dict,
-                                 quant_dict)
+        if NOISE:
+            qual_noise_dict = pickle.load(open(split_dir + 'noisy_best_qual_dict', 'rb'))
+            quant_noise_dict = pickle.load(open(split_dir + 'noisy_best_quant_dict', 'rb'))
+
+            # load train and test data for split
+            learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
+                load_train_test_data(splits_dict[split_num],
+                                     qual_dict,
+                                     quant_dict,
+                                     qual_noise_dict,
+                                     quant_noise_dict)
+            
+        else:
+            # load train and test data for split    
+            learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
+                load_train_test_data(splits_dict[split_num],
+                                    qual_dict,
+                                    quant_dict)
 
         # GENERATE LEARN DATA #
         # write contains file linking articles and excerpts

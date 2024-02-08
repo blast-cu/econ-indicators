@@ -98,6 +98,11 @@
 56172	macro	1.0
 56172	government	0.0
 56172	other	0.0
+45296	business	0.0
+45296	industry	0.0
+45296	macro	1.0
+45296	government	0.0
+45296	other	0.0
 6393	business	0.0
 6393	industry	0.0
 6393	macro	1.0

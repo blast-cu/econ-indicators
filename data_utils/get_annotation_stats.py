@@ -1,5 +1,4 @@
-from data_utils.inter_annotator_agreement import retrieve_anns, retrieve_quant_anns
-
+import data_utils.inter_annotator_agreement as iaa
 import argparse
 import sqlite3
 from collections import Counter
@@ -33,7 +32,7 @@ def get_qual_dict(db_filename: str):
                 + ' FROM articleann ' \
                 + 'WHERE ' + comp + ' is NOT NULL and ' + comp + ' != "None";'
         res = cur.execute(query)
-        retrieve_anns(ann, res, comp)
+        iaa.retrieve_anns(ann, res, comp)
 
     con.close()
 
@@ -59,7 +58,7 @@ def get_quant_dict(db_filename: str):
                 gov_type, expenditure_type, revenue_type, spin \
                 FROM quantityann;'
     res = cur.execute(query)
-    retrieve_quant_anns(ann, res)
+    iaa.retrieve_quant_anns(ann, res)
     con.close()
 
     clean_ann = {}
@@ -145,6 +144,62 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
     
     return noisy_dict
     
+
+def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quant: bool = False):
+
+    ann_dict, quantity2ann = iaa.get_anns(db_filename)
+    if quant:
+        ann_dict = quantity2ann
+
+    user_ann_disagreement = {}
+    for ann_name in label_maps.keys():
+        user_ann_disagreement[ann_name] = {}
+        user_disagreements = {}
+        user_total_anns = {}
+        iaa.measure_percentage_agreement(ann_dict, ann_name, user_disagreements, user_total_anns)
+        for user in sorted(user_disagreements.keys()):
+            percent_disagree = round(user_disagreements[user]/user_total_anns[user], 2)
+            user_ann_disagreement[ann_name][user] = percent_disagree
+ 
+    noisy_dict = {}
+
+    for id in ann_dict.keys():
+        curr_ent = ann_dict[id]
+        for type in curr_ent.keys():
+            if type in label_maps:
+                curr_t = curr_ent[type]
+                result = '\0'
+
+                if len(curr_t) >= 2:  # 2 or more annotations
+                    anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
+                    c = Counter(anns).most_common()
+
+                    # check for tie (first result count matches second)-> no consensus
+                    if len(c) != 1 and c[0][1] == c[1][1]:
+                    
+                        min_disagreement = 1
+                        best_ann = curr_t
+                        for ann in curr_t:
+                            if ann[0] not in user_ann_disagreement[type]:
+                                print("User not in user_ann_disagreement")
+                                print(ann[0])
+                                print(user_ann_disagreement[type])
+                                continue
+                            curr_disagreement = user_ann_disagreement[type][ann[0]]
+                            if curr_disagreement < min_disagreement:
+                                min_disagreement = curr_disagreement
+                                best_ann = ann
+                        result = best_ann[1]
+        
+                elif len(curr_t) == 1 and curr_t[0][1] in label_maps[type]:
+                    result = curr_t[0][1]
+
+                if id not in noisy_dict:
+                    noisy_dict[id] = {}
+                noisy_dict[id][type] = result
+    
+    return noisy_dict
+        
 
 
 def print_agreed_anns_counts(ann_dict: dict):

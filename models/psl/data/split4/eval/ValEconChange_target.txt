@@ -78,6 +78,10 @@
 56172	worse
 56172	same
 56172	none
+45296	better
+45296	worse
+45296	same
+45296	none
 6393	better
 6393	worse
 6393	same
@@ -90,10 +94,6 @@
 16829	worse
 16829	same
 16829	none
-61646	better
-61646	worse
-61646	same
-61646	none
 43627	better
 43627	worse
 43627	same

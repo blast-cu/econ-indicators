@@ -58,6 +58,9 @@
 56172	good
 56172	poor
 56172	none
+45296	good
+45296	poor
+45296	none
 6393	good
 6393	poor
 6393	none
@@ -67,9 +70,6 @@
 16829	good
 16829	poor
 16829	none
-61646	good
-61646	poor
-61646	none
 43627	good
 43627	poor
 43627	none

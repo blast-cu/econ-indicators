@@ -1,7 +1,6 @@
 1.0: PredAgreeType(E1, E2, B) >> ValAgreeType(E1, E2, B) ^2
 1.0: PredAgreeSpin(E1, E2, B) >> ValAgreeSpin(E1, E2, B) ^2
 1.0: PredAgreeMacroType(E1, E2, B) >> ValAgreeMacroType(E1, E2, B) ^2
-
 ValType(A, 'industry') >> ValMacroType(A, 'none') .
 ValType(A, 'government') >> ValMacroType(A, 'none') .
 ValType(A, 'personal') >> ValMacroType(A, 'none') .

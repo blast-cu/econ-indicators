@@ -30,11 +30,11 @@
 91407	worse	0.0
 91407	same	0.0
 91407	none	0.0
-70397	better	0.0
-70397	worse	0.0
-70397	same	0.0
-70397	none	1.0
 37453	better	0.0
 37453	worse	1.0
 37453	same	0.0
 37453	none	0.0
+55292	better	0.0
+55292	worse	1.0
+55292	same	0.0
+55292	none	0.0

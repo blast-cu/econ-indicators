@@ -11,6 +11,7 @@ import models.roberta_classifier.quant_utils as qu
 
 SETTING = "roberta_base_noise"
 ADD_NOISE = True
+BEST_NOISE = True
 MODEL_CHECKPOINT = "roberta-base"
 # MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/masked"
 # MODEL_CHECKPOINT = "data/masked/"
@@ -66,12 +67,18 @@ def main():
                              type_filter=type_filters[task])
 
             if ADD_NOISE:
-                noise_dict = pickle.load(open(SPLIT_DIR + 'noisy_quant_dict', 'rb'))
+                if BEST_NOISE:
+                    f = open(SPLIT_DIR + 'noisy_best_quant_dict', 'rb')
+                else:
+                    f = open(SPLIT_DIR + 'noisy_quant_dict', 'rb')
+                
+                noise_dict = pickle.load(f)
+
                 noise_text, noise_labels = \
                     qu.get_noise(ann_component,
-                                 task,
-                                 noise_dict,
-                                 split_test_ids)
+                                task,
+                                noise_dict,
+                                split_test_ids)
                 
                 train_texts += noise_text
                 train_labels += noise_labels

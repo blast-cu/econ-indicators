@@ -201,7 +201,7 @@ def get_excerpts(ann_ids: list,
 
     for ann_id in ann_dict.keys():
 
-        ann_text = ann_dict[ann_id]
+        ann_text = ann_dict[ann_id].strip()
         found = False
         i = 0
         while not found and i < len(article_sentences):
@@ -213,10 +213,10 @@ def get_excerpts(ann_ids: list,
             i += 1
             if i == len(article_sentences) and not found:
                 print(">>> ERROR: Annotation not found in get_excerpts()")
+                print(article_id)
                 print(ann_id)
                 print(ann_text)
-                # print(article_sentences)
-                print()
+                print(article_sentences)
 
     return excerpt_dict
 

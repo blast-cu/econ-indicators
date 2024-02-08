@@ -131,7 +131,7 @@ def main():
     torch.manual_seed(42)  # Set random seed for reproducibility
     tokenizer = RobertaTokenizerFast\
         .from_pretrained(pretrained_model_name_or_path="roberta-base",
-                         problem_type="single_label_classification")
+                        problem_type="single_label_classification")
 
     data = qu.TextClassificationDataset(texts=texts,
                                         tokenizer=tokenizer,
@@ -160,9 +160,9 @@ def main():
         ann_ids = batch['ann_ids'].tolist()
 
         outputs = type_model(start_index,
-                             end_index,
-                             input_ids,
-                             attention_mask)
+                            end_index,
+                            input_ids,
+                            attention_mask)
 
         _, predicted = torch.max(outputs, 1)
 

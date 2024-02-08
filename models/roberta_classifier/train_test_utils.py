@@ -315,6 +315,11 @@ def get_noise(db_filename: str,
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] !='\x00':
+            
+            if type(noise_dict[id][annotation_component]) is not list:
+                noise_dict[id][annotation_component] = \
+                    [noise_dict[id][annotation_component]]
+
             for label in noise_dict[id][annotation_component]:
                 texts.append(gs.get_text(id, db_filename, clean=False))
                 labels.append(label_maps[task][label])

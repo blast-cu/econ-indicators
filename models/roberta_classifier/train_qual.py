@@ -1,32 +1,54 @@
-from sklearn.model_selection import KFold
 import argparse
 import pickle
 import os
 
 import models.roberta_classifier.train_test_utils as tt
 import data_utils.dataset as d
+from data_utils.dataset import DB_FILENAME
 from data_utils.dataset import qual_label_maps as label_maps
-from data_utils import get_annotation_stats as gs
 
-SETTING = "roberta_base"
-# SETTING = "test"
-OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
 SPLIT_DIR = "data/clean/"
-# MODEL_CHECKPOINT = "data/masked/"
-MODEL_CHECKPOINT = "roberta-base"
-DB_FILENAME = "data/data.db"
-
-ADD_NOISE = False
 
 
-def main():
+def settings(args):
+
+    global SETTING
+    SETTING = args.s
+    global OUT_DIR
+    OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
+
+    global MODEL_CHECKPOINT
+    MODEL_CHECKPOINT = None
+    global ADD_NOISE
+    ADD_NOISE = False
+    global BEST_NOISE 
+    BEST_NOISE = False
+
+    if 'dapt' in SETTING:
+        MODEL_CHECKPOINT = "data/masked/"
+    elif 'base' in SETTING:
+        MODEL_CHECKPOINT = "roberta-base"
+    else:
+        raise ValueError("Invalid setting: {}".format(SETTING))
+
+    if 'noise' in SETTING:
+        ADD_NOISE = True
+        if 'best' in SETTING:
+            BEST_NOISE = True
+        elif 'all' in SETTING:
+            BEST_NOISE = False
+        else:
+            raise ValueError("Invalid setting: {}".format(SETTING))
+
+
+def main(args):
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file. The best model for each task is exported to 
     models/roberta/best_models.
     """
-
+    settings(args)
     split_dir = "data/clean/"
     splits_dict = pickle.load(open(split_dir + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(split_dir + 'qual_dict', 'rb'))
@@ -57,7 +79,12 @@ def main():
                              split_train_ids)
 
             if ADD_NOISE:
-                noise_dict = pickle.load(open(split_dir + 'noisy_qual_dict', 'rb'))
+                if BEST_NOISE:
+                    f = open(SPLIT_DIR + 'noisy_best_qual_dict', 'rb')
+                else:
+                    f = open(SPLIT_DIR + 'noisy_qual_dict', 'rb')
+
+                noise_dict = pickle.load(f)
                 noise_text, noise_labels = \
                     tt.get_noise(DB_FILENAME,
                                  annotation_component,
@@ -133,4 +160,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Command line arguments.')
+    parser.add_argument('--s', required=True, help='Setting for model training.')
+    args = parser.parse_args()
+    main(args)
