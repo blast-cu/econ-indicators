@@ -16,7 +16,7 @@ def settings(args):
     global SETTING
     SETTING = args.s
     global OUT_DIR
-    OUT_DIR = "models/roberta_classifier/tuned_models/qual_" + SETTING + "/"
+    OUT_DIR = "models/roberta_classifier/tuned_models/quant_" + SETTING + "/"
 
     global MODEL_CHECKPOINT
     MODEL_CHECKPOINT = None

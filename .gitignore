@@ -338,3 +338,4 @@ models/agreement/tuned_models/
 *.zip
 
 .vscode/
+.DS_Store

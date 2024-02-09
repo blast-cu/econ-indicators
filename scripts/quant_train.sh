@@ -25,4 +25,4 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_quant
+python -m models.roberta_classifier.train_quant --s roberta_dapt_noise_all
