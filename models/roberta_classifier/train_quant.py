@@ -42,12 +42,13 @@ def settings(args):
             raise ValueError("Invalid setting: {}".format(SETTING))
 
 
-def main():
+def main(args):
     """
     Performs k-fold cross-validation for a set of classification tasks on
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
+    settings(args)
     
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -166,4 +167,7 @@ def main():
     d.to_f1_csv(results, dest, f1='weighted')
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Command line arguments.')
+    parser.add_argument('--s', required=True, help='Setting for model training.')
+    args = parser.parse_args()
+    main(args)
