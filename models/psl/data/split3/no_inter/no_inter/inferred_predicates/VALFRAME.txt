@@ -1,5 +1,5 @@
 195	business	0.09131999
-195	industry	0.04232
+195	industry	0.042319983
 195	macro	0.056519985
 195	government	0.80592
 195	other	0.003919974
@@ -85,8 +85,8 @@
 66	other	0.0
 11343	business	0.0
 11343	industry	0.0
-11343	macro	0.30895016
-11343	government	0.69105005
+11343	macro	0.30894992
+11343	government	0.69105
 11343	other	0.0
 24	business	0.0
 24	industry	0.1806333
