@@ -8,6 +8,39 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+def get_article_bins(predict_dict: dict, qual_dict: dict):
+    article_preds = {} # {article_id: [preds]}
+
+    for quant_id, preds in predict_dict.items():
+
+        article_id = quant_id.split('_')[0]
+        if article_id not in article_preds:
+            article_preds[article_id] = []
+
+        pred = preds[1]
+        article_preds[article_id].append(pred)
+
+    article_labels = {} # {article_id: [labels]}
+    # TODO: get article labels from quant preds, aggregate
+    for article_id, preds in article_preds.items():
+        if len(preds) >= 2: # at least two quants
+            c = Counter(preds).most_common()
+            if c[0][1] >= 2: # at least two quants agree, doesn't account for ties
+                article_labels[article_id] = c[0][0]
+
+    bins = {} # {frame label: [article_ids]}
+
+    for article_id, label in article_labels.items():
+        if article_id not in qual_dict:
+            try:
+                if label not in bins:
+                    bins[label] = []
+                bins[label].append(article_id)
+            except KeyError as e:
+                print(f'Key error: {e} not in article frames')
+                continue
+    return bins
+
 def get_site(article_id, db_filename):
     con = sqlite3.connect(db_filename)
     cur = con.cursor()

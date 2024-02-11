@@ -10,6 +10,7 @@ def main():
     article_preds = {} # {article_id: [preds]}
 
     for quant_id, preds in predict_dict.items():
+
         article_id = quant_id.split('_')[0]
         if article_id not in article_preds:
             article_preds[article_id] = []
