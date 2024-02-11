@@ -5,6 +5,7 @@ from sklearn.metrics import f1_score
 
 from data_utils.table_generators.thing import get_texts
 from data_utils.dataset import DB_FILENAME, quant_label_maps
+from models.psl import site_results as sr
 
 DATA_DIR = "models/psl/data/"
 
@@ -109,14 +110,15 @@ def main():
             results[site]['labels'].append(test_labels[i])
             results[site]['predictions'].append(psl_results[k][id])
 
-    for site in news_sites:
-        # print(site)
-        macro_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='macro')
-        print(round(macro_f1, 3))
-        # weighted_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='weighted')
-        # print(round(weighted_f1, 3))
+    # for site in news_sites:
+    #     # print(site)
+    #     macro_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='macro')
+    #     print(round(macro_f1, 3))
+    #     # weighted_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='weighted')
+    #     # print(round(weighted_f1, 3))
     
 
+    sr.write_table(results, task)
 
     
 

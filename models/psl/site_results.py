@@ -2,6 +2,7 @@ import sqlite3
 import pickle
 import os
 from sklearn.metrics import f1_score
+import pandas as pd
 
 from data_utils.table_generators.thing import get_texts
 from data_utils.dataset import DB_FILENAME, qual_label_maps
@@ -9,6 +10,38 @@ from data_utils.dataset import DB_FILENAME, qual_label_maps
 DATA_DIR = "models/psl/data/"
 
 news_sites = ['nytimes', 'wsj', 'washingtonpost', 'foxnews', 'breitbart', 'huffpost']
+
+site_map = {
+    'nytimes': 'New York Times',
+    'wsj': 'Wall Street Journal',
+    'washingtonpost': 'Washington Post',
+    'foxnews': 'Fox News',
+    'breitbart': 'Breitbart',
+    'huffpost': 'Huffington Post'
+}
+
+def write_table(results, task):
+
+    macro_f1s = {}
+    weighted_f1s = {}
+    macro_f1s['Publisher'] = []
+    weighted_f1s['Publisher'] = []
+    macro_f1s[task] = []
+    weighted_f1s[task] = []
+
+    for site in news_sites:
+        # print(site)
+        macro_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='macro')
+        macro_f1 = round(macro_f1, 3)
+        macro_f1s[task].append(macro_f1)
+
+        weighted_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='weighted')
+        weighted_f1 = round(weighted_f1, 3)
+        weighted_f1s[task].append(weighted_f1)
+    
+    pd.DataFrame(macro_f1s).to_csv('data_utils/table_generators/results/{}_macro_f1s.csv'.format(task), index=False)
+    pd.DataFrame(macro_f1s).to_csv('data_utils/table_generators/results/{}_weighted_f1s.csv'.format(task), index=False)
+
 
 def get_results(num_folds, setting, rule_name, task):
     results = []
@@ -96,12 +129,7 @@ def main():
             results[site]['labels'].append(test_labels[i])
             results[site]['predictions'].append(psl_results[k][id])
 
-    for site in news_sites:
-        # print(site)
-        macro_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='macro')
-        print(round(macro_f1, 3))
-        # weighted_f1 = f1_score(results[site]['labels'], results[site]['predictions'], average='weighted')
-        # print(round(weighted_f1, 3))
+    write_table(results, task)
     
 
 
