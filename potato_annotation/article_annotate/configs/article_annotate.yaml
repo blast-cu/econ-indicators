@@ -1,0 +1,188 @@
+{
+    "port": 80,
+    "server_name": "potato annotator",
+    "annotation_task_name": "Economic Article Annotation",
+    "output_annotation_dir": "annotation_output/pilot/",
+    "output_annotation_format": "csv",
+    "annotation_codebook_url": "https://www.dropbox.com/scl/fi/527jlo7caxzcj30qsx5af/Economic-Indicators-Codebook-Annotation-Guidelines-1.pdf?rlkey=0kp7l6ux8g0vpih7t0kuhd6f5&dl=0",
+    "data_files": [
+        "data_files/articles.csv"
+    ],
+    "item_properties": {
+        "id_key": "id",
+        "text_key": "text"
+    },
+    "list_as_text": {
+        "text_list_prefix_type": "None",
+        "horizontal": true
+    },
+    "user_config": {
+        "allow_all_users": true,
+        "users": []
+    },
+    "login": {
+        "type": "url_direct",
+        "url_argument": "PROLIFIC_PID"
+    },
+    "jumping_to_id_disabled": false,
+    "hide_navbar": true,
+    "surveyflow": {
+        "on": true,
+        "order": [
+            "pre_annotation", 
+            "post_annotation"
+        ],
+        "pre_annotation": [
+            "surveyflow/intro.jsonl",
+            "surveyflow/instructions.jsonl"
+        ], 
+        "post_annotation": [
+            "surveyflow/end.jsonl"
+        ]
+    },
+    "automatic_assignment": {
+        "on": true,
+        "output_filename": "task_assignment.json",
+        "sampling_strategy": "random",
+        "labels_per_instance": 3,
+        "instance_per_annotator": 25,
+        "test_question_per_annotator": 0,
+        "users": []
+    },
+    "alert_time_each_instance": 10000000,
+    "annotation_schemes": [
+       {
+            "annotation_type": "radio",
+            "name": "frame-macro",
+            "description": "Does this article make reference to general economic conditions in the U.S.?",
+            "labels": [
+                {
+                    "name": "Yes",
+                    "tooltip": "",
+                    "key_value": "0"
+                },
+                {
+                    "name": "No",
+                    "tooltip": "",
+                    "key_value": "1"
+                }
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        },
+        {
+            "annotation_type": "radio",
+            "name": "Economic Conditions",
+            "description": "If you answered 'No' to the first question, please select 'Not relevant to the US economy'. If you answered 'Yes', how does this article rate economic conditions in the US?",
+            "labels": [
+                {
+                    "name": "Good",
+                    "tooltip": "",
+                    "key_value": "0"
+                },
+                {
+                    "name": "Poor",
+                    "tooltip": "",
+                    "key_value": "1"
+                },
+                {
+                    "name": "No Opinion",
+                    "tooltip": "",
+                    "key_value": "2"
+                },
+                {
+                    "name": "Not relevant to the US economy",
+                    "tooltip": "",
+                    "key_value": "3"
+                },
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        },
+        {
+            "annotation_type": "radio",
+            "name": "Economic Direction",
+            "description": "If you answered 'No' to the first question, please select 'Not relevant to the US economy'. If you answered 'Yes', does this article state/imply that economic conditions in the US as a whole are. . . ?",
+            "labels": [
+                {
+                    "name": "Getting better",
+                    "tooltip": "",
+                    "key_value": "0"
+                },
+                {
+                    "name": "Getting worse",
+                    "tooltip": "",
+                    "key_value": "1"
+                },
+                {
+                    "name": "Same",
+                    "tooltip": "",
+                    "key_value": "2"
+                },
+                {
+                    "name": "No opinion",
+                    "tooltip": "",
+                    "key_value": "3"
+                },
+                {
+                    "name": "Not relevant to the US economy",
+                    "tooltip": "",
+                    "key_value": "4"},
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        },
+        {
+            "annotation_type": "radio",
+            "name": "frame",
+            "description": "If you answered 'Yes' to the first question, please select 'Not Applicable'. If you answered 'No', what is the dominant frame in the article?",
+            "labels": [
+                {
+                    "name": "Firm-specific",
+                    "tooltip": "e.g., discusses stock prices, debt offerings, and capital investments",
+                    "key_value": "0"
+                },
+                {
+                    "name": "Industry-specific",
+                    "tooltip": "e.g., discusses agricultural prices, manufacturing output, and retail sales",
+                    "key_value": "1"
+                },
+                {
+                    "name": "Government revenue and expenses",
+                    "tooltip": "e.g., discusses taxes, budgets, and treasury issuances",
+                    "key_value": "2"
+                },
+                {
+                    "name": "Personal",
+                    "tooltip": "e.g., discusses household expenditures and personal debts",
+                    "key_value": "3"
+                },
+                {
+                    "name": "Other",
+                    "tooltip": "",
+                    "key_value": "4"
+                },
+                {
+                    "name": "Not Applicable",
+                    "tooltip": "",
+                    "key_value": "5"
+                },
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        }
+    ],
+    "html_layout": "templates/layout.html",
+
+    "base_html_template": "default",
+    "header_file": "default",
+    "site_dir": "default"
+}
