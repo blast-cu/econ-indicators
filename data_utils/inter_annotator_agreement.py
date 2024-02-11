@@ -305,7 +305,7 @@ def get_anns(db_filename):
     res = cur.execute(query)
     retrieve_anns(article2ann, res, 'econ_change')
     # Quantities
-    query = 'select quantity_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin from quantityann';
+    query = 'select  ype, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin from quantityann';
     res = cur.execute(query)
     retrieve_quant_anns(quantity2ann, res)
 

@@ -5,7 +5,7 @@ from data_utils.dataset import qual_label_maps
 
 def main():
     qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))
-    predict_dict = pickle.load(open("data/annotations_type_predictions", "rb"))
+    predict_dict = pickle.load(open("data/quant_predictions", "rb"))
 
     article_preds = {} # {article_id: [preds]}
 
@@ -14,7 +14,7 @@ def main():
         if article_id not in article_preds:
             article_preds[article_id] = []
 
-        pred = preds['type']
+        pred = preds[1]
         article_preds[article_id].append(pred)
 
     article_labels = {} # {article_id: [labels]}
@@ -26,12 +26,14 @@ def main():
                 article_labels[article_id] = c[0][0]
 
     bins = {} # {frame label: [article_ids]}
-    for key in qual_label_maps['frame'].keys():
-        bins[key] = []
+    # for key in qual_label_maps['frame'].keys():
+    #     bins[key] = []
 
     for article_id, label in article_labels.items():
         if article_id not in qual_dict:
-            try: 
+            try:
+                if label not in bins:
+                    bins[label] = []
                 bins[label].append(article_id)
             except KeyError as e:
                 print(f'Key error: {e} not in article frames')

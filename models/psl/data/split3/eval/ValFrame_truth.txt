@@ -63,6 +63,11 @@
 5339	macro	1.0
 5339	government	0.0
 5339	other	0.0
+75	business	0.0
+75	industry	0.0
+75	macro	0.0
+75	government	0.0
+75	other	1.0
 3439	business	0.0
 3439	industry	0.0
 3439	macro	0.0
@@ -108,3 +113,13 @@
 55292	macro	1.0
 55292	government	0.0
 55292	other	0.0
+68959	business	0.0
+68959	industry	0.0
+68959	macro	1.0
+68959	government	0.0
+68959	other	0.0
+21481	business	0.0
+21481	industry	0.0
+21481	macro	0.0
+21481	government	1.0
+21481	other	0.0
