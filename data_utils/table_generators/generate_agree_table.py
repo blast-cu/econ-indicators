@@ -38,14 +38,11 @@ def generate_ka_table(article2ann, quantity2ann):
     ka_table['ka'] = []
 
     frame_triplets = create_triplets(article2ann, 'frame')
-    for t in frame_triplets:
-        print(t)
     t = AnnotationTask(frame_triplets, distance=binary_distance)
-
     result = t.alpha()
     ka_table['annotation'].append('frame')
     ka_table['ka'].append(round(result, 2))
-    print(round(result, 2))
+    # print(round(result, 2))
 
     econ_rate_triplets = create_triplets(article2ann, 'econ_rate')
     t = AnnotationTask(econ_rate_triplets, distance=binary_distance)
@@ -112,11 +109,10 @@ def main():
     # generate_agree_table(article2ann, quantity2ann)
     # generate_ka_table(article2ann, quantity2ann)
     article_anns = get_potato_article_anns()
-    # see = article_anns['frame']
-    # see.sort()
-    # for s in see:
-    #     print(s)
-    # exit()
+    see = article_anns['econ_change']
+    see.sort()
+    for s in see:
+        print(s)
     article2ann = {}
     for ann_name, anns in article_anns.items():
         retrieve_anns(article2ann, anns, ann_name)

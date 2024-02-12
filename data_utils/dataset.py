@@ -54,6 +54,24 @@ quant_label_maps = {
             'neutral': 2}
 }
 
+qual_predict_maps = {
+    'frame': {
+            0: 'business',
+            1: 'industry',
+            2: 'macro',
+            3: 'government',
+            4: 'other'},
+    'econ_rate': {
+            0: 'good',
+            1: 'poor',
+            2: 'none'},
+    'econ_change': {
+            0: 'better',
+            1: 'worse',
+            2: 'same',
+            3: 'none'}
+}
+
 quant_predict_maps = {
     'type': {
             0: 'macro',

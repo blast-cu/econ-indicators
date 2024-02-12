@@ -2,6 +2,26 @@ import json
 import os
 from data_utils.dataset import qual_label_maps
 
+qual_predict_maps = {
+    'frame': {
+            0: 'business',
+            1: 'industry',
+            5: 'macro',
+            2: 'government',
+            4: 'other',
+            3: 'personal'},
+    'econ_rate': {
+            0: 'good',
+            1: 'poor',
+            2: 'none',
+            3: 'NA'},
+    'econ_change': {
+            0: 'better',
+            1: 'worse',
+            2: 'same',
+            3: 'none',
+            4: 'NA'}
+}
 
 def load_jsonl(input_path) -> list:
     """
@@ -34,14 +54,32 @@ def get_potato_article_anns():
                 ann = ann["label_annotations"]
                 if list(ann["frame-macro"].keys())[0] == "Yes":
                     frame_val = "macro"
-                else: 
-                    frame_val = list(ann["frame"].keys())[0]
-                ann_dict["frame"].append((article_id, annotator_id, frame_val.lower()))
 
-                econ_rate_val = list(ann["Economic Conditions"].values())[0]
-                econ_change_val = list(ann["Economic Conditions"].keys())[0]
-                ann_dict["econ_rate"].append((article_id, annotator_id, econ_rate_val.lower()))
-                ann_dict["econ_change"].append((article_id, annotator_id, econ_change_val.lower()))
+                    label_id = int(list(ann["Economic Conditions"].values())[0])
+                    econ_rate_val = qual_predict_maps["econ_rate"][label_id]
+
+                    label_id = int(list(ann["Economic Conditions"].values())[0])
+                    econ_change_val = qual_predict_maps["econ_change"][label_id]
+
+                    ann_dict["econ_rate"].append((article_id, annotator_id, econ_rate_val))
+                    ann_dict["econ_change"].append((article_id, annotator_id, econ_change_val))
+                    
+                else:
+                    label_id = int(list(ann["frame"].values())[0])
+                    frame_val = qual_predict_maps["frame"][label_id]
+                    # econ_change_val = "NA"
+                    # econ_rate_val = "NA"
+
+                ann_dict["frame"].append((article_id, annotator_id, frame_val))
+
+
+                # if frame_val != "macro":
+                #     if econ_change_val != "NA":
+                #         print("Error: {}".format(annotator_id))
+                #         # print(article_id, annotator_id, frame_val, econ_rate_val, econ_change_val)
+                #         print(frame_val)
+                #         print(econ_change_val)
+                #         print()
     
     return ann_dict
 
