@@ -1,5 +1,0 @@
-{"id":"0","text":"","schema": "pure_display", "choices": ["We have a large set of news articles about economic topics. In a given article, we want to look at quantities and figures being reported and identify the type of figure (i.e. macro-economic, industry-specific, firm-specific, personal story), and in case of a macroeconomic, industry or government figure, identify the specific sub-type/indicator being discussed. You will be presented with an excerpt from an article: <br><br>"]}
-{"id":"1","text":"","schema": "pure_display", "choices": ["1. A quantity will be highlighted in yellow"]}
-{"id":"2","text":"","schema": "pure_display", "choices": ["2. If the quantity is a date or otherwise not relevant, label it as Not Relevant and continue to the next excerpt."]}
-{"id":"3","text":"","schema": "pure_display", "choices": ["3. If the quantity is relevant, _______"]}
-{"id":"4","text":"","schema": "pure_display", "choices": ["4. data points may not fit into one of the groups. These should be labeled Other"]}
