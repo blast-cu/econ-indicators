@@ -7,6 +7,8 @@ from data_utils.inter_annotator_agreement import \
 
 from potato_annotation.read_annotations import get_potato_article_anns
 
+SETTING = 'potato'
+
 def generate_agree_table(article2ann, quantity2ann):
 
     user_disagreements = {}; user_total_anns = {}
@@ -38,11 +40,13 @@ def generate_ka_table(article2ann, quantity2ann):
     ka_table['ka'] = []
 
     frame_triplets = create_triplets(article2ann, 'frame')
+    for f in frame_triplets:
+        print(f)
     t = AnnotationTask(frame_triplets, distance=binary_distance)
     result = t.alpha()
     ka_table['annotation'].append('frame')
     ka_table['ka'].append(round(result, 2))
-    # print(round(result, 2))
+    print(round(result, 2))
 
     econ_rate_triplets = create_triplets(article2ann, 'econ_rate')
     t = AnnotationTask(econ_rate_triplets, distance=binary_distance)
@@ -104,22 +108,26 @@ def generate_ka_table(article2ann, quantity2ann):
 
 def main():
 
-    # article2ann, quantity2ann = get_anns(db_filename='data/data.db')
-    # print(article2ann)
-    # generate_agree_table(article2ann, quantity2ann)
-    # generate_ka_table(article2ann, quantity2ann)
-    article_anns = get_potato_article_anns()
-    see = article_anns['econ_change']
-    see.sort()
-    for s in see:
-        print(s)
-    article2ann = {}
-    for ann_name, anns in article_anns.items():
-        retrieve_anns(article2ann, anns, ann_name)
-
+    if SETTING == 'potato':
+        article_anns = get_potato_article_anns()
     
-    generate_agree_table(article2ann, {})
-    generate_ka_table(article2ann, {})
+        article2ann = {}
+        for ann_name, anns in article_anns.items():
+            retrieve_anns(article2ann, anns, ann_name)
+
+        generate_agree_table(article2ann, {})
+        generate_ka_table(article2ann, {})
+
+    else:
+        article2ann, quantity2ann = get_anns(db_filename='data/data.db')
+        generate_agree_table(article2ann, quantity2ann)
+        generate_ka_table(article2ann, quantity2ann)
+
+    # see = article_anns['frame']
+    # see.sort()
+    # for s in see:
+    #     print(s)
+
         
     
 if __name__ == "__main__":

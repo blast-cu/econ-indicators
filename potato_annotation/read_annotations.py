@@ -44,13 +44,15 @@ def get_potato_article_anns():
     ann_output_dir = "potato_annotation/article_annotate/annotation_output/pilot/"
     dir_list = os.listdir(ann_output_dir)
 
+    count = 0
     for annotator_id in dir_list:
         d = os.path.join(ann_output_dir, annotator_id)
         if os.path.isdir(d):
+            count += 1
             f = os.path.join(d, "annotated_instances.jsonl")
             data = load_jsonl(f)
             for ann in data:
-                article_id = ann["id"]
+                article_id = int(ann["id"])
                 ann = ann["label_annotations"]
                 if list(ann["frame-macro"].keys())[0] == "Yes":
                     frame_val = "macro"
@@ -61,16 +63,19 @@ def get_potato_article_anns():
                     label_id = int(list(ann["Economic Conditions"].values())[0])
                     econ_change_val = qual_predict_maps["econ_change"][label_id]
 
-                    ann_dict["econ_rate"].append((article_id, annotator_id, econ_rate_val))
-                    ann_dict["econ_change"].append((article_id, annotator_id, econ_change_val))
+
                     
                 else:
                     label_id = int(list(ann["frame"].values())[0])
                     frame_val = qual_predict_maps["frame"][label_id]
-                    # econ_change_val = "NA"
-                    # econ_rate_val = "NA"
+                    econ_change_val = "NA"
+                    econ_rate_val = "NA"
 
-                ann_dict["frame"].append((article_id, annotator_id, frame_val))
+                ann_dict["frame"].append((article_id, count, frame_val))
+                ann_dict["econ_rate"].append((article_id, count, econ_rate_val))
+                ann_dict["econ_change"].append((article_id, count, econ_change_val))
+        
+
 
 
                 # if frame_val != "macro":
