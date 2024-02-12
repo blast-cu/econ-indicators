@@ -1,0 +1,291 @@
+936  [main] INFO  org.linqs.psl.runtime.Runtime  - PSL Runtime Version 2.4.0-aad67da
+7363 [main] INFO  org.linqs.psl.util.RandUtils  - Using random seed: 31702938
+7376 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding out model.
+7915 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding complete.
+7915 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Loading deep predicates.
+7989 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding out model.
+8159 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Grounding complete.
+8293 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Gradient Descent Weight Learning Start.
+8331 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+73377 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 208.33444, Violated Constraints: 34, Total Optimization Time: 64616, Total Number of Iterations: 25001
+73377 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+73439 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+74684 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 113.27306, Violated Constraints: 0, Total Optimization Time: 1231, Total Number of Iterations: 473
+74684 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+74717 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+135945 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 80.54034, Violated Constraints: 34, Total Optimization Time: 60872, Total Number of Iterations: 25001
+135946 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+135972 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+136532 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 43.774364, Violated Constraints: 0, Total Optimization Time: 555, Total Number of Iterations: 201
+136532 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+136561 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+207870 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 86.96675, Violated Constraints: 34, Total Optimization Time: 70954, Total Number of Iterations: 25001
+207870 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+207888 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+208513 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 47.97088, Violated Constraints: 0, Total Optimization Time: 620, Total Number of Iterations: 201
+208513 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+208530 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+275314 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 73.06212, Violated Constraints: 34, Total Optimization Time: 66464, Total Number of Iterations: 25001
+275314 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+275328 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+275866 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 42.467754, Violated Constraints: 0, Total Optimization Time: 533, Total Number of Iterations: 201
+275866 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+275882 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+341663 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 73.71326, Violated Constraints: 34, Total Optimization Time: 65468, Total Number of Iterations: 25001
+341663 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+341678 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+342070 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 44.600887, Violated Constraints: 0, Total Optimization Time: 390, Total Number of Iterations: 151
+342070 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+342085 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+403240 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 68.50118, Violated Constraints: 34, Total Optimization Time: 60860, Total Number of Iterations: 25001
+403240 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+403255 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+403642 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 40.628387, Violated Constraints: 0, Total Optimization Time: 384, Total Number of Iterations: 151
+403642 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+403659 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+465371 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 68.87152, Violated Constraints: 34, Total Optimization Time: 61430, Total Number of Iterations: 25001
+465371 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+465386 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+465780 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 41.92142, Violated Constraints: 0, Total Optimization Time: 392, Total Number of Iterations: 151
+465780 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+465795 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+526005 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 65.801094, Violated Constraints: 34, Total Optimization Time: 59944, Total Number of Iterations: 25001
+526006 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+526019 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+526394 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.393974, Violated Constraints: 0, Total Optimization Time: 371, Total Number of Iterations: 151
+526395 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+526408 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+586164 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 66.840836, Violated Constraints: 34, Total Optimization Time: 59481, Total Number of Iterations: 25001
+586164 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+586178 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+586544 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 40.619114, Violated Constraints: 0, Total Optimization Time: 363, Total Number of Iterations: 151
+586544 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+586557 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+646844 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.70635, Violated Constraints: 34, Total Optimization Time: 60009, Total Number of Iterations: 25001
+646844 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+646857 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+647239 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 38.86756, Violated Constraints: 0, Total Optimization Time: 377, Total Number of Iterations: 151
+647239 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+647253 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+707008 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 65.86594, Violated Constraints: 34, Total Optimization Time: 59476, Total Number of Iterations: 25001
+707008 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+707022 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+707411 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 40.01347, Violated Constraints: 0, Total Optimization Time: 386, Total Number of Iterations: 151
+707412 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+707426 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+768531 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.67337, Violated Constraints: 34, Total Optimization Time: 60834, Total Number of Iterations: 25001
+768531 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+768544 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+768937 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.02034, Violated Constraints: 0, Total Optimization Time: 389, Total Number of Iterations: 151
+768937 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+768951 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+828880 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 65.14758, Violated Constraints: 34, Total Optimization Time: 59649, Total Number of Iterations: 25001
+828880 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+828893 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+829278 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.493843, Violated Constraints: 0, Total Optimization Time: 379, Total Number of Iterations: 151
+829278 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+829292 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+890197 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.70641, Violated Constraints: 34, Total Optimization Time: 60623, Total Number of Iterations: 25001
+890198 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+890211 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+890593 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.13468, Violated Constraints: 0, Total Optimization Time: 379, Total Number of Iterations: 151
+890593 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+890607 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+950321 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.76443, Violated Constraints: 34, Total Optimization Time: 59442, Total Number of Iterations: 25001
+950321 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+950334 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+950746 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.210625, Violated Constraints: 0, Total Optimization Time: 408, Total Number of Iterations: 151
+950747 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+950761 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1010609 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.66294, Violated Constraints: 34, Total Optimization Time: 59564, Total Number of Iterations: 25001
+1010610 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1010623 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1011041 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.138657, Violated Constraints: 0, Total Optimization Time: 414, Total Number of Iterations: 151
+1011041 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1011056 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1070519 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.62549, Violated Constraints: 34, Total Optimization Time: 59182, Total Number of Iterations: 25001
+1070519 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1070533 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1070914 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.119156, Violated Constraints: 0, Total Optimization Time: 378, Total Number of Iterations: 151
+1070915 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1070928 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1131025 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.58585, Violated Constraints: 34, Total Optimization Time: 59817, Total Number of Iterations: 25001
+1131026 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1131039 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1131410 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.094917, Violated Constraints: 0, Total Optimization Time: 369, Total Number of Iterations: 151
+1131410 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1131424 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1190986 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.554214, Violated Constraints: 34, Total Optimization Time: 59262, Total Number of Iterations: 25001
+1190986 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1191000 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1191389 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.075474, Violated Constraints: 0, Total Optimization Time: 386, Total Number of Iterations: 151
+1191390 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1191404 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1251137 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.527596, Violated Constraints: 34, Total Optimization Time: 59422, Total Number of Iterations: 25001
+1251137 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1251151 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1251529 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.05894, Violated Constraints: 0, Total Optimization Time: 376, Total Number of Iterations: 151
+1251529 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1251543 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1312746 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 64.50477, Violated Constraints: 34, Total Optimization Time: 60934, Total Number of Iterations: 25001
+1312746 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1312778 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Beginning inference.
+1313231 [main] INFO  org.linqs.psl.reasoner.Reasoner  - Final Objective: 39.04445, Violated Constraints: 0, Total Optimization Time: 447, Total Number of Iterations: 151
+1313231 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Inference complete.
+1313238 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Gradient Descent Weight Learning Finished.
+1313238 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Final Model [0.17468406: PREDFRAME(A, B) >> VALFRAME(A, B) ^2, 0.23980314: PREDECONRATE(A, B) >> VALECONRATE(A, B) ^2, 0.24142542: PREDECONCHANGE(A, B) >> VALECONCHANGE(A, B) ^2, 0.00641351: PREDTYPE(E, B) >> VALTYPE(E, B) ^2, 0.00574736: PREDMACROTYPE(E, B) >> VALMACROTYPE(E, B) ^2, 0.103639774: PREDSPIN(E, B) >> VALSPIN(E, B) ^2, 0.014741298: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'better') ^2, 0.012979967: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'none') ^2, 0.014488787: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'same') ^2, 0.026908448: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'worse') ^2, 0.016640244: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'better') ^2, 0.016293881: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'none') ^2, 0.020884087: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'same') ^2, 0.0155806: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'worse') ^2, 0.032465987: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'better') ^2, 0.017917957: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'none') ^2, 0.016917562: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'same') ^2, 0.02246793: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'worse') ^2] 
+1313239 [main] INFO  org.linqs.psl.application.learning.weight.gradient.GradientDescent  - Final Weight Learning Loss: 68.671265, Final Gradient Magnitude: 0.0065465695, Total optimization time: 1304937
+1313239 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Writing results to Database.
+1313592 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Results committed to database.
+1313593 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Writing results to Database.
+1313927 [main] INFO  org.linqs.psl.application.inference.InferenceApplication  - Results committed to database.
+1313932 [main] INFO  org.linqs.psl.runtime.Runtime  - Learned Model:
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.17468406: PREDFRAME(A, B) >> VALFRAME(A, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.23980314: PREDECONRATE(A, B) >> VALECONRATE(A, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.24142542: PREDECONCHANGE(A, B) >> VALECONCHANGE(A, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00641351: PREDTYPE(E, B) >> VALTYPE(E, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.00574736: PREDMACROTYPE(E, B) >> VALMACROTYPE(E, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.103639774: PREDSPIN(E, B) >> VALSPIN(E, B) ^2
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALFRAME(A, +B) = 1.0 .
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALECONRATE(A, +B) = 1.0 .
+1313933 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALECONCHANGE(A, +B) = 1.0 .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALTYPE(E, +B) = 1.0 .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALMACROTYPE(E, +B) = 1.0 .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    1.0 * VALSPIN(E, +B) = 1.0 .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'industry') >> VALMACROTYPE(A, 'none') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'government') >> VALMACROTYPE(A, 'none') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'personal') >> VALMACROTYPE(A, 'none') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'business') >> VALMACROTYPE(A, 'none') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    VALTYPE(A, 'other') >> VALMACROTYPE(A, 'none') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'jobs') ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'retail') ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'interest') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'prices') ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'energy') ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'wages') ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'macro') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1313934 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'market') ) >> VALTYPE(A, 'macro') .
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'currency') & HASTYPEANN(A) ) >> VALTYPE(A, 'macro') .
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'housing') ) >> VALTYPE(A, 'macro') .
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( HASTYPEANN(A) & VALMACROTYPE(A, 'other') ) >> VALTYPE(A, 'macro') .
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    ( VALMACROTYPE(A, 'none') & HASTYPEANN(A) ) >> ( VALTYPE(A, 'business') | VALTYPE(A, 'industry') | VALTYPE(A, 'other') | VALTYPE(A, 'government') | VALTYPE(A, 'personal') ) .
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014741298: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'better') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.012979967: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'none') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.014488787: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'same') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.026908448: ( VALSPIN(E, 'neg') & CONTAINS(A, E) ) >> VALECONCHANGE(A, 'worse') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.016640244: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'better') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.016293881: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'none') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.020884087: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'same') ^2
+1313935 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.0155806: ( CONTAINS(A, E) & VALSPIN(E, 'neutral') ) >> VALECONCHANGE(A, 'worse') ^2
+1313936 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.032465987: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'better') ^2
+1313936 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.017917957: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'none') ^2
+1313936 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.016917562: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'same') ^2
+1313936 [main] INFO  org.linqs.psl.runtime.Runtime  -    0.02246793: ( CONTAINS(A, E) & VALSPIN(E, 'pos') ) >> VALECONCHANGE(A, 'worse') ^2
+1314106 [main] INFO  org.linqs.psl.runtime.Runtime  - PSL Runtime Version 2.4.0-aad67da
+1314719 [main] ERROR org.linqs.psl.database.rdbms.RDBMSInserter  - [SQLITE_CONSTRAINT_UNIQUE] A UNIQUE constraint failed (UNIQUE constraint failed: VALECONRATE_PREDICATE.UniqueStringID_0, VALECONRATE_PREDICATE.UniqueStringID_1, VALECONRATE_PREDICATE.partition_id)
+Setting: excerpt_article
+Adding predicates...
+ValFrame
+ValEconRate
+ValEconChange
+ValType
+ValMacroType
+ValSpin
+PredFrame
+PredEconRate
+PredEconChange
+PredType
+PredMacroType
+PredSpin
+Contains
+Precedes
+HasTypeAnn
+
+Adding rules...
+1.0: PredFrame(A, B) >> ValFrame(A, B) ^2
+1.0: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+1.0: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+1.0: PredType(E, B) >> ValType(E, B) ^2
+1.0: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+1.0: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValMacroType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+ValType(A, 'industry') >> ValMacroType(A, 'none') .
+ValType(A, 'government') >> ValMacroType(A, 'none') .
+ValType(A, 'personal') >> ValMacroType(A, 'none') .
+ValType(A, 'business') >> ValMacroType(A, 'none') .
+ValType(A, 'other') >> ValMacroType(A, 'none') .
+HasTypeAnn(A) & ValMacroType(A, 'jobs') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'retail') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'interest') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'prices') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'energy') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'wages') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'macro') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'market') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2
+
+Adding data files for learn...
+ValFrame_target.txt added to VALFRAME
+ValFrame_truth.txt added to VALFRAME
+ValEconRate_target.txt added to VALECONRATE
+ValEconRate_truth.txt added to VALECONRATE
+ValEconChange_truth.txt added to VALECONCHANGE
+ValEconChange_target.txt added to VALECONCHANGE
+ValType_target.txt added to VALTYPE
+ValType_truth.txt added to VALTYPE
+ValMacroType_truth.txt added to VALMACROTYPE
+ValMacroType_target.txt added to VALMACROTYPE
+ValSpin_truth.txt added to VALSPIN
+ValSpin_target.txt added to VALSPIN
+PredFrame_obs.txt added to PREDFRAME
+PredEconRate_obs.txt added to PREDECONRATE
+PredEconChange_obs.txt added to PREDECONCHANGE
+PredType_obs.txt added to PREDTYPE
+PredMacroType_obs.txt added to PREDMACROTYPE
+PredSpin_obs.txt added to PREDSPIN
+Contains_obs.txt added to CONTAINS
+Precedes_obs.txt added to PRECEDES
+HasTypeAnn_obs.txt added to HASTYPEANN
+
+Adding data files for eval...
+ValFrame_target.txt added to VALFRAME
+ValFrame_truth.txt added to VALFRAME
+ValEconRate_target.txt added to VALECONRATE
+ValEconRate_truth.txt added to VALECONRATE
+ValEconChange_truth.txt added to VALECONCHANGE
+ValEconChange_target.txt added to VALECONCHANGE
+ValType_target.txt added to VALTYPE
+ValType_truth.txt added to VALTYPE
+ValMacroType_truth.txt added to VALMACROTYPE
+ValMacroType_target.txt added to VALMACROTYPE
+ValSpin_truth.txt added to VALSPIN
+ValSpin_target.txt added to VALSPIN
+PredFrame_obs.txt added to PREDFRAME
+PredEconRate_obs.txt added to PREDECONRATE
+PredEconChange_obs.txt added to PREDECONCHANGE
+PredType_obs.txt added to PREDTYPE
+PredMacroType_obs.txt added to PREDMACROTYPE
+PredSpin_obs.txt added to PREDSPIN
+Contains_obs.txt added to CONTAINS
+Precedes_obs.txt added to PRECEDES
+HasTypeAnn_obs.txt added to HASTYPEANN

@@ -16,12 +16,12 @@ OUT_DIR = 'models/psl/data'
 NOISE = True
 
 BEST_MODELS = {
-    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
-    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
-    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise',
-    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise',
-    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise',
-    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise'
+    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
+    'type': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all',
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all'
 }
 
 
@@ -54,9 +54,26 @@ def load_train_test_data(split_dict, qual_dict, quant_dict, qual_noise_dict={}, 
     train_excerpts = {id: quant_dict[id] for id in train_excerpt_ids}
 
     # add noisy excerpts to train excerpts
-    train_articles.update(qual_noise_dict)
-    noisy_excerpts = {id: quant_noise_dict[id] for id in quant_noise_dict.keys() if int(id.split('_')[0]) not in test_article_ids}
-    train_excerpts.update(noisy_excerpts)
+    for noisy_id, noisy_ann in qual_noise_dict.items():
+        if noisy_id not in train_articles:
+            train_articles[noisy_id] = noisy_ann
+        else:
+            for k, v in noisy_ann.items():
+                if train_articles[noisy_id][k] == '\x00':
+                    train_articles[noisy_id][k] = v
+                elif v == 'quant_list':
+                    for q_id in v:
+                        train_articles[noisy_id][k].append(q_id)
+    
+    for noisy_id, noisy_ann in quant_noise_dict.items():
+        noisy_article_id = int(noisy_id.split('_')[0])
+        if noisy_article_id not in test_article_ids:
+            if noisy_id not in train_excerpts:
+                train_excerpts[noisy_id] = noisy_ann
+            else:
+                for k, v in noisy_ann.items():
+                    if train_excerpts[noisy_id][k] == '\x00':
+                        train_excerpts[noisy_id][k] = v
 
     # load test article and excerpt dicts
     test_articles = {id: qual_dict[id] for id in test_article_ids}
