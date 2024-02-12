@@ -4,9 +4,14 @@ import json
 import random
 
 import data_utils.get_annotation_stats as gs
+import data_utils.inter_annotator_agreement as iaa
+from data_utils.dataset import DB_FILENAME, qual_label_maps
 
-OUTPUT_DIR = "potato-annotation/article_annotate/data_files"
-DB_FILENAME =  "data/data.db"
+OUTPUT_DIR = "potato_annotation/article_annotate/data_files"
+
+SETTING = "agreed" # distributed, fill, agreed
+global NUM_ARTICLES
+NUM_ARTICLES = 25
 
 def save_progress(to_save,
                   filename: str):
@@ -40,32 +45,31 @@ def get_distributed_articles(num_articles, priority, qual_dict, predict_dict):
 
 def main():
 
-    num_articles = 25
     col_names = ['id', 'text']
-    
-    # qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
-    # contendors = []
-    # for id, anns in qual_dict.items():
-    #     if anns['frame'] == '\x00':
-    #         if anns['econ_rate'] == '\x00':
-    #             if anns['econ_change'] == '\x00':
-    #                 contendors.append(id)
-    # print(len(contendors))
-    # article_choices = random.choices(contendors, k=25)
-    # articles = {}
-    # for id in article_choices:
-    #     text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
-    #     articles[id] = text
+    article_choices = []
 
-    # num_articles = num_articles - len(articles)
-    # more_articles = gs.get_no_anns(db_filename=DB_FILENAME,
-    #                         num_samples=num_articles,
-    #                         clean=False,
-    #                         headline=True)
-    
-    # articles.update(more_articles)
+    if SETTING == "fill":    
+        qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
+        contendors = []
+        for id, anns in qual_dict.items():
+            if anns['frame'] == '\x00':
+                if anns['econ_rate'] == '\x00':
+                    if anns['econ_change'] == '\x00':
+                        contendors.append(id)
+        print(len(contendors))
+        article_choices = random.choices(contendors, k=25)
+        articles = {}
+        for id in article_choices:
+            text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
+            articles[id] = text
 
-    # print(len(articles))
+        num_articles = NUM_ARTICLES - len(articles)
+        more_articles = gs.get_no_anns(db_filename=DB_FILENAME,
+                                num_samples=num_articles,
+                                clean=False,
+                                headline=True)
+        
+        articles.update(more_articles)
 
     # json
     # data_list = []
@@ -78,10 +82,42 @@ def main():
     #     with open(out_file, 'a+') as f:
     #         f.write('\n')
     #         json.dump(temp_dict, f)
-    qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))
-    predict_dict = pickle.load(open("data/quant_predictions", "rb"))
-    priority = ['jobs', 'market', 'macro', 'prices', 'energy', 'wages', 'prices', 'interest', 'housing']
-    article_choices = get_distributed_articles(num_articles, priority, qual_dict, predict_dict)
+        
+    elif SETTING == "distributed":
+        qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))
+        predict_dict = pickle.load(open("data/quant_predictions", "rb"))
+        priority = ['jobs', 'market', 'macro', 'prices', 'energy', 'wages', 'prices', 'interest', 'housing']
+        article_choices = get_distributed_articles(NUM_ARTICLES, priority, qual_dict, predict_dict)
+
+        
+
+    elif SETTING == "agreed":
+        qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
+        all_anns, _ = iaa.get_anns(DB_FILENAME)
+
+        macro_count = 0
+        not_macro_count = 0
+        
+        for article_id, anns in qual_dict.items():
+            if anns['frame'] != '\x00':
+                if len(all_anns[article_id]['frame']) == 3:
+                    frame_val = anns['frame']
+                    if frame_val == 'macro':
+                        rate_val = anns['econ_rate']
+                        change_val = anns['econ_change']
+                        if len(all_anns[article_id]['econ_rate']) == 3:
+                            if rate_val != '\x00':
+                                if len(all_anns[article_id]['econ_change']) == 3:
+                                    if change_val != '\x00':
+                                        macro_count += 1
+                                        article_choices.append(article_id)
+                    else: 
+                        if frame_val in qual_label_maps['frame']:
+                            not_macro_count += 1
+                            article_choices.append(article_id)
+    
+        article_choices = random.choices(article_choices, k=NUM_ARTICLES)
+
 
     articles = {}
     for id in article_choices:
@@ -90,7 +126,8 @@ def main():
 
     for id, text in articles.items():
         headline = "<h3>" + text[0] + "</h3>"
-        articles[id] = headline + text[1]
+        articles[id] = headline + text[1]  
+
 
     # csv
     csv_dict = {}
