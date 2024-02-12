@@ -67,3 +67,21 @@ python3 models/roberta_classifier/predict_qual.py --db [path_to_db] --ns [number
 
 A csv with the article id and the corresponding annotation predictions will be generated in 
 *models/roberta_classifier/samples/qual_samples.csv*
+
+
+## Potato Annotator Testing
+
+To test the quantitative annotator install potato annotator 
+
+````console
+pip install potato-annotation
+````
+
+Then, run 
+
+````console
+python3 potato start potato_annotation/quant_annotate
+````
+
+and visit [http://localhost:8000/?PROLIFIC_PID=user](http://localhost:8000/?PROLIFIC_PID=user)
+
