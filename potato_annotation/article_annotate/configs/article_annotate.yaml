@@ -1,10 +1,10 @@
 {
-    "port": 80,
+    "port": 8000,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
     "output_annotation_format": "csv",
-    "annotation_codebook_url": "https://www.dropbox.com/scl/fi/527jlo7caxzcj30qsx5af/Economic-Indicators-Codebook-Annotation-Guidelines-1.pdf?rlkey=0kp7l6ux8g0vpih7t0kuhd6f5&dl=0",
+    "annotation_codebook_url": "https://www.dropbox.com/scl/fi/4bpa4eawf4l2wcisl636p/Article-Codebook.pdf?rlkey=p5j0wjjbjjrhaey1o7t3zjdv1&dl=0",
     "data_files": [
         "data_files/articles.csv"
     ],
@@ -78,8 +78,8 @@
             "description": "If yes, what is the main type of economic information covered in this article?",
             "labels": [
                 {
-                    "name": "Macro-economic / General Economic Conditions",
-                    "tooltip": "e.g., ",
+                    "name": "Macroeconomic / General Economic Conditions",
+                    "tooltip": "e.g., discusses jobs, housing prices, and oil prices",
                     "key_value": "0"
                 },
                 {
@@ -108,7 +108,7 @@
                     "key_value": "5"
                 },
                 {
-                    "name": "Not Applicable",
+                    "name": "Not Relevant to the U.S. Economy",
                     "tooltip": "",
                     "key_value": "6"
                 },
