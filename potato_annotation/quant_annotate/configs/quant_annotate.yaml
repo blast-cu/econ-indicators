@@ -4,7 +4,7 @@
     "annotation_task_name": "Economic Article Quant Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
     "output_annotation_format": "csv",
-    "annotation_codebook_url": "",
+    "annotation_codebook_url": "https://www.dropbox.com/scl/fi/ptsewz31v211q3upyq0b2/Quant-Codebook.pdf?rlkey=en5z42xfu1s1gtf2l6ert9wi8&dl=0",
     "data_files": [
         "data_files/quants.csv"
     ],
@@ -51,38 +51,166 @@
     },
     "alert_time_each_instance": 10000000,
     "annotation_schemes": [
-       {
-            "annotation_type": "radio",
-            "name": "frame",
-            "description": "What is the dominant frame in the article?",
-            "labels": [
+            {
+                "annotation_type": "radio",
+                "name": "frame",
+                "description": "The highlighted quantity should have a general type. Please label the type, or select 'Not Relevant' is a date or otherwise not relevant to the U.S. economy",
+                "labels": [
+                    
+                    {
+                        "name": "Macroeconomic / General Economic Conditions",
+                        "tooltip": "e.g., discusses jobs, housing prices, and oil prices",
+                        "key_value": "0"
+                    },
+                    {
+                        "name": "Firm-specific",
+                        "tooltip": "e.g., discusses stock prices, debt offerings, and capital investments",
+                        "key_value": "1"
+                    },
+                    {
+                        "name": "Industry-specific",
+                        "tooltip": "e.g., discusses agricultural prices, manufacturing output, and retail sales",
+                        "key_value": "2"
+                    },
+                    {
+                        "name": "Government revenue and expenses",
+                        "tooltip": "e.g., discusses taxes, budgets, and treasury issuances",
+                        "key_value": "3"
+                    },
+                    {
+                        "name": "Personal",
+                        "tooltip": "e.g., discusses household expenditures and personal debts",
+                        "key_value": "4"
+                    },
+                    {
+                        "name": "Other",
+                        "tooltip": "",
+                        "key_value": "5"
+                    },
+                    {
+                        "name": "Not Relevant to the U.S. Economy",
+                        "tooltip": "",
+                        "key_value": "6"
+                    }
+                ],
+                "displaying_score": true,
+                "label_requirement": {
+                    "required": true
+                }
+            },
+            {
+                "annotation_type": "radio",
+                "name": "macro_indicator",
+                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'Not Relevant' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
+                "labels": [
                 {
-                    "name": "Firm-specific",
-                    "tooltip": "",
+                    "name": "Job Numbers",
+                    "tooltip": "e.g., jobs, unemployment",
                     "key_value": "0"
                 },
                 {
-                    "name": "Industry-specific",
-                    "tooltip": "",
+                    "name": "Market Numbers",
+                    "tooltip": "e.g., any financial market",
                     "key_value": "1"
                 },
                 {
-                    "name": "Macro-economic",
-                    "tooltip": "",
+                    "name": "Housing",
+                    "tooltip": "e.g., Start, Sales, Pricing",
                     "key_value": "2"
                 },
                 {
-                    "name": "Government revenue and expenses",
-                    "tooltip": "",
+                    "name": "Macroeconomy",
+                    "tooltip": "e.g., GDP",
                     "key_value": "3"
                 },
                 {
-                    "name": "Personal",
+                    "name": "Wages",
+                    "tooltip": "e.g., minimum wage, average wage",
+                    "key_value": "4"
+                },
+                {
+                    "name": "Prices",
+                    "tooltip": "e.g., CPI, PPI",
+                    "key_value": "5"
+                },
+                {
+                    "name": "Confidence",
+                    "tooltip": "",
+                    "key_value": "6"
+                },
+                {
+                    "name": "Retail Sales",
+                    "tooltip": "",
+                    "key_value": "7"
+                },
+                {
+                    "name": "Interest Rates",
+                    "tooltip": "e.g., Fed, Mortgage",
+                    "key_value": "8"
+                },
+                {
+                    "name": "Currency Values",
+                    "tooltip": "",
+                    "key_value": "9"
+                },
+                {
+                    "name": "Energy Prices",
+                    "tooltip": "eg., oil, gas",
+                    "key_value": "10"
+                },
+                {
+                    "name": "Other",
+                    "tooltip": "",
+                    "key_value": "11"
+                },
+                {
+                    "name": "Not of type Macroeconomic / General Economic Conditions",
+                    "tooltip": "",
+                    "key_value": "12"
+                },
+                {
+                    "name": "Not Relevant to the U.S. Economy",
+                    "tooltip": "",
+                    "key_value": "13"
+                },
+            ],
+            "displaying_score": true,
+            "label_requirement": {
+                "required": true
+            }
+        },
+        {
+                "annotation_type": "radio",
+                "name": "spin",
+                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what is the frame of the highlighted quantity?",
+                "labels": [
+                {
+                    "name": "Positive",
+                    "tooltip": "e.g., inflation dropped",
+                    "key_value": "0"
+                },
+                {
+                    "name": "Negative",
+                    "tooltip": "e.g., prices skyrocketed",
+                    "key_value": "1"
+                },
+                {
+                    "name": "Neutral",
+                    "tooltip": "GDP was worth X US dollars",
+                    "key_value": "2"
+                },
+                {
+                    "name": "Unknown",
+                    "tooltip": "cannot tell",
+                    "key_value": "3"
+                },   
+                {
+                    "name": "Not of type Macroeconomic / General Economic Conditions",
                     "tooltip": "",
                     "key_value": "4"
                 },
                 {
-                    "name": "Other",
+                    "name": "Not Relevant to the U.S. Economy",
                     "tooltip": "",
                     "key_value": "5"
                 },

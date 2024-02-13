@@ -1,6 +1,6 @@
 0.020903: PredFrame(A, B) >> ValFrame(A, B) ^2
 0.018998: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.018335: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.018345: PredEconChange(A, B) >> ValEconChange(A, B) ^2
 0.013009: PredType(E, B) >> ValType(E, B) ^2
 0.008778: PredMacroType(E, B) >> ValMacroType(E, B) ^2
 0.016974: PredSpin(E, B) >> ValSpin(E, B) ^2
@@ -40,12 +40,12 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.014848: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'business') ^2
 0.014847: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'government') ^2
 0.014840: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'industry') ^2
-0.019576: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'macro') ^2
+0.019575: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'macro') ^2
 0.014847: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'other') ^2
 0.016895: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'business') ^2
 0.017424: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'government') ^2
-0.016887: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'industry') ^2
-0.018921: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'macro') ^2
+0.016886: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'industry') ^2
+0.018920: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'macro') ^2
 0.016895: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'other') ^2
 0.008925: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'business') ^2
 0.008908: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'government') ^2
@@ -55,7 +55,7 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.009468: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'business') ^2
 0.009541: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'government') ^2
 0.009455: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'industry') ^2
-0.019239: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'macro') ^2
+0.019238: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'macro') ^2
 0.009467: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'other') ^2
 0.009633: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'business') ^2
 0.009658: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'government') ^2
@@ -70,15 +70,15 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.018330: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'business') ^2
 0.018620: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'government') ^2
 0.018305: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'industry') ^2
-0.019246: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'macro') ^2
+0.019245: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'macro') ^2
 0.018323: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'other') ^2
 0.016631: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'business') ^2
 0.016885: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'government') ^2
-0.016629: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'industry') ^2
+0.016628: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'industry') ^2
 0.019244: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'macro') ^2
 0.016631: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'other') ^2
 0.018565: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'business') ^2
-0.018568: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'government') ^2
+0.018567: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'government') ^2
 0.018565: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'industry') ^2
 0.019577: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'macro') ^2
 0.018567: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'other') ^2

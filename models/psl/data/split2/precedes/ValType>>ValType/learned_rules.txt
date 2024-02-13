@@ -1,9 +1,9 @@
 0.026695: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.030208: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.027711: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.024452: PredType(E, B) >> ValType(E, B) ^2
+0.030207: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.027735: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.024451: PredType(E, B) >> ValType(E, B) ^2
 0.007294: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.025318: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.025317: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,39 +27,39 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.031394: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'business') ^2
+0.031393: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'business') ^2
 0.022833: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'government') ^2
-0.022840: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'industry') ^2
+0.022839: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'industry') ^2
 0.022727: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'macro') ^2
-0.022843: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'other') ^2
-0.022855: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'personal') ^2
+0.022842: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'other') ^2
+0.022854: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'personal') ^2
 0.019309: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'business') ^2
-0.025968: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'government') ^2
-0.018945: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'industry') ^2
-0.019643: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'macro') ^2
+0.025967: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'government') ^2
+0.018944: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'industry') ^2
+0.019642: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'macro') ^2
 0.018558: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'other') ^2
-0.018985: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'personal') ^2
-0.025675: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'business') ^2
-0.025066: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'government') ^2
-0.027952: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'industry') ^2
-0.025529: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'macro') ^2
+0.018984: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'personal') ^2
+0.025674: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'business') ^2
+0.025065: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'government') ^2
+0.027951: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'industry') ^2
+0.025528: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'macro') ^2
 0.024631: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'other') ^2
-0.024673: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'personal') ^2
+0.024672: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'personal') ^2
 0.008762: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'business') ^2
 0.008541: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'government') ^2
 0.008610: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'industry') ^2
-0.028602: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'macro') ^2
+0.028601: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'macro') ^2
 0.008527: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'other') ^2
 0.008658: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'personal') ^2
-0.031561: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'business') ^2
-0.031361: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'government') ^2
-0.031530: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'industry') ^2
-0.031334: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'macro') ^2
+0.031560: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'business') ^2
+0.031360: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'government') ^2
+0.031529: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'industry') ^2
+0.031333: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'macro') ^2
 0.031417: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'other') ^2
-0.031585: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'personal') ^2
-0.029255: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'business') ^2
-0.029880: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'government') ^2
+0.031584: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'personal') ^2
+0.029254: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'business') ^2
+0.029879: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'government') ^2
 0.029238: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'industry') ^2
-0.029175: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'macro') ^2
-0.029213: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'other') ^2
-0.030650: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'personal') ^2
+0.029174: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'macro') ^2
+0.029212: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'other') ^2
+0.030649: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'personal') ^2

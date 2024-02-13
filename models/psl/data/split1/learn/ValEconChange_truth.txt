@@ -6,7 +6,6 @@
 18190	better
 19134	same
 1311	worse
-86954	better
 863	worse
 869	worse
 2079	worse

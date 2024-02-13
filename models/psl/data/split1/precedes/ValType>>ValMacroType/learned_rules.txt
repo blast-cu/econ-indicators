@@ -1,6 +1,6 @@
 0.007419: PredFrame(A, B) >> ValFrame(A, B) ^2
 0.007881: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.007761: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.007763: PredEconChange(A, B) >> ValEconChange(A, B) ^2
 0.018100: PredType(E, B) >> ValType(E, B) ^2
 0.007260: PredMacroType(E, B) >> ValMacroType(E, B) ^2
 0.007501: PredSpin(E, B) >> ValSpin(E, B) ^2
@@ -43,7 +43,7 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.006273: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'energy') ^2
 0.006267: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'housing') ^2
 0.006275: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'interest') ^2
-0.006444: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'jobs') ^2
+0.006443: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'jobs') ^2
 0.006258: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'macro') ^2
 0.006266: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'market') ^2
 0.007670: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'none') ^2
@@ -82,7 +82,7 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.008013: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'jobs') ^2
 0.008011: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'macro') ^2
 0.008017: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'market') ^2
-0.007990: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'none') ^2
+0.007989: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'none') ^2
 0.008016: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'other') ^2
 0.008025: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'prices') ^2
 0.008031: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'retail') ^2

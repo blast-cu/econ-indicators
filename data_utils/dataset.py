@@ -19,12 +19,14 @@ qual_label_maps = {
     'econ_rate': {
             'good': 0,
             'poor': 1,
-            'none': 2},
+            'none': 2,
+            'irrelevant': 3},
     'econ_change': {
             'better': 0,
             'worse': 1,
             'same': 2,
-            'none': 3}
+            'none': 3,
+            'irrelevant': 4}
 }
 
 quant_label_maps = {
@@ -64,12 +66,14 @@ qual_predict_maps = {
     'econ_rate': {
             0: 'good',
             1: 'poor',
-            2: 'none'},
+            2: 'none',
+            3: 'irrelevant'},
     'econ_change': {
             0: 'better',
             1: 'worse',
             2: 'same',
-            3: 'none'}
+            3: 'none',
+            4: 'irrelevant'}
 }
 
 quant_predict_maps = {

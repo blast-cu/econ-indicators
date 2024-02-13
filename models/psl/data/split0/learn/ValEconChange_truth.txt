@@ -6,7 +6,6 @@
 19134	same
 1311	worse
 13929	better
-86954	better
 495	better
 704	better
 733	better

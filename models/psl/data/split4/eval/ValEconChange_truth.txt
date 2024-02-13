@@ -1,7 +1,6 @@
 952	worse
 19134	same
 1311	worse
-86954	better
 869	worse
 10205	same
 2825	better

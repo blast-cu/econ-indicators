@@ -1,9 +1,9 @@
-0.022589: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.023917: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.025748: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.010860: PredType(E, B) >> ValType(E, B) ^2
-0.009240: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.021742: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.022588: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.023924: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.025687: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.010872: PredType(E, B) >> ValType(E, B) ^2
+0.009254: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.021736: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,51 +27,51 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.024041: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'better') ^2
-0.023531: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'none') ^2
-0.023000: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'same') ^2
-0.023130: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'worse') ^2
-0.020450: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'better') ^2
-0.020445: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'none') ^2
-0.020812: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'same') ^2
-0.024238: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'worse') ^2
-0.021122: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'better') ^2
-0.019034: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'none') ^2
-0.018054: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'same') ^2
-0.018587: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'worse') ^2
-0.021915: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'better') ^2
-0.020179: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'none') ^2
-0.019929: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'same') ^2
-0.021987: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'worse') ^2
-0.012334: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'better') ^2
-0.008888: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'none') ^2
+0.024043: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'better') ^2
+0.023535: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'none') ^2
+0.023005: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'same') ^2
+0.023134: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'worse') ^2
+0.020439: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'better') ^2
+0.020434: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'none') ^2
+0.020802: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'same') ^2
+0.024247: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'worse') ^2
+0.021107: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'better') ^2
+0.019021: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'none') ^2
+0.018037: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'same') ^2
+0.018572: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'worse') ^2
+0.021911: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'better') ^2
+0.020167: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'none') ^2
+0.019916: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'same') ^2
+0.021983: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'worse') ^2
+0.012312: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'better') ^2
+0.008889: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'none') ^2
 0.009766: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'same') ^2
-0.011844: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'worse') ^2
-0.013575: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'better') ^2
-0.011883: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'none') ^2
-0.011644: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'same') ^2
-0.013411: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'worse') ^2
-0.015417: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'better') ^2
-0.014183: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'none') ^2
-0.015390: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'same') ^2
-0.019529: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'worse') ^2
-0.007825: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'better') ^2
-0.006873: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'none') ^2
-0.006684: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'same') ^2
-0.007236: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'worse') ^2
-0.023881: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'better') ^2
-0.023526: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'none') ^2
-0.023259: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'same') ^2
-0.023486: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'worse') ^2
-0.023016: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'better') ^2
-0.021815: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'none') ^2
-0.021673: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'same') ^2
-0.023058: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'worse') ^2
-0.024222: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'better') ^2
-0.023273: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'none') ^2
-0.023280: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'same') ^2
-0.023759: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'worse') ^2
-0.020722: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'better') ^2
-0.018979: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'none') ^2
-0.019575: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'same') ^2
-0.021445: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'worse') ^2
+0.011841: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'worse') ^2
+0.013556: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'better') ^2
+0.011877: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'none') ^2
+0.011638: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'same') ^2
+0.013400: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'worse') ^2
+0.015384: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'better') ^2
+0.014173: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'none') ^2
+0.015375: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'same') ^2
+0.019520: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'worse') ^2
+0.007321: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'better') ^2
+0.007132: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'none') ^2
+0.006887: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'same') ^2
+0.007558: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'worse') ^2
+0.023888: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'better') ^2
+0.023531: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'none') ^2
+0.023263: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'same') ^2
+0.023490: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'worse') ^2
+0.023018: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'better') ^2
+0.021810: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'none') ^2
+0.021668: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'same') ^2
+0.023060: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'worse') ^2
+0.024231: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'better') ^2
+0.023276: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'none') ^2
+0.023283: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'same') ^2
+0.023765: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'worse') ^2
+0.020699: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'better') ^2
+0.018967: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'none') ^2
+0.019561: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'same') ^2
+0.021447: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'worse') ^2

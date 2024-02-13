@@ -63,7 +63,8 @@ def load_train_test_data(split_dict, qual_dict, quant_dict, qual_noise_dict={}, 
                     train_articles[noisy_id][k] = v
                 elif v == 'quant_list':
                     for q_id in v:
-                        train_articles[noisy_id][k].append(q_id)
+                        if q_id not in train_articles[noisy_id][k]:
+                            train_articles[noisy_id][k].append(q_id)
     
     for noisy_id, noisy_ann in quant_noise_dict.items():
         noisy_article_id = int(noisy_id.split('_')[0])

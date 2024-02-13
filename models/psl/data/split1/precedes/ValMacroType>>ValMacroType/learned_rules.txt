@@ -1,6 +1,6 @@
 0.006647: PredFrame(A, B) >> ValFrame(A, B) ^2
 0.007026: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.006928: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.006929: PredEconChange(A, B) >> ValEconChange(A, B) ^2
 0.006198: PredType(E, B) >> ValType(E, B) ^2
 0.005327: PredMacroType(E, B) >> ValMacroType(E, B) ^2
 0.006714: PredSpin(E, B) >> ValSpin(E, B) ^2

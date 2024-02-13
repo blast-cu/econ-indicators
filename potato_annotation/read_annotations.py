@@ -4,12 +4,12 @@ from data_utils.dataset import qual_label_maps
 
 qual_predict_maps = {
     'frame': {
-            0: 'business',
-            1: 'industry',
-            5: 'macro',
-            2: 'government',
+            1: 'business',
+            2: 'industry',
+            0: 'macro',
+            3: 'government',
             4: 'other',
-            3: 'personal'},
+            5: 'personal'},
     'econ_rate': {
             0: 'good',
             1: 'poor',
@@ -22,7 +22,6 @@ qual_predict_maps = {
             3: 'none',
             4: 'NA'}
 }
-
 def load_jsonl(input_path) -> list:
     """
     Read list of objects from a JSON lines file.
@@ -54,26 +53,26 @@ def get_potato_article_anns():
             for ann in data:
                 article_id = int(ann["id"])
                 ann = ann["label_annotations"]
-                if list(ann["frame-macro"].keys())[0] == "Yes":
-                    frame_val = "macro"
+                if list(ann["relevant"].keys())[0] == "Yes":
+                    frame_val = int(list(ann["frame"].values())[0])
 
-                    label_id = int(list(ann["Economic Conditions"].values())[0])
-                    econ_rate_val = qual_predict_maps["econ_rate"][label_id]
+                    if frame_val == 'macro':
 
-                    label_id = int(list(ann["Economic Conditions"].values())[0])
-                    econ_change_val = qual_predict_maps["econ_change"][label_id]
+                        label_id = int(list(ann["Economic Conditions"].values())[0])
+                        econ_rate_val = qual_predict_maps["econ_rate"][label_id]
 
+                        label_id = int(list(ann["Economic Conditions"].values())[0])
+                        econ_change_val = qual_predict_maps["econ_change"][label_id]
 
-                    
-                else:
-                    label_id = int(list(ann["frame"].values())[0])
-                    frame_val = qual_predict_maps["frame"][label_id]
-                    econ_change_val = "NA"
-                    econ_rate_val = "NA"
+                    else:
+                        label_id = int(list(ann["frame"].values())[0])
+                        frame_val = qual_predict_maps["frame"][label_id]
+                        econ_change_val = "NA"
+                        econ_rate_val = "NA"
 
-                ann_dict["frame"].append((article_id, count, frame_val))
-                ann_dict["econ_rate"].append((article_id, count, econ_rate_val))
-                ann_dict["econ_change"].append((article_id, count, econ_change_val))
+                    ann_dict["frame"].append((article_id, count, frame_val))
+                    ann_dict["econ_rate"].append((article_id, count, econ_rate_val))
+                    ann_dict["econ_change"].append((article_id, count, econ_change_val))
         
 
 

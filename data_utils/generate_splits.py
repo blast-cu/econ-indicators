@@ -111,13 +111,25 @@ def get_split_dict(qual_dict: dict):
 
     return split_dict
 
-def add_none(ann_dict: dict):
+def add_none(ann_dict: dict, quant=True):
+
+    if quant:
+        none_val = 'none'
+        type_comp = 'type'
+        change_anns = ['macro_type']
+    else:
+        none_val = 'irrelevant'
+        type_comp = 'frame'
+        change_anns = ['econ_rate', 'econ_change']
+
     none_ids = []
     for id in ann_dict.keys():
-        if ann_dict[id]['type'] != '\x00':
-            if ann_dict[id]['type'] != 'macro':
-                ann_dict[id]['macro_type'] = 'none'
-                none_ids.append(id)
+        if ann_dict[id][type_comp] != '\x00':
+            if ann_dict[id][type_comp] != 'macro':
+                for ann in change_anns:
+                    ann_dict[id][ann] = none_val
+                    none_ids.append(id)
+                
 
     return ann_dict, none_ids
 
@@ -157,14 +169,17 @@ def main(args):
     qual_ann = gs.get_qual_dict(db_filename)
 
     agreed_qual_ann = gs.get_agreed_anns(qual_ann, qual_label_maps)
+    agreed_qual_ann, none_ids = add_none(agreed_qual_ann, quant=False)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
 
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
     noisy_qual_ann = remove_empty(noisy_qual_ann)
+    noisy_qual_ann = remove_nones(noisy_qual_ann, none_ids)
 
-    # TODO: implement this
-    noisy_best_qual_ann = gs.get_best_noisy_anns(qual_ann, qual_label_maps, DB_FILENAME)
-    noisy_best_qual_ann = remove_empty(noisy_best_qual_ann)
+    # # TODO: implement this
+    # noisy_best_qual_ann = gs.get_best_noisy_anns(qual_ann, qual_label_maps, DB_FILENAME)
+    # noisy_best_qual_ann = remove_empty(noisy_best_qual_ann)
+    # noisy_best_qual_ann = remove_nones(noisy_best_qual_ann, none_ids)
 
     # get agreed quantitative annotations in dict where 
     # {key = "articleid_localid", value = dict of annotations}
@@ -177,9 +192,9 @@ def main(args):
     noisy_quant_ann = remove_empty(noisy_quant_ann)
     noisy_quant_ann = remove_nones(noisy_quant_ann, none_ids)
 
-    noisy_best_quant_ann = gs.get_best_noisy_anns(quant_ann, quant_label_maps, DB_FILENAME, quant=True)
-    noisy_best_quant_ann = remove_empty(noisy_best_quant_ann)
-    noisy_best_quant_ann = remove_nones(noisy_best_quant_ann, none_ids)
+    # noisy_best_quant_ann = gs.get_best_noisy_anns(quant_ann, quant_label_maps, DB_FILENAME, quant=True)
+    # noisy_best_quant_ann = remove_empty(noisy_best_quant_ann)
+    # noisy_best_quant_ann = remove_nones(noisy_best_quant_ann, none_ids)
     
     
     for k in agreed_qual_ann.keys():
@@ -188,20 +203,20 @@ def main(args):
     for k in noisy_qual_ann.keys():
         noisy_qual_ann[k]['quant_list'] = []
 
-    for k in noisy_best_qual_ann.keys():
-        noisy_best_qual_ann[k]['quant_list'] = []
+    # for k in noisy_best_qual_ann.keys():
+    #     noisy_best_qual_ann[k]['quant_list'] = []
 
     
 
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
     noisy_qual_ann = populate_quant_list(noisy_qual_ann, noisy_quant_ann)
-    noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
+    # noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
 
     # add text excerpts w/ context to agreed_quant_ann dict
     agreed_quant_ann = populate_quant_text(agreed_qual_ann, agreed_quant_ann, db_filename)
     noisy_quant_ann = populate_quant_text(noisy_qual_ann, noisy_quant_ann, db_filename)
-    noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
+    # noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
 
     # create splits 
     split_dict = get_split_dict(agreed_qual_ann)
@@ -217,8 +232,8 @@ def main(args):
 
     sanity_check(agreed_qual_ann, noisy_qual_ann)
     sanity_check(agreed_quant_ann, noisy_quant_ann)
-    sanity_check(agreed_qual_ann, noisy_best_qual_ann)
-    sanity_check(agreed_quant_ann, noisy_best_quant_ann)
+    # sanity_check(agreed_qual_ann, noisy_best_qual_ann)
+    # sanity_check(agreed_quant_ann, noisy_best_quant_ann)
 
     # # # save dictionaries as pickles 
     base_dir = 'data/clean/'
@@ -230,8 +245,8 @@ def main(args):
     d.save_progress(noisy_qual_ann, f'{base_dir}noisy_qual_dict')
     d.save_progress(noisy_quant_ann, f'{base_dir}noisy_quant_dict')
 
-    d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
-    d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
+    # d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
+    # d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
 
 
 
