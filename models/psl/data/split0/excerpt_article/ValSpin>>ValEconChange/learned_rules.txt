@@ -30,7 +30,7 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.020399: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
 0.019202: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
 0.020005: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
-0.042165: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+0.042166: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
 0.028006: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
 0.025952: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
 0.026832: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2

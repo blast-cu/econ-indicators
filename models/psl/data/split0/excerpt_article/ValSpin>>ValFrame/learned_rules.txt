@@ -37,7 +37,7 @@ HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 
 0.018786: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'industry') ^2
 0.031747: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'macro') ^2
 0.017178: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'other') ^2
-0.019620: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'business') ^2
+0.019619: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'business') ^2
 0.019189: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'government') ^2
 0.019045: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'industry') ^2
 0.100016: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'macro') ^2

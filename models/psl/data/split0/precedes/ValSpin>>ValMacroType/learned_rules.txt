@@ -1,0 +1,101 @@
+0.018667: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.019549: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.018800: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.010720: PredType(E, B) >> ValType(E, B) ^2
+0.011431: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.101126: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValMacroType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+ValType(A, 'industry') >> ValMacroType(A, 'none') .
+ValType(A, 'government') >> ValMacroType(A, 'none') .
+ValType(A, 'personal') >> ValMacroType(A, 'none') .
+ValType(A, 'business') >> ValMacroType(A, 'none') .
+ValType(A, 'other') >> ValMacroType(A, 'none') .
+HasTypeAnn(A) & ValMacroType(A, 'jobs') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'retail') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'interest') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'prices') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'energy') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'wages') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'macro') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'market') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
+0.012866: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'currency') ^2
+0.012987: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'energy') ^2
+0.012891: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'housing') ^2
+0.012694: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'interest') ^2
+0.014818: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'jobs') ^2
+0.012791: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'macro') ^2
+0.013119: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'market') ^2
+0.014155: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'none') ^2
+0.012564: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'other') ^2
+0.012880: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'prices') ^2
+0.012688: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'retail') ^2
+0.012547: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'wages') ^2
+0.014237: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'currency') ^2
+0.013889: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'energy') ^2
+0.014104: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'housing') ^2
+0.014039: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'interest') ^2
+0.013876: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'jobs') ^2
+0.015123: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'macro') ^2
+0.014033: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'market') ^2
+0.016984: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'none') ^2
+0.013867: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'other') ^2
+0.014253: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'prices') ^2
+0.014007: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'retail') ^2
+0.013877: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'wages') ^2
+0.014841: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'currency') ^2
+0.014355: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'energy') ^2
+0.014581: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'housing') ^2
+0.014465: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'interest') ^2
+0.015320: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'jobs') ^2
+0.015225: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'macro') ^2
+0.014880: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'market') ^2
+0.014649: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'none') ^2
+0.014498: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'other') ^2
+0.014501: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'prices') ^2
+0.014631: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'retail') ^2
+0.014873: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'wages') ^2
+0.008141: ValSpin(A, 'neg') >> ValMacroType(A, 'currency') ^2
+0.007773: ValSpin(A, 'neg') >> ValMacroType(A, 'energy') ^2
+0.007944: ValSpin(A, 'neg') >> ValMacroType(A, 'housing') ^2
+0.007477: ValSpin(A, 'neg') >> ValMacroType(A, 'interest') ^2
+0.008616: ValSpin(A, 'neg') >> ValMacroType(A, 'jobs') ^2
+0.008505: ValSpin(A, 'neg') >> ValMacroType(A, 'macro') ^2
+0.008055: ValSpin(A, 'neg') >> ValMacroType(A, 'market') ^2
+0.008538: ValSpin(A, 'neg') >> ValMacroType(A, 'none') ^2
+0.007258: ValSpin(A, 'neg') >> ValMacroType(A, 'other') ^2
+0.007906: ValSpin(A, 'neg') >> ValMacroType(A, 'prices') ^2
+0.007638: ValSpin(A, 'neg') >> ValMacroType(A, 'retail') ^2
+0.007472: ValSpin(A, 'neg') >> ValMacroType(A, 'wages') ^2
+0.008954: ValSpin(A, 'neutral') >> ValMacroType(A, 'currency') ^2
+0.008166: ValSpin(A, 'neutral') >> ValMacroType(A, 'energy') ^2
+0.008408: ValSpin(A, 'neutral') >> ValMacroType(A, 'housing') ^2
+0.008730: ValSpin(A, 'neutral') >> ValMacroType(A, 'interest') ^2
+0.008198: ValSpin(A, 'neutral') >> ValMacroType(A, 'jobs') ^2
+0.008903: ValSpin(A, 'neutral') >> ValMacroType(A, 'macro') ^2
+0.008218: ValSpin(A, 'neutral') >> ValMacroType(A, 'market') ^2
+0.012878: ValSpin(A, 'neutral') >> ValMacroType(A, 'none') ^2
+0.008184: ValSpin(A, 'neutral') >> ValMacroType(A, 'other') ^2
+0.008785: ValSpin(A, 'neutral') >> ValMacroType(A, 'prices') ^2
+0.008572: ValSpin(A, 'neutral') >> ValMacroType(A, 'retail') ^2
+0.008390: ValSpin(A, 'neutral') >> ValMacroType(A, 'wages') ^2
+0.009602: ValSpin(A, 'pos') >> ValMacroType(A, 'currency') ^2
+0.008785: ValSpin(A, 'pos') >> ValMacroType(A, 'energy') ^2
+0.009174: ValSpin(A, 'pos') >> ValMacroType(A, 'housing') ^2
+0.008834: ValSpin(A, 'pos') >> ValMacroType(A, 'interest') ^2
+0.010364: ValSpin(A, 'pos') >> ValMacroType(A, 'jobs') ^2
+0.009928: ValSpin(A, 'pos') >> ValMacroType(A, 'macro') ^2
+0.010070: ValSpin(A, 'pos') >> ValMacroType(A, 'market') ^2
+0.008861: ValSpin(A, 'pos') >> ValMacroType(A, 'none') ^2
+0.008669: ValSpin(A, 'pos') >> ValMacroType(A, 'other') ^2
+0.009129: ValSpin(A, 'pos') >> ValMacroType(A, 'prices') ^2
+0.009085: ValSpin(A, 'pos') >> ValMacroType(A, 'retail') ^2
+0.009389: ValSpin(A, 'pos') >> ValMacroType(A, 'wages') ^2
