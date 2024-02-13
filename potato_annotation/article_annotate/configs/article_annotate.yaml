@@ -53,7 +53,7 @@
     "annotation_schemes": [
         {
             "annotation_type": "radio",
-            "name": "frame",
+            "name": "relevant",
             "description": "Is this article relevant to the U.S. economy?",
             "labels": [
                 {
