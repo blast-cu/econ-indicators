@@ -92,11 +92,14 @@ def main():
         
 
     elif SETTING == "agreed":
+
         qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
         all_anns, _ = iaa.get_anns(DB_FILENAME)
 
         macro_count = 0
         not_macro_count = 0
+
+        bin_choices = {}
         
         for article_id, anns in qual_dict.items():
             if anns['frame'] != '\x00':
@@ -109,14 +112,29 @@ def main():
                             if rate_val != '\x00':
                                 if len(all_anns[article_id]['econ_change']) == 3:
                                     if change_val != '\x00':
-                                        macro_count += 1
-                                        article_choices.append(article_id)
+                                        if 'macro' not in bin_choices:
+                                            bin_choices['macro'] = []
+                                        bin_choices['macro'].append(article_id)
                     else: 
                         if frame_val in qual_label_maps['frame']:
-                            not_macro_count += 1
-                            article_choices.append(article_id)
-    
-        article_choices = random.choices(article_choices, k=NUM_ARTICLES)
+                            if frame_val not in bin_choices:
+                                bin_choices[frame_val] = []
+                            bin_choices[frame_val].append(article_id)
+
+
+        while len(article_choices) < NUM_ARTICLES:
+            for k, v in bin_choices.items():
+                if len(v) > 0:
+                    new_id = random.choice(v)
+                    bin_choices[k].remove(new_id)
+                    article_choices.append(new_id)
+                else:
+                    print(k, "is empty")
+
+
+    print(article_choices)
+    if len(set(article_choices)) != NUM_ARTICLES:
+        raise ValueError("Not enough articles")
 
 
     articles = {}

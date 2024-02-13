@@ -1,8 +1,0 @@
-,precision,recall,f1-score,support
-business,0.0,0.0,0.0,8.0
-government,0.0,0.0,0.0,53.0
-macro,0.4,1.0,0.5714285714285714,42.0
-personal,0.0,0.0,0.0,2.0
-accuracy,0.4,0.4,0.4,0.4
-macro avg,0.1,0.25,0.14285714285714285,105.0
-weighted avg,0.16,0.4,0.22857142857142856,105.0
