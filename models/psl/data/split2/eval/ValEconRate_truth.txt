@@ -1,0 +1,9 @@
+258	poor
+4031	poor
+6164	poor
+14431	poor
+85614	none
+35362	good
+6200	poor
+1550	poor
+70397	poor

@@ -1,0 +1,10 @@
+258	worse
+199	worse
+4031	worse
+6164	worse
+14431	better
+85614	none
+35362	better
+6200	same
+1550	worse
+70397	none

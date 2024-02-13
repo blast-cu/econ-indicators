@@ -1,0 +1,13 @@
+879	poor
+13929	poor
+568	poor
+495	good
+704	good
+733	good
+1482	good
+1458	poor
+31058	none
+19497	poor
+32637	poor
+1671	none
+2159	poor

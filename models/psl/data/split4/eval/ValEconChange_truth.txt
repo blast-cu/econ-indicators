@@ -1,0 +1,13 @@
+952	worse
+19134	same
+1311	worse
+86954	better
+869	worse
+10205	same
+2825	better
+4934	worse
+3224	same
+32870	worse
+42133	better
+56172	worse
+45296	worse

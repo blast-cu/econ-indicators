@@ -181,32 +181,33 @@ def write_target_files(out_dir, articles, map, truth=True):
     truth_ann_dict = {}
     for id in articles.keys():
         for ann in map.keys():
-            if ann != 'quant_list' and ann != 'excerpts':
-                if ann not in article_ann_dict:
-                    article_ann_dict[ann] = []
-                    truth_ann_dict[ann] = []
-                truth_list = []
-                found_val = False
-                for value in map[ann]:
-                    if articles[id][ann] == value:
-                        weight = 1.0
-                        found_val = True
-                    else:
-                        weight = 0.0
-                    to_write = f'{id}\t{value}\t{weight}'
-                    article_ann_dict[ann].append(to_write)
-                    truth_list.append(to_write)
-                if found_val:
-                    truth_ann_dict[ann] += truth_list
+            if ann != 'quant_list' and ann != 'excerpts': # FILTER ARTICLES WITH NO ANNOTATIONS
+                # if ann != 'quant_list' and ann != 'excerpts':
+                    if ann not in article_ann_dict:
+                        article_ann_dict[ann] = []
+                        truth_ann_dict[ann] = []
+                    # truth_list = []
+                    # found_val = False
+                    for value in map[ann]:
+                        to_write = f'{id}\t{value}'
+                        article_ann_dict[ann].append(to_write)
+                        if articles[id][ann] == value:
+                            # weight = 1.0
+                            # found_val = True
+                            truth_ann_dict[ann].append(to_write)
+                #     else:
+                #         weight = 0.0
+                    
+                #     truth_list.append(to_write)
+                # if found_val:
+                #      += truth_list
 
     for ann, values in article_ann_dict.items():
         ann2 = gd.camel_case(ann, upper=True)
         predicate = f'Val{ann2}'
-        target_values = [value[:-4] for value in values]
-        write_data_file(out_dir, predicate, 'target', target_values)
-
+        # target_values = [value[:-4] for value in values]
+        write_data_file(out_dir, predicate, 'target', values)
         write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
-
 
 def logit_to_prob(logit):
     """
@@ -218,9 +219,13 @@ def logit_to_prob(logit):
     Returns:
         float: The corresponding probability value.
     """
-    odds = math.exp(logit)
-    prob = odds / (1 + odds)
-    return prob
+    # odds = math.exp(logit)
+    # prob = odds / (1 + odds)
+    # return prob
+    logit = torch.tensor(logit)
+    prob = torch.nn.functional.softmax(logit, dim=0)
+    # print(prob.tolist())
+    return prob.tolist()
 
 
 def predict_article_annotations(articles, split_num):
@@ -238,23 +243,7 @@ def predict_article_annotations(articles, split_num):
                 lists of strings containing article IDs, annotation values, and 
                 prediction probabilities.
     """
-
-    articles = {k: gs.get_text(k, DB_FILENAME, clean=False) for k, v in articles.items()}
-    articles = {k: v.replace('\n', '') for k, v in articles.items()}
-    
-    torch.manual_seed(42)  # Set random seed for reproducibility
-
-    tokenizer = pq.RobertaTokenizer\
-        .from_pretrained(pretrained_model_name_or_path="roberta-base",
-                         problem_type="single_label_classification")
-
-    data = pq.PredictionDataset(articles=articles,
-                                tokenizer=tokenizer,
-                                max_length=512)
-
-    batch_size = 8
-    loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
-
+    all_articles = articles
     # load fine-tuned model for each annotation component
     models = {}
     for k in pq.label_maps.keys():
@@ -262,19 +251,39 @@ def predict_article_annotations(articles, split_num):
         model_path = os.path.join(best_model, f'fold{split_num}/{k}_model')
         models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
+    
+    # get dict where keys are annotation components and values are dicts where
+        # # keys are annotation values and values are lists of tuples (article ids, pred_val)
+        predict_dict = {}
+        for annotation_component in qual_label_maps.keys():
+            predict_dict[annotation_component] = []
 
     # create dictionary to store annotations
     annotations = {}
     for id in articles.keys():
         annotations[id] = {}
 
-    # get dict where keys are annotation components and values are dicts where
-    # # keys are annotation values and values are lists of tuples (article ids, pred_val)
-    predict_dict = {}
-    for annotation_component in qual_label_maps.keys():
-        predict_dict[annotation_component] = []
+    torch.manual_seed(42)  # Set random seed for reproducibility
+
+    tokenizer = pq.RobertaTokenizer\
+        .from_pretrained(pretrained_model_name_or_path="roberta-base",
+                        problem_type="single_label_classification")
+       
+
 
     for annotation_component in models.keys():
+
+        articles = {k: v for k, v in all_articles.items() if v[annotation_component] != '\x00'} # FILTER ARTICLES WITH NO ANNOTATIONS
+        articles = {k: gs.get_text(k, DB_FILENAME, clean=False) for k, v in articles.items()}
+        articles = {k: v.replace('\n', '') for k, v in articles.items()}
+        
+
+        data = pq.PredictionDataset(articles=articles,
+                                    tokenizer=tokenizer,
+                                    max_length=512)
+        batch_size = 8
+        loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
+
         for batch in loader:
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
@@ -286,8 +295,8 @@ def predict_article_annotations(articles, split_num):
 
             for i, id in enumerate(ids.tolist()):
                 probs = []
-                for j, output in enumerate(outputs[i]):
-                    probability = logit_to_prob(output)
+                outputs[i] = logit_to_prob(outputs[i])
+                for j, probability in enumerate(outputs[i]):
                     probability = round(probability, 4)
                     annotation_value = pq.label_maps[annotation_component][j]
 

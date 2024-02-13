@@ -1,0 +1,12 @@
+993	good
+1145	good
+13995	poor
+16853	poor
+19312	good
+19642	good
+75	good
+11343	poor
+91407	good
+19782	poor
+37453	poor
+55292	poor

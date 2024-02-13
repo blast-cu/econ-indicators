@@ -1,0 +1,12 @@
+6188	better
+879	same
+13929	better
+495	better
+704	better
+733	better
+1482	better
+1458	worse
+31058	none
+19497	worse
+32637	same
+1671	none
