@@ -121,15 +121,18 @@ def main():
                                 bin_choices[frame_val] = []
                             bin_choices[frame_val].append(article_id)
 
-
+        bin_counts = {}
         while len(article_choices) < NUM_ARTICLES:
             for k, v in bin_choices.items():
+                if k not in bin_counts:
+                    bin_counts[k] = 0
                 if len(v) > 0:
                     new_id = random.choice(v)
                     bin_choices[k].remove(new_id)
                     article_choices.append(new_id)
-                else:
-                    print(k, "is empty")
+                    bin_counts[k] += 1
+        for k, v in bin_counts.items():
+            print(k, v)
 
 
     print(article_choices)
