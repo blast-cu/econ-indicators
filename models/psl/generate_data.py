@@ -10,10 +10,10 @@ import models.roberta_classifier.predict_qual as pq
 import models.roberta_classifier.predict_quant as pqt
 import models.roberta_classifier.quant_utils as qu
 import data_utils.get_annotation_stats as gs
-from data_utils.dataset import DB_FILENAME
+from data_utils.dataset import DB_FILENAME, qual_label_maps, quant_label_maps
 
 OUT_DIR = 'models/psl/data'
-NOISE = True
+NOISE = False
 
 BEST_MODELS = {
     'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
@@ -53,27 +53,27 @@ def load_train_test_data(split_dict, qual_dict, quant_dict, qual_noise_dict={}, 
 
     train_excerpts = {id: quant_dict[id] for id in train_excerpt_ids}
 
-    # add noisy excerpts to train excerpts
-    for noisy_id, noisy_ann in qual_noise_dict.items():
-        if noisy_id not in train_articles:
-            train_articles[noisy_id] = noisy_ann
-        else:
-            for k, v in noisy_ann.items():
-                if train_articles[noisy_id][k] == '\x00':
-                    train_articles[noisy_id][k] = v
-                elif v == 'quant_list':
-                    for q_id in v:
-                        train_articles[noisy_id][k].append(q_id)
+    # # add noisy excerpts to train excerpts
+    # for noisy_id, noisy_ann in qual_noise_dict.items():
+    #     if noisy_id not in train_articles:
+    #         train_articles[noisy_id] = noisy_ann
+    #     else:
+    #         for k, v in noisy_ann.items():
+    #             if train_articles[noisy_id][k] == '\x00':
+    #                 train_articles[noisy_id][k] = v
+    #             elif v == 'quant_list':
+    #                 for q_id in v:
+    #                     train_articles[noisy_id][k].append(q_id)
     
-    for noisy_id, noisy_ann in quant_noise_dict.items():
-        noisy_article_id = int(noisy_id.split('_')[0])
-        if noisy_article_id not in test_article_ids:
-            if noisy_id not in train_excerpts:
-                train_excerpts[noisy_id] = noisy_ann
-            else:
-                for k, v in noisy_ann.items():
-                    if train_excerpts[noisy_id][k] == '\x00':
-                        train_excerpts[noisy_id][k] = v
+    # for noisy_id, noisy_ann in quant_noise_dict.items():
+    #     noisy_article_id = int(noisy_id.split('_')[0])
+    #     if noisy_article_id not in test_article_ids:
+    #         if noisy_id not in train_excerpts:
+    #             train_excerpts[noisy_id] = noisy_ann
+    #         else:
+    #             for k, v in noisy_ann.items():
+    #                 if train_excerpts[noisy_id][k] == '\x00':
+    #                     train_excerpts[noisy_id][k] = v
 
     # load test article and excerpt dicts
     test_articles = {id: qual_dict[id] for id in test_article_ids}
@@ -205,9 +205,7 @@ def write_target_files(out_dir, articles, map, truth=True):
         target_values = [value[:-4] for value in values]
         write_data_file(out_dir, predicate, 'target', target_values)
 
-        if truth:
-            
-            write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
+        write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
 
 def logit_to_prob(logit):
@@ -273,7 +271,7 @@ def predict_article_annotations(articles, split_num):
     # get dict where keys are annotation components and values are dicts where
     # # keys are annotation values and values are lists of tuples (article ids, pred_val)
     predict_dict = {}
-    for annotation_component in gd.qual_map.keys():
+    for annotation_component in qual_label_maps.keys():
         predict_dict[annotation_component] = []
 
     for annotation_component in models.keys():
@@ -315,7 +313,7 @@ def generate_predict_excerpts(excerpts, split_num):
     """
     predict_dict = {}
 
-    for annotation_component in gd.quant_map.keys():
+    for annotation_component in quant_label_maps.keys():
 
         texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if v[annotation_component] != '\x00']
         ids = [k for k in excerpts.keys() if excerpts[k][annotation_component] != '\x00']
@@ -467,7 +465,7 @@ def main():
                                      quant_noise_dict)
             
         else:
-            # load train and test data for split    
+            # load train and test data for split
             learn_articles, learn_excerpts, eval_articles, eval_excerpts = \
                 load_train_test_data(splits_dict[split_num],
                                     qual_dict,
@@ -482,9 +480,8 @@ def main():
         write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
         # write target and truth files for validation data
-        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
-
-        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_articles, qual_label_maps, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, quant_label_maps, truth=True)  # isVal
 
         # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, split_num)
@@ -500,8 +497,8 @@ def main():
 
         write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_articles, qual_label_maps, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, quant_label_maps, truth=True)  # isVal
         
         article_preds = predict_article_annotations(eval_articles, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
