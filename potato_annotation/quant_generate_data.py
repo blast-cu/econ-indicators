@@ -49,7 +49,7 @@ def main():
                 if indicator in excerpt:
                     print("Indicator found in excerpt")
 
-                try: 
+                try:
                     match_iter = list(re.finditer(indicator, excerpt))
                     match = list(match_iter)[0]
                 except Exception:
@@ -65,9 +65,12 @@ def main():
 
                 excerpt = excerpt[:start] + "<span>" + excerpt[start:end] + "</span>" + excerpt[end:]
 
-                ids.append(id)
+                ids.append(new_id)
                 texts.append(excerpt)
                 bin_counts[k] += 1
+
+                if len(ids) >= NUM_EXCERPTS:
+                    break
     
     for k, v in bin_counts.items():
         print(k, v)
@@ -77,6 +80,9 @@ def main():
     csv_dict = {}
     csv_dict['id'] = ids
     csv_dict['text'] = texts
+
+    print(len(ids))
+    print(len(texts))
 
     df = pd.DataFrame(csv_dict)
     df.to_csv(OUTPUT_DIR + '/quants.csv', index=False)
