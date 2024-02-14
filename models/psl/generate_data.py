@@ -16,12 +16,12 @@ OUT_DIR = 'models/psl/data'
 NOISE = False
 
 BEST_MODELS = {
-    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
-    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
-    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_best',
-    'type': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all',
-    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all',
-    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_base_noise_all'
+    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base',
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_all',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_all',
+    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best'
 }
 
 
@@ -402,12 +402,18 @@ def write_preceeds_file(out_dir, articles):
 
     write_data_file(out_dir, predicate, 'obs', to_write)
 
-def write_has_frame_ann_file(out_dir, excerpts):
+def write_has_frame_ann_file(out_dir, excerpts, predicate='HasTypeAnn'):
 
-    predicate = 'HasTypeAnn'
+    if predicate == 'HasTypeAnn':
+        ann_comp = 'type'
+    elif predicate == 'HasFrameAnn':
+        ann_comp = 'frame'
+    else:
+        raise ValueError('Invalid predicate pased to write_has_frame_ann_file. Must be HasTypeAnn or HasFrameAnn.')
+
     to_write = []
     for article_id, ann_dict in excerpts.items():
-        if ann_dict['type'] != '\x00':
+        if ann_dict[ann_comp] != '\x00':
             temp = [f'{article_id}\t1.0']
             to_write += temp
 
@@ -466,41 +472,44 @@ def main():
                                     qual_dict,
                                     quant_dict)
 
-        # GENERATE LEARN DATA #
-        # write contains file linking articles and excerpts
-        write_contains_file(split_learn_dir, learn_articles)  # contains
+        # # GENERATE LEARN DATA #
+        # # write contains file linking articles and excerpts
+        # write_contains_file(split_learn_dir, learn_articles)  # contains
 
-        write_has_frame_ann_file(split_learn_dir, learn_excerpts)  # HasFrameAnn
-
-        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
-
-        # write target and truth files for validation data
-        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
-
-        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
-
-        # # predictions for validation set
-        article_preds = predict_article_annotations(learn_articles, split_num)
-        write_pred_files(split_learn_dir, article_preds)  # pred  
-
-        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-        write_pred_files(split_learn_dir, exerpt_preds)  # pred
-
-        # GENERATE EVAL DATA #
-        write_contains_file(split_eval_dir, eval_articles)  # contains
-
-        write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
-
-        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
-
-        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        # write_has_frame_ann_file(split_learn_dir, learn_excerpts)  
+        write_has_frame_ann_file(split_learn_dir, learn_articles, predicate="HasFrameAnn") 
         
-        article_preds = predict_article_annotations(eval_articles, split_num)
-        write_pred_files(split_eval_dir, article_preds)  # pred
 
-        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-        write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        # write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+
+        # # write target and truth files for validation data
+        # write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+
+        # write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+
+        # # # predictions for validation set
+        # article_preds = predict_article_annotations(learn_articles, split_num)
+        # write_pred_files(split_learn_dir, article_preds)  # pred  
+
+        # exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        # write_pred_files(split_learn_dir, exerpt_preds)  # pred
+
+        # # GENERATE EVAL DATA #
+        # write_contains_file(split_eval_dir, eval_articles)  # contains
+
+        # write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
+        write_has_frame_ann_file(split_eval_dir, eval_articles, predicate="HasFrameAnn")
+
+        # write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+
+        # write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        # write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        
+        # article_preds = predict_article_annotations(eval_articles, split_num)
+        # write_pred_files(split_eval_dir, article_preds)  # pred
+
+        # excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        # write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 

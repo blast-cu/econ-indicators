@@ -13,3 +13,4 @@ PredSpin
 Contains
 Precedes
 HasTypeAnn
+HasFrameAnn
