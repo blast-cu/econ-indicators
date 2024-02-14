@@ -1,0 +1,7 @@
+,ValMacroType>>ValEconRate,ValType>>ValEconRate,ValSpin>>ValFrame,ValMacroType>>ValFrame,ValSpin>>ValEconRate,ValType>>ValFrame,ValSpin>>ValEconChange,ValType>>ValEconChange,ValMacroType>>ValEconChange
+frame,0.778,0.778,0.803,0.76,0.778,0.808,0.778,0.778,0.778
+econ_rate,0.679,0.696,0.671,0.671,0.699,0.671,0.671,0.671,0.671
+econ_change,0.596,0.596,0.596,0.596,0.596,0.596,0.627,0.583,0.589
+type,0.928,0.921,0.937,0.91,0.936,0.916,0.936,0.917,0.924
+spin,0.817,0.817,0.814,0.817,0.817,0.817,0.814,0.817,0.817
+macro_type,0.861,0.918,0.916,0.797,0.916,0.929,0.916,0.931,0.813

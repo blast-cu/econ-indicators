@@ -15,7 +15,9 @@ def main(args):
     except FileNotFoundError:
         raise ValueError('Unknown results directory: ' + setting_dir)
 
-    setting_dict = {}
+    macro_setting_dict = {}
+    weighted_setting_dict = {}
+
     rows = ['frame', 'econ_rate', 'econ_change', 'type', 'spin', 'macro_type']
 
     for rule_name in rule_dirs:
@@ -27,21 +29,25 @@ def main(args):
             try:
                 df = pd.read_csv(os.path.join(setting_dir, rule_name, filename), header=0)
                 f1 = df.iloc[-1]['f1-score']
-                weighted_rule_dict[r] = f1
+                weighted_rule_dict[r] = round(f1, 3)
                 f1 = df.iloc[-2]['f1-score']
-                macro_rule_dict[r] = f1
+                macro_rule_dict[r] = round(f1, 3)
             except NotADirectoryError:
                 print("Skipping unformatted directory")
                 continue
         if len(macro_rule_dict) != 0:
-            name = rule_name + '_macro'
-            setting_dict[name] = macro_rule_dict
+            name = rule_name
+            macro_setting_dict[name] = macro_rule_dict
         if len(weighted_rule_dict) != 0:
-            name = rule_name + '_weighted'
-            setting_dict[name] = weighted_rule_dict
+            name = rule_name
+            weighted_setting_dict[name] = weighted_rule_dict
 
-    df = pd.DataFrame().from_dict(setting_dict).reindex(rows)
-    filename = f"{arg_dir}_classification_report.csv"
+    df = pd.DataFrame().from_dict(macro_setting_dict).reindex(rows)
+    filename = f"{arg_dir}_macro_classification_report.csv"
+    df.to_csv(os.path.join(setting_dir, filename))
+
+    df = pd.DataFrame().from_dict(weighted_setting_dict).reindex(rows)
+    filename = f"{arg_dir}_weighted_classification_report.csv"
     df.to_csv(os.path.join(setting_dir, filename))
 
 

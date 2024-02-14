@@ -89,6 +89,7 @@ def retrieve_quant_anns(quantity2ann, query_res):
     for (quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin)  in query_res:
         if quant_id not in quantity2ann:
             quantity2ann[quant_id] = {'type': [], 'macro_type': [], 'industry_type': [], 'gov_type': [], 'expenditure_type': [], 'revenue_type': [], 'spin': []}
+        
         quantity2ann[quant_id]['type'].append((user_id, type))
         if spin and spin != "None":
             quantity2ann[quant_id]['spin'].append((user_id, spin))
@@ -102,8 +103,7 @@ def retrieve_quant_anns(quantity2ann, query_res):
             quantity2ann[quant_id]['revenue_type'].append((user_id, revenue_type))
         if expenditure_type and expenditure_type != "None":
             quantity2ann[quant_id]['expenditure_type'].append((user_id, expenditure_type))
-            #values.append(expenditure_type)
-    #print(Counter(values))
+    # print(quantity2ann.keys())
 
 def create_triplets(article2ann, ann_name, min_ann=2, max_ann=None):
     ann_triplets = []
@@ -152,10 +152,10 @@ def measure_percentage_agreement(article2ann, ann_name, user_disagreements, user
         if user not in user_disagreements:
             user_disagreements[user] = user_total_anns[user]
 
-    # full = round(num_full/num_total*100, 2)
-    # partial = round((num_full + num_partial)/num_total*100, 2)
-    # print("{} full".format(ann_name), full, "partial", partial)
-    # return full, partial
+    full = round(num_full/num_total*100, 2)
+    partial = round((num_full + num_partial)/num_total*100, 2)
+    print("{} full".format(ann_name), full, "partial", partial)
+    return full, partial
 
 
 def plot_confusion_matrix(y_true, y_pred, classes,
@@ -291,7 +291,7 @@ def get_anns(db_filename):
     con = sqlite3.connect(db_filename)
     cur = con.cursor()
     article2ann = {}
-    quantity2ann = {}
+    
 
     # Frame
     query = 'select article_id, user_id, frame from articleann where frame is not null and frame != "None"';
@@ -305,10 +305,16 @@ def get_anns(db_filename):
     query = 'select article_id, user_id, econ_change from articleann where econ_change is not null and econ_change != "None"';
     res = cur.execute(query)
     retrieve_anns(article2ann, res, 'econ_change')
+
     # Quantities
-    query = 'select  id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin from quantityann';
+    quantity2ann = {}
+    
+    query = 'select quantity_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin from quantityann';
+    # query = 'select * from quantityann';
+
     res = cur.execute(query)
     retrieve_quant_anns(quantity2ann, res)
+    
 
     article_ids = tuple(article2ann.keys())
     # Get article info

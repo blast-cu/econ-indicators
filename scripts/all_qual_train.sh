@@ -25,9 +25,5 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_qual --s roberta_base
-python -m models.roberta_classifier.train_qual --s roberta_dapt
-python -m models.roberta_classifier.train_qual --s roberta_base_noise_all
-python -m models.roberta_classifier.train_qual --s roberta_dapt_noise_all
-python -m models.roberta_classifier.train_qual --s roberta_base_noise_best
-python -m models.roberta_classifier.train_qual --s roberta_dapt_noise_best
+python -m models.roberta_classifier.train_qual --s roberta_base_large_noise_all
+python -m models.roberta_classifier.train_qual --s roberta_base_large_noise_best
