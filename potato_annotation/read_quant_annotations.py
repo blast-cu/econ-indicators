@@ -57,7 +57,13 @@ def get_potato_quant_anns():
             data = load_jsonl(f)
             for ann in data:
                 quant_id = ann["id"]
+                
+                print(ann["displayed_text"])
                 ann = ann["label_annotations"]
+                print(ann["frame"])
+                print(ann["macro_indicator"])
+                print(ann["spin"])
+                print()
 
                 frame_val = int(list(ann["frame"].values())[0])
 

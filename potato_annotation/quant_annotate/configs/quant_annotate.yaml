@@ -58,28 +58,28 @@
                 "labels": [
                     
                     {
-                        "name": "Macroeconomic / General Economic Conditions",
-                        "tooltip": "e.g., discusses jobs, housing prices, and oil prices",
+                        "name": "Macroeconomic / General Economic Conditions (e.g., discusses jobs, housing prices, and oil prices)",
+                        "tooltip": "",
                         "key_value": "0"
                     },
                     {
-                        "name": "Firm-specific",
-                        "tooltip": "e.g., discusses stock prices, debt offerings, and capital investments",
+                        "name": "Firm-specific (e.g., discusses stock prices, debt offerings, and capital investments)",
+                        "tooltip": "",
                         "key_value": "1"
                     },
                     {
-                        "name": "Industry-specific",
-                        "tooltip": "e.g., discusses agricultural prices, manufacturing output, and retail sales",
+                        "name": "Industry-specific (e.g., discusses agricultural prices, manufacturing output, and retail sales)",
+                        "tooltip": "",
                         "key_value": "2"
                     },
                     {
-                        "name": "Government revenue and expenses",
-                        "tooltip": "e.g., discusses taxes, budgets, and treasury issuances",
+                        "name": "Government revenue and expenses (e.g., discusses taxes, budgets, and treasury issuances)",
+                        "tooltip": "",
                         "key_value": "3"
                     },
                     {
-                        "name": "Personal",
-                        "tooltip": "e.g., discusses household expenditures and personal debts",
+                        "name": "Personal (e.g., discusses household expenditures and personal debts)",
+                        "tooltip": "",
                         "key_value": "4"
                     },
                     {
@@ -88,7 +88,7 @@
                         "key_value": "5"
                     },
                     {
-                        "name": "Not Relevant to the U.S. Economy",
+                        "name": "None of the above",
                         "tooltip": "",
                         "key_value": "6"
                     }
@@ -101,36 +101,36 @@
             {
                 "annotation_type": "radio",
                 "name": "macro_indicator",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'Not Relevant' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
+                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
                 "labels": [
                 {
-                    "name": "Job Numbers",
-                    "tooltip": "e.g., jobs, unemployment",
+                    "name": "Job Numbers (e.g., jobs, unemployment)",
+                    "tooltip": "",
                     "key_value": "0"
                 },
                 {
-                    "name": "Market Numbers",
-                    "tooltip": "e.g., any financial market",
+                    "name": "Market Numbers (e.g., any financial market)",
+                    "tooltip": "",
                     "key_value": "1"
                 },
                 {
-                    "name": "Housing",
-                    "tooltip": "e.g., Start, Sales, Pricing",
+                    "name": "Housing (e.g., Start, Sales, Pricing)",
+                    "tooltip": "",
                     "key_value": "2"
                 },
                 {
-                    "name": "Macroeconomy",
-                    "tooltip": "e.g., GDP",
+                    "name": "Macroeconomy (e.g., GDP)",
+                    "tooltip": "",
                     "key_value": "3"
                 },
                 {
-                    "name": "Wages",
-                    "tooltip": "e.g., minimum wage, average wage",
+                    "name": "Wages (e.g., minimum wage, average wage)",
+                    "tooltip": "",
                     "key_value": "4"
                 },
                 {
-                    "name": "Prices",
-                    "tooltip": "e.g., CPI, PPI",
+                    "name": "Prices (e.g., CPI, PPI)",
+                    "tooltip": "",
                     "key_value": "5"
                 },
                 {
@@ -144,8 +144,8 @@
                     "key_value": "7"
                 },
                 {
-                    "name": "Interest Rates",
-                    "tooltip": "e.g., Fed, Mortgage",
+                    "name": "Interest Rates (e.g., Fed, Mortgage)",
+                    "tooltip": "",
                     "key_value": "8"
                 },
                 {
@@ -154,8 +154,8 @@
                     "key_value": "9"
                 },
                 {
-                    "name": "Energy Prices",
-                    "tooltip": "eg., oil, gas",
+                    "name": "Energy Prices (eg., oil, gas)",
+                    "tooltip": "",
                     "key_value": "10"
                 },
                 {
@@ -164,14 +164,9 @@
                     "key_value": "11"
                 },
                 {
-                    "name": "Not of type Macroeconomic / General Economic Conditions",
+                    "name": "None of the above",
                     "tooltip": "",
                     "key_value": "12"
-                },
-                {
-                    "name": "Not Relevant to the U.S. Economy",
-                    "tooltip": "",
-                    "key_value": "13"
                 },
             ],
             "displaying_score": true,
@@ -182,21 +177,21 @@
         {
                 "annotation_type": "radio",
                 "name": "spin",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what is the frame of the highlighted quantity?",
+                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the highlighted quantity?",
                 "labels": [
                 {
-                    "name": "Positive",
-                    "tooltip": "e.g., inflation dropped",
+                    "name": "Positive (e.g., inflation dropped)",
+                    "tooltip": "",
                     "key_value": "0"
                 },
                 {
-                    "name": "Negative",
-                    "tooltip": "e.g., prices skyrocketed",
+                    "name": "Negative (e.g., prices skyrocketed)",
+                    "tooltip": "",
                     "key_value": "1"
                 },
                 {
-                    "name": "Neutral",
-                    "tooltip": "GDP was worth X US dollars",
+                    "name": "Neutral (e.g., GDP was worth X US dollars)",
+                    "tooltip": "",
                     "key_value": "2"
                 },
                 {
@@ -205,14 +200,9 @@
                     "key_value": "3"
                 },   
                 {
-                    "name": "Not of type Macroeconomic / General Economic Conditions",
+                    "name": "None of the above",
                     "tooltip": "",
                     "key_value": "4"
-                },
-                {
-                    "name": "Not Relevant to the U.S. Economy",
-                    "tooltip": "",
-                    "key_value": "5"
                 },
             ],
             "displaying_score": true,
