@@ -130,7 +130,7 @@ def main():
 
     torch.manual_seed(42)  # Set random seed for reproducibility
     tokenizer = RobertaTokenizerFast\
-        .from_pretrained(pretrained_model_name_or_path="roberta-base",
+        .from_pretrained(pretrained_model_name_or_path="roberta-large",
                         problem_type="single_label_classification")
 
     data = qu.TextClassificationDataset(texts=texts,

@@ -86,7 +86,7 @@ def main(args):
     torch.manual_seed(42)  # Set random seed for reproducibility
 
     tokenizer = RobertaTokenizer\
-        .from_pretrained(pretrained_model_name_or_path="roberta-base",
+        .from_pretrained(pretrained_model_name_or_path="roberta-large",
                          problem_type="single_label_classification")
 
     data = PredictionDataset(articles=articles,
