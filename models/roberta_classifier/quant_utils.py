@@ -110,7 +110,7 @@ class QuantModel(nn.Module):
 
         batch_size = excerpts.size(dim=0)
         indicator_token = torch.zeros((batch_size, 768)).to('cuda')
-        for i in range(batch_size):
+        for i in range(batch_size): # loop thru batch, get mean of each set of indicator tokens
             indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
 
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
@@ -354,6 +354,14 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
             start_index = batch['start_index'].to('cuda')
             end_index = batch['end_index'].to('cuda')
+
+            for s in enumerate(batch['start_index']):
+                print(s)
+                print(batch['end_index'][s])
+                print()
+            # exit()
+
+
             excerpt_input_ids = batch['input_ids'].to('cuda')
             excerpt_attention_mask = batch['attention_mask'].to('cuda')
 
