@@ -122,7 +122,7 @@ def add_predicates(model):
             print(p)
         
         size = 2
-        if p == 'HasTypeAnn':
+        if p == 'HasTypeAnn' or p == 'HasFrameAnn':
             size = 1
         predicate = Predicate(p, size=size)
         model.add_predicate(predicate)
