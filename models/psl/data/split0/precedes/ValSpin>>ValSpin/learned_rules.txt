@@ -1,9 +1,9 @@
-0.088752: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.102023: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.090837: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.015403: PredType(E, B) >> ValType(E, B) ^2
-0.010310: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.167710: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.070373: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.067478: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.082665: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.029064: PredType(E, B) >> ValType(E, B) ^2
+0.011161: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.175881: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,12 +27,12 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.072261: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neg') ^2
-0.042323: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neutral') ^2
-0.043219: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'pos') ^2
-0.050010: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neg') ^2
-0.086473: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neutral') ^2
-0.045494: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'pos') ^2
-0.050230: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neg') ^2
-0.055524: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neutral') ^2
-0.079430: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'pos') ^2
+0.077854: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neg') ^2
+0.044075: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neutral') ^2
+0.045922: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'pos') ^2
+0.052900: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neg') ^2
+0.094646: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neutral') ^2
+0.048151: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'pos') ^2
+0.054156: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neg') ^2
+0.058708: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neutral') ^2
+0.086965: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'pos') ^2

@@ -1,9 +1,9 @@
-0.119094: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.226566: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.130673: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.022278: PredType(E, B) >> ValType(E, B) ^2
-0.009999: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.203524: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.137693: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.179618: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.111497: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.031191: PredType(E, B) >> ValType(E, B) ^2
+0.012521: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.262901: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,12 +27,12 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.017156: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'good') ^2
-0.019599: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'none') ^2
-0.053477: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'poor') ^2
-0.026070: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'good') ^2
-0.029215: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'none') ^2
-0.043537: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'poor') ^2
-0.052476: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'good') ^2
-0.021576: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'none') ^2
-0.024760: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'poor') ^2
+0.015526: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'good') ^2
+0.019546: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'none') ^2
+0.041593: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'poor') ^2
+0.024758: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'good') ^2
+0.026389: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'none') ^2
+0.032482: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'poor') ^2
+0.056607: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'good') ^2
+0.024084: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'none') ^2
+0.023595: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'poor') ^2

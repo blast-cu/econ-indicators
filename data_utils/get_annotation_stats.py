@@ -90,6 +90,7 @@ def get_quant_dict(db_filename: str):
     query = 'SELECT quantity_id, user_id, type, macro_type, industry_type, \
                 gov_type, expenditure_type, revenue_type, spin \
                 FROM quantityann;'
+
     res = cur.execute(query)
     iaa.retrieve_quant_anns(ann, res)
     con.close()
@@ -120,13 +121,15 @@ def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
                 result = '\0'
 
                 if len(curr_t) >= 2:  # 2 or more annotations
+
                     anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
-                    c = Counter(anns).most_common()
+                    if len(anns) >= 2:
+                        c = Counter(anns).most_common()
 
-                    # check for tie (first result count matches second)
-                    if len(c) == 1 or c[0][1] != c[1][1]:
+                        # check for tie (first result count matches second)
+                        if len(c) == 1 or c[0][1] != c[1][1]:
 
-                        result = c[0][0]
+                            result = c[0][0]
 
                 if id not in agreed_dict:
                     agreed_dict[id] = {}
@@ -183,6 +186,7 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
     ann_dict, quantity2ann = iaa.get_anns(db_filename)
     if quant:
         ann_dict = quantity2ann
+    
 
     user_ann_disagreement = {}
     for ann_name in label_maps.keys():

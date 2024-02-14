@@ -1,9 +1,9 @@
-0.007419: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.007881: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.007763: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.018100: PredType(E, B) >> ValType(E, B) ^2
-0.007260: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.007501: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.007559: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.007597: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.007301: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.021243: PredType(E, B) >> ValType(E, B) ^2
+0.007171: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.007620: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,147 +27,147 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.007354: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'currency') ^2
-0.007342: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'energy') ^2
-0.007337: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'housing') ^2
-0.007341: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'interest') ^2
-0.007326: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'jobs') ^2
-0.007326: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'macro') ^2
-0.007332: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'market') ^2
-0.007990: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'none') ^2
-0.007328: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'other') ^2
-0.007341: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'prices') ^2
-0.007347: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'retail') ^2
-0.007335: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'wages') ^2
-0.006286: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'currency') ^2
-0.006273: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'energy') ^2
-0.006267: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'housing') ^2
-0.006275: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'interest') ^2
-0.006443: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'jobs') ^2
-0.006258: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'macro') ^2
-0.006266: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'market') ^2
-0.007670: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'none') ^2
-0.006259: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'other') ^2
-0.006273: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'prices') ^2
-0.006279: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'retail') ^2
-0.006263: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'wages') ^2
-0.007499: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'currency') ^2
-0.007488: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'energy') ^2
-0.007483: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'housing') ^2
-0.007487: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'interest') ^2
-0.007524: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'jobs') ^2
-0.007524: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'macro') ^2
-0.007477: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'market') ^2
-0.007873: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'none') ^2
-0.007474: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'other') ^2
-0.007486: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'prices') ^2
-0.007492: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'retail') ^2
-0.007480: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'wages') ^2
+0.007323: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'currency') ^2
+0.007312: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'energy') ^2
+0.007308: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'housing') ^2
+0.007320: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'interest') ^2
+0.007293: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'jobs') ^2
+0.007304: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'macro') ^2
+0.007307: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'market') ^2
+0.007958: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'none') ^2
+0.007305: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'other') ^2
+0.007315: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'prices') ^2
+0.007311: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'retail') ^2
+0.007306: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'wages') ^2
+0.006272: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'currency') ^2
+0.006259: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'energy') ^2
+0.006253: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'housing') ^2
+0.006268: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'interest') ^2
+0.006422: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'jobs') ^2
+0.006251: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'macro') ^2
+0.006256: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'market') ^2
+0.007643: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'none') ^2
+0.006251: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'other') ^2
+0.006263: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'prices') ^2
+0.006257: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'retail') ^2
+0.006249: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'wages') ^2
+0.007469: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'currency') ^2
+0.007458: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'energy') ^2
+0.007455: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'housing') ^2
+0.007466: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'interest') ^2
+0.007491: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'jobs') ^2
+0.007500: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'macro') ^2
+0.007453: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'market') ^2
+0.007843: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'none') ^2
+0.007451: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'other') ^2
+0.007460: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'prices') ^2
+0.007457: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'retail') ^2
+0.007453: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'wages') ^2
 0.004909: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'currency') ^2
-0.004947: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'energy') ^2
-0.004990: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'housing') ^2
-0.004894: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'interest') ^2
-0.005566: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'jobs') ^2
-0.005356: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'macro') ^2
-0.005337: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'market') ^2
-0.004886: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'none') ^2
-0.004878: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'other') ^2
-0.004916: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'prices') ^2
-0.004924: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'retail') ^2
-0.004890: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'wages') ^2
-0.008038: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'currency') ^2
-0.008029: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'energy') ^2
-0.008025: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'housing') ^2
-0.008027: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'interest') ^2
-0.008013: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'jobs') ^2
-0.008011: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'macro') ^2
-0.008017: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'market') ^2
-0.007989: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'none') ^2
-0.008016: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'other') ^2
-0.008025: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'prices') ^2
-0.008031: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'retail') ^2
-0.008021: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'wages') ^2
-0.007931: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'currency') ^2
-0.007920: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'energy') ^2
-0.007914: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'housing') ^2
-0.007919: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'interest') ^2
-0.007903: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'jobs') ^2
-0.007904: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'macro') ^2
-0.007910: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'market') ^2
-0.007989: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'none') ^2
-0.007906: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'other') ^2
-0.007918: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'prices') ^2
-0.007924: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'retail') ^2
-0.007910: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'wages') ^2
-0.006169: ValType(A, 'business') >> ValMacroType(A, 'currency') ^2
-0.006124: ValType(A, 'business') >> ValMacroType(A, 'energy') ^2
-0.006109: ValType(A, 'business') >> ValMacroType(A, 'housing') ^2
-0.006119: ValType(A, 'business') >> ValMacroType(A, 'interest') ^2
-0.006088: ValType(A, 'business') >> ValMacroType(A, 'jobs') ^2
-0.006086: ValType(A, 'business') >> ValMacroType(A, 'macro') ^2
-0.006098: ValType(A, 'business') >> ValMacroType(A, 'market') ^2
-0.007989: ValType(A, 'business') >> ValMacroType(A, 'none') ^2
-0.006075: ValType(A, 'business') >> ValMacroType(A, 'other') ^2
-0.006125: ValType(A, 'business') >> ValMacroType(A, 'prices') ^2
-0.006147: ValType(A, 'business') >> ValMacroType(A, 'retail') ^2
-0.006102: ValType(A, 'business') >> ValMacroType(A, 'wages') ^2
-0.004166: ValType(A, 'government') >> ValMacroType(A, 'currency') ^2
-0.004120: ValType(A, 'government') >> ValMacroType(A, 'energy') ^2
-0.004103: ValType(A, 'government') >> ValMacroType(A, 'housing') ^2
-0.004131: ValType(A, 'government') >> ValMacroType(A, 'interest') ^2
-0.004087: ValType(A, 'government') >> ValMacroType(A, 'jobs') ^2
-0.004101: ValType(A, 'government') >> ValMacroType(A, 'macro') ^2
-0.004123: ValType(A, 'government') >> ValMacroType(A, 'market') ^2
-0.007989: ValType(A, 'government') >> ValMacroType(A, 'none') ^2
-0.004077: ValType(A, 'government') >> ValMacroType(A, 'other') ^2
-0.004135: ValType(A, 'government') >> ValMacroType(A, 'prices') ^2
-0.004148: ValType(A, 'government') >> ValMacroType(A, 'retail') ^2
-0.004095: ValType(A, 'government') >> ValMacroType(A, 'wages') ^2
-0.007186: ValType(A, 'industry') >> ValMacroType(A, 'currency') ^2
-0.007136: ValType(A, 'industry') >> ValMacroType(A, 'energy') ^2
-0.007121: ValType(A, 'industry') >> ValMacroType(A, 'housing') ^2
-0.007127: ValType(A, 'industry') >> ValMacroType(A, 'interest') ^2
-0.007095: ValType(A, 'industry') >> ValMacroType(A, 'jobs') ^2
-0.007085: ValType(A, 'industry') >> ValMacroType(A, 'macro') ^2
-0.007101: ValType(A, 'industry') >> ValMacroType(A, 'market') ^2
-0.007989: ValType(A, 'industry') >> ValMacroType(A, 'none') ^2
-0.007076: ValType(A, 'industry') >> ValMacroType(A, 'other') ^2
-0.007135: ValType(A, 'industry') >> ValMacroType(A, 'prices') ^2
-0.007159: ValType(A, 'industry') >> ValMacroType(A, 'retail') ^2
-0.007109: ValType(A, 'industry') >> ValMacroType(A, 'wages') ^2
-0.002903: ValType(A, 'macro') >> ValMacroType(A, 'currency') ^2
-0.002940: ValType(A, 'macro') >> ValMacroType(A, 'energy') ^2
-0.002996: ValType(A, 'macro') >> ValMacroType(A, 'housing') ^2
-0.002905: ValType(A, 'macro') >> ValMacroType(A, 'interest') ^2
-0.003494: ValType(A, 'macro') >> ValMacroType(A, 'jobs') ^2
-0.003361: ValType(A, 'macro') >> ValMacroType(A, 'macro') ^2
-0.003359: ValType(A, 'macro') >> ValMacroType(A, 'market') ^2
-0.002697: ValType(A, 'macro') >> ValMacroType(A, 'none') ^2
-0.002827: ValType(A, 'macro') >> ValMacroType(A, 'other') ^2
-0.002924: ValType(A, 'macro') >> ValMacroType(A, 'prices') ^2
-0.002886: ValType(A, 'macro') >> ValMacroType(A, 'retail') ^2
-0.002910: ValType(A, 'macro') >> ValMacroType(A, 'wages') ^2
-0.008162: ValType(A, 'other') >> ValMacroType(A, 'currency') ^2
-0.008115: ValType(A, 'other') >> ValMacroType(A, 'energy') ^2
-0.008098: ValType(A, 'other') >> ValMacroType(A, 'housing') ^2
-0.008098: ValType(A, 'other') >> ValMacroType(A, 'interest') ^2
-0.008073: ValType(A, 'other') >> ValMacroType(A, 'jobs') ^2
-0.008053: ValType(A, 'other') >> ValMacroType(A, 'macro') ^2
-0.008072: ValType(A, 'other') >> ValMacroType(A, 'market') ^2
-0.007989: ValType(A, 'other') >> ValMacroType(A, 'none') ^2
-0.008054: ValType(A, 'other') >> ValMacroType(A, 'other') ^2
-0.008101: ValType(A, 'other') >> ValMacroType(A, 'prices') ^2
-0.008126: ValType(A, 'other') >> ValMacroType(A, 'retail') ^2
-0.008080: ValType(A, 'other') >> ValMacroType(A, 'wages') ^2
-0.007384: ValType(A, 'personal') >> ValMacroType(A, 'currency') ^2
-0.007326: ValType(A, 'personal') >> ValMacroType(A, 'energy') ^2
-0.007304: ValType(A, 'personal') >> ValMacroType(A, 'housing') ^2
-0.007326: ValType(A, 'personal') >> ValMacroType(A, 'interest') ^2
-0.007285: ValType(A, 'personal') >> ValMacroType(A, 'jobs') ^2
-0.007287: ValType(A, 'personal') >> ValMacroType(A, 'macro') ^2
-0.007307: ValType(A, 'personal') >> ValMacroType(A, 'market') ^2
-0.007989: ValType(A, 'personal') >> ValMacroType(A, 'none') ^2
-0.007268: ValType(A, 'personal') >> ValMacroType(A, 'other') ^2
-0.007332: ValType(A, 'personal') >> ValMacroType(A, 'prices') ^2
-0.007353: ValType(A, 'personal') >> ValMacroType(A, 'retail') ^2
-0.007287: ValType(A, 'personal') >> ValMacroType(A, 'wages') ^2
+0.004946: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'energy') ^2
+0.004993: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'housing') ^2
+0.004907: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'interest') ^2
+0.005560: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'jobs') ^2
+0.005366: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'macro') ^2
+0.005347: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'market') ^2
+0.004891: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'none') ^2
+0.004889: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'other') ^2
+0.004921: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'prices') ^2
+0.004922: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'retail') ^2
+0.004895: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'wages') ^2
+0.008007: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'currency') ^2
+0.007997: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'energy') ^2
+0.007994: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'housing') ^2
+0.008004: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'interest') ^2
+0.007979: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'jobs') ^2
+0.007987: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'macro') ^2
+0.007991: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'market') ^2
+0.007958: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'none') ^2
+0.007989: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'other') ^2
+0.007999: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'prices') ^2
+0.007996: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'retail') ^2
+0.007992: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'wages') ^2
+0.007890: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'currency') ^2
+0.007880: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'energy') ^2
+0.007877: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'housing') ^2
+0.007887: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'interest') ^2
+0.007863: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'jobs') ^2
+0.007872: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'macro') ^2
+0.007876: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'market') ^2
+0.007957: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'none') ^2
+0.007873: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'other') ^2
+0.007883: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'prices') ^2
+0.007879: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'retail') ^2
+0.007874: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'wages') ^2
+0.006130: ValType(A, 'business') >> ValMacroType(A, 'currency') ^2
+0.006089: ValType(A, 'business') >> ValMacroType(A, 'energy') ^2
+0.006078: ValType(A, 'business') >> ValMacroType(A, 'housing') ^2
+0.006118: ValType(A, 'business') >> ValMacroType(A, 'interest') ^2
+0.006042: ValType(A, 'business') >> ValMacroType(A, 'jobs') ^2
+0.006076: ValType(A, 'business') >> ValMacroType(A, 'macro') ^2
+0.006082: ValType(A, 'business') >> ValMacroType(A, 'market') ^2
+0.007957: ValType(A, 'business') >> ValMacroType(A, 'none') ^2
+0.006064: ValType(A, 'business') >> ValMacroType(A, 'other') ^2
+0.006110: ValType(A, 'business') >> ValMacroType(A, 'prices') ^2
+0.006084: ValType(A, 'business') >> ValMacroType(A, 'retail') ^2
+0.006066: ValType(A, 'business') >> ValMacroType(A, 'wages') ^2
+0.004178: ValType(A, 'government') >> ValMacroType(A, 'currency') ^2
+0.004138: ValType(A, 'government') >> ValMacroType(A, 'energy') ^2
+0.004117: ValType(A, 'government') >> ValMacroType(A, 'housing') ^2
+0.004165: ValType(A, 'government') >> ValMacroType(A, 'interest') ^2
+0.004076: ValType(A, 'government') >> ValMacroType(A, 'jobs') ^2
+0.004128: ValType(A, 'government') >> ValMacroType(A, 'macro') ^2
+0.004138: ValType(A, 'government') >> ValMacroType(A, 'market') ^2
+0.007957: ValType(A, 'government') >> ValMacroType(A, 'none') ^2
+0.004110: ValType(A, 'government') >> ValMacroType(A, 'other') ^2
+0.004161: ValType(A, 'government') >> ValMacroType(A, 'prices') ^2
+0.004129: ValType(A, 'government') >> ValMacroType(A, 'retail') ^2
+0.004107: ValType(A, 'government') >> ValMacroType(A, 'wages') ^2
+0.007139: ValType(A, 'industry') >> ValMacroType(A, 'currency') ^2
+0.007095: ValType(A, 'industry') >> ValMacroType(A, 'energy') ^2
+0.007090: ValType(A, 'industry') >> ValMacroType(A, 'housing') ^2
+0.007126: ValType(A, 'industry') >> ValMacroType(A, 'interest') ^2
+0.007046: ValType(A, 'industry') >> ValMacroType(A, 'jobs') ^2
+0.007070: ValType(A, 'industry') >> ValMacroType(A, 'macro') ^2
+0.007081: ValType(A, 'industry') >> ValMacroType(A, 'market') ^2
+0.007957: ValType(A, 'industry') >> ValMacroType(A, 'none') ^2
+0.007065: ValType(A, 'industry') >> ValMacroType(A, 'other') ^2
+0.007112: ValType(A, 'industry') >> ValMacroType(A, 'prices') ^2
+0.007094: ValType(A, 'industry') >> ValMacroType(A, 'retail') ^2
+0.007079: ValType(A, 'industry') >> ValMacroType(A, 'wages') ^2
+0.002909: ValType(A, 'macro') >> ValMacroType(A, 'currency') ^2
+0.002948: ValType(A, 'macro') >> ValMacroType(A, 'energy') ^2
+0.003018: ValType(A, 'macro') >> ValMacroType(A, 'housing') ^2
+0.002951: ValType(A, 'macro') >> ValMacroType(A, 'interest') ^2
+0.003498: ValType(A, 'macro') >> ValMacroType(A, 'jobs') ^2
+0.003395: ValType(A, 'macro') >> ValMacroType(A, 'macro') ^2
+0.003401: ValType(A, 'macro') >> ValMacroType(A, 'market') ^2
+0.002724: ValType(A, 'macro') >> ValMacroType(A, 'none') ^2
+0.002872: ValType(A, 'macro') >> ValMacroType(A, 'other') ^2
+0.002943: ValType(A, 'macro') >> ValMacroType(A, 'prices') ^2
+0.002892: ValType(A, 'macro') >> ValMacroType(A, 'retail') ^2
+0.002933: ValType(A, 'macro') >> ValMacroType(A, 'wages') ^2
+0.008132: ValType(A, 'other') >> ValMacroType(A, 'currency') ^2
+0.008078: ValType(A, 'other') >> ValMacroType(A, 'energy') ^2
+0.008071: ValType(A, 'other') >> ValMacroType(A, 'housing') ^2
+0.008115: ValType(A, 'other') >> ValMacroType(A, 'interest') ^2
+0.008021: ValType(A, 'other') >> ValMacroType(A, 'jobs') ^2
+0.008048: ValType(A, 'other') >> ValMacroType(A, 'macro') ^2
+0.008062: ValType(A, 'other') >> ValMacroType(A, 'market') ^2
+0.007957: ValType(A, 'other') >> ValMacroType(A, 'none') ^2
+0.008039: ValType(A, 'other') >> ValMacroType(A, 'other') ^2
+0.008098: ValType(A, 'other') >> ValMacroType(A, 'prices') ^2
+0.008074: ValType(A, 'other') >> ValMacroType(A, 'retail') ^2
+0.008057: ValType(A, 'other') >> ValMacroType(A, 'wages') ^2
+0.007331: ValType(A, 'personal') >> ValMacroType(A, 'currency') ^2
+0.007280: ValType(A, 'personal') >> ValMacroType(A, 'energy') ^2
+0.007266: ValType(A, 'personal') >> ValMacroType(A, 'housing') ^2
+0.007314: ValType(A, 'personal') >> ValMacroType(A, 'interest') ^2
+0.007229: ValType(A, 'personal') >> ValMacroType(A, 'jobs') ^2
+0.007268: ValType(A, 'personal') >> ValMacroType(A, 'macro') ^2
+0.007276: ValType(A, 'personal') >> ValMacroType(A, 'market') ^2
+0.007957: ValType(A, 'personal') >> ValMacroType(A, 'none') ^2
+0.007248: ValType(A, 'personal') >> ValMacroType(A, 'other') ^2
+0.007308: ValType(A, 'personal') >> ValMacroType(A, 'prices') ^2
+0.007275: ValType(A, 'personal') >> ValMacroType(A, 'retail') ^2
+0.007250: ValType(A, 'personal') >> ValMacroType(A, 'wages') ^2

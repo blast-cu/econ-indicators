@@ -47,7 +47,7 @@ def get_potato_article_anns():
     for annotator_id in dir_list:
         d = os.path.join(ann_output_dir, annotator_id)
         if os.path.isdir(d):
-            count += 1
+            # count += 1
             f = os.path.join(d, "annotated_instances.jsonl")
             data = load_jsonl(f)
             for ann in data:
@@ -56,7 +56,8 @@ def get_potato_article_anns():
                 if list(ann["relevant"].keys())[0] == "Yes":
                     frame_val = int(list(ann["frame"].values())[0])
 
-                    if frame_val == 'macro':
+                    if frame_val == 0:
+                        frame_val = "macro"
 
                         label_id = int(list(ann["Economic Conditions"].values())[0])
                         econ_rate_val = qual_predict_maps["econ_rate"][label_id]
@@ -70,9 +71,9 @@ def get_potato_article_anns():
                         econ_change_val = "NA"
                         econ_rate_val = "NA"
 
-                    ann_dict["frame"].append((article_id, count, frame_val))
-                    ann_dict["econ_rate"].append((article_id, count, econ_rate_val))
-                    ann_dict["econ_change"].append((article_id, count, econ_change_val))
+                    ann_dict["frame"].append((article_id, annotator_id, frame_val))
+                    ann_dict["econ_rate"].append((article_id, annotator_id, econ_rate_val))
+                    ann_dict["econ_change"].append((article_id, annotator_id, econ_change_val))
         
 
 

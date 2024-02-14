@@ -151,10 +151,11 @@ def measure_percentage_agreement(article2ann, ann_name, user_disagreements, user
     for user in user_total_anns:
         if user not in user_disagreements:
             user_disagreements[user] = user_total_anns[user]
-    full = round(num_full/num_total*100, 2)
-    partial = round((num_full + num_partial)/num_total*100, 2)
+
+    # full = round(num_full/num_total*100, 2)
+    # partial = round((num_full + num_partial)/num_total*100, 2)
     # print("{} full".format(ann_name), full, "partial", partial)
-    return full, partial
+    # return full, partial
 
 
 def plot_confusion_matrix(y_true, y_pred, classes,

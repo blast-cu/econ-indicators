@@ -1,4 +1,4 @@
 annotation,ka
-frame,0.26
-econ_rate,1.0
-econ_change,1.0
+type,0.16
+macro_type,0.22
+spin,0.11

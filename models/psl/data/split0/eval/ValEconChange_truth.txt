@@ -1,3 +1,6 @@
+58	irrelevant
+672	irrelevant
+950	irrelevant
 530	worse
 16612	worse
 18190	better
@@ -6,6 +9,7 @@
 6006	better
 15674	same
 89910	none
+1263	irrelevant
 64028	worse
 4167	better
 35182	worse
@@ -14,6 +18,7 @@
 11913	worse
 14980	better
 30465	same
+35510	irrelevant
 10250	worse
 96354	better
 50838	none
