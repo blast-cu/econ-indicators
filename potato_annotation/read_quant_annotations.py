@@ -44,7 +44,7 @@ def load_jsonl(input_path) -> list:
 def get_potato_quant_anns(): 
     ann_list = [] # quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin
 
-    ann_output_dir = "potato_annotation/article_annotate_output/quant_pilot1"
+    ann_output_dir = "potato_annotation/quant_annotate/annotation_output/pilot"
     dir_list = os.listdir(ann_output_dir)
 
     count = 0
@@ -70,11 +70,12 @@ def get_potato_quant_anns():
                 if frame_val != 6:  # not relevant
 
                     if frame_val == 0: # macro
+                        frame = "macro"
                         label_id = int(list(ann["macro_indicator"].values())[0])
                         macro_ind_val = quant_predict_maps["macro_type"][label_id]
 
                         label_id = int(list(ann["spin"].values())[0])
-                        if label_id != 3:
+                        if label_id < 3:
                             spin_val = quant_predict_maps["spin"][label_id]
                         else:
                             spin_val = "none"

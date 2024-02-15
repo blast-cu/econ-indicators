@@ -38,18 +38,18 @@ class QuantModel(nn.Module):
         super(QuantModel, self).__init__()
 
         self.config = RobertaConfig.from_pretrained(model_checkpoint)
-        self.dense = nn.Linear(self.config.hidden_size, self.config.hidden_size)
+        self.dense = nn.Linear(self.config.hidden_size, self.config.hidden_size).to('cuda')
         classifier_dropout = (
             self.config.classifier_dropout if self.config.classifier_dropout is not None else self.config.hidden_dropout_prob
         )
-        self.dropout = nn.Dropout(classifier_dropout)
-        self.out_proj = nn.Linear(self.config.hidden_size, num_labels)
+        self.dropout = nn.Dropout(classifier_dropout).to('cuda')
+        self.out_proj = nn.Linear(self.config.hidden_size, num_labels).to('cuda')
 
         hidden_size = self.config.hidden_size  # num values per token
-        self.linear = nn.Linear(hidden_size * 2, hidden_size)  # n size = [1536, 2]
-        self.activation = nn.ReLU()
-        self.roberta = RobertaModel.from_pretrained(model_checkpoint)
-        self.softmax = nn.Softmax(dim=0)
+        self.linear = nn.Linear(hidden_size * 2, hidden_size).to('cuda')  # n size = [1536, 2]
+        self.activation = nn.ReLU().to('cuda')
+        self.roberta = RobertaModel.from_pretrained(model_checkpoint).to('cuda')
+        self.softmax = nn.Softmax(dim=0).to('cuda')
     
     def from_pretrained(self, path, task):
 
@@ -98,44 +98,33 @@ class QuantModel(nn.Module):
         
 
     def forward(self,
-                start_index,
-                end_index,
                 indices,
                 excerpts,  # size = [8, 514]
                 excerpt_attention_mask
                 ):
-
+        batch_size = excerpts.shape[0]
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
 
         last_layer = rob_out.last_hidden_state  # size = [8, 512, 768]
-        padder = torch.zeros(8, 1, 768).to('cuda')
+        padder = torch.zeros(batch_size, 1, 768).to('cuda')
         padded_x = torch.cat([last_layer, padder], dim = 1) # size = [8, 513, 768]
 
-        print(indices.shape)  # size = [8, 8] (batch size, max span length)
-        
-        spans = padded_x.gather(1, indices)  # EXCEPTION: index tensor must have the same number of dimensions as input tensor
-        print(spans.shape)
+        # print(indices.shape)  # size = [8, 8] (batch size, max span length)
 
-
-
+        spans = padded_x.gather(2, indices)  # EXCEPTION: index tensor must have the same number of dimensions as input tensor
         cls = last_layer[:, 0, :]  # size = [8, 768], CLS token
 
-        batch_size = excerpts.size(dim=0)
-
-        indicator_token = torch.zeros((batch_size, 768)).to('cuda')
-        for i in range(batch_size): # loop thru batch, get mean of each set of indicator tokens
-            indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
-
+        indicator_token = spans.mean(dim=1)  # size = [8, 768]
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
-        lin_out = self.linear(lin_in).to('cuda')
-        activation = self.activation(lin_out).to('cuda')
+        lin_out = self.linear(lin_in)
+        activation = self.activation(lin_out)
 
-        x = self.dropout(activation).to('cuda')
-        x = self.dense(x).to('cuda')
+        x = self.dropout(activation)
+        x = self.dense(x)
         x = torch.tanh(x)
-        x = self.dropout(x).to('cuda')
-        logits = self.out_proj(x).to('cuda')
+        x = self.dropout(x)
+        logits = self.out_proj(x)
 
         return logits
 
@@ -222,14 +211,32 @@ class TextClassificationDataset(Dataset):
         for i, start_index in enumerate(self.start_indices):
             end_index = self.end_indices[i]
 
+            # span = []
+            # curr = start_index
+            # for j in range(self.max_span_length):
+            # # for j in range(513):
+
+            #     if curr <= end_index:
+            #         span.append(curr)
+            #         curr += 1
+            #     else:
+            #         span.append(512)
             span = []
             curr = start_index
-            for j in range(self.max_span_length):
-                if curr <= end_index:
-                    span.append(curr)
-                    curr += 1
+            # for j in range(self.max_span_length):
+            for j in range(513):
+                inner_span = []
+
+                if curr >= start_index and curr <= end_index:
+                    inner_span = [i for i in range(768)]
+                    # inner_span = [0] * 768
+                    
                 else:
-                    span.append(512)
+                    inner_span = [0] * 768
+
+                curr += 1
+                span.append(inner_span)
+            
             
             self.spans.append(span)
 
@@ -350,14 +357,12 @@ def validate(model, val_loader, class_weights):
 
         for batch in val_loader:
 
-            start_index = batch['start_index'].to('cuda')
-            end_index = batch['end_index'].to('cuda')
+            span = batch['span'].to('cuda')
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
             labels = batch['label'].to('cuda')
 
-            outputs = model(start_index,
-                            end_index,
+            outputs = model(span,
                             input_ids,
                             attention_mask)
 
@@ -410,8 +415,6 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
         model.train()
         for batch in train_loader:
 
-            start_index = batch['start_index'].to('cuda')
-            end_index = batch['end_index'].to('cuda')
             span = batch['span'].to('cuda')
 
             excerpt_input_ids = batch['input_ids'].to('cuda')
@@ -419,9 +422,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
             labels = batch['label'].to('cuda')
 
-            outputs = model(start_index,
-                            end_index,
-                            span,
+            outputs = model(span,
                             excerpt_input_ids,
                             excerpt_attention_mask=excerpt_attention_mask)
             
@@ -464,14 +465,12 @@ def test(model, test_loader):
         out_labels = []
 
         for batch in test_loader:
-            start_index = batch['start_index'].to('cuda')
-            end_index = batch['end_index'].to('cuda')
+            span = batch['span'].to('cuda')
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
             labels = batch['label'].to('cuda')
 
-            outputs = model(start_index=start_index,
-                            end_index=end_index,
+            outputs = model(span,
                             excerpts=input_ids,
                             excerpt_attention_mask=attention_mask)
 

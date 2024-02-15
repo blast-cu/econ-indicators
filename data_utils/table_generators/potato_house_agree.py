@@ -104,34 +104,35 @@ def main():
     #     print(i)
     quantity2ann = {}
     iaa.retrieve_quant_anns(quantity2ann, to_retrieve)
-    at.generate_agree_table({}, quantity2ann, "potato_house_quant_agree.csv")
+    print(quantity2ann)
+    at.generate_agree_table({}, quantity2ann, "potato_house_quant_agree")
     at.generate_ka_table({}, quantity2ann, "potato_house_quant_ka.csv")
 
 
-    article_anns = {}
-    article_anns['frame'] = []
-    article_anns['econ_rate'] = []
-    article_anns['econ_change'] = []
-    for id, anns in agreed_qual_potato.items():
-        for k in anns.keys():
-            # article_id, user_id, ann
-            if anns[k] == '\x00':
-                anns[k] = "none"
-            article_anns[k].append((id, "potato", anns[k]))
+    # article_anns = {}
+    # article_anns['frame'] = []
+    # article_anns['econ_rate'] = []
+    # article_anns['econ_change'] = []
+    # for id, anns in agreed_qual_potato.items():
+    #     for k in anns.keys():
+    #         # article_id, user_id, ann
+    #         if anns[k] == '\x00':
+    #             anns[k] = "none"
+    #         article_anns[k].append((id, "potato", anns[k]))
 
-    for id, anns in agreed_qual_ann.items():
-        for k in anns.keys():
-            if id in agreed_qual_potato:
-                if anns[k] == '\x00':
-                    anns[k] = "none"
-                article_anns[k].append((id, "house", anns[k]))
+    # for id, anns in agreed_qual_ann.items():
+    #     for k in anns.keys():
+    #         if id in agreed_qual_potato:
+    #             if anns[k] == '\x00':
+    #                 anns[k] = "none"
+    #             article_anns[k].append((id, "house", anns[k]))
 
-    article2ann = {}
-    for ann_name, anns in article_anns.items():
-        iaa.retrieve_anns(article2ann, anns, ann_name)
+    # article2ann = {}
+    # for ann_name, anns in article_anns.items():
+    #     iaa.retrieve_anns(article2ann, anns, ann_name)
 
-    at.generate_agree_table(article2ann, {}, "potato_house_qual_agree.csv")
-    at.generate_ka_table(article2ann, {}, "potato_house_qual_ka.csv")
+    # at.generate_agree_table(article2ann, {}, "potato_house_qual_agree.csv")
+    # at.generate_ka_table(article2ann, {}, "potato_house_qual_ka.csv")
 
 if __name__ == "__main__":
     main()
