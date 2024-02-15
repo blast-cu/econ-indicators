@@ -1,9 +1,9 @@
-0.094451: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.089996: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.187850: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.034007: PredType(E, B) >> ValType(E, B) ^2
-0.012029: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.263793: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.083462: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.094432: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.152872: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.030937: PredType(E, B) >> ValType(E, B) ^2
+0.011500: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.264962: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,15 +27,27 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.018845: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
-0.019575: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
-0.019679: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
-0.039686: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
-0.022774: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
-0.021262: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
-0.022539: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
-0.023657: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
-0.051151: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
-0.024428: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
-0.024610: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
-0.029668: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2
+HasFrameAnn(A) & ValEconChange(A, 'better') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'worse') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'same') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+0.017451: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
+0.019643: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'irrelevant') ^2
+0.017949: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
+0.018238: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
+0.036701: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+0.021447: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
+0.028666: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'irrelevant') ^2
+0.019915: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
+0.021203: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
+0.022626: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
+0.045591: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
+0.021016: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'irrelevant') ^2
+0.022060: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
+0.022352: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
+0.026978: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2

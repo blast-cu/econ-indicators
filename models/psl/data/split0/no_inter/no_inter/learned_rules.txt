@@ -35,4 +35,4 @@ HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | Va
 HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
 HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
 HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .

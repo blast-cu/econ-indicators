@@ -8,7 +8,7 @@ from data_utils.inter_annotator_agreement import \
 from potato_annotation.read_article_annotations import get_potato_article_anns
 from potato_annotation.read_quant_annotations import get_potato_quant_anns
 
-SETTING = 'original'
+SETTING = 'potato_quant'
 
 def generate_agree_table(article2ann, quantity2ann, filepath):
 
@@ -132,8 +132,8 @@ def main():
             to_retrieve.append(curr)
         quantity2ann = {}
         retrieve_quant_anns(quantity2ann, to_retrieve)
-        generate_agree_table({}, quantity2ann)
-        generate_ka_table({}, quantity2ann)
+        generate_agree_table({}, quantity2ann, "potato_quant_agree.csv")
+        generate_ka_table({}, quantity2ann, "potato_quant_ka.csv")
 
     elif SETTING == 'original':
 

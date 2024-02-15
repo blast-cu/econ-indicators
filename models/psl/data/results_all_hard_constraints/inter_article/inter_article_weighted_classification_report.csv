@@ -1,7 +1,0 @@
-,ValEconRate>>ValEconChange,ValEconRate>>ValFrame,ValEconChange>>ValFrame,ValFrame>>ValEconRate,ValEconChange>>ValEconRate,ValFrame>>ValEconChange
-frame,,,,,,
-econ_rate,,,,,,
-econ_change,,,,,,
-type,,,,,,
-spin,,,,,,
-macro_type,,,,,,

@@ -106,8 +106,8 @@ class QuantModel(nn.Module):
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
 
         last_layer = rob_out.last_hidden_state  # size = [8, 512, 768]
-        padder = torch.zeros(batch_size, 1, 768).to('cuda')
-        padded_x = torch.cat([last_layer, padder], dim = 1) # size = [8, 513, 768]
+        padder = torch.zeros(batch_size, 512, 1).to('cuda')
+        padded_x = torch.cat([last_layer, padder], dim = 1) # size = [8, 512, 769]
 
         # print(indices.shape)  # size = [8, 8] (batch size, max span length)
 
@@ -147,17 +147,8 @@ class TextClassificationDataset(Dataset):
         
         self.tokenizer = tokenizer
         self.max_length = max_length
-        self.max_span_length = 0
-
-            # 'start_index': torch.tensor(start_index),
-            # 'end_index': torch.tensor(end_index),
-            # 'input_ids': excerpt_encoding['input_ids'].flatten(),
-            # 'attention_mask': excerpt_encoding['attention_mask'].flatten(),
-            # 'label': torch.tensor(label),
-            # 'article_ids': torch.tensor(article_id),
-            # 'ann_ids': torch.tensor(ann_id)
-        self.start_indices = []
-        self.end_indices = []
+        start_indices = []
+        end_indices = []
         self.input_ids = []
         self.attention_masks = []
 
@@ -191,8 +182,6 @@ class TextClassificationDataset(Dataset):
                 start_index = start_index - text_start
                 end_index = end_index - text_start
             
-            if end_index - start_index > self.max_span_length:
-                self.max_span_length = end_index - start_index
 
             excerpt_encoding = self.tokenizer(
                 text,
@@ -202,37 +191,24 @@ class TextClassificationDataset(Dataset):
                 truncation=True
             )
 
-            self.start_indices.append(start_index)
-            self.end_indices.append(end_index)
+            start_indices.append(start_index)
+            end_indices.append(end_index)
             self.input_ids.append(excerpt_encoding['input_ids'].flatten())
             self.attention_masks.append(excerpt_encoding['attention_mask'].flatten())
 
         self.spans = []
-        for i, start_index in enumerate(self.start_indices):
-            end_index = self.end_indices[i]
+        for i, start_index in enumerate(start_indices):
+            end_index = end_indices[i]
 
-            # span = []
-            # curr = start_index
-            # for j in range(self.max_span_length):
-            # # for j in range(513):
-
-            #     if curr <= end_index:
-            #         span.append(curr)
-            #         curr += 1
-            #     else:
-            #         span.append(512)
             span = []
             curr = start_index
-            # for j in range(self.max_span_length):
-            for j in range(513):
+            for j in range(512):
                 inner_span = []
 
                 if curr >= start_index and curr <= end_index:
-                    inner_span = [i for i in range(768)]
-                    # inner_span = [0] * 768
-                    
+                    inner_span = [i for i in range(769)]
                 else:
-                    inner_span = [0] * 768
+                    inner_span = [768] * 769
 
                 curr += 1
                 span.append(inner_span)
@@ -264,16 +240,12 @@ class TextClassificationDataset(Dataset):
             article_id = -1
             ann_id = -1
 
-        start_index = self.start_indices[idx]
-        end_index = self.end_indices[idx]
         input_id = self.input_ids[idx]
         attention_mask = self.attention_masks[idx]
         span = self.spans[idx]
             
 
         return {
-            'start_index': torch.tensor(start_index),
-            'end_index': torch.tensor(end_index),
             'span': torch.tensor(span),
             'input_ids': input_id,
             'attention_mask': attention_mask,

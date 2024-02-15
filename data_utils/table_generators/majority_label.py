@@ -2,6 +2,7 @@ import pickle
 import argparse
 import os
 from statistics import mode
+import random
 
 import data_utils.dataset as d
 from data_utils.dataset import quant_label_maps, qual_label_maps
@@ -11,6 +12,8 @@ import models.roberta_classifier.train_test_utils as tt
 SPLIT_DIR = "data/clean/"
 
 def main(args):
+
+    random.seed(42)
 
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
@@ -42,8 +45,10 @@ def main(args):
                              split_test_ids
                             )
         
-            majority_label = mode(test_labels)
-            y_predicted = [majority_label for i in range(len(test_labels))]
+            # majority_label = mode(test_labels)
+            # y_predicted = [majority_label for i in range(len(test_labels))]
+            y_predicted = random.choices(list(qual_label_maps[task].values()), k=len(test_labels))
+
 
             results[task]['labels'] += test_labels
             results[task]['predictions'] += y_predicted
@@ -69,13 +74,14 @@ def main(args):
                              split_test_ids,
                              type_filter=type_filters[task])
 
-            majority_label = mode(test_labels)
-            y_predicted = [majority_label for i in range(len(test_labels))]
+            # majority_label = mode(test_labels)
+            # y_predicted = [majority_label for i in range(len(test_labels))]
+            y_predicted = random.choices(list(quant_label_maps[task].values()), k=len(test_labels))
 
             results[task]['labels'] += test_labels
             results[task]['predictions'] += y_predicted
 
-    dest = f"data_utils/table_generators/results/majority_label/"
+    dest = f"data_utils/table_generators/results/random_label/"
     os.makedirs(dest, exist_ok=True)
 
     d.to_f1_csv(results, dest, 'macro')

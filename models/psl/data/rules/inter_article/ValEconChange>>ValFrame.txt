@@ -3,6 +3,11 @@
 1.0: ValEconChange(A, 'better') >> ValFrame(A, 'industry') ^2
 1.0: ValEconChange(A, 'better') >> ValFrame(A, 'macro') ^2
 1.0: ValEconChange(A, 'better') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'other') ^2
 1.0: ValEconChange(A, 'none') >> ValFrame(A, 'business') ^2
 1.0: ValEconChange(A, 'none') >> ValFrame(A, 'government') ^2
 1.0: ValEconChange(A, 'none') >> ValFrame(A, 'industry') ^2
