@@ -1,0 +1,7 @@
+,ValEconRate>>ValEconChange,ValEconRate>>ValFrame,ValEconChange>>ValFrame,ValFrame>>ValEconRate,ValEconChange>>ValEconRate,ValFrame>>ValEconChange
+frame,0.778,0.778,0.778,0.759,0.778,0.766
+econ_rate,0.722,0.712,0.732,0.742,0.742,0.732
+econ_change,0.611,0.596,0.586,0.596,0.581,0.607
+type,0.937,0.937,0.938,0.938,0.937,0.938
+spin,0.817,0.817,0.817,0.817,0.817,0.817
+macro_type,0.92,0.92,0.92,0.92,0.92,0.92

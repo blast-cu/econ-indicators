@@ -1,9 +1,9 @@
-0.046842: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.070621: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.052992: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.019047: PredType(E, B) >> ValType(E, B) ^2
-0.009534: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.047429: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.045139: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.075257: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.052598: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.018956: PredType(E, B) >> ValType(E, B) ^2
+0.009520: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.047065: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,32 +27,23 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-HasFrameAnn(A) & ValEconChange(A, 'better') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'worse') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'same') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'none') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
-HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
-0.053278: ValEconRate(A, 'good') >> ValEconChange(A, 'better') ^2
-0.036231: ValEconRate(A, 'good') >> ValEconChange(A, 'irrelevant') ^2
-0.036512: ValEconRate(A, 'good') >> ValEconChange(A, 'none') ^2
-0.036216: ValEconRate(A, 'good') >> ValEconChange(A, 'same') ^2
-0.036816: ValEconRate(A, 'good') >> ValEconChange(A, 'worse') ^2
-0.029860: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'better') ^2
-0.056878: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'irrelevant') ^2
-0.029259: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'none') ^2
-0.029251: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'same') ^2
-0.029232: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'worse') ^2
-0.045002: ValEconRate(A, 'none') >> ValEconChange(A, 'better') ^2
-0.044068: ValEconRate(A, 'none') >> ValEconChange(A, 'irrelevant') ^2
-0.050730: ValEconRate(A, 'none') >> ValEconChange(A, 'none') ^2
-0.045178: ValEconRate(A, 'none') >> ValEconChange(A, 'same') ^2
-0.048010: ValEconRate(A, 'none') >> ValEconChange(A, 'worse') ^2
-0.027989: ValEconRate(A, 'poor') >> ValEconChange(A, 'better') ^2
-0.025571: ValEconRate(A, 'poor') >> ValEconChange(A, 'irrelevant') ^2
-0.025840: ValEconRate(A, 'poor') >> ValEconChange(A, 'none') ^2
-0.030327: ValEconRate(A, 'poor') >> ValEconChange(A, 'same') ^2
-0.037286: ValEconRate(A, 'poor') >> ValEconChange(A, 'worse') ^2
+0.053025: ValEconRate(A, 'good') >> ValEconChange(A, 'better') ^2
+0.036564: ValEconRate(A, 'good') >> ValEconChange(A, 'irrelevant') ^2
+0.036492: ValEconRate(A, 'good') >> ValEconChange(A, 'none') ^2
+0.036212: ValEconRate(A, 'good') >> ValEconChange(A, 'same') ^2
+0.036719: ValEconRate(A, 'good') >> ValEconChange(A, 'worse') ^2
+0.029490: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'better') ^2
+0.055395: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'irrelevant') ^2
+0.028874: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'none') ^2
+0.028840: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'same') ^2
+0.028928: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'worse') ^2
+0.044924: ValEconRate(A, 'none') >> ValEconChange(A, 'better') ^2
+0.044447: ValEconRate(A, 'none') >> ValEconChange(A, 'irrelevant') ^2
+0.050533: ValEconRate(A, 'none') >> ValEconChange(A, 'none') ^2
+0.045120: ValEconRate(A, 'none') >> ValEconChange(A, 'same') ^2
+0.047818: ValEconRate(A, 'none') >> ValEconChange(A, 'worse') ^2
+0.028182: ValEconRate(A, 'poor') >> ValEconChange(A, 'better') ^2
+0.025977: ValEconRate(A, 'poor') >> ValEconChange(A, 'irrelevant') ^2
+0.026025: ValEconRate(A, 'poor') >> ValEconChange(A, 'none') ^2
+0.030539: ValEconRate(A, 'poor') >> ValEconChange(A, 'same') ^2
+0.037359: ValEconRate(A, 'poor') >> ValEconChange(A, 'worse') ^2

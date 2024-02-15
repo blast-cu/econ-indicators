@@ -1,9 +1,9 @@
-0.056872: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.070098: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.041551: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.019006: PredType(E, B) >> ValType(E, B) ^2
-0.009525: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.047224: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.058145: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.074714: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.039957: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.018943: PredType(E, B) >> ValType(E, B) ^2
+0.009511: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.046907: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
@@ -27,32 +27,23 @@ HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
 HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-HasFrameAnn(A) & ValEconChange(A, 'better') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'worse') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'same') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'none') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
-HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
-HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
-0.035998: ValEconRate(A, 'good') >> ValFrame(A, 'business') ^2
-0.035934: ValEconRate(A, 'good') >> ValFrame(A, 'government') ^2
-0.036300: ValEconRate(A, 'good') >> ValFrame(A, 'industry') ^2
-0.054840: ValEconRate(A, 'good') >> ValFrame(A, 'macro') ^2
-0.036285: ValEconRate(A, 'good') >> ValFrame(A, 'other') ^2
-0.030310: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'business') ^2
-0.043304: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'government') ^2
-0.032247: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
-0.028275: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
-0.032298: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'other') ^2
-0.044299: ValEconRate(A, 'none') >> ValFrame(A, 'business') ^2
-0.044716: ValEconRate(A, 'none') >> ValFrame(A, 'government') ^2
-0.044528: ValEconRate(A, 'none') >> ValFrame(A, 'industry') ^2
-0.054202: ValEconRate(A, 'none') >> ValFrame(A, 'macro') ^2
-0.044854: ValEconRate(A, 'none') >> ValFrame(A, 'other') ^2
-0.025488: ValEconRate(A, 'poor') >> ValFrame(A, 'business') ^2
-0.025332: ValEconRate(A, 'poor') >> ValFrame(A, 'government') ^2
-0.025935: ValEconRate(A, 'poor') >> ValFrame(A, 'industry') ^2
-0.055161: ValEconRate(A, 'poor') >> ValFrame(A, 'macro') ^2
-0.025418: ValEconRate(A, 'poor') >> ValFrame(A, 'other') ^2
+0.035993: ValEconRate(A, 'good') >> ValFrame(A, 'business') ^2
+0.036006: ValEconRate(A, 'good') >> ValFrame(A, 'government') ^2
+0.036306: ValEconRate(A, 'good') >> ValFrame(A, 'industry') ^2
+0.054474: ValEconRate(A, 'good') >> ValFrame(A, 'macro') ^2
+0.036296: ValEconRate(A, 'good') >> ValFrame(A, 'other') ^2
+0.029430: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'business') ^2
+0.041712: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'government') ^2
+0.031268: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
+0.028775: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
+0.031338: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'other') ^2
+0.044306: ValEconRate(A, 'none') >> ValFrame(A, 'business') ^2
+0.044683: ValEconRate(A, 'none') >> ValFrame(A, 'government') ^2
+0.044486: ValEconRate(A, 'none') >> ValFrame(A, 'industry') ^2
+0.054013: ValEconRate(A, 'none') >> ValFrame(A, 'macro') ^2
+0.044869: ValEconRate(A, 'none') >> ValFrame(A, 'other') ^2
+0.025660: ValEconRate(A, 'poor') >> ValFrame(A, 'business') ^2
+0.025518: ValEconRate(A, 'poor') >> ValFrame(A, 'government') ^2
+0.026120: ValEconRate(A, 'poor') >> ValFrame(A, 'industry') ^2
+0.055003: ValEconRate(A, 'poor') >> ValFrame(A, 'macro') ^2
+0.025569: ValEconRate(A, 'poor') >> ValFrame(A, 'other') ^2

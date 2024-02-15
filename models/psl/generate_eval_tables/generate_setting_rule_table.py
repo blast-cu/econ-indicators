@@ -18,7 +18,7 @@ def main(args):
     macro_setting_dict = {}
     weighted_setting_dict = {}
 
-    rows = ['frame', 'econ_rate', 'econ_change', 'type', 'spin', 'macro_type']
+    rows = ['frame', 'econ_rate', 'econ_change', 'type', 'macro_type', 'spin']
 
     for rule_name in rule_dirs:
         macro_rule_dict = {}
