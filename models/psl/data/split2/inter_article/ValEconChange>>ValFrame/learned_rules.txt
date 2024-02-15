@@ -1,0 +1,63 @@
+0.042652: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.034763: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.051891: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.016887: PredType(E, B) >> ValType(E, B) ^2
+0.008879: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.037447: PredSpin(E, B) >> ValSpin(E, B) ^2
+ValFrame(A, +B) = 1 .
+ValEconRate(A, +B) = 1 .
+ValEconChange(A, +B) = 1 .
+ValType(E, +B) = 1 .
+ValMacroType(E, +B) = 1 .
+ValSpin(E, +B) = 1 .
+ValType(A, 'industry') >> ValMacroType(A, 'none') .
+ValType(A, 'government') >> ValMacroType(A, 'none') .
+ValType(A, 'personal') >> ValMacroType(A, 'none') .
+ValType(A, 'business') >> ValMacroType(A, 'none') .
+ValType(A, 'other') >> ValMacroType(A, 'none') .
+HasTypeAnn(A) & ValMacroType(A, 'jobs') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'retail') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'interest') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'prices') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'energy') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'wages') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'macro') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'market') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
+HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
+HasFrameAnn(A) & ValEconChange(A, 'better') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'worse') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'same') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+0.026709: ValEconChange(A, 'better') >> ValFrame(A, 'business') ^2
+0.027049: ValEconChange(A, 'better') >> ValFrame(A, 'government') ^2
+0.026935: ValEconChange(A, 'better') >> ValFrame(A, 'industry') ^2
+0.042510: ValEconChange(A, 'better') >> ValFrame(A, 'macro') ^2
+0.026751: ValEconChange(A, 'better') >> ValFrame(A, 'other') ^2
+0.024604: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'business') ^2
+0.033983: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'government') ^2
+0.025966: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
+0.023698: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
+0.026013: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'other') ^2
+0.037231: ValEconChange(A, 'none') >> ValFrame(A, 'business') ^2
+0.037621: ValEconChange(A, 'none') >> ValFrame(A, 'government') ^2
+0.037300: ValEconChange(A, 'none') >> ValFrame(A, 'industry') ^2
+0.042119: ValEconChange(A, 'none') >> ValFrame(A, 'macro') ^2
+0.037698: ValEconChange(A, 'none') >> ValFrame(A, 'other') ^2
+0.035267: ValEconChange(A, 'same') >> ValFrame(A, 'business') ^2
+0.035153: ValEconChange(A, 'same') >> ValFrame(A, 'government') ^2
+0.035517: ValEconChange(A, 'same') >> ValFrame(A, 'industry') ^2
+0.042802: ValEconChange(A, 'same') >> ValFrame(A, 'macro') ^2
+0.035290: ValEconChange(A, 'same') >> ValFrame(A, 'other') ^2
+0.026086: ValEconChange(A, 'worse') >> ValFrame(A, 'business') ^2
+0.026025: ValEconChange(A, 'worse') >> ValFrame(A, 'government') ^2
+0.026326: ValEconChange(A, 'worse') >> ValFrame(A, 'industry') ^2
+0.042801: ValEconChange(A, 'worse') >> ValFrame(A, 'macro') ^2
+0.026030: ValEconChange(A, 'worse') >> ValFrame(A, 'other') ^2

@@ -98,23 +98,24 @@ class QuantModel(nn.Module):
         
 
     def forward(self,
-                indices,
-                excerpts,  # size = [8, 514]
+                indices, # size = [8, 512, 769]
+                excerpts,  # size = [8, 514](ish)
                 excerpt_attention_mask
                 ):
+
         batch_size = excerpts.shape[0]
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
 
         last_layer = rob_out.last_hidden_state  # size = [8, 512, 768]
         padder = torch.zeros(batch_size, 512, 1).to('cuda')
-        padded_x = torch.cat([last_layer, padder], dim = 1) # size = [8, 512, 769]
+        padded_x = torch.cat([last_layer, padder], dim = 2) # size = [8, 512, 769]
 
-        # print(indices.shape)  # size = [8, 8] (batch size, max span length)
-
-        spans = padded_x.gather(2, indices)  # EXCEPTION: index tensor must have the same number of dimensions as input tensor
+        spans = padded_x.gather(2, indices)  # index tensor must have the same number of dimensions as input tensor
         cls = last_layer[:, 0, :]  # size = [8, 768], CLS token
 
-        indicator_token = spans.mean(dim=1)  # size = [8, 768]
+        indicator_token = spans.mean(dim=1)  # size = [8, 769]
+        indicator_token = indicator_token[..., :-1]  # size = [8, 768]
+
         lin_in = torch.cat((cls, indicator_token), 1)  # size = [8, 1536]
 
         lin_out = self.linear(lin_in)
