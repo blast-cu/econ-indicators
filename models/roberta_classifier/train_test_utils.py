@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from sklearn.model_selection import train_test_split
 
@@ -292,10 +293,10 @@ def get_weights(y, annotation_map: dict):
 
     # compute class weights for weighted loss
     classes = list(set(list(annotation_map.values())))
-
+    
     if len(classes) != len(set(y)):
         y = y + classes
-
+    classes = np.array(classes)
     weight = \
         compute_class_weight(class_weight='balanced', classes=classes, y=y)
 

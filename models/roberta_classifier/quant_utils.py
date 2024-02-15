@@ -10,6 +10,7 @@ import os
 from data_utils.dataset import quant_label_maps as label_maps
 
 
+
 def find_sub_list(indicator_text, excerpt_encoding, text):
 
     sub_start = text.find(indicator_text)
@@ -99,16 +100,28 @@ class QuantModel(nn.Module):
     def forward(self,
                 start_index,
                 end_index,
+                indices,
                 excerpts,  # size = [8, 514]
                 excerpt_attention_mask
                 ):
 
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
-        last_layer = rob_out.last_hidden_state  # size = [8, 514, 768]
+
+        last_layer = rob_out.last_hidden_state  # size = [8, 512, 768]
+        padder = torch.zeros(8, 1, 768).to('cuda')
+        padded_x = torch.cat([last_layer, padder], dim = 1) # size = [8, 513, 768]
+
+        print(indices.shape)  # size = [8, 8] (batch size, max span length)
+        
+        spans = padded_x.gather(1, indices)  # EXCEPTION: index tensor must have the same number of dimensions as input tensor
+        print(spans.shape)
+
+
 
         cls = last_layer[:, 0, :]  # size = [8, 768], CLS token
 
         batch_size = excerpts.size(dim=0)
+
         indicator_token = torch.zeros((batch_size, 768)).to('cuda')
         for i in range(batch_size): # loop thru batch, get mean of each set of indicator tokens
             indicator_token[i] = torch.mean(last_layer[i][start_index[i]:end_index[i]], dim=0)
@@ -145,6 +158,80 @@ class TextClassificationDataset(Dataset):
         
         self.tokenizer = tokenizer
         self.max_length = max_length
+        self.max_span_length = 0
+
+            # 'start_index': torch.tensor(start_index),
+            # 'end_index': torch.tensor(end_index),
+            # 'input_ids': excerpt_encoding['input_ids'].flatten(),
+            # 'attention_mask': excerpt_encoding['attention_mask'].flatten(),
+            # 'label': torch.tensor(label),
+            # 'article_ids': torch.tensor(article_id),
+            # 'ann_ids': torch.tensor(ann_id)
+        self.start_indices = []
+        self.end_indices = []
+        self.input_ids = []
+        self.attention_masks = []
+
+        for idx, text in enumerate(self.texts):
+
+            indicator_text = self.indicator_texts[idx]
+
+            temp_encoding = self.tokenizer(
+                text,
+                return_tensors='pt',
+                truncation=False,
+                return_offsets_mapping=True
+            )
+
+            start_index, end_index = find_sub_list(indicator_text, temp_encoding, text)
+
+            if start_index is None or end_index is None:
+                print('Substring: ' + indicator_text)
+                print('Original text: ' + text)
+                print('Start index: ' + str(start_index))
+                print('End index: ' + str(end_index))
+                print('Offset mapping: \n')
+                for i, token in enumerate(temp_encoding['offset_mapping'][0]):
+                    print(f"Token {i}: {token}")
+                raise Exception('Could not find indicator text in excerpt')
+
+            if end_index > self.max_length:
+                text_start = end_index + int(self.max_length / 2) - self.max_length
+                text = text[text_start:]
+
+                start_index = start_index - text_start
+                end_index = end_index - text_start
+            
+            if end_index - start_index > self.max_span_length:
+                self.max_span_length = end_index - start_index
+
+            excerpt_encoding = self.tokenizer(
+                text,
+                return_tensors='pt',
+                max_length=self.max_length,
+                padding='max_length',
+                truncation=True
+            )
+
+            self.start_indices.append(start_index)
+            self.end_indices.append(end_index)
+            self.input_ids.append(excerpt_encoding['input_ids'].flatten())
+            self.attention_masks.append(excerpt_encoding['attention_mask'].flatten())
+
+        self.spans = []
+        for i, start_index in enumerate(self.start_indices):
+            end_index = self.end_indices[i]
+
+            span = []
+            curr = start_index
+            for j in range(self.max_span_length):
+                if curr <= end_index:
+                    span.append(curr)
+                    curr += 1
+                else:
+                    span.append(512)
+            
+            self.spans.append(span)
 
 
     def __len__(self):
@@ -170,48 +257,19 @@ class TextClassificationDataset(Dataset):
             article_id = -1
             ann_id = -1
 
-        indicator_text = self.indicator_texts[idx]
-
-        temp_encoding = self.tokenizer(
-            text,
-            return_tensors='pt',
-            truncation=False,
-            return_offsets_mapping=True
-        )
-
-        start_index, end_index = find_sub_list(indicator_text, temp_encoding, text)
-
-        if start_index is None or end_index is None:
-            print('Substring: ' + indicator_text)
-            print('Original text: ' + text)
-            print('Start index: ' + str(start_index))
-            print('End index: ' + str(end_index))
-            print('Offset mapping: \n')
-            for i, token in enumerate(temp_encoding['offset_mapping'][0]):
-                print(f"Token {i}: {token}")
-            raise Exception('Could not find indicator text in excerpt')
-
-        if end_index > self.max_length:
-            text_start = end_index + int(self.max_length / 2) - self.max_length
-            text = text[text_start:]
-
-            start_index = start_index - text_start
-            end_index = end_index - text_start
-
-        excerpt_encoding = self.tokenizer(
-            text,
-            return_tensors='pt',
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True
-        )
+        start_index = self.start_indices[idx]
+        end_index = self.end_indices[idx]
+        input_id = self.input_ids[idx]
+        attention_mask = self.attention_masks[idx]
+        span = self.spans[idx]
             
 
         return {
             'start_index': torch.tensor(start_index),
             'end_index': torch.tensor(end_index),
-            'input_ids': excerpt_encoding['input_ids'].flatten(),
-            'attention_mask': excerpt_encoding['attention_mask'].flatten(),
+            'span': torch.tensor(span),
+            'input_ids': input_id,
+            'attention_mask': attention_mask,
             'label': torch.tensor(label),
             'article_ids': torch.tensor(article_id),
             'ann_ids': torch.tensor(ann_id)
@@ -354,13 +412,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
             start_index = batch['start_index'].to('cuda')
             end_index = batch['end_index'].to('cuda')
-
-            for s in enumerate(batch['start_index']):
-                print(s)
-                print(batch['end_index'][s])
-                print()
-            # exit()
-
+            span = batch['span'].to('cuda')
 
             excerpt_input_ids = batch['input_ids'].to('cuda')
             excerpt_attention_mask = batch['attention_mask'].to('cuda')
@@ -369,6 +421,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
             outputs = model(start_index,
                             end_index,
+                            span,
                             excerpt_input_ids,
                             excerpt_attention_mask=excerpt_attention_mask)
             
