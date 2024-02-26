@@ -61,9 +61,9 @@ def main():
 
     # setting = "neighbors"
     # rule_name = "ValType>>ValMacroType"
-    setting = "no_inter"
-    rule_name = "no_inter"
-    task = "macro_type"
+    setting = "precedes"
+    rule_name = "ValType>>ValType"
+    task = "spin"
     num_folds = 5
 
     splits_dict = pickle.load(open("data/clean/" + 'splits_dict', 'rb'))

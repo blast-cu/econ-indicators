@@ -87,9 +87,9 @@ def main():
     # # rule_name = "ValSpin>>ValEconChange"
     # # task = "econ_change"
     # rule_name = "ValType>>ValFrame"
-    setting = "no_inter"
-    rule_name = "no_inter"
-    task = "frame"
+    setting = "precedes"
+    rule_name = "ValType>>ValType"
+    task = "econ_change"
     num_folds = 5
 
     splits_dict = pickle.load(open("data/clean/" + 'splits_dict', 'rb'))
