@@ -1,5 +1,5 @@
 {
-    "port": 8000, 
+    "port": 80, 
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Quant Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
