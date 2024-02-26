@@ -28,13 +28,56 @@ jobs_reporting_per = macro_data %>%
          quarter = as.integer(floor(month / 3)),
          ym = ym(paste(year, month, sep="-")),
          yq = yq(paste(year, quarter, sep=".")),
-         macro_type = if_else(str_detect(macro_type, "energy|retail|prices"), "prices+", macro_type)) %>% 
+         macro_type = if_else(str_detect(macro_type, "energy|prices"), "prices+", macro_type)) %>% 
   group_by(source, yq, macro_type) %>% 
   summarise(count = n()) %>% 
   group_by(source, yq) %>% 
   mutate(total = sum(count),
+         per = count / total) #%>% 
+  # filter(str_detect(macro_type, "jobs"))
+
+
+jobs_reporting_per_plus_spin = macro_data %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep=".")),
+         macro_type = if_else(str_detect(macro_type, "energy|prices"), "prices+", macro_type)) %>% 
+  group_by(source, yq, macro_type, spin) %>% 
+  summarise(count = n()) %>% 
+  group_by(source, yq, spin) %>% 
+  mutate(total = sum(count),
+         per = count / total)  
+
+article_spin_prices = macro_data %>% 
+  mutate(macro_type = if_else(str_detect(macro_type, "energy|prices"), "prices+", macro_type)) %>% 
+  filter(str_detect(macro_type, "prices")) %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep="."))) %>% 
+  group_by(source, article_id, yq, spin) %>% 
+  summarise(count = n()) %>% 
+  pivot_wider(names_from = spin, values_from = count) %>% 
+  ungroup() %>% 
+  mutate(negative = replace_na(negative, 0),
+         positive = replace_na(positive, 0),
+         neutral = replace_na(neutral, 0),
+         total= negative+neutral+positive,
+         per_neg = negative / total,
+         per_neu = neutral / total,
+         per_pos = positive / total,
+         article_spin = if_else(per_neg >= 2*per_pos, "negative", "neutral"),
+         article_spin = if_else(per_pos >= 2*per_neg, "positive", article_spin)) %>% 
+  filter(total > 1) %>%
+  group_by(source, yq, article_spin) %>% 
+  summarise(count = n()) %>% 
+  mutate(total = sum(count),
          per = count / total) %>% 
-  filter(str_detect(macro_type, "jobs"))
+  ungroup()
+
 
 article_spin_jobs = macro_data %>% 
   filter(str_detect(macro_type, "jobs")) %>% 
