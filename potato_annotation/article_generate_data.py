@@ -5,7 +5,7 @@ import random
 
 import data_utils.get_annotation_stats as gs
 import data_utils.inter_annotator_agreement as iaa
-from data_utils.dataset import DB_FILENAME, qual_label_maps
+from data_utils.model_utils.dataset import DB_FILENAME, qual_label_maps
 
 OUTPUT_DIR = "potato_annotation/article_annotate/data_files"
 

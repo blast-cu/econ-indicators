@@ -7,7 +7,7 @@ from torch.nn.functional import cross_entropy
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 import os
-from data_utils.dataset import quant_label_maps as label_maps
+from data_utils.model_utils.dataset import quant_label_maps as label_maps
 
 
 

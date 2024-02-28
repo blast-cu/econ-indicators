@@ -1,6 +1,6 @@
 import json
 import os
-from data_utils.dataset import qual_label_maps
+from data_utils.model_utils.dataset import qual_label_maps
 
 qual_predict_maps = {
     'frame': {

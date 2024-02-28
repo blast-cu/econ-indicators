@@ -2,10 +2,10 @@ import argparse
 import pickle
 import os
 
-import models.roberta_classifier.train_test_utils as tt
-import data_utils.dataset as d
-from data_utils.dataset import quant_label_maps as label_maps
-import models.roberta_classifier.quant_utils as qu
+import models.roberta_classifier.qual_utils as tt
+import data_utils.model_utils.dataset as d
+from data_utils.model_utils.dataset import quant_label_maps as label_maps
+import models.utils.quant as qu
 
 # takes about 12 hours to run on CURC
 SPLIT_DIR = "data/clean/"
