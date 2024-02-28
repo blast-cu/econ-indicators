@@ -6,7 +6,7 @@ from typing import List
 import random
 
 import models.llama_classifier.shared as shared
-import data_utils.dataset as d
+import data_utils.model_utils.dataset as d
 
 
 def main(

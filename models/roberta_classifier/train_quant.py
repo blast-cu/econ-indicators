@@ -2,44 +2,12 @@ import argparse
 import pickle
 import os
 
-import models.roberta_classifier.qual_utils as tt
+import models.roberta_classifier.utils.general as gu
+import models.roberta_classifier.utils.quant as qu
 import data_utils.model_utils.dataset as d
-from data_utils.model_utils.dataset import quant_label_maps as label_maps
-import models.utils.quant as qu
 
 # takes about 12 hours to run on CURC
 SPLIT_DIR = "data/clean/"
-
-
-def settings(args):
-
-    global SETTING
-    SETTING = args.s
-    global OUT_DIR
-    OUT_DIR = "models/roberta_classifier/tuned_models/quant_" + SETTING + "/"
-
-    global MODEL_CHECKPOINT
-    MODEL_CHECKPOINT = None
-    global ADD_NOISE
-    ADD_NOISE = False
-    global BEST_NOISE
-    BEST_NOISE = False
-
-    if 'dapt' in SETTING:
-        MODEL_CHECKPOINT = "data/masked/"
-    elif 'base' in SETTING:
-        MODEL_CHECKPOINT = "roberta-base"
-    else:
-        raise ValueError("Invalid setting: {}".format(SETTING))
-
-    if 'noise' in SETTING:
-        ADD_NOISE = True
-        if 'best' in SETTING:
-            BEST_NOISE = True
-        elif 'all' in SETTING:
-            BEST_NOISE = False
-        else:
-            raise ValueError("Invalid setting: {}".format(SETTING))
 
 
 def main(args):
@@ -48,28 +16,21 @@ def main(args):
     quantitative annotations, trains a model for each fold, and saves the
     results to a CSV file.
     """
-    settings(args)
-    
+    OUT_DIR, MODEL_CHECKPOINT, ADD_NOISE, BEST_NOISE = \
+        gu.settings(args, "quant")
+
     splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
     quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
 
-    type_filters = {
-        'type': [],
-        'type-binary': [],
-        'spin': [],
-        'macro_type': []
-    }
-
     # dict for tracking results across folds
     results = {}
-    for task in label_maps.keys():
+    for task in d.quant_label_maps.keys():
         results[task] = {}
         results[task]['labels'] = []
         results[task]['predictions'] = []
 
     for k, split in splits_dict.items():
-        
 
         print("Fold " + str(k+1) + " of 5")
         print()
@@ -77,7 +38,7 @@ def main(args):
         split_train_ids = split['train']
         split_test_ids = split['test']
 
-        for task in list(label_maps.keys()):
+        for task in list(d.quant_label_maps.keys()):
 
             ann_component = task.split('-')[0]
 
@@ -86,8 +47,7 @@ def main(args):
                              task,
                              qual_dict,
                              quant_dict,
-                             split_train_ids,
-                             type_filter=type_filters[task])
+                             split_train_ids)
 
             if ADD_NOISE:
                 if BEST_NOISE:
@@ -99,9 +59,9 @@ def main(args):
 
                 noise_text, noise_labels = \
                     qu.get_noise(ann_component,
-                                task,
-                                noise_dict,
-                                split_test_ids)
+                                 task,
+                                 noise_dict,
+                                 split_test_ids)
                 
                 train_texts += noise_text
                 train_labels += noise_labels
@@ -111,19 +71,18 @@ def main(args):
                              task,
                              qual_dict,
                              quant_dict,
-                             split_test_ids,
-                             type_filter=type_filters[task])
+                             split_test_ids)
 
             # gets class weights for loss function
-            class_weights = tt.get_weights(train_labels,
-                                           label_maps[task])
+            class_weights = gu.get_weights(train_labels,
+                                           d.quant_label_maps[task])
 
             model, train_loader, val_loader, test_loader, optimizer = \
                 qu.setup(train_texts,
                          test_texts,
                          train_labels,
                          test_labels,
-                         label_maps[task],
+                         d.quant_label_maps[task],
                          model_checkpoint=MODEL_CHECKPOINT)
 
             tuned_model = qu.train(model,
@@ -153,7 +112,7 @@ def main(args):
 
             tuned_model.save(dest, task)
 
-    for task in label_maps.keys():
+    for task in d.quant_label_maps.keys():
         dest = os.path.join(OUT_DIR, "results")
         os.makedirs(dest, exist_ok=True)
         dest += "/"
@@ -166,8 +125,10 @@ def main(args):
     d.to_f1_csv(results, dest, f1='macro')
     d.to_f1_csv(results, dest, f1='weighted')
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Command line arguments.')
-    parser.add_argument('--s', required=True, help='Setting for model training.')
+    parser.add_argument('--m', required=True, help='Model checkpoint: "base" or "dapt"')
+    parser.add_argument('--n', required=False, help='Noise setting: "best" or "all". No noise will be added to training set if not specified.')
     args = parser.parse_args()
     main(args)

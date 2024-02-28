@@ -5,7 +5,7 @@ from sklearn.metrics import f1_score
 import pandas as pd
 
 from data_utils.table_generators.thing2 import get_texts
-from data_utils.dataset import DB_FILENAME, qual_label_maps
+from data_utils.model_utils.dataset import DB_FILENAME, qual_label_maps
 
 DATA_DIR = "models/psl/data/"
 

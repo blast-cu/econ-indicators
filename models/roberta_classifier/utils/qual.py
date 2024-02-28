@@ -278,33 +278,6 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
 
     return model, train_loader, val_loader, test_loader, optimizer
 
-
-def get_weights(y, annotation_map: dict):
-    """
-    Computes class weights for weighted loss.
-
-    Parameters:
-    - y: list or array of target values
-    - annotation_map: dictionary mapping target values to class labels
-
-    Returns:
-    - class_weights: tensor of class weights, to be used in loss function
-    """
-
-    # compute class weights for weighted loss
-    classes = list(set(list(annotation_map.values())))
-    
-    if len(classes) != len(set(y)):
-        y = y + classes
-    classes = np.array(classes)
-    weight = \
-        compute_class_weight(class_weight='balanced', classes=classes, y=y)
-
-    weight = [float(w) for w in weight]
-    class_weights = torch.tensor(weight).to('cuda')
-    return class_weights
-
-
 def get_noise(db_filename: str,
               annotation_component: str,
               task: str,

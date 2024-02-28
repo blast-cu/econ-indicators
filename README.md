@@ -1,28 +1,32 @@
-# econ-indicators
-Narratives around Economic Indicators in News Media
+### Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News
 
-## Fine Tune RoBERTa for Predicting Annotations
+## Quick Start
+To begin, clone the repo and create a directory in the top level of the repository called *data*. 
+This directory will be ignored by github. Dowload the [economic news article dataset]{} and place it in this directory. 
+See [dataset_schema]{dataset_schema.md} for format of expected dataset.
 
-To fine tune a model for each qualitative component, from the top level directory, run 
+
+## Model Training and Testing
+# Fine Tune RoBERTa for Predicting Annotations
+
+To fine tune a classification model for article-level annotations, from the top level directory, run 
 
 ````console
-python3 models/roberta_classifier/train_qual.py --db [path_to_db]
+python3 models/roberta_classifier/train_qual.py --m [base, large, dapt] --n [best, all]
 ````
 
-A classification report over all folds of the data is generated in *models/roberta_classifier/results/qual* 
-for each annotation component. Further, the model with the best macro F1 score for each component is saved into 
-*models/roberta_classifier/best_models/qual* along with a classification report corresponding to this data fold. 
+A model and test results for each fold are generated in *models/roberta_classifier/tuned_models/*
 
 To fine tune a model for a collection of tasks corresponding to qualitative annotations, run 
 
 ````console
-python3 models/roberta_classifier/train_quant.py --db [path_to_db]
+python3 models/roberta_classifier/train_quant.py --m [base, large, dapt] --n [best, all]
 ````
 
-Note that the tasks are outlined in detail in *train_quant.py*
+Note that the tasks are outlined in detail in *train_quant.py*.
 
 
-## PSL for improving RoBERTa predictions
+# PSL for improving RoBERTa predictions
 
 To generate data needed for all rule settings into the appropriate split subdirectories of the data directory 
 (see data/split{}/eval and data/split{}/learn)
@@ -56,7 +60,7 @@ python3 models/psl/generate_eval_tables/generate_setting_rule_table.py --dir dat
 ````
 Where data_dir is the path to the directory containing all eval tables created in the previous step. 
 
-## Get Article Samples with Predicted Annotations
+# Get Article Samples with Predicted Annotations
 
 To generate a csv file of randomly selected articles and their predicted qualitative annotations, from the top 
 level directory, run 
@@ -69,7 +73,7 @@ A csv with the article id and the corresponding annotation predictions will be g
 *models/roberta_classifier/samples/qual_samples.csv*
 
 
-## Potato Annotator Testing
+# Potato Annotator Testing
 
 To test the quantitative annotator install potato annotator 
 

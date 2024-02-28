@@ -4,8 +4,8 @@ import os
 from sklearn.metrics import f1_score
 
 from data_utils.table_generators.thing import get_texts
-from data_utils.dataset import DB_FILENAME, quant_label_maps
-from models.psl import qual_site_results as sr
+from data_utils.model_utils.dataset import DB_FILENAME, quant_label_maps
+from models.psl.eval import qual_site_results as sr
 
 DATA_DIR = "models/psl/data/"
 
