@@ -85,7 +85,7 @@ def get_potato_article_anns():
                 #         print(frame_val)
                 #         print(econ_change_val)
                 #         print()
-    
+
     return ann_dict
 
 def main():

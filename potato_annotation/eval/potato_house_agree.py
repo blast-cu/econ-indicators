@@ -3,12 +3,19 @@ from data_utils import get_annotation_stats as gs
 from data_utils import dataset as d
 import data_utils.table_generators.generate_agree_table as at
 
+import os
+import pickle
 import pandas as pd
 from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
 
-from potato_annotation.read_article_annotations import get_potato_article_anns
-from potato_annotation.read_quant_annotations import get_potato_quant_anns
+# from potato_annotation.eval.read_article_annotations import get_potato_article_anns
+from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
+
+# ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
+ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
+
+
 
 def get_qual_potato_dict(potato_anns):  # article_id, user_id, ann
     clean_ann = {}
@@ -52,7 +59,7 @@ def get_quant_potato_dict(potato_anns):  # article_id, user_id, ann
             clean_ann[quant_id]['spin'].append((user_id, spin))
     return clean_ann
 
-def count_agreed(agreed_anns, label_map):
+def count_agreed(agreed_anns, label_map, report_dir):
     agree_count = {}
     for comp in label_map.keys():
         agree_count[comp] = 0
@@ -62,51 +69,56 @@ def count_agreed(agreed_anns, label_map):
     for k, v in agree_count.items():
         print(k, v)
     
-    
 
 def main():
     
+    report_dir = os.path.join(ANN_DIR, "reports/")
+    os.makedirs(report_dir, exist_ok=True)
 
-    qual_potato = get_potato_article_anns()
-    qual_potato = get_qual_potato_dict(qual_potato)
-    agreed_qual_potato = gs.get_agreed_anns(qual_potato, d.qual_label_maps)
-
-
-    quant_potato = get_potato_quant_anns()
+    quant_potato = get_potato_quant_anns(ann_output_dir=ANN_DIR)
     quant_potato = get_quant_potato_dict(quant_potato)
     agreed_quant_potato = gs.get_agreed_anns(quant_potato, d.quant_label_maps)
     
-    qual_ann = gs.get_qual_dict(d.DB_FILENAME)
-    agreed_qual_ann = gs.get_agreed_anns(qual_ann, d.qual_label_maps)
-
     quant_ann = gs.get_quant_dict(d.DB_FILENAME)
     agreed_quant_ann = gs.get_agreed_anns(quant_ann, d.quant_label_maps)
 
     to_retrieve = []
     for id, anns in agreed_quant_potato.items():
+        # print(anns)
         for k, ann in anns.items():
             if ann == '\x00':
-                anns[k] = "none"
+                anns[k] = "None"
         # print(id)
-        curr = [id, "potato", anns['type'], anns['macro_type'], "none", "none", "none", "none", anns['spin']]
+        curr = [id, "potato", anns['type'], anns['macro_type'], "None", "None", "None", "None", anns['spin']]
         to_retrieve.append(curr)
 
     for id, anns in agreed_quant_ann.items():
         if id in agreed_quant_potato:
-
+            # print(anns)
             for k, ann in anns.items():
                 if ann == '\x00':
-                    anns[k] = "none"
-            curr = [id, "house", anns['type'], anns['macro_type'], "none", "none", "none", "none", anns['spin']]
+                    anns[k] = "None"
+            curr = [id, "house", anns['type'], anns['macro_type'], "None", "None", "None", "None", anns['spin']]
             to_retrieve.append(curr)
 
-    # for i in to_retrieve:
-    #     print(i)
     quantity2ann = {}
     iaa.retrieve_quant_anns(quantity2ann, to_retrieve)
-    print(quantity2ann)
-    at.generate_agree_table({}, quantity2ann, "potato_house_quant_agree")
-    at.generate_ka_table({}, quantity2ann, "potato_house_quant_ka.csv")
+    at.generate_agree_table({},
+                            quantity2ann,
+                            filepath=report_dir,
+                            filename="potato_house_agree")
+
+    at.generate_ka_table({},
+                         quantity2ann,
+                         filepath=report_dir,
+                         filename="potato_house_ka")
+
+
+    # agreed_qual_potato = gs.get_agreed_anns(qual_potato, d.qual_label_maps)
+    # qual_potato = get_potato_article_anns()
+    # qual_potato = get_qual_potato_dict(qual_potato)
+    # qual_ann = gs.get_qual_dict(d.DB_FILENAME)
+    # agreed_qual_ann = gs.get_agreed_anns(qual_ann, d.qual_label_maps)
 
 
     # article_anns = {}

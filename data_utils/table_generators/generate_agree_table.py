@@ -1,18 +1,25 @@
 import pandas as pd
+import os
 from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
 
 from data_utils.inter_annotator_agreement import \
     measure_percentage_agreement, get_anns, create_triplets, retrieve_anns, retrieve_quant_anns
 
-from potato_annotation.read_article_annotations import get_potato_article_anns
-from potato_annotation.read_quant_annotations import get_potato_quant_anns
+from potato_annotation.eval.read_article_annotations import get_potato_article_anns
+from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 
 SETTING = 'potato_quant'
 
-def generate_agree_table(article2ann, quantity2ann, filepath):
 
-    user_disagreements = {}; user_total_anns = {}
+def generate_agree_table(article2ann,
+                         quantity2ann,
+                         extended=False,  # if True, include all annotations
+                         filepath="data_utils/table_generators/results/",
+                         filename="annotation_agreement"):
+
+    user_disagreements = {}
+    user_total_anns = {}
     agree_table = {}
     agree_table['annotation'] = []
     agree_table['full'] = []
@@ -24,18 +31,28 @@ def generate_agree_table(article2ann, quantity2ann, filepath):
             agree_table['full'].append(full)
             agree_table['partial'].append(partial)
     if quantity2ann != {}:
-        for ann_name in ['type', 'spin', 'macro_type', 'industry_type', 'gov_type', 'revenue_type', 'expenditure_type']:
-            full, partial = measure_percentage_agreement(quantity2ann, ann_name, user_disagreements, user_total_anns)
+        quant_anns = ['type', 'macro_type', 'spin']
+        if extended:
+            quant_anns += ['industry_type', 'gov_type', 'revenue_type', 'expenditure_type']
+        for ann_name in quant_anns:
+            full, partial = measure_percentage_agreement(quantity2ann,
+                                                         ann_name,
+                                                         user_disagreements,
+                                                         user_total_anns)
+            # populate agree_table
             agree_table['annotation'].append(ann_name)
             agree_table['full'].append(full)
             agree_table['partial'].append(partial)
 
-    # pd.DataFrame(agree_table).to_csv('data_utils/table_generators/results/annotation_agreement.csv', index=False)
-    pd.DataFrame(agree_table).to_csv(f'data_utils/table_generators/results/{filepath}.csv', index=False)
-        
+    print(f"Saving agreement table to {filepath}{filename}.csv")
+    pd.DataFrame(agree_table).to_csv(f'{filepath}{filename}.csv', index=False)
 
 
-def generate_ka_table(article2ann, quantity2ann, filepath):
+def generate_ka_table(article2ann,
+                      quantity2ann,
+                      extended=False,  # if True, include all annotations
+                      filepath='data_utils/table_generators/results/',
+                      filename='annotation_ka'):
 
     ka_table = {}
     ka_table['annotation'] = []
@@ -43,8 +60,6 @@ def generate_ka_table(article2ann, quantity2ann, filepath):
 
     if article2ann != {}:
         frame_triplets = create_triplets(article2ann, 'frame')
-        for f in frame_triplets:
-            print(f)
         t = AnnotationTask(frame_triplets, distance=binary_distance)
         result = t.alpha()
         ka_table['annotation'].append('frame')
@@ -82,32 +97,34 @@ def generate_ka_table(article2ann, quantity2ann, filepath):
         ka_table['annotation'].append('spin')
         ka_table['ka'].append(round(result, 2))
 
-    # quantity_industry_triplets = create_triplets(quantity2ann, 'industry_type')
-    # t = AnnotationTask(quantity_industry_triplets, distance=binary_distance)
-    # result = t.alpha()
-    # ka_table['annotation'].append('industry_type')
-    # ka_table['ka'].append(round(result, 2))
+        if extended:
 
-    # quantity_gov_triplets = create_triplets(quantity2ann, 'gov_type')
-    # t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
-    # result = t.alpha()
-    # ka_table['annotation'].append('gov_type')
-    # ka_table['ka'].append(round(result, 2))
+            quantity_industry_triplets = create_triplets(quantity2ann, 'industry_type')
+            t = AnnotationTask(quantity_industry_triplets, distance=binary_distance)
+            result = t.alpha()
+            ka_table['annotation'].append('industry_type')
+            ka_table['ka'].append(round(result, 2))
 
-    # quantity_gov_triplets = create_triplets(quantity2ann, 'revenue_type')
-    # t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
-    # result = t.alpha()
-    # ka_table['annotation'].append('revenue_type')
-    # ka_table['ka'].append(round(result, 2))
+            quantity_gov_triplets = create_triplets(quantity2ann, 'gov_type')
+            t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
+            result = t.alpha()
+            ka_table['annotation'].append('gov_type')
+            ka_table['ka'].append(round(result, 2))
 
-    # quantity_gov_triplets = create_triplets(quantity2ann, 'expenditure_type')
-    # t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
-    # result = t.alpha()
-    # ka_table['annotation'].append('expenditure_type')
-    # ka_table['ka'].append(round(result, 2))
+            quantity_gov_triplets = create_triplets(quantity2ann, 'revenue_type')
+            t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
+            result = t.alpha()
+            ka_table['annotation'].append('revenue_type')
+            ka_table['ka'].append(round(result, 2))
 
-    # pd.DataFrame(ka_table).to_csv('data_utils/table_generators/results/annotation_krippendorff_alpha.csv', index=False)
-    pd.DataFrame(ka_table).to_csv(f'data_utils/table_generators/results/{filepath}', index=False)
+            quantity_gov_triplets = create_triplets(quantity2ann, 'expenditure_type')
+            t = AnnotationTask(quantity_gov_triplets, distance=binary_distance)
+            result = t.alpha()
+            ka_table['annotation'].append('expenditure_type')
+            ka_table['ka'].append(round(result, 2))
+
+    print(f"Saving KA table to {filepath}{filename}.csv")
+    pd.DataFrame(ka_table).to_csv(f"{filepath}{filename}.csv", index=False)
 
 
 def main():
@@ -123,7 +140,11 @@ def main():
         generate_ka_table(article2ann, {})
     
     elif SETTING == 'potato_quant':
-        quant_anns = get_potato_quant_anns()
+        # ann_dir = "potato_annotation/quant_annotate/annotation_output/pilot"
+        ann_dir = "potato_annotation/article_annotate_output/quant_pilot1"
+        report_dir = os.path.join(ann_dir, "reports/")
+        os.makedirs(report_dir, exist_ok=True)
+        quant_anns = get_potato_quant_anns(ann_output_dir=ann_dir)
         
         # quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin
         to_retrieve = []
@@ -132,8 +153,8 @@ def main():
             to_retrieve.append(curr)
         quantity2ann = {}
         retrieve_quant_anns(quantity2ann, to_retrieve)
-        generate_agree_table({}, quantity2ann, "potato_quant_agree.csv")
-        generate_ka_table({}, quantity2ann, "potato_quant_ka.csv")
+        generate_agree_table({}, quantity2ann, filepath=report_dir, filename="agreement")
+        generate_ka_table({}, quantity2ann, filepath=report_dir, filename="ka")
 
     elif SETTING == 'original':
 
