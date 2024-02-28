@@ -1,4 +1,4 @@
-### Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News
+# Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News
 
 ## Quick Start
 To begin, clone the repo and create a directory in the top level of the repository called *data*. 
@@ -7,7 +7,7 @@ See [dataset_schema]{dataset_schema.md} for format of expected dataset.
 
 
 ## Model Training and Testing
-# Fine Tune RoBERTa for Predicting Annotations
+### Fine Tune RoBERTa for Predicting Annotations
 
 To fine tune a classification model for article-level annotations, from the top level directory, run 
 
@@ -26,7 +26,7 @@ python3 models/roberta_classifier/train_quant.py --m [base, large, dapt] --n [be
 Note that the tasks are outlined in detail in *train_quant.py*.
 
 
-# PSL for improving RoBERTa predictions
+### PSL for improving RoBERTa predictions
 
 To generate data needed for all rule settings into the appropriate split subdirectories of the data directory 
 (see data/split{}/eval and data/split{}/learn)
@@ -60,7 +60,8 @@ python3 models/psl/generate_eval_tables/generate_setting_rule_table.py --dir dat
 ````
 Where data_dir is the path to the directory containing all eval tables created in the previous step. 
 
-# Get Article Samples with Predicted Annotations
+## Using Models
+### Get Article Samples with Predicted Annotations
 
 To generate a csv file of randomly selected articles and their predicted qualitative annotations, from the top 
 level directory, run 
@@ -73,7 +74,7 @@ A csv with the article id and the corresponding annotation predictions will be g
 *models/roberta_classifier/samples/qual_samples.csv*
 
 
-# Potato Annotator Testing
+## Potato Annotator Testing
 
 To test the quantitative annotator install potato annotator 
 
