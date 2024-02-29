@@ -1,9 +1,12 @@
-# Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News
-Code for the paper []
+# econ-indicators
+Code for the paper [Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News] (https://arxiv.org/abs/2402.14224)
+
+## Abstract
+The mainstream media has much leeway in what it chooses to cover and how it covers it. These choices have real-world consequences on what people know and their subsequent behaviors. However, the lack of objective measures to evaluate editorial choices makes research in this area particularly difficult. In this paper, we argue that there are newsworthy topics where objective measures exist in the form of supporting data and propose a computational framework to analyze editorial choices in this setup. We focus on the economy because the reporting of economic indicators presents us with a relatively easy way to determine both the selection and framing of various publications. Their values provide a ground truth of how the economy is doing relative to how the publications choose to cover it. To do this, we define frame prediction as a set of interdependent tasks. At the article level, we learn to identify the reported stance towards the general state of the economy. Then, for every numerical quantity reported in the article, we learn to identify whether it corresponds to an economic indicator and whether it is being reported in a positive or negative way. To perform our analysis, we track six American publishers and each article that appeared in the top 10 slots of their landing page between 2015 and 2023. 
+
+
 ## Quick Start
-To begin, clone the repo and create a directory in the top level of the repository called *data*. 
-This directory will be ignored by github. Dowload the [economic news article dataset]{} and place it in this directory. 
-See [Dataset Schema](#dataset-schema) for format of expected dataset.
+To begin, clone the repo and create a directory in the top level of the repository called *data*. This directory will be ignored by github. Dowload the [economic news article dataset]() and place it in this directory. See [Dataset Schema](#dataset-schema) for format of expected dataset.
 
 <!-- <a id="dataset-schema"></a> -->
 ## Dataset Schema 
@@ -137,8 +140,7 @@ Note that the tasks are outlined in detail in *train_quant.py*.
 
 ### PSL for improving RoBERTa predictions
 
-To generate data needed for all rule settings into the appropriate split subdirectories of the data directory 
-(see data/split{}/eval and data/split{}/learn)
+To generate data needed for all rule settings into the appropriate split subdirectories of the data directory (see data/split{}/eval and data/split{}/learn)
 
 ````console
 python3 models/psl/generate_data.py
@@ -199,3 +201,16 @@ python3 potato start potato_annotation/quant_annotate
 
 and visit [http://localhost:8000/?PROLIFIC_PID=user](http://localhost:8000/?PROLIFIC_PID=user)
 
+
+## Cite us 
+If you find our dataset or classifiers helpful, please cite us as: 
+````console
+@misc{leto2024framing,
+      title={Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News}, 
+      author={Alexandria Leto and Elliot Pickens and Coen D. Needell and David Rothschild and Maria Leonor Pacheco},
+      year={2024},
+      eprint={2402.14224},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+````
