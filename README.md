@@ -1,5 +1,5 @@
 # econ-indicators
-Code for the paper [Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News] (https://arxiv.org/abs/2402.14224)
+Code for the paper [Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News](https://arxiv.org/abs/2402.14224)
 
 ## Abstract
 The mainstream media has much leeway in what it chooses to cover and how it covers it. These choices have real-world consequences on what people know and their subsequent behaviors. However, the lack of objective measures to evaluate editorial choices makes research in this area particularly difficult. In this paper, we argue that there are newsworthy topics where objective measures exist in the form of supporting data and propose a computational framework to analyze editorial choices in this setup. We focus on the economy because the reporting of economic indicators presents us with a relatively easy way to determine both the selection and framing of various publications. Their values provide a ground truth of how the economy is doing relative to how the publications choose to cover it. To do this, we define frame prediction as a set of interdependent tasks. At the article level, we learn to identify the reported stance towards the general state of the economy. Then, for every numerical quantity reported in the article, we learn to identify whether it corresponds to an economic indicator and whether it is being reported in a positive or negative way. To perform our analysis, we track six American publishers and each article that appeared in the top 10 slots of their landing page between 2015 and 2023. 
@@ -8,11 +8,8 @@ The mainstream media has much leeway in what it chooses to cover and how it cove
 ## Quick Start
 To begin, clone the repo and create a directory in the top level of the repository called *data*. This directory will be ignored by github. Dowload the [economic news article dataset]() and place it in this directory. See [Schema](#schema) for format of expected dataset.
 
+## Model Training and Testing
 ## Generate Data Splits
-
-## Model Training and Testing (Reproducing Paper Results)
-Bash scripts for reproducing paper results are included in *reproduce*. Detailed instructions are also provided below. 
-
 ### Fine Tune RoBERTa for Predicting Annotations
 
 Before model training, generate data splits into *data/clean*
