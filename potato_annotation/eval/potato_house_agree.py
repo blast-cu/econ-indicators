@@ -1,7 +1,7 @@
 from data_utils import inter_annotator_agreement as iaa
 from data_utils import get_annotation_stats as gs
 from data_utils.model_utils import dataset as d
-import data_utils.table_generators.generate_agree_table as at
+import data_utils.visualization.generate_agree_table as at
 
 import os
 import pickle
@@ -12,8 +12,8 @@ from nltk.metrics import binary_distance
 # from potato_annotation.eval.read_article_annotations import get_potato_article_anns
 from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 
-# ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
-ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
+ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
+# ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 
 
@@ -68,7 +68,21 @@ def count_agreed(agreed_anns, label_map, report_dir):
                 agree_count[comp] += 1
     for k, v in agree_count.items():
         print(k, v)
-    
+
+def generate_disagree_examples(quantity2ann, quant_dict, report_dir):
+    with open (os.path.join(report_dir, "disagree_examples.txt"), "w") as f:
+        for id, anns in quantity2ann.items():
+            for k, ann in anns.items():
+                if len(ann) >= 2:
+                    if ann[0][1] != ann[1][1]:
+
+                        f.write(f"indicator: {quant_dict[id]['indicator']}\n")
+                        f.write(f"full excerpt: {quant_dict[id]['excerpt']}\n")
+                        f.write("--------\n")
+                        f.write(f"potato: {ann[0][1]}\n")
+                        f.write(f"house: {ann[1][1]}\n\n\n")
+
+    print("Disagree examples written to file")
 
 def main():
     
@@ -81,6 +95,8 @@ def main():
     
     quant_ann = gs.get_quant_dict(d.DB_FILENAME)
     agreed_quant_ann = gs.get_agreed_anns(quant_ann, d.quant_label_maps)
+
+    quant_dict = pickle.load(open("data/clean/quant_excerpts_dict", "rb"))
 
     to_retrieve = []
     for id, anns in agreed_quant_potato.items():
@@ -103,6 +119,7 @@ def main():
 
     quantity2ann = {}
     iaa.retrieve_quant_anns(quantity2ann, to_retrieve)
+    generate_disagree_examples(quantity2ann, quant_dict, report_dir)
     at.generate_agree_table({},
                             quantity2ann,
                             filepath=report_dir,

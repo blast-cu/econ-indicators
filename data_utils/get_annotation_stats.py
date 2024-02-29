@@ -328,7 +328,8 @@ def export_quants_to_csv(ann: dict, filename: str):
 
 def extract_strings(dirty_str: str):
     clean = re.sub('<[^>]+>', '', dirty_str)
-    return clean 
+    return clean
+
 
 def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename: str):
     """

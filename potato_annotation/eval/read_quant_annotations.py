@@ -44,7 +44,7 @@ def load_jsonl(input_path) -> list:
 
 def get_potato_quant_anns(ann_output_dir="potato_annotation/quant_annotate/annotation_output/pilot",
                           report_errors=False,
-                          annotator_stats=False): 
+                          get_annotator_stats=False):
 
     ann_list = []  # quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin
 
@@ -152,7 +152,7 @@ def get_potato_quant_anns(ann_output_dir="potato_annotation/quant_annotate/annot
                 annotator_stats["total_anns"].append(ann_count)
                 annotator_stats["errors"].append(error_count)
     
-    if annotator_stats:
+    if get_annotator_stats:
         return ann_list, annotator_stats
     else:
         return ann_list

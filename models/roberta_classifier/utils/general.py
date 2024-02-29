@@ -1,6 +1,7 @@
 from sklearn.utils.class_weight import compute_class_weight
 import torch
 import numpy as np
+import data_utils.model_utils.dataset as d
 
 """
 General utility functions for the roberta classifier model used by both qual and quant.
@@ -51,7 +52,7 @@ def settings(args, type):
     if args.n is not None:
         setting_name += f'_noise_{args.n}'
 
-    OUT_DIR = f"models/roberta_classifier/tuned_models/{type}_{setting_name}/"
+    OUT_DIR = f"{d.ROBERTA_MODEL_DIR}/{type}_{setting_name}/"
 
     return OUT_DIR, MODEL_CHECKPOINT, ADD_NOISE, BEST_NOISE
 

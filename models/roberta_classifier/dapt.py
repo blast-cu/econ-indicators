@@ -1,21 +1,13 @@
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
     AutoModelForMaskedLM, DataCollatorForLanguageModeling
-from sklearn.model_selection import train_test_split
-
 from torch.utils.data import Dataset
 
 import math
-import random
-
 import os
 import pickle
-
 import sqlite3
-import re
 
-def extract_strings(dirty_str: str):
-    clean = re.sub('<[^>]+>', '', dirty_str)
-    return clean
+import data_utils.get_annotation_stats as gs
 
 
 def group_texts(examples):
@@ -128,7 +120,7 @@ def load_dataset(db_filename: str):
     res = cur.execute(query)
     text = [t[0] for t in res.fetchall()]
 
-    text = [extract_strings(t) for t in text]
+    text = [gs.extract_strings(t) for t in text]
 
     conn.close()
 

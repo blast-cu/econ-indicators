@@ -7,9 +7,10 @@ import pandas as pd
 import sys
 import pickle
 
-DB_FILENAME = 'data/data.db'
+DB_FILENAME = 'data/data.db'  # database file location
+ROBERTA_MODEL_DIR = 'models/roberta_classifier/tuned_models'  # directory to save model outputs
 
-qual_label_maps = {
+qual_label_maps = {  # maps raw annotations to numerical labels for model input
     'frame': {
             'business': 0,
             'industry': 1,
@@ -29,7 +30,7 @@ qual_label_maps = {
             'irrelevant': 4}
 }
 
-quant_label_maps = {
+quant_label_maps = {  # maps raw annotations to numerical labels for model input
     'type': {
             'macro': 0,
             'industry': 1,
@@ -56,7 +57,7 @@ quant_label_maps = {
             'neutral': 2}
 }
 
-qual_predict_maps = {
+qual_predict_maps = {  # maps model outputs to raw labels
     'frame': {
             0: 'business',
             1: 'industry',
@@ -76,7 +77,7 @@ qual_predict_maps = {
             4: 'irrelevant'}
 }
 
-quant_predict_maps = {
+quant_predict_maps = {  # maps model outputs to raw labels
     'type': {
             0: 'macro',
             1: 'industry',
@@ -106,11 +107,11 @@ quant_predict_maps = {
 
 def get_article_dict(agreed_quant_ann: dict, label_ann: str):
     """
-    Returns a dictionary containing the agreed-upon quantitative annotations 
+    Returns a dictionary containing the agreed-upon quantitative annotations
     for each article.
 
     Parameters:
-    agreed_quant_ann (dict): A dictionary containing the agreed-upon 
+    agreed_quant_ann (dict): A dictionary containing the agreed-upon
     quantitative annotations.
     label_ann (str): The label of the quantitative annotation to extract.
 
@@ -193,8 +194,6 @@ def get_context(i: int,
         context = context + ' ' + sentences[i+1]
 
     return context
-
-
 
 
 def get_excerpts(ann_ids: list,
