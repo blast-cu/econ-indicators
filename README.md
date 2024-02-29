@@ -3,9 +3,9 @@ Code for the paper []
 ## Quick Start
 To begin, clone the repo and create a directory in the top level of the repository called *data*. 
 This directory will be ignored by github. Dowload the [economic news article dataset]{} and place it in this directory. 
-See [Dataset Schema]{#dataset-schema} for format of expected dataset.
+See [Dataset Schema](#dataset-schema) for format of expected dataset.
 
-<a id="dataset-schema"></a>
+<!-- <a id="dataset-schema"></a> -->
 ## Dataset Schema 
 #### user
 |  Field   |     Type     | Nullable | Key | Default | Index | Extra |
