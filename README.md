@@ -8,9 +8,8 @@ The mainstream media has much leeway in what it chooses to cover and how it cove
 ## Quick Start
 To begin, clone the repo and create a directory in the top level of the repository called *data*. This directory will be ignored by github. Dowload the [economic news article dataset]() and place it in this directory. See [Schema](#schema) for format of expected dataset.
 
-## Generate Data Splits
-
 ## Model Training and Testing
+## Generate Data Splits
 ### Fine Tune RoBERTa for Predicting Annotations
 
 To fine tune a classification model for article-level annotations, from the top level directory, run 
