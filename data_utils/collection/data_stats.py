@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import Counter
 from data_utils import *
-from article import Article
+from data_utils.collection.article import Article
 
 
 def source_count_fig(source_counts, fig_name):

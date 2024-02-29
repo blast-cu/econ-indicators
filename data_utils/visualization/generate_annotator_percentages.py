@@ -1,4 +1,4 @@
-from data_utils.dataset import DB_FILENAME, qual_label_maps, quant_label_maps
+from data_utils.model_utils.dataset import DB_FILENAME, qual_label_maps, quant_label_maps
 from data_utils.inter_annotator_agreement import get_anns, annotator_percentages
 
 import pandas as pd

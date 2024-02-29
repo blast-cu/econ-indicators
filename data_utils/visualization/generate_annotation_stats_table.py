@@ -1,5 +1,5 @@
 import data_utils.get_annotation_stats as gs
-from data_utils.dataset import quant_label_maps
+from data_utils.model_utils.dataset import quant_label_maps
 
 import sqlite3
 import pickle

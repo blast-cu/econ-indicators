@@ -1,7 +1,7 @@
 import data_utils.get_annotation_stats as gs # msql queries
-import data_utils.dataset as d
-from data_utils.dataset import qual_label_maps, quant_label_maps
-from data_utils.dataset import DB_FILENAME
+import data_utils.model_utils.dataset as d
+from data_utils.model_utils.dataset import qual_label_maps, quant_label_maps
+from data_utils.model_utils.dataset import DB_FILENAME
 
 import argparse
 from sklearn.model_selection import KFold

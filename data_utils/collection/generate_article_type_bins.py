@@ -1,7 +1,7 @@
 import pickle
 from collections import Counter
 
-from data_utils.dataset import qual_label_maps
+from data_utils.model_utils.dataset import qual_label_maps
 
 def main():
     qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))

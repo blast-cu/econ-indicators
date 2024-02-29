@@ -7,7 +7,7 @@ from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader, Dataset
 import pandas as pd
 from torch.nn.functional import cross_entropy
-from sklearn.utils.class_weight import compute_class_weight
+
 from data_utils.model_utils.dataset import qual_label_maps as label_maps
 import data_utils.get_annotation_stats as gs
 

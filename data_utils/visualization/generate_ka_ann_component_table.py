@@ -1,7 +1,7 @@
 from data_utils.inter_annotator_agreement import create_triplets, get_anns
 from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
-from data_utils.dataset import DB_FILENAME
+from data_utils.model_utils.dataset import DB_FILENAME
 import pandas as pd
 
 def main():

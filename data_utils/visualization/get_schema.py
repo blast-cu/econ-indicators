@@ -1,7 +1,7 @@
 import json
 import sqliteschema
 
-from data_utils import dataset as d
+from data_utils.model_utils import dataset as d
 
 
 def main():

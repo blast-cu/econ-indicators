@@ -2,7 +2,7 @@ import csv
 import os
 import re
 from tqdm import tqdm
-from article import Article
+from data_utils.collection.article import Article
 import spacy
 from mysql.connector import connect, Error
 

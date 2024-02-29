@@ -7,7 +7,7 @@ from collections import Counter
 from data_utils import *
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
-from article import Article
+from data_utils.collection.article import Article
 from tqdm import tqdm
 #from sutime import SUTime
 from dateparser.search import search_dates

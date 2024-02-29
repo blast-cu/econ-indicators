@@ -1,6 +1,6 @@
 from data_utils import inter_annotator_agreement as iaa
 from data_utils import get_annotation_stats as gs
-from data_utils import dataset as d
+from data_utils.model_utils import dataset as d
 import data_utils.table_generators.generate_agree_table as at
 
 import os

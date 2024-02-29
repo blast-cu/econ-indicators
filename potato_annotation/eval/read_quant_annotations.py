@@ -1,6 +1,6 @@
 import json
 import os
-from data_utils.dataset import qual_label_maps
+from data_utils.model_utils.dataset import qual_label_maps
 
 quant_predict_maps = {
     'type': {

@@ -3,7 +3,7 @@ import pandas as pd
 from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 from potato_annotation.eval.potato_house_agree import get_quant_potato_dict
 import data_utils.get_annotation_stats as gs
-from data_utils import dataset as d
+from data_utils.model_utils import dataset as d
 from data_utils import inter_annotator_agreement as iaa
 
 ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
@@ -13,7 +13,6 @@ ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
 def main():
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
-
 
     user_ann_disagreement = {}
     quant_potato, annotator_stats = get_potato_quant_anns(ann_output_dir=ANN_DIR,
