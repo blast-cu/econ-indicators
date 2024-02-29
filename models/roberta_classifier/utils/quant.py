@@ -1,39 +1,41 @@
-
-from transformers import RobertaTokenizerFast, RobertaModel, RobertaConfig
 import torch
 from torch import nn
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
 from torch.nn.functional import cross_entropy
+from transformers import RobertaTokenizerFast, RobertaModel, RobertaConfig
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 import os
-from data_utils.model_utils.dataset import quant_label_maps as label_maps
 
-
-
-def find_sub_list(indicator_text, excerpt_encoding, text):
-
-    sub_start = text.find(indicator_text)
-    sub_end = sub_start + len(indicator_text)
-    offset_map = excerpt_encoding['offset_mapping'].tolist()
-
-    start_index = None
-    end_index = None
-    for i, token in enumerate(offset_map[0]):
-        token_start = token[0]
-        token_end = token[1]
-        if start_index is None:
-            if sub_start >= token_start and sub_start <= token_end:
-                start_index = i
-        else:
-            if sub_end >= token_start and sub_end <= token_end:
-                end_index = i + 1
-                break
-
-    return start_index, end_index
+import data_utils.model_utils.dataset as d
+import models.roberta_classifier.utils.general as gu
 
 
 class QuantModel(nn.Module):
+    """
+    QuantModel is a PyTorch module that implements a quantification model based on the RoBERTa architecture.
+
+    Args:
+        model_checkpoint (str): The path or identifier of the pre-trained RoBERTa model.
+        num_labels (int): The number of labels for the classification task.
+
+    Attributes:
+        config (RobertaConfig): The configuration of the RoBERTa model.
+        dense (Linear): The linear layer for the dense connections.
+        dropout (Dropout): The dropout layer for regularization.
+        out_proj (Linear): The linear layer for the output projection.
+        linear (Linear): The linear layer for combining CLS and indicator tokens.
+        activation (ReLU): The activation function.
+        roberta (RobertaModel): The pre-trained RoBERTa model.
+        softmax (Softmax): The softmax function for probability calculation.
+
+    Methods:
+        from_pretrained(path, task): Loads the pre-trained model weights from the specified path.
+        save(path, task): Saves the model weights to the specified path.
+        forward(indices, excerpts, excerpt_attention_mask): Performs forward pass through the model.
+
+    """
+
     def __init__(self, model_checkpoint, num_labels):
         super(QuantModel, self).__init__()
 
@@ -50,9 +52,19 @@ class QuantModel(nn.Module):
         self.activation = nn.ReLU().to('cuda')
         self.roberta = RobertaModel.from_pretrained(model_checkpoint).to('cuda')
         self.softmax = nn.Softmax(dim=0).to('cuda')
-    
-    def from_pretrained(self, path, task):
 
+    def from_pretrained(self, path, task):
+        """
+        Loads the pre-trained model weights from the specified path.
+
+        Args:
+            path (str): The path where the model weights are saved.
+            task (str): The task name used as a suffix for the weight files.
+
+        Returns:
+            QuantModel: The QuantModel instance with loaded weights.
+
+        """
         rob_path = os.path.join(path, task + '_roberta') 
         self.roberta = RobertaModel.from_pretrained(rob_path)
 
@@ -72,12 +84,16 @@ class QuantModel(nn.Module):
         self.activation.load_state_dict(torch.load(activation_path))
 
         return self
-
-
     
     def save(self, path, task):
+        """
+        Saves the model weights to the specified path.
 
-        # load pretrained roberta from path
+        Args:
+            path (str): The path where the model weights will be saved.
+            task (str): The task name used as a suffix for the weight files.
+
+        """
         rob_path = os.path.join(path, task + '_roberta')
         self.roberta.save_pretrained(rob_path)
 
@@ -95,14 +111,24 @@ class QuantModel(nn.Module):
 
         activation_path = os.path.join(path, task + '_activation')
         torch.save(self.activation.state_dict(), activation_path)
-        
 
     def forward(self,
-                indices, # size = [8, 512, 769]
-                excerpts,  # size = [8, 514](ish)
-                excerpt_attention_mask
+                indices: torch.Tensor,  # size = [8, 512, 769]
+                excerpts: torch.Tensor,  # size = [8, 514](ish)
+                excerpt_attention_mask: torch.Tensor  # size = [8, 512]
                 ):
+        """
+        Performs forward pass through the model.
 
+        Args:
+            indices (Tensor): The indices tensor of shape [batch_size, sequence_length, num_values].
+            excerpts (Tensor): The excerpts tensor of shape [batch_size, sequence_length].
+            excerpt_attention_mask (Tensor): The attention mask tensor of shape [batch_size, sequence_length].
+
+        Returns:
+            Tensor: The logits tensor of shape [batch_size, num_labels].
+
+        """
         batch_size = excerpts.shape[0]
         rob_out = self.roberta(excerpts, attention_mask=excerpt_attention_mask)
 
@@ -130,131 +156,6 @@ class QuantModel(nn.Module):
         return logits
 
 
-class TextClassificationDataset(Dataset):
-    def __init__(self, texts, labels=[], ids=[], tokenizer=None, max_length=512):
-        """
-        Initializes a dataset for text classification
-        """
-        self.indicator_texts = [t[0] for t in texts]
-        self.texts = [t[1] for t in texts]
-        self.labels = labels
-
-        self.article_ids = []
-        self.ann_ids = []
-        for id in ids:
-            article_id, ann_id = id.split('_')
-            self.article_ids.append(int(article_id))
-            self.ann_ids.append(int(ann_id))
-        
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-        start_indices = []
-        end_indices = []
-        self.input_ids = []
-        self.attention_masks = []
-
-        for idx, text in enumerate(self.texts):
-
-            indicator_text = self.indicator_texts[idx]
-
-            temp_encoding = self.tokenizer(
-                text,
-                return_tensors='pt',
-                truncation=False,
-                return_offsets_mapping=True
-            )
-
-            start_index, end_index = find_sub_list(indicator_text, temp_encoding, text)
-
-            if start_index is None or end_index is None:
-                print('Substring: ' + indicator_text)
-                print('Original text: ' + text)
-                print('Start index: ' + str(start_index))
-                print('End index: ' + str(end_index))
-                print('Offset mapping: \n')
-                for i, token in enumerate(temp_encoding['offset_mapping'][0]):
-                    print(f"Token {i}: {token}")
-                raise Exception('Could not find indicator text in excerpt')
-
-            if end_index > self.max_length:
-                text_start = end_index + int(self.max_length / 2) - self.max_length
-                text = text[text_start:]
-
-                start_index = start_index - text_start
-                end_index = end_index - text_start
-            
-
-            excerpt_encoding = self.tokenizer(
-                text,
-                return_tensors='pt',
-                max_length=self.max_length,
-                padding='max_length',
-                truncation=True
-            )
-
-            start_indices.append(start_index)
-            end_indices.append(end_index)
-            self.input_ids.append(excerpt_encoding['input_ids'].flatten())
-            self.attention_masks.append(excerpt_encoding['attention_mask'].flatten())
-
-        self.spans = []
-        for i, start_index in enumerate(start_indices):
-            end_index = end_indices[i]
-
-            span = []
-            curr = start_index
-            for j in range(512):
-                inner_span = []
-
-                if curr >= start_index and curr <= end_index:
-                    inner_span = [i for i in range(769)]
-                else:
-                    inner_span = [768] * 769
-
-                curr += 1
-                span.append(inner_span)
-            
-            
-            self.spans.append(span)
-
-
-    def __len__(self):
-        """
-        Returns the length of the dataset
-        """
-        return len(self.texts)
-    
-    def __getitem__(self, idx):
-        """
-        Returns a single tokenized  item from the dataset
-        """
-        text = self.texts[idx]
-        if len(self.labels) > 0:
-            label = self.labels[idx]
-        else:
-            label = -1
-
-        if len(self.article_ids) > 0:
-            article_id = self.article_ids[idx]
-            ann_id = self.ann_ids[idx]
-        else:
-            article_id = -1
-            ann_id = -1
-
-        input_id = self.input_ids[idx]
-        attention_mask = self.attention_masks[idx]
-        span = self.spans[idx]
-            
-
-        return {
-            'span': torch.tensor(span),
-            'input_ids': input_id,
-            'attention_mask': attention_mask,
-            'label': torch.tensor(label),
-            'article_ids': torch.tensor(article_id),
-            'ann_ids': torch.tensor(ann_id)
-        }
-
 def setup(train_texts,
           test_texts,
           train_labels,
@@ -263,7 +164,19 @@ def setup(train_texts,
           lr=2e-5,
           model_checkpoint: str = "roberta-base"):
     """
-    Train a model on qualitative annotations
+    Set up the training, validation, and testing data loaders, tokenizer, model, optimizer, and return them.
+
+    Args:
+        train_texts (list): List of training texts.
+        test_texts (list): List of testing texts.
+        train_labels (list): List of training labels.
+        test_labels (list): List of testing labels.
+        annotation_map (dict): Mapping of annotation labels to their corresponding indices.
+        lr (float, optional): Learning rate for the optimizer. Defaults to 2e-5.
+        model_checkpoint (str, optional): Pretrained model checkpoint. Defaults to "roberta-base".
+
+    Returns:
+        tuple: A tuple containing the model, train loader, validation loader, test loader, and optimizer.
     """
     torch.manual_seed(42)  # Set random seed for reproducibility
 
@@ -277,20 +190,20 @@ def setup(train_texts,
                          problem_type="single_label_classification")
 
     max_length = 512
-    train_data = TextClassificationDataset(texts=train_texts,
-                                           labels=train_labels,
-                                           tokenizer=tokenizer,
-                                           max_length=max_length)
+    train_data = d.QuantAnnClassificationDataset(texts=train_texts,
+                                                 labels=train_labels,
+                                                 tokenizer=tokenizer,
+                                                 max_length=max_length)
 
-    val_data = TextClassificationDataset(texts=val_texts,
-                                         labels=val_labels,
-                                         tokenizer=tokenizer,
-                                         max_length=max_length)
+    val_data = d.QuantAnnClassificationDataset(texts=val_texts,
+                                               labels=val_labels,
+                                               tokenizer=tokenizer,
+                                               max_length=max_length)
 
-    test_data = TextClassificationDataset(texts=test_texts,
-                                          labels=test_labels,
-                                          tokenizer=tokenizer,
-                                          max_length=max_length)
+    test_data = d.QuantAnnClassificationDataset(texts=test_texts,
+                                                labels=test_labels,
+                                                tokenizer=tokenizer,
+                                                max_length=max_length)
 
     batch_size = 8
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
@@ -301,7 +214,6 @@ def setup(train_texts,
     num_labels = len(set(annotation_map.values()))
     model = QuantModel(model_checkpoint, num_labels=num_labels).to('cuda')
 
-
     # Define optimizer and loss function
     optimizer = torch.optim\
         .AdamW(model.parameters(), lr=lr)
@@ -309,7 +221,8 @@ def setup(train_texts,
     return model, train_loader, val_loader, test_loader, optimizer
 
 
-def validate(model, val_loader, class_weights):
+def validate(model,
+             val_loader):
     """
     Evaluate the performance of the model on the validation set.
 
@@ -350,33 +263,25 @@ def validate(model, val_loader, class_weights):
 
     return f1
 
-def check_done(val_f1_history: list, val_f1, history_len):
-    """
-    Check if the model has stopped improving based on the validation loss history.
 
-    Parameters:
-    - val_loss_history (list): A list of previous validation losses.
-    - val_loss (float): The current validation loss.
-    - history_len (int): The maximum length of the validation loss history.
+def train(model,
+          train_loader,
+          val_loader,
+          optimizer,
+          class_weights):
+    """
+    Trains the given model using the provided training data and optimizer.
+
+    Args:
+        model (torch.nn.Module): The model to be trained.
+        train_loader (torch.utils.data.DataLoader): The data loader for the training data.
+        val_loader (torch.utils.data.DataLoader): The data loader for the validation data.
+        optimizer (torch.optim.Optimizer): The optimizer to be used for training.
+        class_weights (torch.Tensor): The weights for each class in the classification task.
 
     Returns:
-    - improving (bool): True if the model is still improving, False otherwise.
-    - val_loss_history (list): The updated validation loss history.
+        torch.nn.Module: The trained model.
     """
-
-    improving = True
-    if len(val_f1_history) == history_len:
-        val_f1_history.pop(0)  # remove at index 0
-
-        if val_f1_history[0] == val_f1_history[1]:
-            if val_f1_history[1] == val_f1:
-                improving = False
-
-    val_f1_history.append(val_f1)
-    return improving, val_f1_history
-
-
-def train(model, train_loader, val_loader, optimizer, class_weights):
 
     improving = True
     val_f1_history = []
@@ -408,9 +313,9 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
 
         val_f1 = validate(model, val_loader, class_weights)
 
-        improving, val_f1_history = check_done(val_f1_history,
-                                               val_f1,
-                                               history_len)
+        improving, val_f1_history = gu.check_done(val_f1_history,
+                                                  val_f1,
+                                                  history_len)
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1
@@ -487,7 +392,6 @@ def get_noise(annotation_component: str,
     texts = []  # list of [indicator text, text with context]
     labels = []
 
-
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
             article_id, _ = id.split('_')
@@ -503,12 +407,11 @@ def get_noise(annotation_component: str,
 
                     for label in noise_dict[id][annotation_component]:
                         texts.append(text)
-                        if label not in label_maps[task].keys():
-                            print(f"Label {label} not found in label_maps")
+                        if label not in d.quant_label_maps[task].keys():
+                            print(f"Label {label} not found in label maps")
                             print(id)
-                            # print(noise_dict[id])
                             exit()
-                        labels.append(label_maps[task][label])
+                        labels.append(d.quant_label_maps[task][label])
 
     return texts, labels
                    
@@ -516,10 +419,10 @@ def get_noise(annotation_component: str,
 def get_texts(
               annotation_component: str,
               task: str,
-              qual_dict: {},
-              quant_dict: {},
-              article_ids: [],
-              type_filter: [] = []
+              qual_dict: dict,
+              quant_dict: dict,
+              article_ids: list,
+              type_filter: list = []
               ):
     """
     Retrieves texts and labels for split from the given dictionaries for 
@@ -548,10 +451,8 @@ def get_texts(
         if 'quant_list' in qual_dict[id].keys():
             for quant_id in qual_dict[id]['quant_list']:
                 if quant_id not in quant_dict.keys():
-                    print(f"Quant ID {quant_id} not found in quant_dict")
-                    print(qual_dict[id])
-                    print(quant_dict)
-                    exit()
+                    raise ValueError(f"Quant ID {quant_id} not found in quant_dict")
+
                 if quant_dict[quant_id][annotation_component] != '\x00':
 
                     valid_entry = False
@@ -568,6 +469,6 @@ def get_texts(
                         texts.append(text)
 
                         label = quant_dict[quant_id][annotation_component]
-                        labels.append(label_maps[task][label])
+                        labels.append(d.quant_label_maps[task][label])
 
     return texts, labels

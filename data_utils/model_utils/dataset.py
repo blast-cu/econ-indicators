@@ -1,14 +1,15 @@
 import data_utils.get_annotation_stats as gs  # msql queries
-
+import torch
+from torch.utils.data import Dataset
 from bs4 import BeautifulSoup
 import nltk
-from sklearn.metrics import classification_report, f1_score
-import pandas as pd
+
 import sys
 import pickle
 
 DB_FILENAME = 'data/data.db'  # database file location
 ROBERTA_MODEL_DIR = 'models/roberta_classifier/tuned_models'  # directory to save model outputs
+SPLIT_DIR = 'data/clean/'  # directory to save and load train/test splits
 
 qual_label_maps = {  # maps raw annotations to numerical labels for model input
     'frame': {
@@ -105,6 +106,199 @@ quant_predict_maps = {  # maps model outputs to raw labels
 }
 
 
+class QualAnnClassificationDataset(Dataset):
+    def __init__(self, texts, labels=[], tokenizer=None, max_length=512):
+        """
+        Initializes a dataset for text classification
+        """
+        self.texts = texts
+        self.labels = labels
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+
+    def __len__(self):
+        """
+        Returns the length of the dataset
+        """
+        return len(self.texts)
+    
+    def __getitem__(self, idx):
+        """
+        Returns a single tokenized  item from the dataset
+        """
+        text = self.texts[idx]
+        label = self.labels[idx]
+
+        encoding = self.tokenizer(
+            text,
+            return_tensors='pt',
+            max_length=self.max_length,
+            padding='max_length',
+            truncation=True
+        )
+
+        return {
+            'input_ids': encoding['input_ids'].flatten(),
+            'attention_mask': encoding['attention_mask'].flatten(),
+            'label': torch.tensor(label)
+        }
+
+
+class QuantAnnClassificationDataset(Dataset):
+    def __init__(self, texts, labels=[], ids=[], tokenizer=None, max_length=512):
+        """
+        Initializes a dataset for text classification
+        """
+        self.indicator_texts = [t[0] for t in texts]
+        self.texts = [t[1] for t in texts]
+        self.labels = labels
+
+        self.article_ids = []
+        self.ann_ids = []
+        for id in ids:
+            article_id, ann_id = id.split('_')
+            self.article_ids.append(int(article_id))
+            self.ann_ids.append(int(ann_id))
+        
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+        start_indices = []
+        end_indices = []
+        self.input_ids = []
+        self.attention_masks = []
+
+        for idx, text in enumerate(self.texts):
+
+            indicator_text = self.indicator_texts[idx]
+
+            temp_encoding = self.tokenizer(
+                text,
+                return_tensors='pt',
+                truncation=False,
+                return_offsets_mapping=True
+            )
+
+            start_index, end_index = \
+                self.get_indicator_indices(indicator_text,
+                                           temp_encoding,
+                                           text)
+
+            if start_index is None or end_index is None:
+                print('Substring: ' + indicator_text)
+                print('Original text: ' + text)
+                print('Start index: ' + str(start_index))
+                print('End index: ' + str(end_index))
+                print('Offset mapping: \n')
+                for i, token in enumerate(temp_encoding['offset_mapping'][0]):
+                    print(f"Token {i}: {token}")
+                raise Exception('Could not find indicator text in excerpt')
+
+            if end_index > self.max_length:
+                text_start = end_index + int(self.max_length / 2) - self.max_length
+                text = text[text_start:]
+
+                start_index = start_index - text_start
+                end_index = end_index - text_start
+
+            excerpt_encoding = self.tokenizer(
+                text,
+                return_tensors='pt',
+                max_length=self.max_length,
+                padding='max_length',
+                truncation=True
+            )
+
+            start_indices.append(start_index)
+            end_indices.append(end_index)
+            self.input_ids.append(excerpt_encoding['input_ids'].flatten())
+            self.attention_masks.append(excerpt_encoding['attention_mask'].flatten())
+
+        self.spans = []
+        for i, start_index in enumerate(start_indices):
+            end_index = end_indices[i]
+
+            span = []
+            curr = start_index
+            for j in range(512):
+                inner_span = []
+
+                if curr >= start_index and curr <= end_index:
+                    inner_span = [i for i in range(769)]
+                else:
+                    inner_span = [768] * 769
+
+                curr += 1
+                span.append(inner_span)
+            self.spans.append(span)
+
+    def __len__(self):
+        """
+        Returns the length of the dataset
+        """
+        return len(self.texts)
+    
+    def get_indicator_indices(indicator_text, excerpt_encoding, text):
+        """
+        Get the start and end indices of the indicator text within the given tokenized text.
+
+        Parameters:
+            indicator_text (str): The indicator text to search for.
+            excerpt_encoding (dict): The encoding of the excerpt text.
+            text (str): The full text to search within.
+
+        Returns:
+            tuple: A tuple containing the start and end indices of the indicator text within the text.
+        """
+        sub_start = text.find(indicator_text)
+        sub_end = sub_start + len(indicator_text)
+        offset_map = excerpt_encoding['offset_mapping'].tolist()
+
+        start_index = None
+        end_index = None
+        for i, token in enumerate(offset_map[0]):
+            token_start = token[0]
+            token_end = token[1]
+            if start_index is None:
+                if sub_start >= token_start and sub_start <= token_end:
+                    start_index = i
+            else:
+                if sub_end >= token_start and sub_end <= token_end:
+                    end_index = i + 1
+                    break
+
+        return start_index, end_index
+    
+    def __getitem__(self, idx):
+        """
+        Returns a single tokenized  item from the dataset
+        """
+        text = self.texts[idx]
+        if len(self.labels) > 0:
+            label = self.labels[idx]
+        else:
+            label = -1
+
+        if len(self.article_ids) > 0:
+            article_id = self.article_ids[idx]
+            ann_id = self.ann_ids[idx]
+        else:
+            article_id = -1
+            ann_id = -1
+
+        input_id = self.input_ids[idx]
+        attention_mask = self.attention_masks[idx]
+        span = self.spans[idx]
+
+        return {
+            'span': torch.tensor(span),
+            'input_ids': input_id,
+            'attention_mask': attention_mask,
+            'label': torch.tensor(label),
+            'article_ids': torch.tensor(article_id),
+            'ann_ids': torch.tensor(ann_id)
+        }
+
+
 def get_article_dict(agreed_quant_ann: dict, label_ann: str):
     """
     Returns a dictionary containing the agreed-upon quantitative annotations
@@ -165,9 +359,7 @@ def get_ann_dict(article_html: str,
         for id in annotation_ids:
             if id not in ann_dict.keys():
                 not_found.append(id)
-        # print("Desired ids: " + str(annotation_ids))
         print("Ids not found: " + str(not_found))
-        # print("Article html\n" + str(article_html))
         print()
 
     return ann_dict
@@ -328,48 +520,3 @@ def get_excerpts_dict(db_filename: str):
         sys.exit()
 
     return excerpt_dict
-
-
-def to_csv(annotation_component: str,
-           labels: list,
-           predicted: list,
-           destination: str = "models/roberta/results"):
-    """
-    Write classification report to a CSV file.
-
-    Parameters:
-    - annotation_component (str): Name of the annotation component.
-    - labels (list): List of true labels.
-    - predicted (list): List of predicted labels.
-    - destination (str, optional): Path to save the CSV file. Defaults to "models/roberta/results".
-    """
-    report = classification_report(labels,
-                                   predicted,
-                                   output_dict=True,
-                                   zero_division=0)
-
-    df = pd.DataFrame(report).transpose()
-    df.to_csv(f"{destination}/{annotation_component}_classification_report.csv")
-
-def to_f1_csv(results,
-              destination,
-              f1):
-    
-    destination = destination + f1 + "_f1_report.csv"
-
-    results_formatted = {}
-    for task in results.keys():
-        results_formatted[task] = []
-        labels = results[task]['labels']
-        predictions = results[task]['predictions']
-        score = f1_score(labels, predictions, average=f1)
-        score = round(score, 3)
-        results_formatted[task].append(score)
-
-    df = pd.DataFrame(results_formatted)
-    df.to_csv(destination)
-
-
-
-
-

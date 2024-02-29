@@ -5,28 +5,7 @@ import pandas as pd
 from torch.utils.data import DataLoader, Dataset
 
 from data_utils import get_annotation_stats as gs
-
-
-label_maps = {
-    'frame': {
-        0: 'business',
-        1: 'industry',
-        2: 'macro',
-        3: 'government',
-        4: 'other'
-    },
-    'econ_rate': {
-        0: 'good',
-        1: 'poor',
-        2: 'none'
-    },
-    'econ_change': {
-        0: 'better',
-        1: 'worse',
-        2: 'same',
-        3: 'none'
-    }
-}
+import data_utils.model_utils.dataset as d
 
 
 class PredictionDataset(Dataset):
@@ -98,7 +77,7 @@ def main(args):
 
     # load fine-tuned model for each annotation component
     models = {}
-    for k in label_maps.keys():
+    for k in d.qual_predict_maps.keys():
         model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
         models[k] = RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
@@ -121,7 +100,7 @@ def main(args):
             for i, id in enumerate(ids.tolist()):
                 col_name = f"{annotation_component}_prediction"
                 prediction = int(predicted[i].item())
-                annotations[id][col_name] = label_maps[annotation_component][prediction]
+                annotations[id][col_name] = d.qual_predict_maps[annotation_component][prediction]
 
 
 

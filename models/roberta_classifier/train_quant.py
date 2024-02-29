@@ -5,9 +5,9 @@ import os
 import models.roberta_classifier.utils.general as gu
 import models.roberta_classifier.utils.quant as qu
 import data_utils.model_utils.dataset as d
+import data_utils.model_utils.eval as e
 
 # takes about 12 hours to run on CURC
-SPLIT_DIR = "data/clean/"
 
 
 def main(args):
@@ -19,9 +19,9 @@ def main(args):
     OUT_DIR, MODEL_CHECKPOINT, ADD_NOISE, BEST_NOISE = \
         gu.settings(args, "quant")
 
-    splits_dict = pickle.load(open(SPLIT_DIR + 'splits_dict', 'rb'))
-    qual_dict = pickle.load(open(SPLIT_DIR + 'qual_dict', 'rb'))
-    quant_dict = pickle.load(open(SPLIT_DIR + 'quant_dict', 'rb'))
+    splits_dict = pickle.load(open(d.SPLIT_DIR + 'splits_dict', 'rb'))
+    qual_dict = pickle.load(open(d.SPLIT_DIR + 'qual_dict', 'rb'))
+    quant_dict = pickle.load(open(d.SPLIT_DIR + 'quant_dict', 'rb'))
 
     # dict for tracking results across folds
     results = {}
@@ -51,9 +51,9 @@ def main(args):
 
             if ADD_NOISE:
                 if BEST_NOISE:
-                    f = open(SPLIT_DIR + 'noisy_best_quant_dict', 'rb')
+                    f = open(d.SPLIT_DIR + 'noisy_best_quant_dict', 'rb')
                 else:
-                    f = open(SPLIT_DIR + 'noisy_quant_dict', 'rb')
+                    f = open(d.SPLIT_DIR + 'noisy_quant_dict', 'rb')
                 
                 noise_dict = pickle.load(f)
 
@@ -104,7 +104,7 @@ def main(args):
             dest = os.path.join(OUT_DIR, f"fold{k}/{task}_model/")
             os.makedirs(dest, exist_ok=True)
 
-            d.to_csv(
+            e.to_csv(
                 task,
                 y,
                 y_predicted,
@@ -117,13 +117,13 @@ def main(args):
         os.makedirs(dest, exist_ok=True)
         dest += "/"
 
-        d.to_csv(task,
+        e.to_csv(task,
                  results[task]['labels'],
                  results[task]['predictions'],
                  dest)
 
-    d.to_f1_csv(results, dest, f1='macro')
-    d.to_f1_csv(results, dest, f1='weighted')
+    e.to_f1_csv(results, dest, f1='macro')
+    e.to_f1_csv(results, dest, f1='weighted')
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ RESULTS = 'models/psl/data/results/'
 
 def main(args):
 
-    arg_dir = (args.dir).strip()
+    arg_dir = (args.s).strip()
     setting_dir = os.path.join(RESULTS, arg_dir)
     metric = -1  # -1 for weighted avg, -2 for macro avg
     try:
@@ -53,6 +53,6 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some data.')
-    parser.add_argument('--dir', help='Path to the input directory')
+    parser.add_argument('--s', help='rule setting to be evaluated')
     args = parser.parse_args()
     main(args)

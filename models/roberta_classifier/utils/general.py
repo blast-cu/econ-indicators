@@ -81,3 +81,29 @@ def get_weights(y, annotation_map: dict):
     weight = [float(w) for w in weight]
     class_weights = torch.tensor(weight).to('cuda')
     return class_weights
+
+
+def check_done(val_f1_history: list, val_f1, patience, history_len):
+    """
+    Check if the model has stopped improving based on the validation loss history.
+
+    Parameters:
+    - val_loss_history (list): A list of previous validation losses.
+    - val_loss (float): The current validation loss.
+    - patience (float): The minimum difference between the current validation loss and the previous one to consider improvement.
+    - history_len (int): The maximum length of the validation loss history.
+
+    Returns:
+    - improving (bool): True if the model is still improving, False otherwise.
+    - val_loss_history (list): The updated validation loss history.
+    """
+    improving = True
+    if len(val_f1_history) == history_len:
+        val_f1_history.pop(0)  # remove at index 0
+
+        if val_f1_history[0] == val_f1_history[1]:
+            if val_f1_history[1] == val_f1:
+                improving = False
+
+    val_f1_history.append(val_f1)
+    return improving, val_f1_history

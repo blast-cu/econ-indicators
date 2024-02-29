@@ -1,79 +1,13 @@
 import torch
-import numpy as np
+from torch.utils.data import DataLoader
+from torch.nn.functional import cross_entropy
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from sklearn.model_selection import train_test_split
-
 from sklearn.metrics import f1_score
-from torch.utils.data import DataLoader, Dataset
-import pandas as pd
-from torch.nn.functional import cross_entropy
 
-from data_utils.model_utils.dataset import qual_label_maps as label_maps
+import data_utils.model_utils.dataset as d
+import models.roberta_classifier.utils.general as gu
 import data_utils.get_annotation_stats as gs
-
-
-class TextClassificationDataset(Dataset):
-    def __init__(self, texts, labels=[], tokenizer=None, max_length=512):
-        """
-        Initializes a dataset for text classification
-        """
-        self.texts = texts
-        self.labels = labels
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-
-    def __len__(self):
-        """
-        Returns the length of the dataset
-        """
-        return len(self.texts)
-    
-    def __getitem__(self, idx):
-        """
-        Returns a single tokenized  item from the dataset
-        """
-        text = self.texts[idx]
-        label = self.labels[idx]
-
-        encoding = self.tokenizer(
-            text,
-            return_tensors='pt',
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True
-        )
-
-        return {
-            'input_ids': encoding['input_ids'].flatten(),
-            'attention_mask': encoding['attention_mask'].flatten(),
-            'label': torch.tensor(label)
-        }
-
-
-def check_done(val_f1_history: list, val_f1, patience, history_len):
-    """
-    Check if the model has stopped improving based on the validation loss history.
-
-    Parameters:
-    - val_loss_history (list): A list of previous validation losses.
-    - val_loss (float): The current validation loss.
-    - patience (float): The minimum difference between the current validation loss and the previous one to consider improvement.
-    - history_len (int): The maximum length of the validation loss history.
-
-    Returns:
-    - improving (bool): True if the model is still improving, False otherwise.
-    - val_loss_history (list): The updated validation loss history.
-    """
-    improving = True
-    if len(val_f1_history) == history_len:
-        val_f1_history.pop(0)  # remove at index 0
-
-        if val_f1_history[0] == val_f1_history[1]:
-            if val_f1_history[1] == val_f1:
-                improving = False
-
-    val_f1_history.append(val_f1)
-    return improving, val_f1_history
 
 
 def validate(model, val_loader, class_weights):
@@ -133,7 +67,6 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
     """
     
     improving = True
-    # val_loss_history = []
     val_f1_history = []
 
     patience = 0.03
@@ -151,7 +84,6 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             outputs = model(input_ids,
                             attention_mask=attention_mask,
                             labels=labels)
-            
 
             loss = cross_entropy(outputs.logits, labels, weight=class_weights)
             loss.backward()
@@ -160,7 +92,7 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             optimizer.zero_grad()
 
         val_f1 = validate(model, val_loader, class_weights)
-        improving, val_f1_history = check_done(val_f1_history,
+        improving, val_f1_history = gu.check_done(val_f1_history,
                                                val_f1,
                                                patience,
                                                history_len)
@@ -245,20 +177,20 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
                          problem_type="single_label_classification")
 
     max_length = 512
-    train_data = TextClassificationDataset(texts=train_texts,
-                                           labels=train_labels,
-                                           tokenizer=tokenizer,
-                                           max_length=max_length)
+    train_data = d.QualAnnClassificationDataset(texts=train_texts,
+                                                labels=train_labels,
+                                                tokenizer=tokenizer,
+                                                max_length=max_length)
 
-    val_data = TextClassificationDataset(texts=val_texts,
-                                         labels=val_labels,
-                                         tokenizer=tokenizer,
-                                         max_length=max_length)
+    val_data = d.QualAnnClassificationDataset(texts=val_texts,
+                                              labels=val_labels,
+                                              tokenizer=tokenizer,
+                                              max_length=max_length)
 
-    test_data = TextClassificationDataset(texts=test_texts,
-                                          labels=test_labels,
-                                          tokenizer=tokenizer,
-                                          max_length=max_length)
+    test_data = d.QualAnnClassificationDataset(texts=test_texts,
+                                               labels=test_labels,
+                                               tokenizer=tokenizer,
+                                               max_length=max_length)
 
     batch_size = 8
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
@@ -269,8 +201,6 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
     num_labels = len(annotation_map)
     model = RobertaForSequenceClassification\
         .from_pretrained(model_checkpoint, num_labels=num_labels).to('cuda')
-    # model = RobertaForSequenceClassification\
-    #     .from_pretrained(model_checkpoint, num_labels=num_labels)
 
     # Define optimizer and loss function
     optimizer = torch.optim\
@@ -278,25 +208,39 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
 
     return model, train_loader, val_loader, test_loader, optimizer
 
+
 def get_noise(db_filename: str,
               annotation_component: str,
               task: str,
-              noise_dict: {}
-             ):
-    
+              noise_dict: dict):
+    """
+    Retrieves the texts and labels from the given noise dictionary based on the specified annotation component and task.
+
+    Args:
+        db_filename (str): The filename of the database.
+        annotation_component (str): The annotation component to filter the noise dictionary.
+        task (str): The task to retrieve the labels for.
+        noise_dict (dict): The noise dictionary containing the noise data.
+
+    Returns:
+        tuple: A tuple containing two lists - texts and labels.
+            - texts (list): A list of texts retrieved from the noise dictionary.
+            - labels (list): A list of labels corresponding to the texts.
+    """
+
     texts = []
     labels = []
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] !='\x00':
-            
+
             if type(noise_dict[id][annotation_component]) is not list:
                 noise_dict[id][annotation_component] = \
                     [noise_dict[id][annotation_component]]
 
             for label in noise_dict[id][annotation_component]:
                 texts.append(gs.get_text(id, db_filename, clean=False))
-                labels.append(label_maps[task][label])
+                labels.append(d.qual_label_maps[task][label])
     
     return texts, labels
 
@@ -304,8 +248,23 @@ def get_noise(db_filename: str,
 def get_texts(db_filename: str,
               annotation_component: str,
               task: str,
-              agreed_anns_dict: {},
-              article_ids: []):
+              agreed_anns_dict: dict,
+              article_ids: list):
+    """
+    Retrieves texts and labels based on the provided parameters.
+
+    Args:
+        db_filename (str): The filename of the database.
+        annotation_component (str): The annotation component to retrieve.
+        task (str): The task associated with the annotation component.
+        agreed_anns_dict (dict): A dictionary containing agreed annotations.
+        article_ids (list): A list of article IDs.
+
+    Returns:
+        tuple: A tuple containing two lists - texts and labels.
+            - texts (list): A list of texts.
+            - labels (list): A list of labels.
+    """
 
     texts = []
     labels = []
@@ -315,6 +274,6 @@ def get_texts(db_filename: str,
             if agreed_anns_dict[id][annotation_component] !='\x00':
                 texts.append(gs.get_text(id, db_filename, clean=False))
                 label = agreed_anns_dict[id][annotation_component]
-                labels.append(label_maps[task][label])
+                labels.append(d.qual_label_maps[task][label])
 
     return texts, labels

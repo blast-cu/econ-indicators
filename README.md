@@ -10,25 +10,35 @@ To begin, clone the repo and create a directory in the top level of the reposito
 
 ## Generate Data Splits
 
-## Model Training and Testing
+## Model Training and Testing (Reproducing Paper Results)
+Bash scripts for reproducing paper results are included in *reproduce*. Detailed instructions are also provided below. 
+
 ### Fine Tune RoBERTa for Predicting Annotations
 
-To fine tune a classification model for article-level annotations, from the top level directory, run 
+Before model training, generate data splits into *data/clean*
+
+````console
+python3 data_utils/model_utils/generate_splits.py
+````
+
+To fine tune RoBERTa classifiers for article-level annotations, from the top level directory, run 
 
 ````console
 python3 models/roberta_classifier/train_qual.py --m [base, large, dapt] --n [best, all]
 ````
 
-A model and test results for each fold are generated in *models/roberta_classifier/tuned_models/*
+A model and test results for each fold are generated in *models/roberta_classifier/tuned_models/*. Additionally, results across all folds including macro and weighted f1 reports are generated in *models/roberta_classifier/tuned_models/qual_{model_settings}/results*
 
-To fine tune a model for a collection of tasks corresponding to qualitative annotations, run 
+To fine tune RoBERTa classifiers for quantity-level annotations, from the top level directory, run 
 
 ````console
 python3 models/roberta_classifier/train_quant.py --m [base, large, dapt] --n [best, all]
 ````
 
-Note that the tasks are outlined in detail in *train_quant.py*.
-
+TLDR; If reproducing paper results, generate data splits and fine-tune necessary RoBERTa classifiers by running 
+````console
+bash reproduce/tune_roberta_classifier.sh
+````
 
 ### PSL for improving RoBERTa predictions
 
@@ -44,7 +54,7 @@ rule files into the data/rules directory, run
 python3 models/psl/generate_rules.py
 ````
 
-This will create necessary files for running all ablaion studies. To (finally) run inference with the desired setting: 
+This will create necessary files for running all ablaion studies. For a list of rule settings, view *models/psl/SETTINGS* To run inference with the desired setting: 
 
 ````console
 python3 models/psl/run_inference.py --s SETTING
@@ -52,16 +62,27 @@ python3 models/psl/run_inference.py --s SETTING
 See SETTINGS.py for rule setting options. To evaluate, run 
 
 ````console
-python3 models/psl/evaluate_inference.py --s SETTING
+python3 models/psl/eval/evaluate_inference.py --s SETTING
 ````
 
 This creates eval tables for each annotation component and each rule setting in data/results. To generate a table that 
 includes the macro and weighted f1 for each component, run 
 
 ````console
-python3 models/psl/generate_eval_tables/generate_setting_rule_table.py --dir data_dir
+python3 models/psl/eval/generate_setting_rule_table.py --s SETTING
 ````
-Where data_dir is the path to the directory containing all eval tables created in the previous step. 
+Full results will then be available in *models/psl/data/results/SETTING*
+
+TLDR; If reproducing paper results run full ablation study with
+````console
+bash reproduce/psl_ablation.sh
+````
+
+To obtain results for the best model only, run 
+````console
+bash reproduce/psl_best.sh
+````
+
 
 ## Using Models to Get Predictions
 ### Get Article Samples with Predicted Annotations

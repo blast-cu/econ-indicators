@@ -6,7 +6,7 @@ import os
 import random
 import re
 
-import models.utils.quant as qu
+import models.roberta_classifier.utils.quant as qu
 from data_utils.model_utils.dataset import quant_predict_maps as label_maps
 # import nltk
 # nltk.download('punkt')

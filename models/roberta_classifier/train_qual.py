@@ -5,9 +5,7 @@ import os
 import models.roberta_classifier.utils.qual as tt
 import models.roberta_classifier.utils.general as gu
 import data_utils.model_utils.dataset as d
-from data_utils.model_utils.dataset import qual_label_maps as label_maps
-
-SPLIT_DIR = "data/clean/"
+import data_utils.model_utils.eval as e
 
 
 def main(args):
@@ -49,9 +47,9 @@ def main(args):
 
             if ADD_NOISE:  # add noise to training set
                 if BEST_NOISE:
-                    f = open(SPLIT_DIR + 'noisy_best_qual_dict', 'rb')
+                    f = open(d.SPLIT_DIR + 'noisy_best_qual_dict', 'rb')
                 else:
-                    f = open(SPLIT_DIR + 'noisy_qual_dict', 'rb')
+                    f = open(d.SPLIT_DIR + 'noisy_qual_dict', 'rb')
 
                 noise_dict = pickle.load(f)
                 noise_text, noise_labels = \
@@ -119,13 +117,13 @@ def main(args):
 
         os.makedirs(dest, exist_ok=True)
 
-        d.to_csv(task,
+        e.to_csv(task,
                  results[task]['labels'],
                  results[task]['predictions'],
                  dest)
 
-    d.to_f1_csv(results, dest, f1='macro')
-    d.to_f1_csv(results, dest, f1='weighted')
+    e.to_f1_csv(results, dest, f1='macro')
+    e.to_f1_csv(results, dest, f1='weighted')
 
 
 if __name__ == "__main__":
