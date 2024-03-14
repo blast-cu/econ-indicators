@@ -1,5 +1,5 @@
 {
-    "port": 8000, 
+    "port": 80, 
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Quant Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
@@ -58,7 +58,7 @@
             {
                 "annotation_type": "radio",
                 "name": "frame",
-                "description": "The highlighted quantity should have a general type. Please label the type, or select 'Not Relevant' is a date or otherwise not relevant to the U.S. economy",
+                "description": "Question 1: The highlighted quantity should have a general type. Please label the type, or select 'Not Relevant' is a date or otherwise not relevant to the U.S. economy",
                 "labels": [
                     
                     {
@@ -105,7 +105,7 @@
             {
                 "annotation_type": "radio",
                 "name": "macro_indicator",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
+                "description": "Question 2: If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
                 "labels": [
                 {
                     "name": "Job Numbers (e.g., jobs, unemployment)",
@@ -181,7 +181,7 @@
         {
                 "annotation_type": "radio",
                 "name": "spin",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the highlighted quantity?",
+                "description": "Question 3: If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the highlighted quantity?",
                 "labels": [
                 {
                     "name": "Positive (e.g., inflation dropped)",
