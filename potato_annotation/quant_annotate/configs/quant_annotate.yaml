@@ -1,5 +1,5 @@
 {
-    "port": 80, 
+    "port": 8000, 
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Quant Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
@@ -34,7 +34,11 @@
         ],
         "pre_annotation": [
             "surveyflow/intro.jsonl",
-            "surveyflow/instructions.jsonl"
+            "surveyflow/instructions0.jsonl",
+            "surveyflow/instructions1.jsonl",
+            "surveyflow/instructions2.jsonl",
+            "surveyflow/instructions3.jsonl",
+            "surveyflow/instructions4.jsonl"
         ], 
         "post_annotation": [
             "surveyflow/end.jsonl"
