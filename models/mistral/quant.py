@@ -5,6 +5,7 @@ import os
 import data_utils.model_utils.dataset as d
 import models.roberta_classifier.utils.quant as qu
 import argparse
+import random
 
 MISTRAL_RESULTS_DIR = "data/mistral_results"
 PREAMBLE = "You are a helpful annotation assistant. Your task is to answer a multiple choice question based on the below information from a U.S. news article about the economy:"
@@ -76,9 +77,37 @@ def shot_prompt(text, train, task, shots):
     """
     train_texts = train[0]
     train_labels = train[1]
-    options = enumerate(range(len(train_texts)))
+    options = list(range(len(train_texts)))
+    idx_choices = random.sample(options, shots)
 
     messages = []
+    
+    for i in idx_choices:
+        if i == 0:
+            content_str = f"{PREAMBLE}\n"
+        else:
+            content_str = ""
+
+        indicator_text = train_texts[i][0]
+        context = train_texts[i][1]
+        content_str += f"So for instance the following:\n excerpt: {indicator_text}\n context: {context}\n multiple choice question: {questions[task]}\n"
+        for options in def_map[task].values():
+            content_str += f"{options}\n"
+        example_dict = {"role": "user", "content": content_str}
+        messages.append(example_dict)
+
+        # example answer
+        answer_str = def_map[task][train_labels[i]]
+        answer_dict = {"role": "assistant", "content": answer_str}
+        messages.append(answer_dict)
+
+    # final prompt
+    content_str = f"excerpt: {text[0]}\n context: {text[1]}\n multiple choice question: {questions[task]}\n"
+    for options in def_map[task].values():
+        content_str += f"{options}\n"
+    content_str += f"{POSTAMBLE}"
+    messages.append({"role": "user", "content": content_str})
+
     return messages
 
 
@@ -93,7 +122,7 @@ def get_prompts(train, test, task, shots=0):
         if shots == 0:
             prompt = no_shot_prompt(text, task)
         else:
-            prompt = shot_prompt(text, train, shots)
+            prompt = shot_prompt(text, train, task, shots)
 
         prompts.append(prompt)
     
