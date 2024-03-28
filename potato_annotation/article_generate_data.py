@@ -139,7 +139,6 @@ def main():
     if len(set(article_choices)) != NUM_ARTICLES:
         raise ValueError("Not enough articles")
 
-
     articles = {}
     for id in article_choices:
         text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
