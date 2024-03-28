@@ -7,80 +7,79 @@ import models.roberta_classifier.utils.quant as qu
 import argparse
 
 MISTRAL_RESULTS_DIR = "data/mistral_results"
+PREAMBLE = "You are a helpful annotation assistant. Your task is to answer a multiple choice question based on the below information from a U.S. news article about the economy:"
+POSTAMBLE = "Please answer with a single letter without explanations. If you are unsure, please guess."
+
+def_map = {
+    'type': {
+                0: "A. Macroeconomic / General Economic Conditions",  # macro
+                1: "B. Industry-specific", #'industry',
+                2: "C. Government revenue and expenses",  #'government',
+                3: "D. Personal", #'personal',
+                4: "E. Firm-specific",  #'business',
+                5: "F. None of the above" #'other'
+            },
+    'macro_type': {
+                0: "A. Job Numbers",
+                1: "B. Retail Sales",
+                2: "C. Interest Rates",
+                3: "D. Prices",
+                4: "E. Energy Prices",
+                5: "F. Wages",
+                6: "G. Macroeconomy",
+                7: "H. Market Numbers",
+                8: "I. Currency Values",
+                9: "J. Housing",
+                10: "K. Other",
+                11: "L. None of the above"
+            },
+    'spin': {
+                0: "A. Positive",
+                1: "B. Negative",
+                2: "C. Neutral",
+                3: "D. None of the above"  # fixme
+    }
+}
+
+questions = {
+    'type': "The excerpt should contain an economic indicator value. Based on the context, what type of indicator is it?",
+    'macro_type': "The excerpt should contain an economic indicator value. " 
+                    "If the indicator's general type is 'Macroeconomic / General Economic Conditions', what specific type of indicator is it? "
+                    "Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a Macroeconomic / General Economic Conditions type.",
+    'spin': "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the indicator? " 
+                    "Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a Macroeconomic / General Economic Conditions type."
+}
+
 
 def no_shot_prompt(text, task):
     """
     Generates a prompt for the Mistral model.
     """
     messages = []
-    preamble = "You are a helpful annotation assistant. Your task is to answer a multiple choice question based on the below information from a U.S. news article about the economy:"
-    postamble = "Please answer with a single letter without explanations. If you are unsure, please guess."
+    content_str = f"{PREAMBLE}\n excerpt: {text[0]}\n context: {text[1]}\n multiple choice question: {questions[task]}\n"
 
-    if task == "type":
-        messages = [
-            {"role": "user",
-            "content": f"{preamble}\n"
-                f"excerpt: {text[0]}\n"
-                f"context: {text[1]}\n"
-                "multiple choice question: The excerpt should contain an economic indicator value. Based on the context, what type of indicator is it?\n"
-                "A. Macroeconomic / General Economic Conditions\n"
-                "B. Firm-specific\n"
-                "C. Industry-specific\n"
-                "D. Government revenue and expenses\n"
-                "E. Other\n"
-                "F. None of the above\n"
-                f"{postamble}"}
-        ]
-    elif task == "macro_type":
-        messages = [
-            {"role": "user",
-            "content": f"{preamble}\n"
-                f"excerpt: {text[0]}\n"
-                f"context: {text[1]}\n"
-                "multiple choice question: The excerpt should contain an economic indicator value. " 
-                "If the indicator's general type is 'Macroeconomic / General Economic Conditions', what specific type of indicator is it? " 
-                "Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a Macroeconomic / General Economic Conditions type.\n"
-                "A. Job Numbers\n"
-                "B. Market Numbers\n"
-                "C. Housing\n"
-                "D. Macroeconomy\n"
-                "E. Wages\n"
-                "F. Prices\n"
-                "G. Confidence\n"
-                "H. Retail Sales\n"
-                "I. Interest Rates\n"
-                "J. Currency Values\n"
-                "K. Energy Prices\n"
-                "L. None of the above\n"
-                f"{postamble}"}
-        ]
-    elif task == "spin":
-        messages = [
-            {"role": "user",
-             "content": f"{preamble}\n"
-                f"excerpt: {text[0]}\n"
-                f"context: {text[1]}\n"
-                "multiple choice question: The excerpt should contain an economic indicator value. " 
-                "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the indicator? " 
-                "Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a Macroeconomic / General Economic Conditions type.\n"
-                "A. Positive\n"
-                "B. Negative\n"
-                "C. Neutral\n"
-                "F. None of the above\n"
-                f"{postamble}"}
-        ]
-    else:
-        raise ValueError(f"Task {task} not recognized.")
+    for options in def_map[task].values():
+        content_str += f"{options}\n"
 
+    content_str += f"{POSTAMBLE}"
+
+    messages = [
+        {"role": "user",
+         "content": content_str}
+    ]
     return messages
 
 
-def shot_prompt(text, train, shots):
+def shot_prompt(text, train, task, shots):
     """
     Generates a prompt for the Mistral model.
     """
-    prompt = "My favourite condiment is"
-    return prompt
+    train_texts = train[0]
+    train_labels = train[1]
+    options = enumerate(range(len(train_texts)))
+
+    messages = []
+    return messages
 
 
 def get_prompts(train, test, task, shots=0):
@@ -154,8 +153,6 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                # print(p)
-
                 model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
 
                 generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
