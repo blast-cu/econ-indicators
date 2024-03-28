@@ -25,4 +25,4 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.mistral.quant --s 0
+python -m models.mistral.qual --s 0
