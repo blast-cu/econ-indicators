@@ -174,13 +174,11 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                print(p)
                 model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
 
                 generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
                 response = tokenizer.batch_decode(generated_ids)[0]
                 results[task]['predictions'].append(response)
-                exit()
 
     pickle.dump(results, open(f'{MISTRAL_RESULTS_DIR}/qual_{SHOTS}_shot_results', 'wb'))
     
