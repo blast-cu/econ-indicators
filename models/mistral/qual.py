@@ -81,8 +81,8 @@ def shot_prompt(text, train, task, shots):
             content_str = ""
 
         excerpt = train_texts[i]
-        if len(excerpt) > 1000:
-            excerpt = excerpt[:1000]
+        if len(excerpt) > 2048:
+            excerpt = excerpt[:2048]
         content_str += f"So for instance the following:\n excerpt: {excerpt}\n multiple choice question: {questions[task]}\n"
         for options in def_map[task].values():
             content_str += f"{options}\n"
@@ -113,8 +113,8 @@ def get_prompts(train, test, task, shots=0):
     prompts = []
     for text in test_text:
         text = text.replace("\n", " ")
-        if len(text) > 1000:
-            text = text[:1000]
+        if len(text) > 2048:
+            text = text[:2048]
         if shots == 0:
             prompt = no_shot_prompt(text, task)
         else:
