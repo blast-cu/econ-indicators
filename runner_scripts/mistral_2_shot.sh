@@ -16,6 +16,8 @@ nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
 source activate ./venv
+export 'PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512'
+export 'PYTORCH_NO_CUDA_MEMORY_CACHING=1'
 
 mkdir -p metadata
 mkdir -p outputs
