@@ -173,8 +173,8 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                # model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
-                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt")
+                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
+                # model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt")
 
 
                 generated_ids = model.generate(model_inputs, max_new_tokens=40, do_sample=True)
