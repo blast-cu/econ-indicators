@@ -111,6 +111,8 @@ def get_prompts(train, test, task, shots=0):
     prompts = []
     for text in test_text:
         text = text.replace("\n", " ")
+        if len(text) > 1000:
+            text = text[:1000]
         if shots == 0:
             prompt = no_shot_prompt(text, task)
         else:
