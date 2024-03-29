@@ -110,6 +110,7 @@ def get_prompts(train, test, task, shots=0):
 
     prompts = []
     for text in test_text:
+        text = text.replace("\n", " ")
         if shots == 0:
             prompt = no_shot_prompt(text, task)
         else:
@@ -168,8 +169,6 @@ def main(args):
                                 qual_dict,
                                 split_train_ids)
 
-            test[0] = [t.replace('\n', '') for t in test[0]]
-            train[0] = [t.replace('\n', '') for t in test[0]]
 
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
