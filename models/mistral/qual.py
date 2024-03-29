@@ -81,6 +81,8 @@ def shot_prompt(text, train, task, shots):
             content_str = ""
 
         excerpt = train_texts[i]
+        if len(excerpt) > 1000:
+            excerpt = excerpt[:1000]
         content_str += f"So for instance the following:\n excerpt: {excerpt}\n multiple choice question: {questions[task]}\n"
         for options in def_map[task].values():
             content_str += f"{options}\n"
