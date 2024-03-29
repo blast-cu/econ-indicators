@@ -74,13 +74,15 @@ def shot_prompt(text, train, task, shots):
 
     messages = []
     
-    for i in idx_choices:
-        if i == 0:
+    for counter, i in enumerate(idx_choices):
+        if counter == 0:
             content_str = f"{PREAMBLE}\n"
         else:
             content_str = ""
 
+        
         excerpt = train_texts[i]
+        excerpt = excerpt.replace("\n", " ")
         if len(excerpt) > 2048:
             excerpt = excerpt[:2048]
         content_str += f"So for instance the following:\n excerpt: {excerpt}\n multiple choice question: {questions[task]}\n"
@@ -95,7 +97,7 @@ def shot_prompt(text, train, task, shots):
         messages.append(answer_dict)
 
     # final prompt
-    content_str = f"excerpt: {text[0]}\n context: {text[1]}\n multiple choice question: {questions[task]}\n"
+    content_str = f"excerpt: {text}\n multiple choice question: {questions[task]}\n"
     for options in def_map[task].values():
         content_str += f"{options}\n"
     content_str += f"{POSTAMBLE}"
@@ -133,9 +135,9 @@ def main(args):
 
     os.makedirs(MISTRAL_RESULTS_DIR, exist_ok=True)
 
-    # model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", torch_dtype=torch.float16, device_map="auto")
-    # tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
-    
+    model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", torch_dtype=torch.float16, device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
+    random.seed(42)
     splits_dict = pickle.load(open(d.SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(d.SPLIT_DIR + 'qual_dict', 'rb'))
 
@@ -177,14 +179,13 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                # model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
+                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
 
 
-                # generated_ids = model.generate(model_inputs, max_new_tokens=40, do_sample=True)
-                # response = tokenizer.batch_decode(generated_ids)[0]
-                # results[task]['predictions'].append(response)
-                print(p)
-                exit()
+                generated_ids = model.generate(model_inputs, max_new_tokens=40, do_sample=True)
+                response = tokenizer.batch_decode(generated_ids)[0]
+                results[task]['predictions'].append(response)
+
 
     pickle.dump(results, open(f'{MISTRAL_RESULTS_DIR}/qual_{SHOTS}_shot_results', 'wb'))
     
