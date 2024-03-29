@@ -1,6 +1,7 @@
 import pickle
 import data_utils.model_utils.dataset as d
-from models.mistral.quant import def_map
+from models.mistral.quant import def_map as quant_def_map
+from models.mistral.qual import def_map as qual_def_map
 from sklearn.metrics import classification_report
 import pandas as pd
 import os
@@ -9,13 +10,27 @@ import argparse
 
 def main(args):
     SHOTS = args.s
-    DICT_PATH = f'data/mistral_results/{SHOTS}_shot_results'
-    OUT_DIR = f'data/mistral_results/{SHOTS}_shot/'
+    TYPE = 'qual'
+
+    label_map = None
+    def_map = None
+    if TYPE == 'qual':
+        label_map = d.qual_label_maps
+        def_map = qual_def_map
+    elif TYPE == 'quant':
+        label_map = d.quant_label_maps
+        def_map = quant_def_map
+    else:
+        raise ValueError("Invalid type")
+
+
+    DICT_PATH = f'data/mistral_results/{SHOTS}_shot/{TYPE}/{TYPE}_{SHOTS}_shot_results'
+    OUT_DIR = f'data/mistral_results/{SHOTS}_shot/{TYPE}/'
     os.makedirs(OUT_DIR, exist_ok=True)
 
     results = pickle.load(open(DICT_PATH, 'rb'))
     clean_results = {}
-    for task in d.quant_label_maps.keys():
+    for task in label_map.keys():
         print(task)
         clean_results[task] = {}
         clean_results[task]['predictions'] = []

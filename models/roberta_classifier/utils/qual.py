@@ -272,7 +272,9 @@ def get_texts(db_filename: str,
     for id in article_ids:
         if annotation_component in agreed_anns_dict[id].keys():
             if agreed_anns_dict[id][annotation_component] !='\x00':
-                texts.append(gs.get_text(id, db_filename, clean=False))
+                # texts.append(gs.get_text(id, db_filename, clean=False))
+                texts.append(gs.get_text(id, db_filename, clean=True))
+
                 label = agreed_anns_dict[id][annotation_component]
                 labels.append(d.qual_label_maps[task][label])
 
