@@ -129,7 +129,7 @@ def main(args):
 
     os.makedirs(MISTRAL_RESULTS_DIR, exist_ok=True)
 
-    model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", torch_dtype=torch.float16, device_map="auto")
     tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
     
     splits_dict = pickle.load(open(d.SPLIT_DIR + 'splits_dict', 'rb'))
@@ -173,9 +173,11 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
+                # model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
+                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt")
 
-                generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
+
+                generated_ids = model.generate(model_inputs, max_new_tokens=40, do_sample=True)
                 response = tokenizer.batch_decode(generated_ids)[0]
                 results[task]['predictions'].append(response)
 
