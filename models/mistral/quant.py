@@ -82,8 +82,8 @@ def shot_prompt(text, train, task, shots):
 
     messages = []
     
-    for i in idx_choices:
-        if i == 0:
+    for counter, i in enumerate(idx_choices):
+        if counter == 0:
             content_str = f"{PREAMBLE}\n"
         else:
             content_str = ""
@@ -93,6 +93,7 @@ def shot_prompt(text, train, task, shots):
         content_str += f"So for instance the following:\n excerpt: {indicator_text}\n context: {context}\n multiple choice question: {questions[task]}\n"
         for options in def_map[task].values():
             content_str += f"{options}\n"
+        content_str += f"{POSTAMBLE}"
         example_dict = {"role": "user", "content": content_str}
         messages.append(example_dict)
 
@@ -137,8 +138,8 @@ def main(args):
 
     os.makedirs(MISTRAL_RESULTS_DIR, exist_ok=True)
 
-    model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", device_map="auto")
-    tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
+    # model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2", device_map="auto")
+    # tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
     
     splits_dict = pickle.load(open(d.SPLIT_DIR + 'splits_dict', 'rb'))
     qual_dict = pickle.load(open(d.SPLIT_DIR + 'qual_dict', 'rb'))
@@ -182,11 +183,13 @@ def main(args):
             results[task]['labels'] += test[1]
             prompts = get_prompts(train, test, task, shots=SHOTS)
             for p in prompts:
-                model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
+                # model_inputs = tokenizer.apply_chat_template(p, return_tensors="pt").to("cuda")
 
-                generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
-                response = tokenizer.batch_decode(generated_ids)[0]
-                results[task]['predictions'].append(response)
+                # generated_ids = model.generate(model_inputs, max_new_tokens=100, do_sample=True)
+                # response = tokenizer.batch_decode(generated_ids)[0]
+                # results[task]['predictions'].append(response)
+                print(p)
+                exit()
 
     pickle.dump(results, open(f'{MISTRAL_RESULTS_DIR}/{SHOTS}_shot_results', 'wb'))
     

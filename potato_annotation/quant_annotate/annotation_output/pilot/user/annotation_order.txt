@@ -1,8 +1,11 @@
 Economic-Article-Quant-Annotation-intro.html
 Economic-Article-Quant-Annotation-instructions0.html
 Economic-Article-Quant-Annotation-instructions1.html
+Economic-Article-Quant-Annotation-instructions1_ex.html
 Economic-Article-Quant-Annotation-instructions2.html
+Economic-Article-Quant-Annotation-instructions2_ex.html
 Economic-Article-Quant-Annotation-instructions3.html
+Economic-Article-Quant-Annotation-instructions3_ex.html
 Economic-Article-Quant-Annotation-instructions4.html
 4806_5
 4167_3
