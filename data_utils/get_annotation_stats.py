@@ -39,6 +39,7 @@ def get_article_bins(predict_dict: dict, qual_dict: dict):
             except KeyError as e:
                 print(f'Key error: {e} not in article frames')
                 continue
+    print(bins.keys())
     return bins
 
 def get_site(article_id, db_filename):
