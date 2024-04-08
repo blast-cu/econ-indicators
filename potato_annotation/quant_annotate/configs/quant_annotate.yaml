@@ -36,12 +36,15 @@
             "surveyflow/intro.jsonl",
             "surveyflow/instructions0.jsonl",
             "surveyflow/instructions1.jsonl",
-            "surveyflow/instructions1_ex.jsonl",
+            "surveyflow/instructions1_example.jsonl",
             "surveyflow/instructions2.jsonl",
-            "surveyflow/instructions2_ex.jsonl",
+            "surveyflow/instructions2_example.jsonl",
             "surveyflow/instructions3.jsonl",
-            "surveyflow/instructions3_ex.jsonl",
-            "surveyflow/instructions4.jsonl"
+            "surveyflow/instructions3_example.jsonl",
+            "surveyflow/instructions_confirm.jsonl",
+            "surveyflow/example1.jsonl",
+            "surveyflow/example2.jsonl",
+            "surveyflow/confirm.jsonl"
         ], 
         "post_annotation": [
             "surveyflow/end.jsonl"
