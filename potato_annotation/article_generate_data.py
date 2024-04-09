@@ -221,15 +221,17 @@ def main():
         quant_csv_dict['id'] = []
         quant_csv_dict['text'] = []
 
-        ids_split = [article_csv_dict['id'][0:50], article_csv_dict['id'][50:]]
-        for split_num, split in enumerate(ids_split):
-            for article_id in split:
-                for quant_id, text in quant_choices[article_id]:
-                    quant_csv_dict['id'].append(quant_id)
-                    quant_csv_dict['text'].append(text)
+        
+        for article_id in article_csv_dict['id']:
+            random.seed(42)
+            small_choices = quant_choices[article_id]
+            small_choices = random.choices(small_choices, k=5)
+            for quant_id, text in small_choices:
+                quant_csv_dict['id'].append(quant_id)
+                quant_csv_dict['text'].append(text)
 
-            df = pd.DataFrame(quant_csv_dict)
-            df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}-{split_num}.csv', index=False)
+        df = pd.DataFrame(quant_csv_dict)
+        df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}.csv', index=False)
 
 
 
