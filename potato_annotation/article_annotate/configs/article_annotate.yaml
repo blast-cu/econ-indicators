@@ -1,5 +1,6 @@
 {
     "port": 8000,
+    # "port": 80,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Annotation",
     "output_annotation_dir": "annotation_output/pilot/",
@@ -43,7 +44,7 @@
             "surveyflow/instructions3_example.jsonl",
             "surveyflow/instructions_confirm.jsonl",
             "surveyflow/example1.jsonl",
-
+            "surveyflow/example2.jsonl",
             "surveyflow/confirm.jsonl"
 
         ], 
@@ -55,7 +56,7 @@
         "on": true,
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
-        "labels_per_instance": 3,
+        "labels_per_instance": 10,
         "instance_per_annotator": 25,
         "test_question_per_annotator": 0,
         "users": []
