@@ -9,10 +9,9 @@ import pandas as pd
 from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
 
-# from potato_annotation.eval.read_article_annotations import get_potato_article_anns
-from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
+from potato_annotation.eval.read_article_annotations import get_potato_article_anns
 
-ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
+ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_4_17"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 
@@ -85,83 +84,50 @@ def generate_disagree_examples(quantity2ann, quant_dict, report_dir):
     print("Disagree examples written to file")
 
 def main():
-    
+
+    # a = gs.get_qual_dict(d.DB_FILENAME)
+    # # print(gs.get_agreed_anns(a, d.qual_label_maps))
+    # print(a)
+    # exit()
+
+    article_potato, _ = get_potato_article_anns(ann_output_dir=ANN_DIR)
+    for k, v in article_potato.items():
+        print(k, v)
+        print() 
+    exit()
+    article_potato = get_qual_potato_dict(article_potato)
+
+    agreed_qual_potato = gs.get_agreed_anns(article_potato, d.qual_label_maps)
+
+    agreed_qual_ann = pickle.load(open("data/clean/qual_dict", "rb"))
+
+    article_anns = {}
+    article_anns['frame'] = []
+    article_anns['econ_rate'] = []
+    article_anns['econ_change'] = []
+    for id, anns in agreed_qual_potato.items():
+        for k in anns.keys():
+            # article_id, user_id, ann
+            if anns[k] == '\x00':
+                anns[k] = "none"
+            article_anns[k].append((id, "potato", anns[k]))
+
+    for id, anns in agreed_qual_ann.items():
+        for k in anns.keys():
+            if id in agreed_qual_potato:
+                if anns[k] == '\x00':
+                    anns[k] = "none"
+                article_anns[k].append((id, "house", anns[k]))
+
+    article2ann = {}
+    for ann_name, anns in article_anns.items():
+        iaa.retrieve_anns(article2ann, anns, ann_name)
+
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
+    at.generate_agree_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_agree.csv")
+    at.generate_ka_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_ka.csv")
 
-    quant_potato = get_potato_quant_anns(ann_output_dir=ANN_DIR)
-    quant_potato = get_quant_potato_dict(quant_potato)
-    agreed_quant_potato = gs.get_agreed_anns(quant_potato, d.quant_label_maps)
-    
-    quant_ann = gs.get_quant_dict(d.DB_FILENAME)
-    agreed_quant_ann = gs.get_agreed_anns(quant_ann, d.quant_label_maps)
-
-    quant_dict = pickle.load(open("data/clean/quant_excerpts_dict", "rb"))
-
-    to_retrieve = []
-    for id, anns in agreed_quant_potato.items():
-        # print(anns)
-        for k, ann in anns.items():
-            if ann == '\x00':
-                anns[k] = "None"
-        # print(id)
-        curr = [id, "potato", anns['type'], anns['macro_type'], "None", "None", "None", "None", anns['spin']]
-        to_retrieve.append(curr)
-
-    for id, anns in agreed_quant_ann.items():
-        if id in agreed_quant_potato:
-            # print(anns)
-            for k, ann in anns.items():
-                if ann == '\x00':
-                    anns[k] = "None"
-            curr = [id, "house", anns['type'], anns['macro_type'], "None", "None", "None", "None", anns['spin']]
-            to_retrieve.append(curr)
-
-    quantity2ann = {}
-    iaa.retrieve_quant_anns(quantity2ann, to_retrieve)
-    generate_disagree_examples(quantity2ann, quant_dict, report_dir)
-    at.generate_agree_table({},
-                            quantity2ann,
-                            filepath=report_dir,
-                            filename="potato_house_agree")
-
-    at.generate_ka_table({},
-                         quantity2ann,
-                         filepath=report_dir,
-                         filename="potato_house_ka")
-
-
-    # agreed_qual_potato = gs.get_agreed_anns(qual_potato, d.qual_label_maps)
-    # qual_potato = get_potato_article_anns()
-    # qual_potato = get_qual_potato_dict(qual_potato)
-    # qual_ann = gs.get_qual_dict(d.DB_FILENAME)
-    # agreed_qual_ann = gs.get_agreed_anns(qual_ann, d.qual_label_maps)
-
-
-    # article_anns = {}
-    # article_anns['frame'] = []
-    # article_anns['econ_rate'] = []
-    # article_anns['econ_change'] = []
-    # for id, anns in agreed_qual_potato.items():
-    #     for k in anns.keys():
-    #         # article_id, user_id, ann
-    #         if anns[k] == '\x00':
-    #             anns[k] = "none"
-    #         article_anns[k].append((id, "potato", anns[k]))
-
-    # for id, anns in agreed_qual_ann.items():
-    #     for k in anns.keys():
-    #         if id in agreed_qual_potato:
-    #             if anns[k] == '\x00':
-    #                 anns[k] = "none"
-    #             article_anns[k].append((id, "house", anns[k]))
-
-    # article2ann = {}
-    # for ann_name, anns in article_anns.items():
-    #     iaa.retrieve_anns(article2ann, anns, ann_name)
-
-    # at.generate_agree_table(article2ann, {}, "potato_house_qual_agree.csv")
-    # at.generate_ka_table(article2ann, {}, "potato_house_qual_ka.csv")
 
 if __name__ == "__main__":
     main()

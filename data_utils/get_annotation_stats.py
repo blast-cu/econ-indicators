@@ -116,6 +116,7 @@ def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
     for id in ann_dict.keys(): 
         curr_ent = ann_dict[id]
         # TODO: for quant anns, check type before subtypes
+        print(curr_ent)
         for type in curr_ent.keys():
             if type in label_maps:
                 curr_t = curr_ent[type]

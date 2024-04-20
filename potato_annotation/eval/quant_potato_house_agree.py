@@ -12,7 +12,7 @@ from nltk.metrics import binary_distance
 # from potato_annotation.eval.read_article_annotations import get_potato_article_anns
 from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 
-ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
+ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot_4_17"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 

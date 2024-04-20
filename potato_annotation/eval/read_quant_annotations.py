@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from data_utils.model_utils.dataset import qual_label_maps
 
 quant_predict_maps = {
@@ -78,64 +79,64 @@ def get_potato_quant_anns(ann_output_dir="potato_annotation/quant_annotate/annot
                     # print(ann["macro_indicator"])
                     # print(ann["spin"])
                     # print()
-
-                    frame_val = int(list(ann["frame"].values())[0])
-                    ann_count += 1
-                    if frame_val != 6:  # not relevant
-                        
-
-                        if frame_val == 0: # macro
-                            frame_val = "macro"
-                            label_id = int(list(ann["macro_indicator"].values())[0])
-                            macro_ind_val = quant_predict_maps["macro_type"][label_id]
-
-                            label_id = int(list(ann["spin"].values())[0])
-                            if label_id < 3:
-                                spin_val = quant_predict_maps["spin"][label_id]
-                            else:
+                    if 'frame' in ann:  # skip examples
+                        frame_val = int(list(ann["frame"].values())[0])
+                        ann_count += 1
+                        if frame_val != 6:  # not relevant
                             
-                                spin_val = "None"
+
+                            if frame_val == 0: # macro
+                                frame_val = "macro"
+                                label_id = int(list(ann["macro_indicator"].values())[0])
+                                macro_ind_val = quant_predict_maps["macro_type"][label_id]
+
+                                label_id = int(list(ann["spin"].values())[0])
+                                if label_id < 3:
+                                    spin_val = quant_predict_maps["spin"][label_id]
+                                else:
                                 
+                                    spin_val = "None"
+                                    
 
-                        else:
-                            label_id = int(list(ann["frame"].values())[0])
-                            frame_val = quant_predict_maps["type"][label_id]
+                            else:
+                                label_id = int(list(ann["frame"].values())[0])
+                                frame_val = quant_predict_maps["type"][label_id]
 
-                            label_id = int(list(ann["macro_indicator"].values())[0])
-                            macro_ind_val = quant_predict_maps["macro_type"][label_id]
+                                label_id = int(list(ann["macro_indicator"].values())[0])
+                                macro_ind_val = quant_predict_maps["macro_type"][label_id]
 
-                            label_id = int(list(ann["spin"].values())[0])
-                            spin_val = quant_predict_maps["spin"][label_id]
-                            
-                            if spin_val != "irrelevant":
+                                label_id = int(list(ann["spin"].values())[0])
+                                spin_val = quant_predict_maps["spin"][label_id]
+                                
+                                if spin_val != "irrelevant":
 
-                                error_count += 1
-                                if report_errors:
-                                    print("Spin ValError: {}".format(annotator_id))
-                                    print(f"Type: {frame_val}")
-                                    print(f"Macro Indicator: {macro_ind_val}")
-                                    print(f"Spin: {spin_val}")
-                                    print()
-                            
-                            if macro_ind_val != "none":
-                                error_count += 1
-                                if report_errors:
-                                    print("Spin ValError: {}".format(annotator_id))
-                                    print(f"Type: {frame_val}")
-                                    print(f"Macro Indicator: {macro_ind_val}")
-                                    print(f"Spin: {spin_val}")
-                                    print()
-                            
-                            macro_ind_val = "None"
-                            spin_val = "None"
+                                    error_count += 1
+                                    if report_errors:
+                                        print("Spin ValError: {}".format(annotator_id))
+                                        print(f"Type: {frame_val}")
+                                        print(f"Macro Indicator: {macro_ind_val}")
+                                        print(f"Spin: {spin_val}")
+                                        print()
+                                
+                                if macro_ind_val != "none":
+                                    error_count += 1
+                                    if report_errors:
+                                        print("Spin ValError: {}".format(annotator_id))
+                                        print(f"Type: {frame_val}")
+                                        print(f"Macro Indicator: {macro_ind_val}")
+                                        print(f"Spin: {spin_val}")
+                                        print()
+                                
+                                macro_ind_val = "None"
+                                spin_val = "None"
 
-                        ann_dict = {}
-                        ann_dict["quant_id"] = quant_id
-                        ann_dict["user_id"] = annotator_id
-                        ann_dict["type"] = frame_val
-                        ann_dict["macro_type"] = macro_ind_val
-                        ann_dict["spin"] = spin_val
-                        ann_list.append(ann_dict)
+                            ann_dict = {}
+                            ann_dict["quant_id"] = quant_id
+                            ann_dict["user_id"] = annotator_id
+                            ann_dict["type"] = frame_val
+                            ann_dict["macro_type"] = macro_ind_val
+                            ann_dict["spin"] = spin_val
+                            ann_list.append(ann_dict)
                     
         
 
@@ -157,10 +158,15 @@ def get_potato_quant_anns(ann_output_dir="potato_annotation/quant_annotate/annot
     else:
         return ann_list
 
+
 def main():
-    ann_list = get_potato_quant_anns()
-    # for v in ann_list:
-    #     print(v)
+    ann_list, annotator_stats = get_potato_quant_anns(
+        ann_output_dir="potato_annotation/quant_annotate/annotation_output/pilot_4_17",
+        report_errors=True,
+        get_annotator_stats=True)
+
+    for v in annotator_stats.items():
+        print(v)
 
 
 
