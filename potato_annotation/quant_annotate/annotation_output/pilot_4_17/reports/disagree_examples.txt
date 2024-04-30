@@ -1,0 +1,49 @@
+indicator: than 60 percent
+full excerpt: As the reevaluation of the currency must pass through the dictatorship’s rubber-stamp legislature, it will not be confirmed until a final vote in the Iranian parliament. PressTV admitted the plan to remove the zeros, an attempt to strengthen the currency’s value, “found traction after the national currency lost more than 60 percent of its value in 2018,” after the United States withdrew from the international nuclear deal with Tehran. The outlet blamed Washington for sending the rial into a “tailspin” and prices of basic goods in the country “through the roof.” The administration of President Donald Trump walked out of the nuclear deal, formally the 2015 Joint Comprehensive Plan of Action (JCPOA), after collecting significant evidence that Iran was violating the provisions of the deal and using its windfall from sanctions relief to fund Hezbollah, support Syrian dictator Bashar al-Assad, and spread the influence of Shiite terrorist organizations throughout the Middle East and Latin America.
+--------
+potato: government
+house: other
+
+
+indicator: to 13,600.
+full excerpt: “But we’ve been treated so unfairly for so long.” Twenty years ago, 21,100 Pennsylvanians were employed directly by iron and steel mills. Ten years later, that number dipped to 13,600. At the start of this year, just 10,600 Pennsylvanians worked in that industry, down slightly since Trump’s inauguration.
+--------
+potato: macro
+house: industry
+
+
+indicator: with 0.3% for
+full excerpt: To be sure, the direct macroeconomic effect of Mr. Trump’s tariffs look to be slim. Net imports of steel and aluminum are about 0.2% of gross domestic product, compared with 0.3% for oil. Barclays estimates the tariff will add 0.1 percentage point to inflation and subtract 0.1 to 0.2 percentage point from economic growth, for one year.
+--------
+potato: macro
+house: industry
+
+
+indicator: makes $13 an
+full excerpt: “It can get pretty stressful living with so many people like this.” Tired of living in such close quarters, Ms. Ezi began looking for a job that would pay more. In August, she found a full-time position as a sales representative at a store that sells birding equipment, where she makes $13 an hour plus tips. She remains on the staff at the pool, where she still picks up an occasional shift.
+--------
+potato: macro
+house: personal
+
+
+indicator: from 26 percent
+full excerpt: In Seattle, the share of affordable homes fell 14 percent from 2017 to 2018, leaving only 46 percent of homes within the reach of middle-class families. In San Jose, Calif., the share of affordable homes fell from 26 percent to 14 percent over the same time. According to the National Association of Realtors, existing home sales in December were down 10.3 percent year over year, the biggest drop since the housing market bottomed in 2011.
+--------
+potato: neg
+house: neutral
+
+
+indicator: than 200,000 people
+full excerpt: “If the point is to protect American jobs, if the point is to protect small and medium-sized businesses, this is exactly the wrong way to do things.” The mills and smelters that supply the raw material, and that would directly benefit from the tariffs, have been shrinking for years. Today, those industries employ fewer than 200,000 people. The companies that buy steel and aluminum, to make everything from trucks to chicken coops, employ more than 6.5 million workers, according to a Heritage Foundation analysis of Commerce Department data.
+--------
+potato: macro
+house: industry
+
+
+indicator: add $150 to
+full excerpt: He buys most of his raw material from domestic mills, but he expects them to raise prices as their foreign competitors are hit by tariffs of up to 25 percent.Continue reading the main story Right now, he pays around $600 per ton of steel wire rod. The impact of a 25 percent tariff would add $150 to that price. He makes only $40 in profit per ton, though, so the math would destroy his balance sheet.
+--------
+potato: industry
+house: business
+
+

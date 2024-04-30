@@ -11,7 +11,7 @@ from nltk.metrics import binary_distance
 
 from potato_annotation.eval.read_article_annotations import get_potato_article_anns
 
-ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_4_17"
+ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_4_20"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 
@@ -91,10 +91,10 @@ def main():
     # exit()
 
     article_potato, _ = get_potato_article_anns(ann_output_dir=ANN_DIR)
-    for k, v in article_potato.items():
-        print(k, v)
-        print() 
-    exit()
+    # for k, v in article_potato.items():
+    #     print(k, v)
+    #     print() 
+    # exit()
     article_potato = get_qual_potato_dict(article_potato)
 
     agreed_qual_potato = gs.get_agreed_anns(article_potato, d.qual_label_maps)
@@ -114,10 +114,11 @@ def main():
 
     for id, anns in agreed_qual_ann.items():
         for k in anns.keys():
-            if id in agreed_qual_potato:
-                if anns[k] == '\x00':
-                    anns[k] = "none"
-                article_anns[k].append((id, "house", anns[k]))
+            if k != 'quant_list':
+                if id in agreed_qual_potato:
+                    if anns[k] == '\x00':
+                        anns[k] = "none"
+                    article_anns[k].append((id, "house", anns[k]))
 
     article2ann = {}
     for ann_name, anns in article_anns.items():
