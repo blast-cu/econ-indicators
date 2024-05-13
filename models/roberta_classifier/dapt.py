@@ -38,7 +38,7 @@ def group_texts(examples):
     }
     # Create a new labels column
     result["labels"] = result["input_ids"].copy()
-    print(f"Created {len(result["input_ids"])} chunks of size {chunk_size}")
+    print(f'Created {len(result["input_ids"])} chunks of size {chunk_size}')
 
     return result
 
