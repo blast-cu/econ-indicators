@@ -1,11 +1,13 @@
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
     AutoModelForMaskedLM, DataCollatorForLanguageModeling
 from torch.utils.data import Dataset
+from sklearn.model_selection import train_test_split
 
 import math
 import os
 import pickle
 import sqlite3
+import random
 
 import data_utils.get_annotation_stats as gs
 
@@ -101,7 +103,7 @@ class EconomicArticlesDatataset(Dataset):
         }
 
 
-def load_dataset(db_filename: str):
+def load_dataset(db_filename: str, remove_labelled: bool = True):
 
     """
     Retrieves the text data from the specified SQLite database file.
@@ -116,9 +118,15 @@ def load_dataset(db_filename: str):
     conn = sqlite3.connect(db_filename)
     cur = conn.cursor()
 
-    query = 'SELECT text FROM article;'
-    res = cur.execute(query)
-    text = [t[0] for t in res.fetchall()]
+    if remove_labelled:
+        labelled_ids = list(pickle.load(open('data/clean/qual_dict', 'rb')).keys())
+        query = 'SELECT id, text FROM article;'
+        res = cur.execute(query)
+        text = [t[1] for t in res.fetchall() if t[0] not in labelled_ids]
+    else:
+        query = 'SELECT text FROM article;'
+        res = cur.execute(query)
+        text = [t[0] for t in res.fetchall()]
 
     text = [gs.extract_strings(t) for t in text]
 
@@ -140,46 +148,44 @@ def main():
 
     # Load pretrained model and tokenizer
     model_checkpoint = "roberta-base"
-    model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
+    model = AutoModelForMaskedLM.from_pretrained(model_checkpoint).to('cuda')
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-    # # Get list of all articles in db, split into train and val
-    # db_filename = "data/data.db"
-    # texts = load_dataset(db_filename)
-    # # texts = random.sample(texts, 10)
-    # train_texts, val_texts = train_test_split(
-    #     texts,
-    #     test_size=0.15,
-    #     random_state=42
-    # )
+    # Get list of all articles in db, split into train and val
+    db_filename = "data/data.db"
+    texts = load_dataset(db_filename)
+    # texts = random.sample(texts, 10)
+    train_texts, val_texts = train_test_split(
+        texts,
+        test_size=0.15,
+        random_state=42
+    )
 
-    # print(f'>>> Loaded {len(train_texts)} training texts')
-    # print(f'>>> Loaded {len(val_texts)} validation texts')
+    print(f'>>> Loaded {len(train_texts)} training texts')
+    print(f'>>> Loaded {len(val_texts)} validation texts')
 
-    # print('>>> Tokenizing train texts')
-    # train_dataset = EconomicArticlesDatataset(
-    #     train_texts,
-    #     tokenizer
-    # )
+    print('>>> Tokenizing train texts')
+    train_dataset = EconomicArticlesDatataset(
+        train_texts,
+        tokenizer
+    )
 
     filename = os.path.join(OUT_DIR, "train_dataset")
-    train_dataset = pickle.load(open(filename, 'rb'))
-    # f = open(filename, 'wb')
-    # pickle.dump(train_dataset, f)
+    # train_dataset = pickle.load(open(filename, 'rb'))
+    f = open(filename, 'wb')
+    pickle.dump(train_dataset, f)
 
 
-    # print('>>> Tokenizing val texts')
-    # val_dataset = EconomicArticlesDatataset(
-    #     val_texts,
-    #     tokenizer
-    # )
+    print('>>> Tokenizing val texts')
+    val_dataset = EconomicArticlesDatataset(
+        val_texts,
+        tokenizer
+    )
 
     filename = os.path.join(OUT_DIR, "val_dataset")
-    val_dataset = pickle.load(open(filename, 'rb'))
-    # f = open(filename, 'wb')
-    # pickle.dump(val_dataset, f)
-
-
+    # val_dataset = pickle.load(open(filename, 'rb'))
+    f = open(filename, 'wb')
+    pickle.dump(val_dataset, f)
 
     # create data collator for adding masks to input
     data_collator = DataCollatorForLanguageModeling(
@@ -196,7 +202,7 @@ def main():
     logging_steps = len(train_dataset) // batch_size
 
     training_args = TrainingArguments(
-        output_dir=f"models/roberta_classifier/tuned_models/{model_checkpoint}-dapt-checkpoint",
+        output_dir=f"models/roberta_classifier/tuned_models/{model_checkpoint}-dapt-big",
         overwrite_output_dir=True,
         evaluation_strategy="epoch",
         learning_rate=2e-5,
@@ -225,7 +231,6 @@ def main():
     print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
     trainer.save_model()
-    trainer.save_metrics()
 
 
 if __name__ == "__main__":
