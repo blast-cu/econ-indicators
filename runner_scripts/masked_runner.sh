@@ -26,4 +26,4 @@ export TRANSFORMERS_CACHE=metadata/
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.masked_tune
+python -m models.roberta_classifier.dapt
