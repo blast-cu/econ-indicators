@@ -10,6 +10,10 @@ from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
 
 from potato_annotation.eval.read_article_annotations import get_potato_article_anns
+from data_utils.model_utils.dataset import DB_FILENAME
+from data_utils.get_annotation_stats import get_text
+
+
 
 ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_4_20"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
@@ -58,6 +62,7 @@ def get_quant_potato_dict(potato_anns):  # article_id, user_id, ann
             clean_ann[quant_id]['spin'].append((user_id, spin))
     return clean_ann
 
+
 def count_agreed(agreed_anns, label_map, report_dir):
     agree_count = {}
     for comp in label_map.keys():
@@ -68,18 +73,40 @@ def count_agreed(agreed_anns, label_map, report_dir):
     for k, v in agree_count.items():
         print(k, v)
 
-def generate_disagree_examples(quantity2ann, quant_dict, report_dir):
-    with open (os.path.join(report_dir, "disagree_examples.txt"), "w") as f:
-        for id, anns in quantity2ann.items():
-            for k, ann in anns.items():
-                if len(ann) >= 2:
-                    if ann[0][1] != ann[1][1]:
 
-                        f.write(f"indicator: {quant_dict[id]['indicator']}\n")
-                        f.write(f"full excerpt: {quant_dict[id]['excerpt']}\n")
-                        f.write("--------\n")
-                        f.write(f"potato: {ann[0][1]}\n")
-                        f.write(f"house: {ann[1][1]}\n\n\n")
+def generate_disagree_examples(article2ann, qual_dict, report_dir):
+
+    with open(os.path.join(report_dir, "disagree_examples.html"), "w") as f:
+        # f.write("<style>span {background-color: yellow;}</style>")
+        f.write("<h3>Disagree Examples</h3><br><br>")
+        for k in ["frame", "econ_rate", "econ_change"]:
+            f.write("----<br>")
+            f.write("<b>Annotation Component: " + k + "</b><br>")
+            f.write("----<br><br>")
+
+            for id, anns in article2ann.items():
+                potato_ann = anns[k][0][1]
+                house_ann = anns[k][1][1]
+
+                if potato_ann != house_ann:
+
+                    text = get_text(
+                        id,
+                        db_filename=DB_FILENAME,
+                        clean=False,
+                        headline=True
+                    )
+                    headline = text[0].replace("\n", "<br>")
+                    body = text[1].replace("\n", "<br>")
+                    body = body.replace(headline, "")
+
+                    f.write("<h1>" + headline + "</h1><br>")
+                    f.write(body + "<br><br>")
+
+                    f.write("PROLIFIC: <i>" + potato_ann + "</i><br>")
+                    f.write("HOUSE: <i>" + house_ann + "</i><br>")
+                    f.write("<br><br><br>")
+
 
     print("Disagree examples written to file")
 
@@ -126,6 +153,7 @@ def main():
 
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
+    generate_disagree_examples(article2ann, agreed_qual_ann, report_dir)
     at.generate_agree_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_agree.csv")
     at.generate_ka_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_ka.csv")
 

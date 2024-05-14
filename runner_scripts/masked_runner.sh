@@ -21,7 +21,7 @@ conda activate /rc_scratch/alle5715/argmin-sharedtask/venv
 mkdir -p metadata
 mkdir -p outputs
 
-export TRANSFORMERS_CACHE=metadata/
+export HF_HOME=metadata/
 export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 
 module load cuda

@@ -118,7 +118,7 @@ def main():
             to_retrieve.append(curr)
 
     quantity2ann = {}
-    iaa.retrieve_quant_anns(quantity2ann, to_retrieve)
+    iaa.retrieve_quant_anns(quantity2ann, to_retrieve) 
     generate_disagree_examples(quantity2ann, quant_dict, report_dir)
     at.generate_agree_table({},
                             quantity2ann,

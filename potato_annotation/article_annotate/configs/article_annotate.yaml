@@ -1,9 +1,9 @@
 {
-    # "port": 8000,
-    "port": 80,
+    "port": 8000,
+    # "port": 80,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Annotation",
-    "output_annotation_dir": "annotation_output/pilot_4_20/",
+    "output_annotation_dir": "annotation_output/pilot_test/",
     "output_annotation_format": "csv",
     "annotation_codebook_url": "https://www.dropbox.com/scl/fi/4bpa4eawf4l2wcisl636p/Article-Codebook.pdf?rlkey=p5j0wjjbjjrhaey1o7t3zjdv1&dl=0",
     "data_files": [
@@ -66,7 +66,7 @@
         {
             "annotation_type": "radio",
             "name": "frame",
-            "description": "If the article is relevant to the U.S. economy, what is the main type of economic information covered in this article?",
+            "description": "If the article is relevant to the <u>U.S. economy</u> what is the main type of economic information covered in this article?",
             "labels": [
                 {
                     "name": "Macroeconomic / General Economic Conditions",
@@ -113,7 +113,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Conditions",
-            "description": "If this article is relevant to Macro-economic / General Economic Conditions, how does it rate economic conditions in the US?",
+            "description": "If this article is relevant to <u>Macro-economic / General Economic Conditions</u>, how does it rate economic conditions in the US?",
             "labels": [
                 {
                     "name": "Good",
@@ -149,7 +149,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Direction",
-            "description": "If this article pertains to Macro-economic / General Economic Conditions, does it state/imply that economic conditions in the US as a whole are. . . ?",
+            "description": "If this article pertains to <u>Macro-economic / General Economic Conditions</u>, does it state/imply that economic conditions in the US as a whole are. . . ?",
             "labels": [
                 {
                     "name": "Getting better",

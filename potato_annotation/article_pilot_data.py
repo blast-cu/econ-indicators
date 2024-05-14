@@ -52,7 +52,11 @@ def main():
     articles = {}
     for id in article_choices:
         text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
-        articles[id] = text
+        headline = text[0].replace("\n", "")
+        headline = "<h1>" + headline + "</h1><br>"
+        body = text[1].replace("\n", "<br><br>")
+        body = body.replace(headline, "")
+        articles[id] = headline + body
 
     article_csv_dict = {}
     article_csv_dict['id'] = list(articles.keys())

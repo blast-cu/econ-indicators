@@ -32,6 +32,7 @@ def save_progress(to_save,
         print(e)
         print("Something went wrong")
 
+
 def get_distributed_articles(num_articles, priority, qual_dict, predict_dict):
     random.seed(42)
     bins = gs.get_article_bins(predict_dict, qual_dict)
@@ -106,7 +107,10 @@ def get_choices(SETTING, NUM_ARTICLES):
         articles = {}
         for id in article_choices:
             text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
-            articles[id] = text
+            headline = text[0].replace("\n", "<br>")
+            body = text[1].replace("\n", "<br>")
+            body = body.replace(headline, "")
+            articles[id] = headline + body
 
         num_articles = NUM_ARTICLES - len(articles)
         more_articles = gs.get_no_anns(db_filename=DB_FILENAME,
@@ -200,7 +204,7 @@ def main():
 
     articles = {}
     for id in article_choices:
-        text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
+        text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True) 
         articles[id] = text
 
     for id, text in articles.items():

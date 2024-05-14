@@ -50,6 +50,7 @@ def get_site(article_id, db_filename):
     con.close()
     return site[0]
 
+
 def get_qual_dict(db_filename: str):
     """
     Takes file location of database
