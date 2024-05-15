@@ -23,7 +23,7 @@ def group_texts(examples):
         dict: A dictionary containing the grouped texts.
 
     """
-    chunk_size = 512
+    chunk_size = 128
 
     concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
     total_length = len(concatenated_examples[list(examples.keys())[0]])
@@ -170,7 +170,7 @@ def main():
         tokenizer
     )
 
-    filename = os.path.join(OUT_DIR, "train_dataset")
+    filename = os.path.join(OUT_DIR, "train_dataset_128")
     # train_dataset = pickle.load(open(filename, 'rb'))
     f = open(filename, 'wb')
     pickle.dump(train_dataset, f)
@@ -182,7 +182,7 @@ def main():
         tokenizer
     )
 
-    filename = os.path.join(OUT_DIR, "val_dataset")
+    filename = os.path.join(OUT_DIR, "val_dataset_128")
     # val_dataset = pickle.load(open(filename, 'rb'))
     f = open(filename, 'wb')
     pickle.dump(val_dataset, f)

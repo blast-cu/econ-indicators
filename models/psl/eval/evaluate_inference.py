@@ -1,6 +1,7 @@
 from models.psl.generate_data import load_train_test_data
 import models.psl.generate_rules as gd
 import data_utils.model_utils.dataset as d
+import data_utils.model_utils.eval as eval
 import models.psl.run_inference as ri
 import pickle
 import os
@@ -60,6 +61,7 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
     # for annotation_type in ['spin']:
 
         results[annotation_type] = {}
+        results[annotation_type]['id'] = []
         results[annotation_type]['predictions'] = []
         results[annotation_type]['labels'] = []
 
@@ -88,17 +90,19 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         # print(f'>>> {annotation_type} <<<')
         for id in labels.keys():
             # if labels[id] != '\0':
+
             prediction_list.append(predictions[id])
             label_list.append(labels[id])
 
             # if label_list[-1] != prediction_list[-1]:
             #     print(f'ID: {id} \t Prediction: {prediction_list[-1]} \t Label: {label_list[-1]}')
 
+        results[annotation_type]['id'] = list(labels.keys())
         results[annotation_type]['predictions'] = prediction_list
         results[annotation_type]['labels'] = label_list  
     
         os.makedirs(report_dir, exist_ok=True)
-        d.to_csv(annotation_type, label_list, prediction_list, report_dir)
+        eval.to_csv(annotation_type, label_list, prediction_list, report_dir)
     
     return results
 
@@ -136,11 +140,13 @@ def main(args):
 
         for annotation_type in gd.qual_map.keys():
             full_qual_results[annotation_type] = {}
+            full_qual_results[annotation_type]['ids'] = []
             full_qual_results[annotation_type]['predictions'] = []
             full_qual_results[annotation_type]['labels'] = []
         
         for annotation_type in gd.quant_map.keys():
             full_quant_results[annotation_type] = {}
+            full_quant_results[annotation_type]['ids'] = []
             full_quant_results[annotation_type]['predictions'] = []
             full_quant_results[annotation_type]['labels'] = []
         
@@ -152,12 +158,16 @@ def main(args):
             split_setting_rule_dir = os.path.join(SPLIT_SETTING_DIR, rule_name)
 
             _, _, eval_articles, eval_excerpts = \
-                load_train_test_data(splits_dict[split_num],
-                                     qual_dict,
-                                     quant_dict)
+                load_train_test_data(
+                    splits_dict[split_num],
+                    qual_dict,
+                    quant_dict
+                )
 
-            inference_dir = os.path.join(split_setting_rule_dir, 
-                                         'inferred_predicates')
+            inference_dir = os.path.join(
+                split_setting_rule_dir,
+                'inferred_predicates'
+            )
 
             report_dir = os.path.join(inference_dir, 'reports')
             os.makedirs(report_dir, exist_ok=True)
@@ -166,22 +176,27 @@ def main(args):
             quant_results = evaluate(gd.quant_map, eval_excerpts, inference_dir, report_dir, split_num)
 
             for annotation_type in gd.qual_map.keys():
+
+                ids = qual_results[annotation_type]['id']
                 predictions = qual_results[annotation_type]['predictions']
                 labels = qual_results[annotation_type]['labels']
 
-                d.to_csv(annotation_type, labels, predictions, split_setting_rule_dir)
+                eval.to_csv(annotation_type, labels, predictions, split_setting_rule_dir)
 
+                full_qual_results[annotation_type]['ids'] += ids
                 full_qual_results[annotation_type]['predictions'] += predictions
-
                 full_qual_results[annotation_type]['labels'] += labels
 
 
             for annotation_type in gd.quant_map.keys():
 
+                ids = quant_results[annotation_type]['id']
                 predictions = quant_results[annotation_type]['predictions']
                 labels = quant_results[annotation_type]['labels']
 
-                d.to_csv(annotation_type, labels, predictions, split_setting_rule_dir)
+                eval.to_csv(annotation_type, labels, predictions, split_setting_rule_dir)
+                
+                full_quant_results[annotation_type]['ids'] += ids
 
                 full_quant_results[annotation_type]['predictions'] += \
                     quant_results[annotation_type]['predictions']
@@ -189,18 +204,34 @@ def main(args):
                 full_quant_results[annotation_type]['labels'] += \
                     quant_results[annotation_type]['labels']
 
-
-
         for annotation_type in gd.qual_map.keys():
             labels = full_qual_results[annotation_type]['labels']
             predictions = full_qual_results[annotation_type]['predictions']
-            d.to_csv(annotation_type, labels, predictions, setting_rule_out_file)
+            eval.to_csv(
+                annotation_type,
+                labels,
+                predictions,
+                setting_rule_out_file
+            )
 
         for annotation_type in gd.quant_map.keys():
             labels = full_quant_results[annotation_type]['labels']
             predictions = full_quant_results[annotation_type]['predictions']
-            d.to_csv(annotation_type, labels, predictions, setting_rule_out_file)
+            eval.to_csv(
+                annotation_type,
+                labels,
+                predictions,
+                setting_rule_out_file
+            )
 
+        pickle.dump(
+            full_qual_results,
+            open(os.path.join(d.SPLIT_DIR, 'best_qual_results'), 'wb')
+        )
+        pickle.dump(
+            full_quant_results,
+            open(os.path.join(d.SPLIT_DIR, 'best_quant_results'), 'wb')
+        )
 
 
 if __name__ == "__main__":

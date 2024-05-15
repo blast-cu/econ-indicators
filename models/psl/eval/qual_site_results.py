@@ -123,8 +123,7 @@ def main():
                       qual_dict,
                       valid_ids
                      )
-        
-        
+
 
         for i, id in enumerate(valid_ids):
             site = curr_sites[i]
