@@ -116,13 +116,13 @@ def main():
         task_name = task + '_model'
         valid_ids = get_valid_ids(split_test_ids, qual_dict, task)
 
-        _, test_labels, curr_sites = \
-            get_texts(DB_FILENAME,
-                      ann_component,
-                      task,
-                      qual_dict,
-                      valid_ids
-                     )
+        _, test_labels, curr_sites = get_texts(
+            DB_FILENAME,
+            ann_component,
+            task,
+            qual_dict,
+            valid_ids
+        )
 
 
         for i, id in enumerate(valid_ids):

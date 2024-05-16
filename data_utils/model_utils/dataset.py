@@ -135,7 +135,7 @@ class QualAnnClassificationDataset(Dataset):
             max_length=self.max_length,
             padding='max_length',
             truncation=True
-        )
+        ) 
 
         return {
             'input_ids': encoding['input_ids'].flatten(),

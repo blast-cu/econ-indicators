@@ -1,9 +1,9 @@
 {
-    "port": 8000,
-    # "port": 80,
+    # "port": 8000,
+    "port": 80,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Annotation",
-    "output_annotation_dir": "annotation_output/pilot_test/",
+    "output_annotation_dir": "annotation_output/pilot_5_16/",
     "output_annotation_format": "csv",
     "annotation_codebook_url": "https://www.dropbox.com/scl/fi/4bpa4eawf4l2wcisl636p/Article-Codebook.pdf?rlkey=p5j0wjjbjjrhaey1o7t3zjdv1&dl=0",
     "data_files": [
@@ -69,32 +69,32 @@
             "description": "If the article is relevant to the <u>U.S. economy</u> what is the main type of economic information covered in this article?",
             "labels": [
                 {
-                    "name": "Macroeconomic / General Economic Conditions",
+                    "name": "Macroeconomic / General Economic Conditions [in the U.S.]",
                     "tooltip": "e.g., discusses jobs, housing prices, and oil prices",
                     "key_value": "0"
                 },
                 {
-                    "name": "Firm-specific",
+                    "name": "Firm-specific [articles focused on a single business]",
                     "tooltip": "e.g., discusses a firm's stock prices, debt offerings, and capital investments",
                     "key_value": "1"
                 },
                 {
-                    "name": "Industry-specific",
+                    "name": "Industry-specific [articles focused on multiple/all businesses within a single sector e.g. the steel industry]",
                     "tooltip": "e.g., discusses agricultural prices, manufacturing output, and retail sales",
                     "key_value": "2"
                 },
                 {
-                    "name": "Government revenue and expenses",
+                    "name": "Government revenue and expenses [articles focused on lawmaking and government action including treaties, regulation, taxes, laws, and spending]",
                     "tooltip": "e.g., discusses taxes, budgets, and treasury issuances",
                     "key_value": "3"
                 },
                 {
-                    "name": "Personal",
+                    "name": "Personal [articles focused on an individual or small group of individuals]",
                     "tooltip": "e.g., discusses household expenditures and personal debts",
                     "key_value": "4"
                 },
                 {
-                    "name": "Other",
+                    "name": "Other [articles that do not fit into any of the above categories but are relevant to the U.S. economy]",
                     "tooltip": "",
                     "key_value": "5"
                 },
@@ -113,7 +113,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Conditions",
-            "description": "If this article is relevant to <u>Macro-economic / General Economic Conditions</u>, how does it rate economic conditions in the US?",
+            "description": "If this article is relevant to <u>Macro-economic / General Economic Conditions [in the U.S.]</u>, how does it rate economic conditions in the U.S.?",
             "labels": [
                 {
                     "name": "Good",
@@ -136,7 +136,7 @@
                     "key_value": "3"
                 },
                 {
-                    "name": "Not relevant to the US economy",
+                    "name": "Not relevant to the U.S. economy",
                     "tooltip": "",
                     "key_value": "4"
                 },
@@ -149,7 +149,7 @@
         {
             "annotation_type": "radio",
             "name": "Economic Direction",
-            "description": "If this article pertains to <u>Macro-economic / General Economic Conditions</u>, does it state/imply that economic conditions in the US as a whole are. . . ?",
+            "description": "If this article pertains to <u>Macro-economic / General Economic Conditions [in the U.S.]</u>, does it state/imply that economic conditions in the U.S. as a whole are. . . ?",
             "labels": [
                 {
                     "name": "Getting better",
@@ -177,7 +177,7 @@
                     "key_value": "4"
                 },
                 {
-                    "name": "Not relevant to the US economy",
+                    "name": "Not relevant to the U.S. economy",
                     "tooltip": "",
                     "key_value": "5"
                 },
