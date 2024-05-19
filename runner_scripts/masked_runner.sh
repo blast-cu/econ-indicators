@@ -27,4 +27,4 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.dapt
+python3 models/roberta_classifier/dapt.py --o models/roberta_classifier/tuned_models/roberta_base_dapt_512 --c roberta-base --s 512
