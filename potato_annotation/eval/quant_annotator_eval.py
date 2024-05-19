@@ -37,10 +37,11 @@ def main():
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
 
-    quant_potato, annotator_stats = get_potato_quant_anns(ann_output_dir=ANN_DIR,
-                                                          annotator_stats=True)
+    quant_potato, annotator_stats = get_potato_quant_anns(
+        nn_output_dir=ANN_DIR,
+        annotator_stats=True
+    )
     quant_potato = get_quant_potato_dict(quant_potato)
-
     user_ann_disagreement = get_user_ann_disagreement(quant_potato)
 
     annotator_stats['type_disagreement'] = []
@@ -58,6 +59,9 @@ def main():
     filename = "annotator_stats"
     print(f"Saving {filename} table to {filepath}{filename}.csv")
     pd.DataFrame(annotator_stats).to_csv(f'{filepath}{filename}.csv', index=False)
+
+
+    # get inter-annotator stats
 
 if __name__ == "__main__":
     main()

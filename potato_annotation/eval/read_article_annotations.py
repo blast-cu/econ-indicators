@@ -60,7 +60,7 @@ def get_potato_article_anns(ann_output_dir, report_errors=False):
             error_count = 0
             f = os.path.join(d, "annotated_instances.jsonl")
             data = load_jsonl(f)
-            for ann in data:
+            for ann in data: 
 
                 article_id = ann["id"]
                 ann = ann["label_annotations"]
@@ -124,9 +124,9 @@ def get_potato_article_anns(ann_output_dir, report_errors=False):
                             error_count += 1
                             econ_rate_val = "not macro"
 
-                        econ_rate_val = '\x00'
-                        econ_change_val = '\x00'
-
+                        econ_rate_val = 'NA'
+                        econ_change_val = 'NA'
+ 
 
                     ann_dict["frame"].append((article_id, annotator_id, frame_val))
                     ann_dict["econ_rate"].append((article_id, annotator_id, econ_rate_val))

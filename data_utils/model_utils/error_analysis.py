@@ -62,10 +62,11 @@ def main():
                     text = get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
                     headline = text[0].replace("\n", "")
                     headline = "<h4>" + headline + "</h4>"
+                    id = "<p>Id: " + str(id) + "</p>"
                     body = text[1].replace("\n", "<br>")
                     body = body.replace(headline, "")
                     body = f'<p>{body}</p>'
-                    f.write(headline + body)
+                    f.write(headline + id + body)
                     f.write(f'<p>Label: {label}</p>')
                     f.write(f'<p>Prediction: {prediction}</p><br>')
 

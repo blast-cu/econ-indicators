@@ -90,7 +90,8 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         # print(f'>>> {annotation_type} <<<')
         for id in labels.keys():
             # if labels[id] != '\0':
-
+            if int(id) == 7: 
+                print(split_num)
             prediction_list.append(predictions[id])
             label_list.append(labels[id])
 

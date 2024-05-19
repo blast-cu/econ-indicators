@@ -13,11 +13,8 @@ from potato_annotation.eval.read_article_annotations import get_potato_article_a
 from data_utils.model_utils.dataset import DB_FILENAME
 from data_utils.get_annotation_stats import get_text
 
-
-
-ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_4_20"
+ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_5_16"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
-
 
 
 def get_qual_potato_dict(potato_anns):  # article_id, user_id, ann
@@ -74,7 +71,11 @@ def count_agreed(agreed_anns, label_map, report_dir):
         print(k, v)
 
 
-def generate_disagree_examples(article2ann, qual_dict, report_dir):
+def generate_disagree_examples(
+        article2ann,
+        report_dir,
+        filename="disagree_examples.html"
+):
 
     with open(os.path.join(report_dir, "disagree_examples.html"), "w") as f:
         # f.write("<style>span {background-color: yellow;}</style>")
@@ -153,7 +154,11 @@ def main():
 
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
-    generate_disagree_examples(article2ann, agreed_qual_ann, report_dir)
+    generate_disagree_examples(
+        article2ann,
+        report_dir,
+        filename="potato_house_disagree_examples.html"
+    )
     at.generate_agree_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_agree.csv")
     at.generate_ka_table(article2ann, {}, filepath=report_dir, filename="potato_house_qual_ka.csv")
 

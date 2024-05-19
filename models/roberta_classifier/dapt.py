@@ -8,11 +8,12 @@ import os
 import pickle
 import sqlite3
 import random
+import argparse
 
 import data_utils.get_annotation_stats as gs
 
 
-def group_texts(examples):
+def group_texts(examples, chunk_size=128):
     """
     Group the texts into chunks of a specified size.
 
@@ -23,7 +24,6 @@ def group_texts(examples):
         dict: A dictionary containing the grouped texts.
 
     """
-    chunk_size = 128
 
     concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
     total_length = len(concatenated_examples[list(examples.keys())[0]])
@@ -74,7 +74,7 @@ class EconomicArticlesDatataset(Dataset):
         labels (list): List of labels.
     """
 
-    def __init__(self, texts, tokenizer):
+    def __init__(self, texts, tokenizer, chunk_size=128):
 
         # group list of texts into chunks w embeddings of size 128
         inputs = {k: [] for k in ['input_ids', 'attention_mask', 'word_ids']}
@@ -83,7 +83,7 @@ class EconomicArticlesDatataset(Dataset):
             for k in inputs:
                 inputs[k].append(inputs_[k])
 
-        chunks = group_texts(inputs)
+        chunks = group_texts(inputs, chunk_size)
 
         self.input_ids = chunks['input_ids']
         self.attention_mask = chunks['attention_mask']
@@ -135,7 +135,7 @@ def load_dataset(db_filename: str, remove_labelled: bool = True):
     return text
 
 
-def main():
+def main(args):
     """
     Main function for training and evaluating a masked language model using RoBERTa.
 
@@ -143,7 +143,13 @@ def main():
         args: Command-line arguments passed to the script.
     """
 
-    OUT_DIR = 'models/roberta_classifier/tokenized'
+    CHUNK_SIZE = int(args.s)
+    if CHUNK_SIZE % 128 != 0:
+        raise ValueError("Chunk size must be a multiple of 128")
+    else:
+        BATCH_SIZE = 64 // (CHUNK_SIZE // 128)
+
+    OUT_DIR = args.o
     os.makedirs(OUT_DIR, exist_ok=True)
 
     # Load pretrained model and tokenizer
@@ -167,7 +173,8 @@ def main():
     print('>>> Tokenizing train texts')
     train_dataset = EconomicArticlesDatataset(
         train_texts,
-        tokenizer
+        tokenizer,
+        chunk_size=CHUNK_SIZE
     )
 
     filename = os.path.join(OUT_DIR, "train_dataset_128")
@@ -179,7 +186,8 @@ def main():
     print('>>> Tokenizing val texts')
     val_dataset = EconomicArticlesDatataset(
         val_texts,
-        tokenizer
+        tokenizer,
+        chunk_size=CHUNK_SIZE
     )
 
     filename = os.path.join(OUT_DIR, "val_dataset_128")
@@ -197,18 +205,16 @@ def main():
     print(len(train_dataset))
     print(len(val_dataset))
 
-    # batch_size = 8
-    batch_size = 64
-    logging_steps = len(train_dataset) // batch_size
+    logging_steps = len(train_dataset) // BATCH_SIZE
 
     training_args = TrainingArguments(
-        output_dir=f"models/roberta_classifier/tuned_models/{model_checkpoint}-dapt-big",
+        output_dir=OUT_DIR,
         overwrite_output_dir=True,
         evaluation_strategy="epoch",
         learning_rate=2e-5,
         weight_decay=0.01,
-        per_device_train_batch_size=batch_size,
-        per_device_eval_batch_size=batch_size,
+        per_device_train_batch_size=BATCH_SIZE,
+        per_device_eval_batch_size=BATCH_SIZE,
         fp16=True,
         logging_steps=logging_steps,
     )
@@ -234,8 +240,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--db", required=True, help="path to database")
-    # args = parser.parse_args()
-    # main(args)
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--o", required=True, help="out directory")
+    parser.add_argument("--c", default='roberta-base', help="checkpoint, default roberta-base")
+    parser.add_argument("--s", default=128, help="chunk size, default 128")
+    args = parser.parse_args()
+    main(args)
