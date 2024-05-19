@@ -211,7 +211,7 @@ def main():
         headline = "<h3>" + text[0] + "</h3>"
         articles[id] = headline + text[1]
 
-    step = 100
+    step = 25
     for counter, idx in enumerate(range(0, NUM_ARTICLES, step)):
         # csv
         article_csv_dict = {}
@@ -229,7 +229,7 @@ def main():
         for article_id in article_csv_dict['id']:
             random.seed(42)
             small_choices = quant_choices[article_id]
-            small_choices = random.choices(small_choices, k=5)
+            small_choices = random.choices(small_choices, k=3)
             for quant_id, text in small_choices:
                 quant_csv_dict['id'].append(quant_id)
                 quant_csv_dict['text'].append(text)
