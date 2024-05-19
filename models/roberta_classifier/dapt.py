@@ -177,7 +177,7 @@ def main(args):
         chunk_size=CHUNK_SIZE
     )
 
-    filename = os.path.join(OUT_DIR, "train_dataset_128")
+    filename = os.path.join(OUT_DIR, f"train_dataset_{CHUNK_SIZE}")
     # train_dataset = pickle.load(open(filename, 'rb'))
     f = open(filename, 'wb')
     pickle.dump(train_dataset, f)
@@ -190,7 +190,7 @@ def main(args):
         chunk_size=CHUNK_SIZE
     )
 
-    filename = os.path.join(OUT_DIR, "val_dataset_128")
+    filename = os.path.join(OUT_DIR, f"val_dataset_{CHUNK_SIZE}")
     # val_dataset = pickle.load(open(filename, 'rb'))
     f = open(filename, 'wb')
     pickle.dump(val_dataset, f)
