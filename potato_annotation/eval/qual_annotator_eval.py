@@ -1,4 +1,5 @@
 import os
+import argparse
 import pandas as pd
 from potato_annotation.eval.read_article_annotations \
     import get_potato_article_anns
@@ -10,7 +11,8 @@ import data_utils.get_annotation_stats as gs
 from data_utils.model_utils import dataset as d
 from data_utils import inter_annotator_agreement as iaa
 
-ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_5_16"
+ANN_DIR = ""
+# ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_5_16"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 
@@ -38,7 +40,11 @@ def get_user_ann_disagreement(anns):
 
     return user_ann_disagreement
 
-def main():
+def main(args):
+
+    global ANN_DIR
+    ANN_DIR = f"potato_annotation/article_annotate/annotation_output/{args.sn}"
+
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
 
@@ -96,4 +102,11 @@ def main():
     )
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--sn",
+        type=str,
+        help="Name of the study to generate reports for."
+    )
+    args = parser.parse_args()
+    main(args)

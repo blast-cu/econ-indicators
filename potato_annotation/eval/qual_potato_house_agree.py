@@ -6,6 +6,7 @@ import data_utils.visualization.generate_agree_table as at
 import os
 import pickle
 import pandas as pd
+import argparse
 from nltk.metrics.agreement import AnnotationTask
 from nltk.metrics import binary_distance
 
@@ -13,8 +14,7 @@ from potato_annotation.eval.read_article_annotations import get_potato_article_a
 from data_utils.model_utils.dataset import DB_FILENAME
 from data_utils.get_annotation_stats import get_text
 
-ANN_DIR = "potato_annotation/article_annotate/annotation_output/pilot_5_16"
-# ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
+ANN_DIR = ""
 
 
 def get_qual_potato_dict(potato_anns):  # article_id, user_id, ann
@@ -111,12 +111,14 @@ def generate_disagree_examples(
 
     print("Disagree examples written to file")
 
-def main():
+def main(args):
 
     # a = gs.get_qual_dict(d.DB_FILENAME)
     # # print(gs.get_agreed_anns(a, d.qual_label_maps))
     # print(a)
-    # exit()
+    # exit()\
+    global ANN_DIR
+    ANN_DIR = f"potato_annotation/article_annotate/annotation_output/{args.sn}"
 
     article_potato, _ = get_potato_article_anns(ann_output_dir=ANN_DIR)
     # for k, v in article_potato.items():
@@ -164,4 +166,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--sn",
+        type=str,
+        help="Name of the study to generate reports for."
+    )
+    args = parser.parse_args()
+    main(args)
