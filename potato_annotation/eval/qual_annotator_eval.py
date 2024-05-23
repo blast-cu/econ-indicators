@@ -105,6 +105,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--sn",
+        required=True,
         type=str,
         help="Name of the study to generate reports for."
     )
