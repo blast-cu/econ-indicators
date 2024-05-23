@@ -41,8 +41,9 @@ def settings(args, type):
         raise ValueError("Invalid setting: {}".format(args.m))
 
     # noisy annotations added to training set
-    if args.n is not None:  
+    if args.n is not None:
         ADD_NOISE = True
+        print(f"Adding noise to training set: {args.n}")
         if args.n == 'best':  # only use 'best' annotator's value for annotation
             BEST_NOISE = True
         elif args.n == 'all':  # use all annotator's values

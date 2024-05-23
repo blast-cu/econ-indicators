@@ -394,6 +394,7 @@ def get_noise(annotation_component: str,
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
+            print(id)
             article_id, _ = id.split('_')
             if int(article_id) not in test_article_ids:
                 if 'indicator' in noise_dict[id].keys(): # temp fix
