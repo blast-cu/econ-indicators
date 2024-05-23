@@ -313,9 +313,11 @@ def train(model,
 
         val_f1 = validate(model, val_loader)
 
-        improving, val_f1_history = gu.check_done(val_f1_history,
-                                                  val_f1,
-                                                  history_len)
+        improving, val_f1_history = gu.check_done(
+            val_f1_history,
+            val_f1,
+            history_len
+        )
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1

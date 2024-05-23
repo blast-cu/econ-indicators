@@ -92,10 +92,11 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             optimizer.zero_grad()
 
         val_f1 = validate(model, val_loader, class_weights)
-        improving, val_f1_history = gu.check_done(val_f1_history,
-                                               val_f1,
-                                               patience,
-                                               history_len)
+        improving, val_f1_history = gu.check_done(
+            val_f1_history,
+            val_f1,
+            history_len
+        )
 
         print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val F1: {val_f1_history[-1]:.4f}")
         epoch += 1
