@@ -15,12 +15,13 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-source activate ./venv
+conda activate ../argmin-sharedtask/venv
 
 mkdir -p metadata
 mkdir -p outputs
 
 export TRANSFORMERS_CACHE=metadata/
+export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 
 module load cuda
 module load cudnn
