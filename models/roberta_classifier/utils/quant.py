@@ -311,7 +311,7 @@ def train(model,
             optimizer.step()
             optimizer.zero_grad()
 
-        val_f1 = validate(model, val_loader, class_weights)
+        val_f1 = validate(model, val_loader)
 
         improving, val_f1_history = gu.check_done(val_f1_history,
                                                   val_f1,
