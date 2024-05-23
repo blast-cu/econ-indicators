@@ -103,7 +103,7 @@ def main(args):
             dest = f"{OUT_DIR}fold{k}/"
             os.makedirs(dest, exist_ok=True)
 
-            d.to_csv(
+            e.to_csv(
                 task,
                 y,
                 y_predicted,
