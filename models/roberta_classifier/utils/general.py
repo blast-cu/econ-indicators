@@ -35,6 +35,8 @@ def settings(args, type):
         MODEL_CHECKPOINT = "roberta-base"
     elif args.m == 'large':
         MODEL_CHECKPOINT = "roberta-large"
+    elif args.m == 'no_leak':
+        MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/roberta-base-dapt-no-leak"
     else:
         raise ValueError("Invalid setting: {}".format(args.m))
 

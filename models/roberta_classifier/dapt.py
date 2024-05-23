@@ -122,7 +122,8 @@ def load_dataset(db_filename: str, remove_labelled: bool = True):
         labelled_ids = list(pickle.load(open('data/clean/qual_dict', 'rb')).keys())
         query = 'SELECT id, text FROM article;'
         res = cur.execute(query)
-        text = [t[1] for t in res.fetchall() if t[0] not in labelled_ids]
+        result = res.fetchall()
+        text = [t[1] for t in result if t[0] not in labelled_ids]
     else:
         query = 'SELECT text FROM article;'
         res = cur.execute(query)
