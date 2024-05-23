@@ -237,7 +237,7 @@ class QuantAnnClassificationDataset(Dataset):
         """
         return len(self.texts)
     
-    def get_indicator_indices(indicator_text, excerpt_encoding, text):
+    def get_indicator_indices(self, indicator_text, excerpt_encoding, text):
         """
         Get the start and end indices of the indicator text within the given tokenized text.
 
