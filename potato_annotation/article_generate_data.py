@@ -221,21 +221,51 @@ def main():
         df = pd.DataFrame(article_csv_dict)
         df.to_csv(OUTPUT_DIR + f'/articles{counter}.csv', index=False)
 
-        quant_csv_dict = {}
-        quant_csv_dict['id'] = []
-        quant_csv_dict['text'] = []
-
-        
+        num_quants = 5
+        quants = []
         for article_id in article_csv_dict['id']:
             random.seed(42)
             small_choices = quant_choices[article_id]
-            small_choices = random.choices(small_choices, k=3)
-            for quant_id, text in small_choices:
-                quant_csv_dict['id'].append(quant_id)
-                quant_csv_dict['text'].append(text)
+            if len(small_choices) > num_quants:
+                small_choices = random.sample(small_choices, k=num_quants)
 
-        df = pd.DataFrame(quant_csv_dict)
-        df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}.csv', index=False)
+            for quant_id, text in small_choices:
+                quants.append((quant_id, text))
+
+        for i in range(2):
+            collect_count = 50
+            if len(quants) < collect_count:
+                collect_count = len(quants)
+
+            quant_csv_dict = {}
+            quant_csv_dict['id'] = []
+            quant_csv_dict['text'] = []
+            choices = random.sample(quants, k=collect_count)
+
+            for c in choices:
+                quant_csv_dict['id'].append(c[0])
+                quant_csv_dict['text'].append(c[1])
+                quants.remove(c)
+
+                df = pd.DataFrame(quant_csv_dict)
+                df.to_csv(
+                    QUANT_OUTPUT_DIR + f'/quants{counter}-{i}.csv', index=False
+                )
+            
+
+        # collect_count = 0
+        # num_quants = 5
+        # if len(quant_csv_dict['id']) >= 45:
+        #     df = pd.DataFrame(quant_csv_dict)
+        #     df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}-{collect_count}.csv', index=False)
+        #     collect_count += 1
+
+        #     quant_csv_dict['id'] = []
+        #     quant_csv_dict['text'] = []
+
+
+        # df = pd.DataFrame(quant_csv_dict)
+        # df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}-{collect_count}.csv', index=False)
 
 
 
