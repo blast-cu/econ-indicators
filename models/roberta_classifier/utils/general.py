@@ -51,7 +51,7 @@ def settings(args, type):
         else:
             raise ValueError("Invalid setting: {}".format(args.n))
 
-    setting_name = f'qual_roberta_{args.m}'
+    setting_name = f'roberta_{args.m}'
     if args.n is not None:
         setting_name += f'_noise_{args.n}'
 
