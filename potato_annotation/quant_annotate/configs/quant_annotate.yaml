@@ -3,11 +3,11 @@
     # "port": 8000,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Quant Annotation",
-    "output_annotation_dir": "annotation_output/RA_backup_4_17/",
+    "output_annotation_dir": "annotation_output/collection0-0/",
     "output_annotation_format": "csv",
     "annotation_codebook_url": "https://www.dropbox.com/scl/fi/lqdluyacpaksl4mbyjuk5/Quant-Codebook.pdf?rlkey=xy7h3ry9cd7su8kphzanwrjx0&dl=0",
     "data_files": [
-        "data_files/quants0.csv"
+        "data_files/quants0-0.csv"
     ],
     "item_properties": {
         "id_key": "id",
@@ -55,8 +55,8 @@
         "on": true,
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
-        "labels_per_instance": 2,
-        "instance_per_annotator": 500,
+        "labels_per_instance": 10,
+        "instance_per_annotator": 50,
         "test_question_per_annotator": 0,
         "users": []
     },
