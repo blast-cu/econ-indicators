@@ -55,7 +55,7 @@
         "on": true,
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
-        "labels_per_instance": 10,
+        "labels_per_instance": 20,
         "instance_per_annotator": 50,
         "test_question_per_annotator": 0,
         "users": []
@@ -99,10 +99,10 @@
                         "key_value": "5"
                     },
                     {
-                        "name": "None of the above",
+                        "name": "Not Relevant to the U.S. Economy",
                         "tooltip": "",
                         "key_value": "6"
-                    }
+                    },
                 ],
                 "displaying_score": true,
                 "label_requirement": {
@@ -175,9 +175,14 @@
                     "key_value": "11"
                 },
                 {
-                    "name": "None of the above",
+                    "name": "Not general type 'Macroeconomic / General Economic Conditions'",
                     "tooltip": "",
                     "key_value": "12"
+                },
+                {
+                    "name": "Not Relevant to the U.S. Economy",
+                    "tooltip": "",
+                    "key_value": "13"
                 },
             ],
             "displaying_score": true,
@@ -211,9 +216,14 @@
                     "key_value": "3"
                 },   
                 {
-                    "name": "None of the above",
+                    "name": "Not general type 'Macroeconomic / General Economic Conditions'",
                     "tooltip": "",
                     "key_value": "4"
+                },
+                {
+                    "name": "Not Relevant to the U.S. Economy",
+                    "tooltip": "",
+                    "key_value": "5"
                 },
             ],
             "displaying_score": true,
