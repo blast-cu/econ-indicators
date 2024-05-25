@@ -124,6 +124,7 @@ macro_data %>%
   mutate(total = sum(count),
          per = count / total) %>% 
   filter(year >2015,
+         year < 2023,
          source %in% c("nytimes")) %>%
   # head()
   # write_delim("quantity-count-annual-by-source.csv")
@@ -151,7 +152,8 @@ macro_data %>%
   mutate(total = sum(count),
          per = count / total) %>% 
   filter(year >2015,
-         source %in% c("foxnews")) %>% 
+         year < 2023,
+         source %in% c("breitbart")) %>% 
   ggplot(aes(x=year, group=macro_type, color=macro_type)) +
   geom_point(aes(y=per)) + 
   geom_line(aes(y=per)) +
@@ -163,7 +165,7 @@ macro_data %>%
            curvature = -.3, arrow = arrow(length = unit(2, "mm"))) +
   annotate("curve", x=2021.5, y =0.25, xend = 2020.55, yend = 0.285, 
            curvature = .3, arrow = arrow(length = unit(2, "mm"))) +
-  ggtitle("Breakdown of macro quantity types in Fox articles by year (prices, energy, and retail combined)")
+  ggtitle("Breakdown of macro quantity types in Breitbart articles by year (prices, energy, and retail combined)")
 
 
 

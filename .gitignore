@@ -1,3 +1,16 @@
+.rhistory
+.Rproj.user/
+.RData
+.Ruserdata
+.Rhistory
+.Rapp.history
+.Renviron
+.Renviron.site
+.Renviron.user
+.rdata
+.rds
+.RDS
+
 __pycache__/
 *.py[cod]
 *$py.class
