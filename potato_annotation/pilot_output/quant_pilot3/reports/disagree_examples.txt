@@ -1,0 +1,98 @@
+indicator: about 3,800 American
+full excerpt: What was once the largest steel mill in the world will now get a $750 million facelift thanks to Trump’s 25 percent tariff on all imported steel into the United States, designed to protect American industries and jobs from being outsourced. In a statement this week, U.S. Steel executives said they would be revitalizing the Indiana plant which employs about 3,800 American workers, the Chicago Tribune noted. While U.S. Steel executives say they are not yet planning to increase the number of jobs at the Indiana plant, U.S. Steel Corp. President and CEO David Burritt said the company is “experiencing a renaissance” because of Trump’s tariffs.
+--------
+potato: macro
+house: business
+
+
+indicator: from $8.1 billion
+full excerpt: The Trump administration’s proposed cuts to the Environmental Protection Agency budget are deep and wide-ranging. It seeks to shrink spending by 31 percent, to $5.7 billion from $8.1 billion, and to eliminate a quarter of the agency’s 15,000 jobs. The cuts are so deep that even Republican lawmakers are expected to push back.
+--------
+potato: neg
+house: neutral
+
+
+indicator: than 33 percent
+full excerpt: The industry was enjoying gains driven by a strong economy, high demand to fix bridges and infrastructure after several major natural disasters, and an effort by President Barack Obama to limit steel imports from China. The tariffs sent the price of steel surging more than 33 percent. “We have a strong U.S. exposure; clearly we are a net beneficiary of the trade actions,” Aditya Mittal, chief financial officer of ArcelorMittal, said in August, according to Bloomberg News.
+--------
+potato: macro
+house: industry
+
+
+indicator: than 200,000 people
+full excerpt: “If the point is to protect American jobs, if the point is to protect small and medium-sized businesses, this is exactly the wrong way to do things.” The mills and smelters that supply the raw material, and that would directly benefit from the tariffs, have been shrinking for years. Today, those industries employ fewer than 200,000 people. The companies that buy steel and aluminum, to make everything from trucks to chicken coops, employ more than 6.5 million workers, according to a Heritage Foundation analysis of Commerce Department data.
+--------
+potato: macro
+house: industry
+
+
+indicator: roughly $340 against
+full excerpt: Randy Pate, a senior official at the Centers for Medicare and Medicaid Services, said the Trump administration expects 600,000 people to buy the new insurance policies next year, with enrollment increasing to 1.6 million by 2022. The agency’s chief actuary, Paul Spitalnic, has estimated that premiums for short-term policies would be about half of the average premium for coverage sold in insurance exchanges under the Affordable Care Act, roughly $340 against $620 next year. Consumer advocates, doctors, hospitals and some insurance companies expressed deep concern about the new plans, saying they would not adequately protect people who develop serious illnesses and could further destabilize insurance markets by drawing away healthy people.
+--------
+potato: government
+house: industry
+
+
+indicator: target $400 million
+full excerpt: Comcast announced after the Tax Cuts and Jobs Act passed in December that they will distribute $1,000 bonuses to more than one hundred thousand frontline and non-executive employees and invest more than $50 billion in infrastructure over the next several years as a result of Republicans passing tax reform. Fellow bank Wells Fargo also revealed that they will raise their staff minimum wage to $15 an hour and would also target $400 million in donations to community and non-profit organizations next year thanks to the Republican tax bill. AT&T announced that they will distribute more $1,000 bonuses to more than 200,000 of their employees and invest more than $1 billion next year in their domestic business.
+--------
+potato: macro
+house: business
+
+
+indicator: at 2.347%,
+full excerpt: Yields move inversely to bond prices. The one-month bill's yield skidded more than 61 basis points to wrap up the session at 2.347%, its third-steepest drop since July 31, 2001. The benchmark 10-year Treasury rose 10/32, lowering its yield to 4.634%.
+--------
+potato: government
+house: macro
+
+
+indicator: to 13,600.
+full excerpt: “But we’ve been treated so unfairly for so long.” Twenty years ago, 21,100 Pennsylvanians were employed directly by iron and steel mills. Ten years later, that number dipped to 13,600. At the start of this year, just 10,600 Pennsylvanians worked in that industry, down slightly since Trump’s inauguration.
+--------
+potato: macro
+house: industry
+
+
+indicator: a $2 trillion
+full excerpt: The terrifying speed of the U.S. economic collapse from the pandemic has spurred lawmakers to action. Late Wednesday night, senators agreed on a $2 trillion aid package that would provide cash payments to nearly all Americans and would expand the unemployment system, among other changes. Final congressional approval is expected on Friday.
+--------
+potato: macro
+house: government
+
+
+indicator: about 130 employees
+full excerpt: For some U.S. manufacturers, the pain of higher steel costs has been eased by tariffs imposed in September on $200 billion of Chinese imports. Byer Steel now has about 130 employees, including 20 hired last year. Sales totaled $45 million in 2018, a 30% increase.
+--------
+potato: macro
+house: business
+
+
+indicator: profit $2 billion
+full excerpt: It would reduce the overall wage increase to just about 1.7 percent over nine years. “We have done so much for this company, and now they have the audacity to bring before us all these concessions when they are projected to profit $2 billion this year alone,” said Michael P. Young, a maintenance technician at a U.S. Steel plant in Portage, Ind., and a survivor of colon cancer. “I want the company to leave my health care alone.” Young and others were particularly furious because the work they do can be perilous to their health.
+--------
+potato: industry
+house: business
+
+
+indicator: to 14 percent
+full excerpt: In Seattle, the share of affordable homes fell 14 percent from 2017 to 2018, leaving only 46 percent of homes within the reach of middle-class families. In San Jose, Calif., the share of affordable homes fell from 26 percent to 14 percent over the same time. According to the National Association of Realtors, existing home sales in December were down 10.3 percent year over year, the biggest drop since the housing market bottomed in 2011.
+--------
+potato: pos
+house: neg
+
+
+indicator: add $150 to
+full excerpt: He buys most of his raw material from domestic mills, but he expects them to raise prices as their foreign competitors are hit by tariffs of up to 25 percent.Continue reading the main story Right now, he pays around $600 per ton of steel wire rod. The impact of a 25 percent tariff would add $150 to that price. He makes only $40 in profit per ton, though, so the math would destroy his balance sheet.
+--------
+potato: industry
+house: business
+
+
+indicator: with 0.3% for
+full excerpt: To be sure, the direct macroeconomic effect of Mr. Trump’s tariffs look to be slim. Net imports of steel and aluminum are about 0.2% of gross domestic product, compared with 0.3% for oil. Barclays estimates the tariff will add 0.1 percentage point to inflation and subtract 0.1 to 0.2 percentage point from economic growth, for one year.
+--------
+potato: macro
+house: industry
+
+

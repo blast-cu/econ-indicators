@@ -40,23 +40,11 @@ SETTINGS = {
                          ['ValType', 'ValSpin'],
                          ['ValType', 'ValType']]
     },
-    'intuition1_excerpt_article': {
-        'rule_dir': os.path.join(RULE_DIR, 'intuition1_excerpt_article'),
+    'best_rules':{
+        'rule_dir': os.path.join(RULE_DIR, 'best_rules'),
         'learn': True,
-        'combinations': [['ValSpin', 'ValEconRate'],
-                         ['ValSpin', 'ValEconChange']]
-    },
-    'experiment1': {
-        'rule_dir': os.path.join(RULE_DIR, 'experiment1'),
-        'learn': True
-    },
-    'experiment2': {
-        'rule_dir': os.path.join(RULE_DIR, 'experiment2'),
-        'learn': True
-    },'neighbors_agreement': {
-        'rule_dir': os.path.join(RULE_DIR, 'neighbors_agreement'),
-        'learn': True
-    },
+        'combinations': [['ValType', 'ValType']]
+    }
 
 }
 

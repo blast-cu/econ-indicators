@@ -1,89 +1,81 @@
-0.018302: PredFrame(A, B) >> ValFrame(A, B) ^2
-0.017291: PredEconRate(A, B) >> ValEconRate(A, B) ^2
-0.016835: PredEconChange(A, B) >> ValEconChange(A, B) ^2
-0.017286: PredType(E, B) >> ValType(E, B) ^2
-0.009553: PredMacroType(E, B) >> ValMacroType(E, B) ^2
-0.017613: PredSpin(E, B) >> ValSpin(E, B) ^2
+0.017180: PredFrame(A, B) >> ValFrame(A, B) ^2
+0.017966: PredEconRate(A, B) >> ValEconRate(A, B) ^2
+0.017769: PredEconChange(A, B) >> ValEconChange(A, B) ^2
+0.012197: PredType(E, B) >> ValType(E, B) ^2
+0.011280: PredMacroType(E, B) >> ValMacroType(E, B) ^2
+0.017684: PredSpin(E, B) >> ValSpin(E, B) ^2
 ValFrame(A, +B) = 1 .
 ValEconRate(A, +B) = 1 .
 ValEconChange(A, +B) = 1 .
 ValType(E, +B) = 1 .
 ValMacroType(E, +B) = 1 .
 ValSpin(E, +B) = 1 .
-ValType(A, 'industry') >> ValMacroType(A, 'none') .
-ValType(A, 'government') >> ValMacroType(A, 'none') .
-ValType(A, 'personal') >> ValMacroType(A, 'none') .
-ValType(A, 'business') >> ValMacroType(A, 'none') .
-ValType(A, 'other') >> ValMacroType(A, 'none') .
-HasTypeAnn(A) & ValMacroType(A, 'jobs') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'retail') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'interest') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'prices') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'energy') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'wages') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'macro') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'market') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'currency') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'housing') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'other') >> ValType(A, 'macro') .
-HasTypeAnn(A) & ValMacroType(A, 'none') >>  ValType(A, 'industry') | ValType(A, 'government') | ValType(A, 'personal') | ValType(A, 'business') | ValType(A, 'other') .
-0.018011: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'business') ^2
-0.018304: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'government') ^2
-0.018012: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'industry') ^2
-0.018950: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'macro') ^2
-0.018305: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'other') ^2
-0.016921: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'business') ^2
-0.016925: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'government') ^2
-0.016924: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'industry') ^2
-0.019605: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'macro') ^2
-0.016918: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'other') ^2
-0.015958: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'business') ^2
-0.015958: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'government') ^2
-0.015958: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'industry') ^2
-0.019604: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'macro') ^2
-0.015962: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'other') ^2
-0.015957: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'business') ^2
-0.016431: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'government') ^2
-0.015961: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'industry') ^2
-0.018947: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'macro') ^2
-0.015959: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'other') ^2
-0.008047: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'business') ^2
-0.008040: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'government') ^2
-0.008055: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'industry') ^2
-0.019593: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'macro') ^2
-0.008060: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'other') ^2
-0.008499: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'business') ^2
-0.008527: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'government') ^2
-0.008511: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'industry') ^2
-0.019434: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'macro') ^2
-0.008510: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'other') ^2
-0.011048: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'business') ^2
-0.011017: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'government') ^2
-0.011018: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'industry') ^2
-0.019324: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'macro') ^2
-0.011072: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'other') ^2
-0.005157: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'business') ^2
-0.006731: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'government') ^2
-0.005391: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'industry') ^2
-0.008352: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'macro') ^2
-0.005159: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'other') ^2
-0.017727: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'business') ^2
-0.018015: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'government') ^2
-0.017729: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'industry') ^2
-0.019273: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'macro') ^2
-0.017731: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'other') ^2
-0.016668: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'business') ^2
-0.016927: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'government') ^2
-0.016674: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'industry') ^2
-0.019272: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'macro') ^2
-0.016672: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'other') ^2
-0.018300: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'business') ^2
-0.018308: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'government') ^2
-0.018306: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'industry') ^2
-0.019606: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'macro') ^2
-0.018305: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'other') ^2
-0.017227: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'business') ^2
-0.017354: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'government') ^2
-0.017256: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'industry') ^2
-0.019424: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'macro') ^2
-0.017229: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'other') ^2
+HasFrameAnn(A) & ValEconChange(A, 'better') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'worse') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'same') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconChange(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+HasFrameAnn(A) & ValEconRate(A, 'good') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'poor') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'none') >> ValFrame(A, 'macro') .
+HasFrameAnn(A) & ValEconRate(A, 'irrelevant') >>  ValFrame(A, 'industry') | ValFrame(A, 'government') | ValFrame(A, 'business') | ValFrame(A, 'other') .
+0.018108: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'business') ^2
+0.018408: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'government') ^2
+0.018109: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'industry') ^2
+0.019067: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'macro') ^2
+0.018409: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'other') ^2
+0.016986: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'business') ^2
+0.016991: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'government') ^2
+0.016989: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'industry') ^2
+0.019747: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'macro') ^2
+0.016986: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'other') ^2
+0.016021: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'business') ^2
+0.016011: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'government') ^2
+0.016019: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'industry') ^2
+0.019746: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'macro') ^2
+0.016024: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'other') ^2
+0.016007: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'business') ^2
+0.016492: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'government') ^2
+0.016010: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'industry') ^2
+0.019062: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'macro') ^2
+0.016008: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'other') ^2
+0.008104: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'business') ^2
+0.008096: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'government') ^2
+0.008109: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'industry') ^2
+0.019729: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'macro') ^2
+0.008114: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'other') ^2
+0.008574: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'business') ^2
+0.008604: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'government') ^2
+0.008583: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'industry') ^2
+0.019575: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'macro') ^2
+0.008587: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'other') ^2
+0.011076: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'business') ^2
+0.011050: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'government') ^2
+0.011048: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'industry') ^2
+0.019449: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'macro') ^2
+0.011102: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'other') ^2
+0.004768: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'business') ^2
+0.006410: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'government') ^2
+0.004982: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'industry') ^2
+0.007991: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'macro') ^2
+0.004778: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'other') ^2
+0.017823: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'business') ^2
+0.018118: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'government') ^2
+0.017826: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'industry') ^2
+0.019401: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'macro') ^2
+0.017824: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'other') ^2
+0.016740: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'business') ^2
+0.017005: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'government') ^2
+0.016746: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'industry') ^2
+0.019399: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'macro') ^2
+0.016742: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'other') ^2
+0.018415: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'business') ^2
+0.018423: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'government') ^2
+0.018423: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'industry') ^2
+0.019748: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'macro') ^2
+0.018419: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'other') ^2
+0.017307: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'business') ^2
+0.017432: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'government') ^2
+0.017336: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'industry') ^2
+0.019561: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'macro') ^2
+0.017308: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'other') ^2

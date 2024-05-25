@@ -89,8 +89,8 @@ def retrieve_quant_anns(quantity2ann, query_res):
     for (quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin)  in query_res:
         if quant_id not in quantity2ann:
             quantity2ann[quant_id] = {'type': [], 'macro_type': [], 'industry_type': [], 'gov_type': [], 'expenditure_type': [], 'revenue_type': [], 'spin': []}
-        
-        quantity2ann[quant_id]['type'].append((user_id, type))
+        if type and type != "None":
+            quantity2ann[quant_id]['type'].append((user_id, type))  # ADDED IF STATEMENT HERE
         if spin and spin != "None":
             quantity2ann[quant_id]['spin'].append((user_id, spin))
         if macro_type and macro_type != "None":
@@ -152,10 +152,14 @@ def measure_percentage_agreement(article2ann, ann_name, user_disagreements, user
         if user not in user_disagreements:
             user_disagreements[user] = user_total_anns[user]
 
-    full = round(num_full/num_total*100, 2)
-    partial = round((num_full + num_partial)/num_total*100, 2)
-    print("{} full".format(ann_name), full, "partial", partial)
-    return full, partial
+    if num_total == 0:
+        print("No annotations for", ann_name)
+        return 0, 0
+    else: 
+        full = round(num_full/num_total*100, 2)
+        partial = round((num_full + num_partial)/num_total*100, 2)
+        # print("{} full".format(ann_name), full, "partial", partial)
+        return full, partial
 
 
 def plot_confusion_matrix(y_true, y_pred, classes,

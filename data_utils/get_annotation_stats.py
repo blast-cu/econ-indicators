@@ -39,6 +39,7 @@ def get_article_bins(predict_dict: dict, qual_dict: dict):
             except KeyError as e:
                 print(f'Key error: {e} not in article frames')
                 continue
+    print(bins.keys())
     return bins
 
 def get_site(article_id, db_filename):
@@ -48,6 +49,7 @@ def get_site(article_id, db_filename):
     site = cur.execute(query).fetchone()
     con.close()
     return site[0]
+
 
 def get_qual_dict(db_filename: str):
     """
@@ -115,6 +117,7 @@ def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
     for id in ann_dict.keys(): 
         curr_ent = ann_dict[id]
         # TODO: for quant anns, check type before subtypes
+        print(curr_ent)
         for type in curr_ent.keys():
             if type in label_maps:
                 curr_t = curr_ent[type]
@@ -328,7 +331,8 @@ def export_quants_to_csv(ann: dict, filename: str):
 
 def extract_strings(dirty_str: str):
     clean = re.sub('<[^>]+>', '', dirty_str)
-    return clean 
+    return clean
+
 
 def print_article_examples(comp: str, ann_dict: dict, filename: str, db_filename: str):
     """

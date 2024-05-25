@@ -1,17 +1,18 @@
 import pickle
 import pandas as pd
-import json
+import re
 import random
 
 import data_utils.get_annotation_stats as gs
 import data_utils.inter_annotator_agreement as iaa
-from data_utils.dataset import DB_FILENAME, qual_label_maps
+from data_utils.model_utils.dataset import DB_FILENAME, qual_label_maps
 
 OUTPUT_DIR = "potato_annotation/article_annotate/data_files"
+QUANT_OUTPUT_DIR = "potato_annotation/quant_annotate/data_files"
 
-SETTING = "agreed" # distributed, fill, agreed
+SETTING = "distributed" # distributed, fill, agreed
 global NUM_ARTICLES
-NUM_ARTICLES = 25
+NUM_ARTICLES = 300
 
 def save_progress(to_save,
                   filename: str):
@@ -31,22 +32,67 @@ def save_progress(to_save,
         print(e)
         print("Something went wrong")
 
+
 def get_distributed_articles(num_articles, priority, qual_dict, predict_dict):
+    random.seed(42)
     bins = gs.get_article_bins(predict_dict, qual_dict)
-    # for k, v in bins.items():
-    #     print(k, len(v))
+    bin_counts = {}
+    for indicator in priority:
+        bin_counts[indicator] = 0
+
     choices = []
     while len(choices) < num_articles:
         for indicator in priority:
             curr_ids = bins[indicator]
             id = random.choice(curr_ids)
             choices.append(id)
+            curr_ids.remove(id)
+            bin_counts[indicator] += 1
+            if len(choices) == num_articles:
+                break
+
+    for k, v in bin_counts.items():
+        print(k, v)
+
     return choices
 
-def main():
+def get_quant_text(quant_id, quant_excerpts_dict):
 
-    col_names = ['id', 'text']
+    indicator = quant_excerpts_dict[quant_id]['indicator']
+    excerpt = quant_excerpts_dict[quant_id]['excerpt']
+
+    indicator = re.escape(indicator)
+
+    if indicator in excerpt:
+        print("Indicator found in excerpt")
+
+    try:
+        match_iter = list(re.finditer(indicator, excerpt))
+        match = list(match_iter)[0]
+    except Exception:
+        print(f"ERROR: No match found for indicator {id} in iteration {i}")
+        print(">>> Match Iterator: " + str(match_iter))
+        print(">>> Indicator: " + indicator)
+        print(">>> Excerpt: " + excerpt)
+        print('\n\n')
+        exit()
+
+    start = match.start()
+    end = match.end()
+
+    excerpt = excerpt[:start] + "<span>" + excerpt[start:end] + "</span>" + excerpt[end:]
+    return excerpt
+
+def get_choices(SETTING, NUM_ARTICLES):
+
     article_choices = []
+    quant_choices = {}
+
+    qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))
+    predict_dict = pickle.load(open("data/quant_predictions", "rb"))
+    quant_excerpts_dict = pickle.load(open('data/clean/quant_excerpts_dict', 'rb'))
+
+
 
     if SETTING == "fill":    
         qual_dict = pickle.load(open('data/clean/qual_dict', 'rb'))
@@ -61,7 +107,10 @@ def main():
         articles = {}
         for id in article_choices:
             text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
-            articles[id] = text
+            headline = text[0].replace("\n", "<br>")
+            body = text[1].replace("\n", "<br>")
+            body = body.replace(headline, "")
+            articles[id] = headline + body
 
         num_articles = NUM_ARTICLES - len(articles)
         more_articles = gs.get_no_anns(db_filename=DB_FILENAME,
@@ -84,9 +133,7 @@ def main():
     #         json.dump(temp_dict, f)
         
     elif SETTING == "distributed":
-        qual_dict = pickle.load(open("data/clean/qual_dict", "rb"))
-        predict_dict = pickle.load(open("data/quant_predictions", "rb"))
-        priority = ['jobs', 'market', 'macro', 'prices', 'energy', 'wages', 'prices', 'interest', 'housing']
+        priority = ['jobs', 'interest', 'energy', 'retail', 'macro', 'market', 'currency', 'other', 'prices', 'housing', 'wages']
         article_choices = get_distributed_articles(NUM_ARTICLES, priority, qual_dict, predict_dict)
 
         
@@ -134,30 +181,91 @@ def main():
         for k, v in bin_counts.items():
             print(k, v)
 
+    # get quants based on articles selected 
+    for quant_id, ann in predict_dict.items():
+        article_id = (quant_id.split('_')[0])
+        if article_id in article_choices:
+            text = get_quant_text(quant_id, quant_excerpts_dict)
+            quant_tuple = (quant_id, text)
+            if article_id not in quant_choices:
+                quant_choices[article_id] = []
+            quant_choices[article_id].append(quant_tuple)
+    
+    return article_choices, quant_choices
 
-    print(article_choices)
+def main():
+
+    col_names = ['id', 'text']
+    article_choices, quant_choices = get_choices(SETTING, NUM_ARTICLES)
+
     if len(set(article_choices)) != NUM_ARTICLES:
+        print(len(set(article_choices)))
         raise ValueError("Not enough articles")
-
 
     articles = {}
     for id in article_choices:
-        text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True)
+        text = gs.get_text(id, db_filename=DB_FILENAME, clean=False, headline=True) 
         articles[id] = text
 
     for id, text in articles.items():
         headline = "<h3>" + text[0] + "</h3>"
-        articles[id] = headline + text[1]  
+        articles[id] = headline + text[1]
+
+    step = 25
+    for counter, idx in enumerate(range(0, NUM_ARTICLES, step)):
+        # csv
+        article_csv_dict = {}
+        article_csv_dict['id'] = list(articles.keys())[idx:idx+step]
+        article_csv_dict['text'] = list(articles.values())[idx:idx+step]
+
+        df = pd.DataFrame(article_csv_dict)
+        df.to_csv(OUTPUT_DIR + f'/articles{counter}.csv', index=False)
+
+        num_quants = 5
+        quants = []
+        for article_id in article_csv_dict['id']:
+            random.seed(42)
+            small_choices = quant_choices[article_id]
+            if len(small_choices) > num_quants:
+                small_choices = random.sample(small_choices, k=num_quants)
+
+            for quant_id, text in small_choices:
+                quants.append((quant_id, text))
+
+        for i in range(2):
+            collect_count = 50
+            if len(quants) < collect_count:
+                collect_count = len(quants)
+
+            quant_csv_dict = {}
+            quant_csv_dict['id'] = []
+            quant_csv_dict['text'] = []
+            choices = random.sample(quants, k=collect_count)
+
+            for c in choices:
+                quant_csv_dict['id'].append(c[0])
+                quant_csv_dict['text'].append(c[1])
+                quants.remove(c)
+
+                df = pd.DataFrame(quant_csv_dict)
+                df.to_csv(
+                    QUANT_OUTPUT_DIR + f'/quants{counter}-{i}.csv', index=False
+                )
+            
+
+        # collect_count = 0
+        # num_quants = 5
+        # if len(quant_csv_dict['id']) >= 45:
+        #     df = pd.DataFrame(quant_csv_dict)
+        #     df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}-{collect_count}.csv', index=False)
+        #     collect_count += 1
+
+        #     quant_csv_dict['id'] = []
+        #     quant_csv_dict['text'] = []
 
 
-    # csv
-    csv_dict = {}
-    print(articles.keys())
-    csv_dict['id'] = list(articles.keys())
-    csv_dict['text'] = list(articles.values())
-
-    df = pd.DataFrame(csv_dict)
-    df.to_csv(OUTPUT_DIR + '/articles.csv', index=False)
+        # df = pd.DataFrame(quant_csv_dict)
+        # df.to_csv(QUANT_OUTPUT_DIR + f'/quants{counter}-{collect_count}.csv', index=False)
 
 
 

@@ -1,0 +1,1 @@
+{"id":"0","text":"Good work! You answered the sample questions correctly. Please confirm that you have read all instructions, because you'll now do 2 examples on your own.","schema": "radio", "choices": ["I have read all provided instructions", "I have not read the provided instructions"], "label_requirement": {"right_label":["I have read all provided instructions"]}}

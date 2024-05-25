@@ -1,12 +1,13 @@
 {
-    "port": 8000, 
+    "port": 80, 
+    # "port": 8000,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Quant Annotation",
-    "output_annotation_dir": "annotation_output/pilot/",
+    "output_annotation_dir": "annotation_output/collection0-0/",
     "output_annotation_format": "csv",
     "annotation_codebook_url": "https://www.dropbox.com/scl/fi/lqdluyacpaksl4mbyjuk5/Quant-Codebook.pdf?rlkey=xy7h3ry9cd7su8kphzanwrjx0&dl=0",
     "data_files": [
-        "data_files/quants.csv"
+        "data_files/quants0-0.csv"
     ],
     "item_properties": {
         "id_key": "id",
@@ -34,7 +35,17 @@
         ],
         "pre_annotation": [
             "surveyflow/intro.jsonl",
-            "surveyflow/instructions.jsonl"
+            "surveyflow/instructions0.jsonl",
+            "surveyflow/instructions1.jsonl",
+            "surveyflow/instructions1_example.jsonl",
+            "surveyflow/instructions2.jsonl",
+            "surveyflow/instructions2_example.jsonl",
+            "surveyflow/instructions3.jsonl",
+            "surveyflow/instructions3_example.jsonl",
+            "surveyflow/instructions_confirm.jsonl",
+            "surveyflow/example1.jsonl",
+            "surveyflow/example2.jsonl",
+            "surveyflow/confirm.jsonl"
         ], 
         "post_annotation": [
             "surveyflow/end.jsonl"
@@ -44,8 +55,8 @@
         "on": true,
         "output_filename": "task_assignment.json",
         "sampling_strategy": "random",
-        "labels_per_instance": 5,
-        "instance_per_annotator": 45,
+        "labels_per_instance": 10,
+        "instance_per_annotator": 50,
         "test_question_per_annotator": 0,
         "users": []
     },
@@ -54,7 +65,7 @@
             {
                 "annotation_type": "radio",
                 "name": "frame",
-                "description": "The highlighted quantity should have a general type. Please label the type, or select 'Not Relevant' is a date or otherwise not relevant to the U.S. economy",
+                "description": "Question 1: The highlighted quantity should have a general type. Please label the type, or select 'None of the above' is a date or otherwise not relevant to the U.S. economy",
                 "labels": [
                     
                     {
@@ -101,7 +112,7 @@
             {
                 "annotation_type": "radio",
                 "name": "macro_indicator",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
+                "description": "Question 2: If the quantity's general type is 'Macroeconomic / General Economic Conditions', please label the specific macroeconomic indicator. Select 'None of the above' if the quantity is not relevant to the U.S. economy or is not a macroeconomic / general conditions type.",
                 "labels": [
                 {
                     "name": "Job Numbers (e.g., jobs, unemployment)",
@@ -177,7 +188,7 @@
         {
                 "annotation_type": "radio",
                 "name": "spin",
-                "description": "If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the highlighted quantity?",
+                "description": "Question 3: If the quantity's general type is 'Macroeconomic / General Economic Conditions', what spin does the writer of the excerpt put on the highlighted quantity?",
                 "labels": [
                 {
                     "name": "Positive (e.g., inflation dropped)",
