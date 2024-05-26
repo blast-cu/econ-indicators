@@ -5,8 +5,11 @@ from potato_annotation.eval.quant_potato_house_agree import get_quant_potato_dic
 import data_utils.get_annotation_stats as gs
 from data_utils.model_utils import dataset as d
 from data_utils import inter_annotator_agreement as iaa
+import argparse
+import data_utils.visualization.generate_agree_table as at
 
-ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
+
+# ANN_DIR = "potato_annotation/quant_annotate/annotation_output/pilot"
 # ANN_DIR = "potato_annotation/article_annotate_output/quant_pilot1"
 
 
@@ -33,16 +36,20 @@ def get_user_ann_disagreement(anns):
 
     return user_ann_disagreement
 
-def main():
+
+def main(args):
+    ANN_DIR = f"potato_annotation/quant_annotate/annotation_output/{args.sn}"
+
     report_dir = os.path.join(ANN_DIR, "reports/")
     os.makedirs(report_dir, exist_ok=True)
 
     quant_potato, annotator_stats = get_potato_quant_anns(
-        nn_output_dir=ANN_DIR,
-        annotator_stats=True
+        ANN_DIR,
+        report_errors=False,
+        get_annotator_stats=True
     )
-    quant_potato = get_quant_potato_dict(quant_potato)
-    user_ann_disagreement = get_user_ann_disagreement(quant_potato)
+    quant_dict = get_quant_potato_dict(quant_potato)
+    user_ann_disagreement = get_user_ann_disagreement(quant_dict)
 
     annotator_stats['type_disagreement'] = []
     annotator_stats['macro_type_disagreement'] = []
@@ -60,8 +67,32 @@ def main():
     print(f"Saving {filename} table to {filepath}{filename}.csv")
     pd.DataFrame(annotator_stats).to_csv(f'{filepath}{filename}.csv', index=False)
 
+    to_retrieve = []
+    for ann in quant_potato:
+        new_ann = [ann['quant_id'], ann['user_id'], ann['type'], ann['macro_type'], '\x00', '\x00', '\x00','\x00', ann['spin']]
+        to_retrieve.append(new_ann)
 
-    # get inter-annotator stats
+    quantity2ann = {}
+    # quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin
+    iaa.retrieve_quant_anns(quantity2ann, to_retrieve) 
+    # generate_disagree_examples(quantity2ann, quant_dict, report_dir)
+    at.generate_agree_table({},
+                            quantity2ann,
+                            filepath=report_dir,
+                            filename="agree_table")
+
+    at.generate_ka_table({},
+                         quantity2ann,
+                         filepath=report_dir,
+                         filename="ka_table")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--sn",
+        required=True,
+        type=str,
+        help="Name of the study to generate reports for."
+    )
+    args = parser.parse_args()
+    main(args)

@@ -391,6 +391,8 @@ def get_noise(annotation_component: str,
                and the labels list contains the corresponding labels for each pair of texts.
     """
 
+    print(noise_dict)
+
     texts = []  # list of [indicator text, text with context]
     labels = []
 

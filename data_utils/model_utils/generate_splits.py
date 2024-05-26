@@ -6,6 +6,8 @@ from data_utils.model_utils.dataset import DB_FILENAME
 import argparse
 from sklearn.model_selection import KFold
 import pickle
+import nltk
+nltk.download('punkt')
 
 
 def remove_empty(ann_dict: dict):
