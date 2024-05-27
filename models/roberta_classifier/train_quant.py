@@ -62,7 +62,7 @@ def main(args):
                                  task,
                                  noise_dict,
                                  split_test_ids)
-                
+
                 train_texts += noise_text
                 train_labels += noise_labels
 

@@ -240,7 +240,7 @@ def main(args):
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
     noisy_qual_ann = populate_quant_list(noisy_qual_ann, noisy_quant_ann)
-    # noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
+    noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
 
     # add text excerpts w/ context to agreed_quant_ann dict
     agreed_quant_ann = populate_quant_text(agreed_qual_ann, agreed_quant_ann, db_filename)
