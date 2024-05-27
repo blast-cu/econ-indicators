@@ -3,7 +3,8 @@ import pickle
 import os
 
 import models.roberta_classifier.utils.general as gu
-import models.roberta_classifier.utils.quant as qu
+# import models.roberta_classifier.utils.quant as qu
+import models.roberta_classifier.utils.legacy_quant as qu
 import data_utils.model_utils.dataset as d
 import data_utils.model_utils.eval as e
 
@@ -129,6 +130,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Command line arguments.')
     parser.add_argument('--m', required=True, help='Model checkpoint: "base" or "dapt"')
+    parser.add_argument('--en', default=None, help='extra name for output directory')
     parser.add_argument('--n', default=None, help='Noise setting: "best" or "all". No noise will be added to training set if not specified.')
     args = parser.parse_args()
     main(args)
