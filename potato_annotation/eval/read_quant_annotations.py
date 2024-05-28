@@ -24,7 +24,8 @@ quant_predict_maps = {
             2: 'housing',
             6: 'confidence', # ???
             11: 'other',
-            12: 'none'},
+            12: 'none',
+            13: 'none'},
     'spin': {
             0: 'pos',
             1: 'neg',
