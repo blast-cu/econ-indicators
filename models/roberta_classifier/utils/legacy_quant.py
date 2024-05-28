@@ -7,7 +7,7 @@ from torch.nn.functional import cross_entropy
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 import os
-from data_utils.dataset import quant_label_maps as label_maps
+from data_utils.model_utils.dataset import quant_label_maps as label_maps
 
 
 def find_sub_list(indicator_text, excerpt_encoding, text):
@@ -355,12 +355,11 @@ def train(model, train_loader, val_loader, optimizer, class_weights):
             start_index = batch['start_index'].to('cuda')
             end_index = batch['end_index'].to('cuda')
 
-            for s in enumerate(batch['start_index']):
-                print(s)
-                print(batch['end_index'][s])
-                print()
+            # for s in enumerate(batch['start_index']):
+            #     print(s)
+            #     print(batch['end_index'][s])
+            #     print()
             # exit()
-
 
             excerpt_input_ids = batch['input_ids'].to('cuda')
             excerpt_attention_mask = batch['attention_mask'].to('cuda')
