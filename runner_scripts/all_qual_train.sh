@@ -27,3 +27,4 @@ module load cuda
 module load cudnn
 
 python -m models.roberta_classifier.train_qual --m base --en new_data
+python -m models.roberta_classifier.train_qual --m base --n all --en new_data
