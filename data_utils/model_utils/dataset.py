@@ -65,7 +65,8 @@ qual_predict_maps = {  # maps model outputs to raw labels
             1: 'industry',
             2: 'macro',
             3: 'government',
-            4: 'other'},
+            4: 'other',
+            5: 'personal'},
     'econ_rate': {
             0: 'good',
             1: 'poor',
