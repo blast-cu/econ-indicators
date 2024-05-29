@@ -103,7 +103,7 @@ class EconomicArticlesDatataset(Dataset):
         }
 
 
-def load_dataset(db_filename: str, remove_labelled: bool = True):
+def load_dataset(db_filename: str, remove_labelled: bool = False):
 
     """
     Retrieves the text data from the specified SQLite database file.
