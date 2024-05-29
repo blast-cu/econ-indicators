@@ -160,7 +160,6 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
             if type in label_maps:
                 curr_t = curr_ent[type]
                 result = []
-
                 if len(curr_t) >= 2:  # 2 or more annotations
                     anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
                     c = Counter(anns).most_common()
