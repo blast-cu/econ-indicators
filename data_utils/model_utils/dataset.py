@@ -17,8 +17,7 @@ qual_label_maps = {  # maps raw annotations to numerical labels for model input
             'industry': 1,
             'macro': 2,
             'government': 3,
-            'other': 4,
-            'personal': 5},
+            'other': 4},
     'econ_rate': {
             'good': 0,
             'poor': 1,
@@ -65,8 +64,7 @@ qual_predict_maps = {  # maps model outputs to raw labels
             1: 'industry',
             2: 'macro',
             3: 'government',
-            4: 'other',
-            5: 'personal'},
+            4: 'other'},
     'econ_rate': {
             0: 'good',
             1: 'poor',

@@ -165,7 +165,7 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
                     c = Counter(anns).most_common()
 
                     # check for tie (first result count matches second)-> no consensus
-                    if len(c) != 1 and c[0][1] == c[1][1]:
+                    if len(c) > 1 and c[0][1] == c[1][1]:
                         for ann in c:
                             result.append(ann[0])
         
@@ -214,7 +214,7 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
                     c = Counter(anns).most_common()
 
                     # check for tie (first result count matches second)-> no consensus
-                    if len(c) != 1 and c[0][1] == c[1][1]:
+                    if len(c) > 1 and c[0][1] == c[1][1]:
                     
                         min_disagreement = 1
                         best_ann = curr_t
