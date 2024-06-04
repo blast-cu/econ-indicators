@@ -257,7 +257,9 @@ def main(args):
     # for k in split_dict.keys():
     #     print(f"Fold {k}")
     #     print(f"Train: {split_dict[k]['train']}")
-    #     print(f"Test: {split_dict[k]['test']}")
+    #     # print(f"Test: {split_dict[k]['test']}")
+    #     for id in split_dict[k]['train']:
+    #         print(id, agreed_qual_ann[id])
 
     sanity_check(agreed_qual_ann, noisy_qual_ann)
     sanity_check(agreed_quant_ann, noisy_quant_ann)

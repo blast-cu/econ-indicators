@@ -160,13 +160,12 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
             if type in label_maps:
                 curr_t = curr_ent[type]
                 result = []
-
                 if len(curr_t) >= 2:  # 2 or more annotations
                     anns = [a[1] for a in curr_t if a[1] in label_maps[type]]
                     c = Counter(anns).most_common()
 
                     # check for tie (first result count matches second)-> no consensus
-                    if len(c) != 1 and c[0][1] == c[1][1]:
+                    if len(c) > 1 and c[0][1] == c[1][1]:
                         for ann in c:
                             result.append(ann[0])
         
@@ -215,7 +214,7 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
                     c = Counter(anns).most_common()
 
                     # check for tie (first result count matches second)-> no consensus
-                    if len(c) != 1 and c[0][1] == c[1][1]:
+                    if len(c) > 1 and c[0][1] == c[1][1]:
                     
                         min_disagreement = 1
                         best_ann = curr_t

@@ -32,6 +32,8 @@ def settings(args, type):
 
     if args.m == 'dapt':  # using domain-adapted model
         MODEL_CHECKPOINT = "data/masked/"
+    elif args.m == 'dapt_512':
+        MODEL_CHECKPOINT = "/rc_scratch/alle5715/econ-indicators/models/roberta_classifier/tuned_models/roberta_base_dapt_512"
     elif args.m == 'base':  # using base model
         MODEL_CHECKPOINT = "roberta-base"
     elif args.m == 'large':
