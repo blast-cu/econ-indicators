@@ -49,6 +49,7 @@ def main(args):
         get_annotator_stats=True
     )
     quant_dict = get_quant_potato_dict(quant_potato)
+    print(quant_dict)
     user_ann_disagreement = get_user_ann_disagreement(quant_dict)
 
     annotator_stats['type_disagreement'] = []
