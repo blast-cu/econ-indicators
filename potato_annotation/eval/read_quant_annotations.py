@@ -31,7 +31,8 @@ quant_predict_maps = {
             1: 'neg',
             2: 'neutral',
             3: 'unknown',
-            4: 'irrelevant'}
+            4: 'irrelevant',
+            5: 'irrelevant'}
 }
 def load_jsonl(input_path) -> list:
     """
