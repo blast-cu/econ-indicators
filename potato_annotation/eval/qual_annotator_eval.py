@@ -63,7 +63,7 @@ def main(args):
     annotator_stats['econ_rate_disagreement'] = []
     annotator_stats['econ_change_disagreement'] = []
     annotator_stats['total_disagreement'] = []
-    print(annotator_stats['user_id'])
+    
     for user in annotator_stats['user_id']:
         annotator_stats['frame_disagreement'].append(
             user_ann_disagreement['frame'][user]
