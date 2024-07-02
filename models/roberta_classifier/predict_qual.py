@@ -1,11 +1,13 @@
 import argparse
 import torch
+import os
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
 import pandas as pd
 from torch.utils.data import DataLoader, Dataset
 
 from data_utils import get_annotation_stats as gs
 import data_utils.model_utils.dataset as d
+
 
 
 class PredictionDataset(Dataset):
@@ -60,7 +62,10 @@ def main(args):
     
     # load articles w/o annotations
     # key: article id, value: article text
-    articles = gs.get_no_anns(db_filename=args.db, num_samples=args.ns)
+    articles = gs.get_no_anns(
+        db_filename=d.DB_FILENAME,
+        num_samples=args.ns
+    )
 
     torch.manual_seed(42)  # Set random seed for reproducibility
 
@@ -68,17 +73,25 @@ def main(args):
         .from_pretrained(pretrained_model_name_or_path="roberta-large",
                          problem_type="single_label_classification")
 
-    data = PredictionDataset(articles=articles,
-                             tokenizer=tokenizer,
-                             max_length=512)
+    data = PredictionDataset(
+        articles=articles,
+        tokenizer=tokenizer,
+        max_length=512
+    )
 
     batch_size = 8
-    loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
+    loader = DataLoader(
+        data,
+        batch_size=batch_size,
+        shuffle=False
+    )
 
     # load fine-tuned model for each annotation component
     models = {}
+    model_path = "/rc_scratch/alle5715/econ-indicators/models/roberta_classifier/tuned_models/qual_roberta_base_new_data/fold0"
     for k in d.qual_predict_maps.keys():
-        model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
+        # model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
+        model_path = f"{model_path}/{k}_model"
         models[k] = RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
@@ -100,16 +113,14 @@ def main(args):
             for i, id in enumerate(ids.tolist()):
                 col_name = f"{annotation_component}_prediction"
                 prediction = int(predicted[i].item())
-                annotations[id][col_name] = d.qual_predict_maps[annotation_component][prediction]
+                annotations[id][col_name] = \
+                    d.qual_predict_maps[annotation_component][prediction]
 
-
-
-    destination = "models/roberta_classifier/samples/qual_samples.csv"
+    destination_dir = "data/predictions"
+    os.makedirs(destination_dir, exist_ok=True)
+    destination = f"{destination_dir}/qual_predictions.csv"
     df = pd.DataFrame(annotations).transpose()
     df.to_csv(destination)
-
-
-
     
 
 if __name__ == '__main__':
