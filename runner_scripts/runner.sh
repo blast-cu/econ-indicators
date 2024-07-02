@@ -15,7 +15,7 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-source activate ./venv
+source activate ../econ-indicators-copy/venv
 
 mkdir -p metadata
 mkdir -p outputs
