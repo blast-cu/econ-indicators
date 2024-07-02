@@ -7,7 +7,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=quant_prediction-%j.out
+#SBATCH --output=qual_prediction-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
