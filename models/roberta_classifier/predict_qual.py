@@ -126,6 +126,6 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Description of your program')
     # parser.add_argument('--db', type=str, required=True, help='path to database file from top level directory')
-    parser.add_argument('--ns', type=int, default=10, help='number of article samples to load and label')
+    parser.add_argument('--ns', type=int, default=None, help='number of article samples to load and label')
     args = parser.parse_args()
     main(args)
