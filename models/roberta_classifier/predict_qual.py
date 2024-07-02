@@ -91,9 +91,9 @@ def main(args):
     model_path = "/rc_scratch/alle5715/econ-indicators/models/roberta_classifier/tuned_models/qual_roberta_base_new_data/fold0"
     for k in d.qual_predict_maps.keys():
         # model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
-        model_path = f"{model_path}/{k}_model"
+        k_model_path = f"{model_path}/{k}_model"
         models[k] = RobertaForSequenceClassification\
-            .from_pretrained(model_path).to('cuda')
+            .from_pretrained(k_model_path).to('cuda')
 
     # create dictionary to store annotations
     annotations = {}
