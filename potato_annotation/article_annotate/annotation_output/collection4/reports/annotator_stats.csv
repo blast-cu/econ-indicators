@@ -1,0 +1,4 @@
+user_id,total_anns,errors,frame_disagreement,econ_rate_disagreement,econ_change_disagreement,total_disagreement
+60f9c95f9ad5faebf010c415,25,14,0.39,0.27,0.24,0.3
+667ae6a60152dc0df09c6d1e,25,20,0.11,0.14,0.14,0.13
+666984229af5326d52e9e61e,25,23,0.11,0.18,0.24,0.18
