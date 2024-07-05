@@ -69,9 +69,10 @@ def main(args):
 
     torch.manual_seed(42)  # Set random seed for reproducibility
 
-    tokenizer = RobertaTokenizer\
-        .from_pretrained(pretrained_model_name_or_path="roberta-large",
-                         problem_type="single_label_classification")
+    tokenizer = RobertaTokenizer.from_pretrained(
+        pretrained_model_name_or_path="roberta-large",
+        problem_type="single_label_classification"
+    )
 
     data = PredictionDataset(
         articles=articles,
@@ -88,7 +89,8 @@ def main(args):
 
     # load fine-tuned model for each annotation component
     models = {}
-    model_path = "/rc_scratch/alle5715/econ-indicators/models/roberta_classifier/tuned_models/qual_roberta_base_new_data/fold0"
+    # model_path = "/rc_scratch/alle5715/econ-indicators/models/roberta_classifier/tuned_models/qual_roberta_base_new_data/fold0"
+    model_path = "/home/aleto/research/econ-indicators/models/roberta_classifier/tuned_models/qual_roberta_base/fold0"
     for k in d.qual_predict_maps.keys():
         # model_path = f"models/roberta_classifier/best_models/qual/{k}_model"
         k_model_path = f"{model_path}/{k}_model"
@@ -99,7 +101,7 @@ def main(args):
     annotations = {}
     for id in articles.keys():
         annotations[id] = {}
-
+    print(articles.keys())
     for annotation_component in models.keys():
         for batch in loader:
             input_ids = batch['input_ids'].to('cuda')
@@ -118,7 +120,7 @@ def main(args):
 
     destination_dir = "data/predictions"
     os.makedirs(destination_dir, exist_ok=True)
-    destination = f"{destination_dir}/qual_predictions.csv"
+    destination = f"{destination_dir}/qual_predictions_test.csv"
     df = pd.DataFrame(annotations).transpose()
     df.to_csv(destination)
     
