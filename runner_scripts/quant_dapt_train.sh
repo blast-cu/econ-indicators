@@ -8,7 +8,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=all-quant-train-%j.out
+#SBATCH --output=all-quant-dapt-train-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -27,6 +27,6 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_quant --m base
-python -m models.roberta_classifier.train_quant --m base --n all
-python -m models.roberta_classifier.train_quant --m base --n best
+python -m models.roberta_classifier.train_quant --m dapt
+python -m models.roberta_classifier.train_quant --m dapt --n all
+python -m models.roberta_classifier.train_quant --m dapt --n best
