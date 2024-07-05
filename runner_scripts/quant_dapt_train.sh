@@ -27,6 +27,6 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_quant --m dapt
-python -m models.roberta_classifier.train_quant --m dapt --n all
-python -m models.roberta_classifier.train_quant --m dapt --n best
+python -m models.roberta_classifier.train_quant --m dapt_512
+python -m models.roberta_classifier.train_quant --m dapt_512 --n all
+python -m models.roberta_classifier.train_quant --m dapt_512 --n best
