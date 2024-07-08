@@ -26,4 +26,4 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.predict_qual
+python -m models.roberta_classifier.predict_quant
