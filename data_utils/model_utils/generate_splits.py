@@ -2,8 +2,6 @@ import data_utils.get_annotation_stats as gs # msql queries
 import data_utils.model_utils.dataset as d
 from data_utils.model_utils.dataset import qual_label_maps, quant_label_maps
 from data_utils.model_utils.dataset import DB_FILENAME
-
-import argparse
 from sklearn.model_selection import KFold
 import pickle
 import nltk
@@ -175,7 +173,7 @@ def none_sanity_check(ann_dict: dict, quant=False):
 
 
 
-def main(args):
+def main():
     """
     Generate train/test splits for econ indicator models. Save the splits and 
     qual/quant dictionaries to models/utils/splits as pickles. 
@@ -187,7 +185,7 @@ def main(args):
         None
     """
 
-    db_filename = args.db
+    db_filename = DB_FILENAME
 
     # get agreed article-level annotations
     # {key = articleid, value = dict of annotations}
@@ -285,7 +283,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Command line arguments.')
-    parser.add_argument('--db', required=True, help='Path to the input file')
-    args = parser.parse_args()
-    main(args)
+    main()
