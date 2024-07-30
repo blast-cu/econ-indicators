@@ -3,11 +3,11 @@
     "port": 80,
     "server_name": "potato annotator",
     "annotation_task_name": "Economic Article Annotation",
-    "output_annotation_dir": "annotation_output/collection7/",
+    "output_annotation_dir": "annotation_output/collection8/",
     "output_annotation_format": "csv",
     "annotation_codebook_url": "https://www.dropbox.com/scl/fi/4bpa4eawf4l2wcisl636p/Article-Codebook.pdf?rlkey=p5j0wjjbjjrhaey1o7t3zjdv1&dl=0",
     "data_files": [
-        "data_files/articles7.csv"
+        "data_files/articles8.csv"
     ],
     "item_properties": {
         "id_key": "id",
