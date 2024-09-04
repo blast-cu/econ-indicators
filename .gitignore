@@ -178,6 +178,7 @@ database.db
 models/roberta_classifier/tuned_models/
 
 data-analysis/data
+data_analysis/data
 
 .vscode/
 __pycache__/

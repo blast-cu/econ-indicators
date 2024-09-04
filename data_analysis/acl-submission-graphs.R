@@ -1,5 +1,8 @@
+library(tidyverse)
+library(readxl)
+
 # LOAD DATA
-setwd("~/Documents/econ-indicators/data-analysis")
+setwd("~/Documents/econ-indicators/data_analysis")
 macro_data = read_delim("data/macro_quant_annotations.csv")
 
 macro_data = macro_data %>% 
@@ -81,6 +84,32 @@ article_spin_prices = macro_data %>%
 
 article_spin_jobs = macro_data %>% 
   filter(str_detect(macro_type, "jobs")) %>% 
+  mutate(year = year(date),
+         month = month(date),
+         quarter = as.integer(floor(month / 3)),
+         ym = ym(paste(year, month, sep="-")),
+         yq = yq(paste(year, quarter, sep="."))) %>% 
+  group_by(source, article_id, yq, spin) %>% 
+  summarise(count = n()) %>% 
+  pivot_wider(names_from = spin, values_from = count) %>% 
+  ungroup() %>% 
+  mutate(negative = replace_na(negative, 0),
+         positive = replace_na(positive, 0),
+         neutral = replace_na(neutral, 0),
+         total= negative+neutral+positive,
+         per_neg = negative / total,
+         per_neu = neutral / total,
+         per_pos = positive / total,
+         article_spin = if_else(per_neg >= 2*per_pos, "negative", "neutral"),
+         article_spin = if_else(per_pos >= 2*per_neg, "positive", article_spin)) %>% 
+  filter(total > 1) %>%
+  group_by(source, yq, article_spin) %>% 
+  summarise(count = n()) %>% 
+  mutate(total = sum(count),
+         per = count / total) %>% 
+  ungroup()
+
+article_spin_overall = macro_data %>% 
   mutate(year = year(date),
          month = month(date),
          quarter = as.integer(floor(month / 3)),
@@ -294,3 +323,10 @@ macro_data %>%
   group_by(Year, source) %>%
   summarise(count = n()) %>% view()
 
+article_spin_overall %>% 
+  filter(str_detect(article_spin, "nega")) %>%
+  # mutate(neg_weight = per * total) %>% 
+  group_by(yq) %>% 
+  summarise(per_neg = sum(count)/sum(total)) %>% 
+  ggplot(aes(x=yq, y=per_neg)) +
+  geom_line()
