@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=16G
-#SBATCH --time=13:00:00
+#SBATCH --time=48:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
@@ -27,5 +27,6 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_quant --m no_leak --n all
-python -m models.roberta_classifier.train_quant --m no_leak --n best
+python -m models.roberta_classifier.train_quant --m base
+python -m models.roberta_classifier.train_quant --m base --n all
+python -m models.roberta_classifier.train_quant --m base --n best

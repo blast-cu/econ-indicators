@@ -1,0 +1,4 @@
+user_id,total_anns,errors,type_disagreement,macro_type_disagreement,spin_disagreement,total_disagreement
+669f7bc0c833af429e770d98,50,67,0.09,0.04,0.04,0.06
+6654d1149c44fa7538d1245d,50,28,0.09,0.08,0.08,0.08
+66a56651a18b067d7ce878ac,50,11,0.52,0.57,0.52,0.54

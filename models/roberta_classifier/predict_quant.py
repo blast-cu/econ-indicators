@@ -12,7 +12,8 @@ from data_utils.model_utils.dataset import quant_predict_maps as label_maps
 # nltk.download('punkt')
 
 # MODELS_DIR = "models/roberta_classifier/tuned_models/quant_predict_models"
-MODEL_DIR = "models/roberta_classifier/tuned_models/quant_roberta_dapt_noise/fold0/type_model"
+MODEL_DIR = "models/roberta_classifier/tuned_models/quant_roberta_dapt_512/fold0"
+# MODEL_DIR = "models/roberta_classifier/tuned_models/quant_roberta_dapt_noise/fold0/type_model"
 SPLIT_DIR = "data/clean/"
 
 
@@ -138,14 +139,14 @@ def main():
                                         ids=ids,
                                         max_length=512)
 
-    batch_size = 8
+    batch_size = 16
     loader = DataLoader(data, batch_size=batch_size, shuffle=False)
 
     task = 'type'
     num_labels = len(set(label_maps[task].keys()))
-    # path = os.path.join(MODELS_DIR, 'type-binary_model')
+    path = os.path.join(MODEL_DIR, task)
     type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-    type_model = type_model.from_pretrained(MODEL_DIR, task).to('cuda')
+    type_model = type_model.from_pretrained(path, task).to('cuda')
 
     num_batches = len(loader)
     freq_report = 100
@@ -174,93 +175,93 @@ def main():
             if global_id not in annotations:
                 annotations[global_id] = {}
                 annotations[global_id]['type'] = label_maps[task][prediction]
-                # annotations[global_id]['spin'] = ''
-                # annotations[global_id]['macro_type'] = ''
+                annotations[global_id]['spin'] = ''
+                annotations[global_id]['macro_type'] = ''
 
 
-    print(">>> Saving type annotations")
+    # print(">>> Saving type annotations")
     # print(annotations)
-    save_progress(annotations, 'data/annotations_type_predictions')
+    # save_progress(annotations, 'data/annotations_type_predictions')
 
     # # for id, ann_dict in annotations.items():
     # #     print(f"{id}: {ann_dict}")
 
-    # filtered_text = {k: v for k, v in excerpt_dict.items() if k in annotations.keys()}
+    filtered_text = {k: v for k, v in excerpt_dict.items() if k in annotations.keys()}
 
-    # excerpt_dict = filtered_text
-    # texts = [[v['indicator'], v['excerpt']] for v in excerpt_dict.values()]
-    # ids = [k for k in excerpt_dict.keys()]
+    excerpt_dict = filtered_text
+    texts = [[v['indicator'], v['excerpt']] for v in excerpt_dict.values()]
+    ids = [k for k in excerpt_dict.keys()]
 
-    # data = qu.TextClassificationDataset(texts=texts,
-    #                                     tokenizer=tokenizer,
-    #                                     ids=ids,
-    #                                     max_length=512)
+    data = qu.TextClassificationDataset(texts=texts,
+                                        tokenizer=tokenizer,
+                                        ids=ids,
+                                        max_length=512)
 
-    # loader = DataLoader(data, batch_size=batch_size, shuffle=False)
+    loader = DataLoader(data, batch_size=batch_size, shuffle=False)
 
-    # task = 'spin'
-    # num_labels = len(set(label_maps[task].keys()))
-    # path = os.path.join(MODELS_DIR, 'spin_model')
-    # spin_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-    # spin_model = spin_model.from_pretrained(path, task).to('cuda')
+    task = 'spin'
+    num_labels = len(set(label_maps[task].keys()))
+    path = os.path.join(MODEL_DIR, 'spin_model')
+    spin_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+    spin_model = spin_model.from_pretrained(path, task).to('cuda')
 
-    # task = 'macro_type'
-    # num_labels = len(set(label_maps[task].keys()))
-    # path = os.path.join(MODELS_DIR, 'macro_type_model')
-    # macro_type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-    # macro_type_model = macro_type_model.from_pretrained(path, task).to('cuda')
+    task = 'macro_type'
+    num_labels = len(set(label_maps[task].keys()))
+    path = os.path.join(MODEL_DIR, 'macro_type_model')
+    macro_type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+    macro_type_model = macro_type_model.from_pretrained(path, task).to('cuda')
     
 
-    # num_batches = len(loader)
-    # for i, batch in enumerate(loader):
-    #     if i % freq_report == 0:
-    #         print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
+    num_batches = len(loader)
+    for i, batch in enumerate(loader):
+        if i % freq_report == 0:
+            print(f"Spin/Macro Type Batch {i+1}/{num_batches}")
 
-    #     start_index = batch['start_index'].to('cuda')
-    #     end_index = batch['end_index'].to('cuda')
-    #     input_ids = batch['input_ids'].to('cuda')
-    #     attention_mask = batch['attention_mask'].to('cuda')
-    #     article_ids = batch['article_ids'].tolist()
-    #     ann_ids = batch['ann_ids'].tolist()
+        start_index = batch['start_index'].to('cuda')
+        end_index = batch['end_index'].to('cuda')
+        input_ids = batch['input_ids'].to('cuda')
+        attention_mask = batch['attention_mask'].to('cuda')
+        article_ids = batch['article_ids'].tolist()
+        ann_ids = batch['ann_ids'].tolist()
 
-    #     spin_outputs = spin_model(start_index,
-    #                             end_index,
-    #                             input_ids,
-    #                             attention_mask)
+        spin_outputs = spin_model(start_index,
+                                end_index,
+                                input_ids,
+                                attention_mask)
 
-    #     _, spin_predicted = torch.max(spin_outputs, 1)
+        _, spin_predicted = torch.max(spin_outputs, 1)
 
-    #     macro_type_outputs = macro_type_model(start_index,
-    #                                         end_index,
-    #                                         input_ids,
-    #                                         attention_mask)
+        macro_type_outputs = macro_type_model(start_index,
+                                            end_index,
+                                            input_ids,
+                                            attention_mask)
 
-    #     _, macro_type_predicted = torch.max(macro_type_outputs, 1)
+        _, macro_type_predicted = torch.max(macro_type_outputs, 1)
 
-    #     for i, id in enumerate(article_ids):
-    #         global_id = str(id) + '_' + str(ann_ids[i])
-    #         spin_prediction = int(spin_predicted[i].item())
-    #         macro_type_prediction = int(macro_type_predicted[i].item())
+        for i, id in enumerate(article_ids):
+            global_id = str(id) + '_' + str(ann_ids[i])
+            spin_prediction = int(spin_predicted[i].item())
+            macro_type_prediction = int(macro_type_predicted[i].item())
 
-    #         if annotations[global_id]['spin'] == '' or annotations[global_id]['spin'] == '\x00':
-    #             annotations[global_id]['spin'] = label_maps['spin'][spin_prediction]
-    #         if annotations[global_id]['macro_type'] == '' or annotations[global_id]['macro_type'] == '\x00':
-    #             annotations[global_id]['macro_type'] = label_maps['macro_type'][macro_type_prediction]
+            if annotations[global_id]['spin'] == '' or annotations[global_id]['spin'] == '\x00':
+                annotations[global_id]['spin'] = label_maps['spin'][spin_prediction]
+            if annotations[global_id]['macro_type'] == '' or annotations[global_id]['macro_type'] == '\x00':
+                annotations[global_id]['macro_type'] = label_maps['macro_type'][macro_type_prediction]
 
     
 
 
-    # # clean dictionary, save to csv 
-    # output_dict = {k: [v['type'], v['macro_type'], v['spin'] ] for k, v in annotations.items()}
-    # save_progress(output_dict, 'outputs/annotations_final')
-    # # pd.DataFrame.from_dict(output_dict,
-    # #                        orient='index',
-    # #                        columns=['type', 'macro_type', 'spin']
-    # #                        ).to_csv('annotations.csv')
+    # clean dictionary, save to csv 
+    output_dict = {k: [v['type'], v['macro_type'], v['spin'] ] for k, v in annotations.items()}
+    save_progress(output_dict, 'outputs/annotations_final')
+    # pd.DataFrame.from_dict(output_dict,
+    #                        orient='index',
+    #                        columns=['type', 'macro_type', 'spin']
+    #                        ).to_csv('annotations.csv')
 
-    # # check = pickle.load(open('outputs/annotations_final', 'rb'))
-    # # for id, ann_dict in output_dict.items():
-    # #     print(f"{id}: {ann_dict}")
+    # check = pickle.load(open('outputs/annotations_final', 'rb'))
+    # for id, ann_dict in output_dict.items():
+    #     print(f"{id}: {ann_dict}")
 
 
 

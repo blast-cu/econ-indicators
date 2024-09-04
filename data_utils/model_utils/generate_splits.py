@@ -2,10 +2,10 @@ import data_utils.get_annotation_stats as gs # msql queries
 import data_utils.model_utils.dataset as d
 from data_utils.model_utils.dataset import qual_label_maps, quant_label_maps
 from data_utils.model_utils.dataset import DB_FILENAME
-
-import argparse
 from sklearn.model_selection import KFold
 import pickle
+import nltk
+nltk.download('punkt')
 
 
 def remove_empty(ann_dict: dict):
@@ -173,7 +173,7 @@ def none_sanity_check(ann_dict: dict, quant=False):
 
 
 
-def main(args):
+def main():
     """
     Generate train/test splits for econ indicator models. Save the splits and 
     qual/quant dictionaries to models/utils/splits as pickles. 
@@ -185,7 +185,7 @@ def main(args):
         None
     """
 
-    db_filename = args.db
+    db_filename = DB_FILENAME
 
     # get agreed article-level annotations
     # {key = articleid, value = dict of annotations}
@@ -238,7 +238,7 @@ def main(args):
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
     noisy_qual_ann = populate_quant_list(noisy_qual_ann, noisy_quant_ann)
-    # noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
+    noisy_best_qual_ann = populate_quant_list(noisy_best_qual_ann, noisy_best_quant_ann)
 
     # add text excerpts w/ context to agreed_quant_ann dict
     agreed_quant_ann = populate_quant_text(agreed_qual_ann, agreed_quant_ann, db_filename)
@@ -255,7 +255,9 @@ def main(args):
     # for k in split_dict.keys():
     #     print(f"Fold {k}")
     #     print(f"Train: {split_dict[k]['train']}")
-    #     print(f"Test: {split_dict[k]['test']}")
+    #     # print(f"Test: {split_dict[k]['test']}")
+    #     for id in split_dict[k]['train']:
+    #         print(id, agreed_qual_ann[id])
 
     sanity_check(agreed_qual_ann, noisy_qual_ann)
     sanity_check(agreed_quant_ann, noisy_quant_ann)
@@ -281,7 +283,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Command line arguments.')
-    parser.add_argument('--db', required=True, help='Path to the input file')
-    args = parser.parse_args()
-    main(args)
+    main()

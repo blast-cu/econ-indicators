@@ -24,13 +24,15 @@ quant_predict_maps = {
             2: 'housing',
             6: 'confidence', # ???
             11: 'other',
-            12: 'none'},
+            12: 'none',
+            13: 'none'},
     'spin': {
             0: 'pos',
             1: 'neg',
             2: 'neutral',
             3: 'unknown',
-            4: 'irrelevant'}
+            4: 'irrelevant',
+            5: 'irrelevant'}
 }
 def load_jsonl(input_path) -> list:
     """

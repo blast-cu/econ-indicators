@@ -391,12 +391,14 @@ def get_noise(annotation_component: str,
                and the labels list contains the corresponding labels for each pair of texts.
     """
 
+    print(noise_dict)
+
     texts = []  # list of [indicator text, text with context]
     labels = []
 
     for id in noise_dict.keys():
         if noise_dict[id][annotation_component] != '\x00':
-            print(id)
+            # print(id)
             article_id, _ = id.split('_')
             if int(article_id) not in test_article_ids:
                 if 'indicator' in noise_dict[id].keys(): # temp fix

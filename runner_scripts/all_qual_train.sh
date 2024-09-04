@@ -26,6 +26,5 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
-python -m models.roberta_classifier.train_qual --m no_leak
-python -m models.roberta_classifier.train_qual --m no_leak --n all
-python -m models.roberta_classifier.train_qual --m no_leak --n best
+python -m models.roberta_classifier.train_qual --m base --en new_data
+python -m models.roberta_classifier.train_qual --m base --n all --en new_data
