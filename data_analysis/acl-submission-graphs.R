@@ -1,5 +1,8 @@
+library(tidyverse)
+library(readxl)
+
 # LOAD DATA
-setwd("~/Documents/econ-indicators/data-analysis")
+setwd("~/Documents/econ-indicators/data_analysis")
 macro_data = read_delim("data/macro_quant_annotations.csv")
 
 macro_data = macro_data %>% 
