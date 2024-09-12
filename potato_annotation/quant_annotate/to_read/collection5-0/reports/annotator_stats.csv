@@ -1,0 +1,4 @@
+user_id,total_anns,errors,type_disagreement,macro_type_disagreement,spin_disagreement,total_disagreement
+66a46544fa732e356e956fca,50,0,0.21,0.07,0.15,0.15
+65f8d23136abafe80c61998a,50,3,1.0,1.0,0.07,0.66
+66926aa4a5fb84fd6decaec5,50,19,0.11,0.23,0.17,0.16
