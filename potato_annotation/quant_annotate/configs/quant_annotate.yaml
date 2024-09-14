@@ -13,7 +13,7 @@
         "id_key": "id",
         "text_key": "text"
     },
-    "list_as_text": {
+    "list_as_text": { 
         "text_list_prefix_type": "None",
         "horizontal": true
     },
