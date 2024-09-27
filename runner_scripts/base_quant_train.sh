@@ -12,6 +12,8 @@
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
+cd /scratch/alpine/alle5715/econ-indicators
+
 mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
@@ -22,7 +24,7 @@ mkdir -p metadata
 mkdir -p outputs
 
 export TRANSFORMERS_CACHE=metadata/
-export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
+export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 module load cuda
 module load cudnn
