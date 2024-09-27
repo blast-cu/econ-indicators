@@ -3,12 +3,12 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=32G
-#SBATCH --time=168:00:00
+#SBATCH --time=96:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=masked_tune-%j.out
+#SBATCH --output=logs/masked_tune-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
