@@ -12,19 +12,20 @@
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
+cd /scratch/alpine/alle5715/econ-indicators
+
+module load anaconda
+module load cuda/12.1.1
+
 mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
-source /home/${USER}/.bashrc
-conda activate /scratch/alpine/alle5715/econ-indicators/venv
+conda activate econ-indicators
 
 mkdir -p metadata
 mkdir -p outputs
 
 export HF_HOME=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
-
-module load cuda
-module load cudnn
 
 python3 models/roberta_classifier/dapt.py --o data/models/roberta_base_dapt_128 --c roberta-base --s 128
