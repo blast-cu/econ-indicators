@@ -1,5 +1,5 @@
-# from transformers import AutoTokenizer, TrainingArguments, Trainer, \
-#     AutoModelForMaskedLM, DataCollatorForLanguageModeling
+from transformers import AutoTokenizer, TrainingArguments, Trainer, \
+    AutoModelForMaskedLM, DataCollatorForLanguageModeling
 from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
 
