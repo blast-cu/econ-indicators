@@ -8,7 +8,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=all-quant-train-%j.out
+#SBATCH --output=logs/base-quant-train-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -16,7 +16,7 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-conda activate ../argmin-sharedtask/venv
+conda activate econ-indicators
 
 mkdir -p metadata
 mkdir -p outputs

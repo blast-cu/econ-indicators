@@ -7,7 +7,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=all_qual_train-%j.out
+#SBATCH --output=logs/base_qual_train-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -15,7 +15,7 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-conda activate ../argmin-sharedtask/venv
+conda activate econ-indicators
 
 mkdir -p metadata
 mkdir -p outputs
@@ -26,5 +26,7 @@ export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
 module load cuda
 module load cudnn
 
+
 python -m models.roberta_classifier.train_qual --m base --en new_data
 python -m models.roberta_classifier.train_qual --m base --n all --en new_data
+python -m models.roberta_classifier.train_qual --m base --n best --en new_data
