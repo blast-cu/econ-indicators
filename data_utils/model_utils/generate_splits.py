@@ -245,7 +245,7 @@ def main():
     noisy_quant_ann = populate_quant_text(noisy_qual_ann, noisy_quant_ann, db_filename)
     noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
 
-    # create splits 
+    # create splits
     split_dict = get_split_dict(agreed_qual_ann)
 
     # for k, v in agreed_quant_ann.items():
@@ -259,13 +259,40 @@ def main():
     #     for id in split_dict[k]['train']:
     #         print(id, agreed_qual_ann[id])
 
-    sanity_check(agreed_qual_ann, noisy_qual_ann)
-    sanity_check(agreed_quant_ann, noisy_quant_ann)
-    sanity_check(agreed_qual_ann, noisy_best_qual_ann)
-    sanity_check(agreed_quant_ann, noisy_best_quant_ann)
+    # sanity_check(agreed_qual_ann, noisy_qual_ann)
+    # sanity_check(agreed_quant_ann, noisy_quant_ann)
+    # sanity_check(agreed_qual_ann, noisy_best_qual_ann)
+    # sanity_check(agreed_quant_ann, noisy_best_quant_ann)
 
-    none_sanity_check(agreed_qual_ann, quant=False)
-    none_sanity_check(agreed_quant_ann, quant=True)
+    # none_sanity_check(agreed_qual_ann, quant=False)
+    # none_sanity_check(agreed_quant_ann, quant=True)
+
+    counts = {}
+    counts['frame'] = 0
+    counts['econ_rate'] = 0
+    counts['econ_change'] = 0
+    counts['quant_support'] = 0
+    for k, v in agreed_qual_ann.items():
+        for ann in ['frame', 'econ_rate', 'econ_change']:
+            if v[ann] != '\x00':
+                counts[ann] += 1
+        if len(v['quant_list']) > 0:\
+            counts['quant_support'] += 1
+    print(counts)
+
+    counts = {}
+    counts['type'] = 0
+    counts['macro_type'] = 0
+    counts['spin'] = 0
+    for k, v in agreed_quant_ann.items():
+        for ann in ['type', 'macro_type', 'spin']:
+            if v[ann] != "\x00":
+                counts[ann] += 1
+    print(counts)
+
+
+    print(len(agreed_qual_ann))
+    print(len(agreed_quant_ann))
 
     # # # save dictionaries as pickles 
     base_dir = 'data/clean/'

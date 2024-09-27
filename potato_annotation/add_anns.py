@@ -161,6 +161,18 @@ def main(args):
         cursor.execute(select_query)
         for row in cursor.fetchall():
             print(row)
+ 
+    # check number of potato article anns
+    cursor.execute("SELECT COUNT(*) FROM articleann WHERE source = 'potato'")
+    print(cursor.fetchone())
+
+    # check number of potato quant anns
+    cursor.execute("SELECT COUNT(*) FROM quantityann WHERE source = 'potato'")
+    print(cursor.fetchone())
+
+    # # remove potato anns
+    # cursor.execute("DELETE FROM articleann WHERE source = 'potato'")
+    # cursor.execute("DELETE FROM quantityann WHERE source = 'potato'")
 
     conn.commit()
     conn.close()
