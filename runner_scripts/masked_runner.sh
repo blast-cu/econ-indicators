@@ -16,13 +16,13 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-conda activate /rc_scratch/alle5715/argmin-sharedtask/venv
+conda activate /scratch/alpine/alle5715/econ-indicators/venv
 
 mkdir -p metadata
 mkdir -p outputs
 
 export HF_HOME=metadata/
-export PYTHONPATH=/rc_scratch/alle5715/econ-indicators
+export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 module load cuda
 module load cudnn
