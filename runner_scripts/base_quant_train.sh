@@ -14,6 +14,9 @@
 
 cd /scratch/alpine/alle5715/econ-indicators
 
+module load anaconda
+module load cuda/12.1.1
+
 mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
@@ -25,9 +28,6 @@ mkdir -p outputs
 
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
-
-module load cuda
-module load cudnn
 
 python -m models.roberta_classifier.train_quant --m base
 python -m models.roberta_classifier.train_quant --m base --n all

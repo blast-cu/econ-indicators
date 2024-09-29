@@ -158,43 +158,43 @@ def main(args):
     model = AutoModelForMaskedLM.from_pretrained(model_checkpoint).to('cuda')
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-    # Get list of all articles in db, split into train and val
-    db_filename = "data/data.db"
-    texts = load_dataset(db_filename)
-    # texts = random.sample(texts, 10)
-    train_texts, val_texts = train_test_split(
-        texts,
-        test_size=0.15,
-        random_state=42
-    )
+    # # Get list of all articles in db, split into train and val
+    # db_filename = "data/data.db"
+    # texts = load_dataset(db_filename)
+    # # texts = random.sample(texts, 10)
+    # train_texts, val_texts = train_test_split(
+    #     texts,
+    #     test_size=0.15,
+    #     random_state=42
+    # )
 
-    print(f'>>> Loaded {len(train_texts)} training texts')
-    print(f'>>> Loaded {len(val_texts)} validation texts')
+    # print(f'>>> Loaded {len(train_texts)} training texts')
+    # print(f'>>> Loaded {len(val_texts)} validation texts')
 
-    print('>>> Tokenizing train texts')
-    train_dataset = EconomicArticlesDatataset(
-        train_texts,
-        tokenizer,
-        chunk_size=CHUNK_SIZE
-    )
+    # print('>>> Tokenizing train texts')
+    # train_dataset = EconomicArticlesDatataset(
+    #     train_texts,
+    #     tokenizer,
+    #     chunk_size=CHUNK_SIZE
+    # )
 
     filename = os.path.join(OUT_DIR, f"train_dataset_{CHUNK_SIZE}")
-    # train_dataset = pickle.load(open(filename, 'rb'))
-    f = open(filename, 'wb')
-    pickle.dump(train_dataset, f)
+    train_dataset = pickle.load(open(filename, 'rb'))
+    # f = open(filename, 'wb')
+    # pickle.dump(train_dataset, f)
 
 
-    print('>>> Tokenizing val texts')
-    val_dataset = EconomicArticlesDatataset(
-        val_texts,
-        tokenizer,
-        chunk_size=CHUNK_SIZE
-    )
+    # print('>>> Tokenizing val texts')
+    # val_dataset = EconomicArticlesDatataset(
+    #     val_texts,
+    #     tokenizer,
+    #     chunk_size=CHUNK_SIZE
+    # )
 
     filename = os.path.join(OUT_DIR, f"val_dataset_{CHUNK_SIZE}")
-    # val_dataset = pickle.load(open(filename, 'rb'))
-    f = open(filename, 'wb')
-    pickle.dump(val_dataset, f)
+    val_dataset = pickle.load(open(filename, 'rb'))
+    # f = open(filename, 'wb')
+    # pickle.dump(val_dataset, f)
 
     # create data collator for adding masks to input
     data_collator = DataCollatorForLanguageModeling(
