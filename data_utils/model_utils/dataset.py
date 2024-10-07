@@ -184,6 +184,9 @@ class QuantAnnClassificationDataset(Dataset):
                                            temp_encoding,
                                            text)
 
+            if end_index is None:
+                end_index = start_index
+
             if start_index is None or end_index is None:
                 print('Substring: ' + indicator_text)
                 print('Original text: ' + text)

@@ -29,6 +29,6 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m models.roberta_classifier.train_quant --m base
+# python -m models.roberta_classifier.train_quant --m base
 python -m models.roberta_classifier.train_quant --m base --n all
 python -m models.roberta_classifier.train_quant --m base --n best

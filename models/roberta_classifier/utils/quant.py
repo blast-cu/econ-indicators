@@ -288,7 +288,7 @@ def train(model,
 
     history_len = 3
     epoch = 0
-    
+
     while improving:
         model.train()
         for batch in train_loader:
@@ -361,8 +361,8 @@ def test(model, test_loader):
             out_predicted += predicted.tolist()
             out_labels += labels.tolist()
 
-        print(out_labels)
-        print(out_predicted)
+        # print(out_labels)
+        # print(out_predicted)
 
         test_acc = correct / total
         print(f"Test Accuracy: {test_acc:.4f}")
