@@ -28,6 +28,6 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m models.roberta_classifier.train_qual --m base --n best --en new_data  # BUG
-# python -m models.roberta_classifier.train_qual --m base --en new_data
-# python -m models.roberta_classifier.train_qual --m base --n all --en new_data
+# python -m models.roberta_classifier.train_qual --m base --n best --en new_data  # BUG
+python -m models.roberta_classifier.train_qual --m dapt_128 --en new_data
+python -m models.roberta_classifier.train_qual --m dapt_128 --n all --en new_data
