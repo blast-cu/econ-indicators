@@ -185,6 +185,7 @@ class QuantAnnClassificationDataset(Dataset):
                                            text)
 
             if end_index is None:
+                print("setting end index to start index")
                 end_index = start_index
 
             if start_index is None or end_index is None:
