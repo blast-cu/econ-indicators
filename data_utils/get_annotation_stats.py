@@ -117,7 +117,7 @@ def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
     for id in ann_dict.keys(): 
         curr_ent = ann_dict[id]
         # TODO: for quant anns, check type before subtypes
-        print(curr_ent)
+        # print(curr_ent)
         for type in curr_ent.keys():
             if type in label_maps:
                 curr_t = curr_ent[type]
@@ -188,7 +188,6 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
     ann_dict, quantity2ann = iaa.get_anns(db_filename)
     if quant:
         ann_dict = quantity2ann
-    
 
     user_ann_disagreement = {}
     for ann_name in label_maps.keys():
@@ -199,7 +198,7 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
         for user in sorted(user_disagreements.keys()):
             percent_disagree = round(user_disagreements[user]/user_total_anns[user], 2)
             user_ann_disagreement[ann_name][user] = percent_disagree
- 
+
     noisy_dict = {}
 
     for id in ann_dict.keys():
@@ -215,14 +214,14 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
 
                     # check for tie (first result count matches second)-> no consensus
                     if len(c) > 1 and c[0][1] == c[1][1]:
-                    
                         min_disagreement = 1
                         best_ann = curr_t
                         for ann in curr_t:
                             if ann[0] not in user_ann_disagreement[type]:
-                                print("User not in user_ann_disagreement")
+                                print(f"User {ann[0]} not in user_ann_disagreement")
                                 print(ann[0])
                                 print(user_ann_disagreement[type])
+                                exit()
                                 continue
                             curr_disagreement = user_ann_disagreement[type][ann[0]]
                             if curr_disagreement < min_disagreement:
@@ -236,6 +235,9 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
                 if id not in noisy_dict:
                     noisy_dict[id] = {}
                 noisy_dict[id][type] = result
+                if '(62896882543' in result:
+                    print(result)
+                    exit()
     
     return noisy_dict
         
