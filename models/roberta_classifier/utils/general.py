@@ -35,7 +35,7 @@ def settings(args, type):
     elif args.m == 'dapt_128':
         MODEL_CHECKPOINT = "data/models/roberta_base_dapt_128/"
     elif args.m == 'dapt_512':
-        MODEL_CHECKPOINT = "models/roberta_classifier/tuned_models/roberta_base_dapt_512/"
+        MODEL_CHECKPOINT = "data/models/roberta_base_dapt_512/"
     elif args.m == 'base':  # using base model
         MODEL_CHECKPOINT = "roberta-base"
     elif args.m == 'large':
