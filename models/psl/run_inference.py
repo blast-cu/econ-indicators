@@ -2,7 +2,6 @@
 
 import os
 import argparse
-import itertools
 
 from pslpython.model import Model
 from pslpython.partition import Partition
@@ -18,20 +17,21 @@ DATA_DIR = os.path.join(THIS_DIR, 'data')
 RULE_DIR = os.path.join(DATA_DIR, 'rules')
 
 VERBOSE = True
-
 ADDITIONAL_PSL_OPTIONS = {
     'runtime.log.level': 'INFO'
     # 'runtime.db.type': 'Postgres',
     # 'runtime.db.pg.name': 'psl',
 }
 
+"""
+Script for running inference with train/test 5 split data
+"""
 
 
 def main(args):
 
     # establish setting parameters
     setting = args.s
-    
     print('Setting: ' + setting)
     try:
         setting_dict = SETTINGS[setting]
@@ -45,8 +45,6 @@ def main(args):
         raise ValueError('Unknown rule directory: ' + setting_dict['rule_dir'])
     
     # remove rule files without frame or macro_type for speeeed
-    
-
     for split_num in range(5):
 
         global SPLIT_DIR
@@ -120,7 +118,7 @@ def add_predicates(model):
 
         if VERBOSE:
             print(p)
-        
+
         size = 2
         if p == 'HasTypeAnn' or p == 'HasFrameAnn':
             size = 1

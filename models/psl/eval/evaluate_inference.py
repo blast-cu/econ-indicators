@@ -44,8 +44,9 @@ def get_pred_dict(filepath, doc_type='quant'):
 
     return predictions
 
+
 def get_labels_dict(articles, annotation_type):
-    
+
     labels_dict = {}
     for id, annotations in articles.items():
         if annotations[annotation_type] != '\0':
@@ -58,7 +59,6 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
     results = {}
 
     for annotation_type in annotation_map.keys():
-    # for annotation_type in ['spin']:
 
         results[annotation_type] = {}
         results[annotation_type]['id'] = []
@@ -74,6 +74,7 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         print(filepath)
 
         try:
+            print(f'Getting predictions for {annotation_type} from {filepath}...')
             predictions = get_pred_dict(filepath, doc_type)
 
         except Exception as e:
@@ -90,8 +91,10 @@ def evaluate(annotation_map, eval_docs, inference_dir, report_dir, split_num, do
         # print(f'>>> {annotation_type} <<<')
         for id in labels.keys():
             # if labels[id] != '\0':
-            if int(id) == 7: 
-                print(split_num)
+            # if int(id) == 7: 
+            #     print(split_num)
+            # print(id)
+            # print(labels[id])
             prediction_list.append(predictions[id])
             label_list.append(labels[id])
 
@@ -134,7 +137,7 @@ def main(args):
 
         rule_name = rule_file.split('.')[0]
         setting_rule_out_file = os.path.join(SETTING_OUT_DIR, rule_name)
-        os.makedirs(setting_rule_out_file, exist_ok=False)
+        os.makedirs(setting_rule_out_file, exist_ok=True)
 
         full_qual_results = {}
         full_quant_results = {}
