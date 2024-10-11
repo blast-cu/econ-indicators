@@ -290,7 +290,6 @@ def predict_article_annotations(articles, split_num):
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
                     predict_dict[annotation_component].append(to_write)
-                
 
     return predict_dict
 
