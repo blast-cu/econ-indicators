@@ -12,6 +12,7 @@ from data_utils.model_utils.dataset import QuantAnnClassificationDataset
 import data_utils.get_annotation_stats as gs
 import data_utils.model_utils.dataset as d
 from data_utils.model_utils.dataset import DB_FILENAME
+import models.roberta_classifier.utils.quant as qu
 
 OUT_DIR = 'models/psl/data'
 NOISE = False
