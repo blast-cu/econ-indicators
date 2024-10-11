@@ -8,11 +8,12 @@ from torch.utils.data import DataLoader
 import models.psl.generate_rules as gd
 import models.roberta_classifier.predict_qual as pq
 import models.roberta_classifier.predict_quant as pqt
-from data_utils.model_utils.dataset import QuantAnnClassificationDataset
+# from data_utils.model_utils.dataset import QuantAnnClassificationDataset
 import data_utils.get_annotation_stats as gs
 import data_utils.model_utils.dataset as d
 from data_utils.model_utils.dataset import DB_FILENAME
-import models.roberta_classifier.utils.quant as qu
+# import models.roberta_classifier.utils.quant as qu
+import models.roberta_classifier.utils.legacy_quant as qu
 
 OUT_DIR = 'models/psl/data'
 NOISE = False
@@ -321,7 +322,7 @@ def generate_predict_excerpts(excerpts, split_num):
             .from_pretrained(pretrained_model_name_or_path="roberta-base",
                              problem_type="single_label_classification")
 
-        data = QuantAnnClassificationDataset(
+        data = qu.TextClassificationDataset(
             texts=texts,
             tokenizer=tokenizer,
             ids=ids,
