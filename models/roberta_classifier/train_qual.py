@@ -110,7 +110,7 @@ def main(args):
                 dest)
 
             model_dest = dest + task + "_model"
-            model.save_pretrained(model_dest)
+            tuned_model.save_pretrained(model_dest)
 
     for task in d.qual_label_maps.keys():
         dest = f"{OUT_DIR}results/"

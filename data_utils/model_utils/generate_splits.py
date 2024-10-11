@@ -5,6 +5,7 @@ from data_utils.model_utils.dataset import DB_FILENAME
 from sklearn.model_selection import KFold
 import pickle
 import nltk
+import json
 nltk.download('punkt')
 
 
@@ -203,7 +204,6 @@ def main():
     noisy_best_qual_ann = remove_empty(noisy_best_qual_ann)
     # noisy_best_qual_ann = remove_nones(noisy_best_qual_ann, none_ids)
     noisy_best_qual_ann, _ = add_none(noisy_best_qual_ann, quant=False)
-    exit()
    
 
     # get agreed quantitative annotations in dict where 
@@ -232,8 +232,6 @@ def main():
     for k in noisy_best_qual_ann.keys():
         noisy_best_qual_ann[k]['quant_list'] = []
 
-    
-
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
     noisy_qual_ann = populate_quant_list(noisy_qual_ann, noisy_quant_ann)
@@ -243,6 +241,21 @@ def main():
     agreed_quant_ann = populate_quant_text(agreed_qual_ann, agreed_quant_ann, db_filename)
     noisy_quant_ann = populate_quant_text(noisy_qual_ann, noisy_quant_ann, db_filename)
     noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
+
+    # save full data dictionaries as pickles
+    d.save_progress(agreed_qual_ann, 'data/clean/agreed_qual_dict')
+    d.save_progress(agreed_quant_ann, 'data/clean/agreed_quant_dict')
+    agreed_qual_ann = {int(k): v for k, v in agreed_qual_ann.items()}
+    json.dump(
+        agreed_qual_ann, 
+        open('data/clean/agreed_qual_dict.json', 'w'),
+        indent=4
+    )
+    json.dump(
+        agreed_quant_ann, 
+        open('data/clean/agreed_quant_dict.json', 'w'),
+        indent=4
+    )
 
     # create splits
     split_dict = get_split_dict(agreed_qual_ann)

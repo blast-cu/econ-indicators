@@ -221,7 +221,7 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
                                 print(f"User {ann[0]} not in user_ann_disagreement")
                                 print(ann[0])
                                 print(user_ann_disagreement[type])
-                                exit()
+                                # exit()
                                 continue
                             curr_disagreement = user_ann_disagreement[type][ann[0]]
                             if curr_disagreement < min_disagreement:
@@ -235,9 +235,9 @@ def get_best_noisy_anns(ann_dict: dict, label_maps: dict, db_filename: str, quan
                 if id not in noisy_dict:
                     noisy_dict[id] = {}
                 noisy_dict[id][type] = result
-                if '(62896882543' in result:
-                    print(result)
-                    exit()
+                # if '(62896882543' in result:
+                #     print(result)
+                #     exit()
     
     return noisy_dict
         
