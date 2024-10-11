@@ -15,7 +15,8 @@ qual_map = {
         'industry': 1,
         'macro': 2,
         'government': 3,
-        'other': 4
+        'other': 4,
+        'personal': 5
     },
     'econ_rate': {
         'good': 0,
