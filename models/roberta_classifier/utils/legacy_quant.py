@@ -208,7 +208,6 @@ class TextClassificationDataset(Dataset):
             padding='max_length',
             truncation=True
         )
-            
 
         return {
             'start_index': torch.tensor(start_index),

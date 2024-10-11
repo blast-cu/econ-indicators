@@ -346,7 +346,7 @@ def generate_predict_excerpts(excerpts, split_num):
         with torch.no_grad():
 
             for i, batch in enumerate(loader):
-
+                print(batch.keys())
                 start_index = batch['start_index'].to('cuda')
                 end_index = batch['end_index'].to('cuda')
                 input_ids = batch['input_ids'].to('cuda')
