@@ -89,6 +89,7 @@ def main(args):
         config['checkpoint'] = model_checkpoint
         config['class_weights'] = class_weights
         config['train length'] = len(train_texts)
+        json.dump(config, open(os.path.join(model_dest, 'train_config.json'), 'w'))
 
 
 if __name__ == "__main__":
