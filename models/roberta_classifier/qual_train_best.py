@@ -40,7 +40,6 @@ def main(args):
     ann_data = json.load(open(split_dir + 'agreed_qual_dict.json', 'r'))
     text_data = pickle.load(open(split_dir + 'qual_dict', 'rb'))
     train_ids = [int(k) for k in ann_data.keys()]
-    # train_ids = list(ann_data.keys())
 
     for task in d.qual_label_maps.keys():
 
@@ -65,14 +64,14 @@ def main(args):
 
         train_texts = [t.replace('\n', '') for t in train_texts]
         model, train_loader, val_loader, _, optimizer = \
-                tt.setup(
-                    train_texts,
-                    None,  # no test texts
-                    train_labels,
-                    None,  # no test labels
-                    d.qual_label_maps[task],
-                    model_checkpoint=model_checkpoint
-                )
+            tt.setup(
+                train_texts,
+                None,  # no test texts
+                train_labels,
+                None,  # no test labels
+                d.qual_label_maps[task],
+                model_checkpoint=model_checkpoint
+            )
 
         tuned_model = tt.train(
             model, train_loader, val_loader,

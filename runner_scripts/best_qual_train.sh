@@ -28,4 +28,4 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m models.roberta_classifier.best_qual_train --frame dapt_128 --econ_rate base --econ_change base
+python -m models.roberta_classifier.qual_train_best --frame dapt_128 --econ_rate base --econ_change base
