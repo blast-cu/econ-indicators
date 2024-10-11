@@ -17,12 +17,12 @@ OUT_DIR = 'models/psl/data'
 NOISE = False
 
 BEST_MODELS = {
-    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base',
-    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base',
-    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_all',
-    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
-    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
-    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best'
+    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_dapt_128_new_data',
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_new_data',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_new_data',
+    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_128',
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512'
 }
 
 
@@ -477,42 +477,41 @@ def main():
 
         # # GENERATE LEARN DATA #
         # # write contains file linking articles and excerpts
-        # write_contains_file(split_learn_dir, learn_articles)  # contains
+        write_contains_file(split_learn_dir, learn_articles)  # contains
 
-        # write_has_frame_ann_file(split_learn_dir, learn_excerpts)  
-        # write_has_frame_ann_file(split_learn_dir, learn_articles, predicate="HasFrameAnn") 
-        
+        write_has_frame_ann_file(split_learn_dir, learn_excerpts)
+        write_has_frame_ann_file(split_learn_dir, learn_articles, predicate="HasFrameAnn") 
 
-        # write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
-        # # write target and truth files for validation data
-        # write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        # write target and truth files for validation data
+        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
 
-        # write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
-        # # # predictions for validation set
+        # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, split_num)
         write_pred_files(split_learn_dir, article_preds)  # pred  
 
-        # exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-        # write_pred_files(split_learn_dir, exerpt_preds)  # pred
+        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
         # # GENERATE EVAL DATA #
-        # write_contains_file(split_eval_dir, eval_articles)  # contains
+        write_contains_file(split_eval_dir, eval_articles)  # contains
 
-        # write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
-        # write_has_frame_ann_file(split_eval_dir, eval_articles, predicate="HasFrameAnn")
+        write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
+        write_has_frame_ann_file(split_eval_dir, eval_articles, predicate="HasFrameAnn")
 
-        # write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        # write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        # write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
         article_preds = predict_article_annotations(eval_articles, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 
-        # excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-        # write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 
