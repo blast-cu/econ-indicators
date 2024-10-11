@@ -344,7 +344,6 @@ def generate_predict_excerpts(excerpts, split_num):
 
         type_model.eval()
         with torch.no_grad():
-
             for i, batch in enumerate(loader):
                 print(batch.keys())
                 start_index = batch['start_index'].to('cuda')
