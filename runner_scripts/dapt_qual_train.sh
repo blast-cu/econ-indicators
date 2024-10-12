@@ -29,5 +29,6 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 # python -m models.roberta_classifier.train_qual --m base --n best --en new_data  # BUG
-python -m models.roberta_classifier.train_qual --m dapt_512 --en new_data
-python -m models.roberta_classifier.train_qual --m dapt_512 --n all --en new_data
+python -m models.roberta_classifier.train_qual --m dapt_128
+python -m models.roberta_classifier.train_qual --m dapt_512
+# python -m models.roberta_classifier.train_qual --m dapt_512 --n all

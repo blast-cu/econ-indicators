@@ -246,16 +246,7 @@ def main():
     d.save_progress(agreed_qual_ann, 'data/clean/agreed_qual_dict')
     d.save_progress(agreed_quant_ann, 'data/clean/agreed_quant_dict')
     agreed_qual_ann = {int(k): v for k, v in agreed_qual_ann.items()}
-    json.dump(
-        agreed_qual_ann, 
-        open('data/clean/agreed_qual_dict.json', 'w'),
-        indent=4
-    )
-    json.dump(
-        agreed_quant_ann, 
-        open('data/clean/agreed_quant_dict.json', 'w'),
-        indent=4
-    )
+    
 
     # create splits
     split_dict = get_split_dict(agreed_qual_ann)
@@ -317,6 +308,21 @@ def main():
 
     d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
     d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
+
+    # add text to qual dict
+    for id in agreed_qual_ann.keys():
+        agreed_qual_ann[id]['text'] = gs.get_text(id, db_filename, clean=True, headline=True)
+
+    json.dump(
+        agreed_qual_ann, 
+        open('data/clean/agreed_qual_dict.json', 'w'),
+        indent=4
+    )
+    json.dump(
+        agreed_quant_ann, 
+        open('data/clean/agreed_quant_dict.json', 'w'),
+        indent=4
+    )
 
 
 if __name__ == '__main__':
