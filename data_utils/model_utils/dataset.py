@@ -18,7 +18,8 @@ qual_label_maps = {  # maps raw annotations to numerical labels for model input
             'macro': 2,
             'government': 3,
             'other': 4,
-            'personal': 5},
+            'personal': 5
+    },
     'econ_rate': {
             'good': 0,
             'poor': 1,

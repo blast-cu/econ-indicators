@@ -290,7 +290,7 @@ def main():
                 counts[ann] += 1
         if len(v['quant_list']) > 0:
             counts['quant_support'] += 1
-    # print(counts)
+    print(counts)
 
     counts = {}
     counts['type'] = 0
@@ -317,7 +317,6 @@ def main():
 
     d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
     d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
-
 
 
 if __name__ == '__main__':

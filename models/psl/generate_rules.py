@@ -66,9 +66,9 @@ quant_map = {
 }
 
 qual_pred_map = {
-    'ValFrame':'frame',
+    'ValFrame': 'frame',
     'ValEconRate': 'econ_rate',
-    'ValEconChange': 'econ_change' }
+    'ValEconChange': 'econ_change'}
 
 quant_pred_map = {
     'ValType': 'type',
