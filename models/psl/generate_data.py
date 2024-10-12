@@ -19,9 +19,9 @@ OUT_DIR = 'models/psl/data'
 NOISE = False
 
 BEST_MODELS = {
-    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_dapt_128_new_data',
-    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base_new_data',
-    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_new_data',
+    'frame': 'models/roberta_classifier/tuned_models/qual_roberta_dapt_128',
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base',
     'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_128',
     'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512',
     'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512'
