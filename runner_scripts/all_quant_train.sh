@@ -8,7 +8,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=logs/base-quant-train-%j.out
+#SBATCH --output=logs/all-quant-train-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -30,5 +30,5 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m models.roberta_classifier.train_quant --m base
-# python -m models.roberta_classifier.train_quant --m base --n all
-# python -m models.roberta_classifier.train_quant --m base --n best
+python -m models.roberta_classifier.train_quant --m dapt_128
+python -m models.roberta_classifier.train_quant --m dapt_512
