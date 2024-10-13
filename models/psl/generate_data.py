@@ -272,8 +272,7 @@ def predict_article_annotations(articles, split_num):
     for annotation_component in d.qual_label_maps.keys():
         predict_dict[annotation_component] = []
 
-    # for annotation_component in models.keys():
-    for annotation_component in ['econ_rate']:
+    for annotation_component in models.keys():
         for batch in loader:
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
