@@ -335,7 +335,7 @@ def main(args):
     # write predicates to file
     filename = 'predicates.txt'
     file_path = os.path.join(OUT_DIR, filename)
-    # write_file(file_path, predicates)
+    write_file(file_path, predicates)
 
     constraints = []
     # rules linking predictions and values
@@ -375,10 +375,10 @@ def main(args):
     os.makedirs(all_rules_dir, exist_ok=True)
 
     filename = os.path.join(all_rules_dir, 'all_rules.txt')
-    # write_file(filename, rules)
+    write_file(filename, rules)
 
     constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
-    # write_file(constraint_filename, constraints)
+    write_file(constraint_filename, constraints)
 
     article_predicates = [ 'ValFrame', 'ValEconRate', 'ValEconChange']
     excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
@@ -420,7 +420,7 @@ def main(args):
             r_split = r.split('>>')
             if p[0] in r_split[0] and p[1] in r_split[1]:
                 out_rules.append(r.strip())
-        # write_file(file_path, out_rules)
+        write_file(file_path, out_rules)
     
 
 
@@ -441,7 +441,7 @@ def main(args):
             r_split = r.split('>>')
             if p[0] in r_split[0] and p[1] in r_split[1]:
                 out_rules.append(r.strip())
-        # write_file(file_path, out_rules)
+        write_file(file_path, out_rules)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

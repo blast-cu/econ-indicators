@@ -38,7 +38,8 @@ def main(args):
     except Exception as e:
         print(e)
         raise ValueError('Unknown setting: ' + setting)
-    
+
+    # get rule directory from data/rules/[setting]
     try:
         rule_files = os.listdir(setting_dict['rule_dir'])
     except FileNotFoundError:
@@ -131,7 +132,7 @@ def add_predicates(model):
 
 def add_rules(model, rule_file):
 
-    if VERBOSE: 
+    if VERBOSE:
         print('\nAdding rules...')
 
     constraint_file = os.path.join(DATA_DIR, 'constraints.txt')
