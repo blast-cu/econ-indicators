@@ -76,7 +76,7 @@ def main(args):
             dest = f"{OUT_DIR}/"
             os.makedirs(dest, exist_ok=True)
             model_dest = dest + task + "_model"
-            tuned_model.save_pretrained(model_dest)  # save model
+            tuned_model.save(model_dest, task) # save model
 
             # save training setup
             config = {}
