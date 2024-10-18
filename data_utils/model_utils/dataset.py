@@ -17,7 +17,9 @@ qual_label_maps = {  # maps raw annotations to numerical labels for model input
             'industry': 1,
             'macro': 2,
             'government': 3,
-            'other': 4},
+            'other': 4,
+            'personal': 5
+    },
     'econ_rate': {
             'good': 0,
             'poor': 1,
@@ -64,7 +66,8 @@ qual_predict_maps = {  # maps model outputs to raw labels
             1: 'industry',
             2: 'macro',
             3: 'government',
-            4: 'other'},
+            4: 'other',
+            5: 'personal'},
     'econ_rate': {
             0: 'good',
             1: 'poor',
@@ -182,6 +185,10 @@ class QuantAnnClassificationDataset(Dataset):
                 self.get_indicator_indices(indicator_text,
                                            temp_encoding,
                                            text)
+
+            if end_index is None:
+                print("setting end index to start index")
+                end_index = start_index
 
             if start_index is None or end_index is None:
                 print('Substring: ' + indicator_text)

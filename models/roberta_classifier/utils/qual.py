@@ -187,16 +187,11 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
                                               labels=val_labels,
                                               tokenizer=tokenizer,
                                               max_length=max_length)
-
-    test_data = d.QualAnnClassificationDataset(texts=test_texts,
-                                               labels=test_labels,
-                                               tokenizer=tokenizer,
-                                               max_length=max_length)
-
+    
     batch_size = 8
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=True)
+    
 
     # Define model
     num_labels = len(annotation_map)
@@ -206,6 +201,14 @@ def setup(train_texts, test_texts, train_labels, test_labels, annotation_map, lr
     # Define optimizer and loss function
     optimizer = torch.optim\
         .AdamW(model.parameters(), lr=lr)
+    
+    test_loader = None
+    if test_texts:
+        test_data = d.QualAnnClassificationDataset(texts=test_texts,
+                                                labels=test_labels,
+                                                tokenizer=tokenizer,
+                                                max_length=max_length)
+        test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=True)
 
     return model, train_loader, val_loader, test_loader, optimizer
 

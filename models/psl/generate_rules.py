@@ -15,7 +15,8 @@ qual_map = {
         'industry': 1,
         'macro': 2,
         'government': 3,
-        'other': 4
+        'other': 4,
+        'personal': 5
     },
     'econ_rate': {
         'good': 0,
@@ -65,9 +66,9 @@ quant_map = {
 }
 
 qual_pred_map = {
-    'ValFrame':'frame',
+    'ValFrame': 'frame',
     'ValEconRate': 'econ_rate',
-    'ValEconChange': 'econ_change' }
+    'ValEconChange': 'econ_change'}
 
 quant_pred_map = {
     'ValType': 'type',

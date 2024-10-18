@@ -132,5 +132,5 @@ if __name__ == "__main__":
     parser.add_argument('--m', required=True, help='Model checkpoint: "base" or "dapt"')
     parser.add_argument('--en', default=None, help='extra name for output directory')
     parser.add_argument('--n', default=None, help='Noise setting: "best" or "all". No noise will be added to training set if not specified.')
-    args = parser.parse_args()
+    args = parser.parse_args() 
     main(args)

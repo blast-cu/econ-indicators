@@ -5,6 +5,7 @@ from data_utils.model_utils.dataset import DB_FILENAME
 from sklearn.model_selection import KFold
 import pickle
 import nltk
+import json
 nltk.download('punkt')
 
 
@@ -121,7 +122,7 @@ def add_none(ann_dict: dict, quant=True):
         none_val = 'irrelevant'
         type_comp = 'frame'
         change_anns = ['econ_rate', 'econ_change']
-    print(ann_dict)
+    # print(ann_dict)
     none_ids = []
     for id in ann_dict.keys():
         if ann_dict[id][type_comp] != '\x00':
@@ -190,11 +191,9 @@ def main():
     # get agreed article-level annotations
     # {key = articleid, value = dict of annotations}
     qual_ann = gs.get_qual_dict(db_filename)
-
     agreed_qual_ann = gs.get_agreed_anns(qual_ann, qual_label_maps)
     agreed_qual_ann, none_ids = add_none(agreed_qual_ann, quant=False)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
-    # exit()
 
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
     noisy_qual_ann = remove_empty(noisy_qual_ann)
@@ -229,11 +228,9 @@ def main():
     for k in noisy_qual_ann.keys():
         noisy_qual_ann[k]['quant_list'] = []
 
-    print(noisy_best_qual_ann)
+    # print(noisy_best_qual_ann)
     for k in noisy_best_qual_ann.keys():
         noisy_best_qual_ann[k]['quant_list'] = []
-
-    
 
     # add quant_ids to agreed_qual_ann dict
     agreed_qual_ann = populate_quant_list(agreed_qual_ann, agreed_quant_ann)
@@ -245,7 +242,13 @@ def main():
     noisy_quant_ann = populate_quant_text(noisy_qual_ann, noisy_quant_ann, db_filename)
     noisy_best_quant_ann = populate_quant_text(noisy_best_qual_ann, noisy_best_quant_ann, db_filename)
 
-    # create splits 
+    # save full data dictionaries as pickles
+    d.save_progress(agreed_qual_ann, 'data/clean/agreed_qual_dict')
+    d.save_progress(agreed_quant_ann, 'data/clean/agreed_quant_dict')
+    agreed_qual_ann = {int(k): v for k, v in agreed_qual_ann.items()}
+    
+
+    # create splits
     split_dict = get_split_dict(agreed_qual_ann)
 
     # for k, v in agreed_quant_ann.items():
@@ -259,13 +262,39 @@ def main():
     #     for id in split_dict[k]['train']:
     #         print(id, agreed_qual_ann[id])
 
-    sanity_check(agreed_qual_ann, noisy_qual_ann)
-    sanity_check(agreed_quant_ann, noisy_quant_ann)
-    sanity_check(agreed_qual_ann, noisy_best_qual_ann)
-    sanity_check(agreed_quant_ann, noisy_best_quant_ann)
+    # sanity_check(agreed_qual_ann, noisy_qual_ann)
+    # sanity_check(agreed_quant_ann, noisy_quant_ann)
+    # sanity_check(agreed_qual_ann, noisy_best_qual_ann)
+    # sanity_check(agreed_quant_ann, noisy_best_quant_ann)
 
-    none_sanity_check(agreed_qual_ann, quant=False)
-    none_sanity_check(agreed_quant_ann, quant=True)
+    # none_sanity_check(agreed_qual_ann, quant=False)
+    # none_sanity_check(agreed_quant_ann, quant=True)
+
+    counts = {}
+    counts['frame'] = 0
+    counts['econ_rate'] = 0
+    counts['econ_change'] = 0
+    counts['quant_support'] = 0
+    for k, v in agreed_qual_ann.items():
+        for ann in ['frame', 'econ_rate', 'econ_change']:
+            if v[ann] != '\x00':
+                counts[ann] += 1
+        if len(v['quant_list']) > 0:
+            counts['quant_support'] += 1
+    print(counts)
+
+    counts = {}
+    counts['type'] = 0
+    counts['macro_type'] = 0
+    counts['spin'] = 0
+    for k, v in agreed_quant_ann.items():
+        for ann in ['type', 'macro_type', 'spin']:
+            if v[ann] != "\x00":
+                counts[ann] += 1
+    # print(counts)
+
+    print(len(agreed_qual_ann))
+    print(len(agreed_quant_ann))
 
     # # # save dictionaries as pickles 
     base_dir = 'data/clean/'
@@ -280,6 +309,20 @@ def main():
     d.save_progress(noisy_best_qual_ann, f'{base_dir}noisy_best_qual_dict')
     d.save_progress(noisy_best_quant_ann, f'{base_dir}noisy_best_quant_dict')
 
+    # add text to qual dict
+    for id in agreed_qual_ann.keys():
+        agreed_qual_ann[id]['text'] = gs.get_text(id, db_filename, clean=True, headline=True)
+
+    json.dump(
+        agreed_qual_ann, 
+        open('data/clean/agreed_qual_dict.json', 'w'),
+        indent=4
+    )
+    json.dump(
+        agreed_quant_ann, 
+        open('data/clean/agreed_quant_dict.json', 'w'),
+        indent=4
+    )
 
 
 if __name__ == '__main__':

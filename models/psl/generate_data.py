@@ -8,21 +8,23 @@ from torch.utils.data import DataLoader
 import models.psl.generate_rules as gd
 import models.roberta_classifier.predict_qual as pq
 import models.roberta_classifier.predict_quant as pqt
-from data_utils.model_utils.dataset import QuantAnnClassificationDataset
+# from data_utils.model_utils.dataset import QuantAnnClassificationDataset
 import data_utils.get_annotation_stats as gs
 import data_utils.model_utils.dataset as d
 from data_utils.model_utils.dataset import DB_FILENAME
+# import models.roberta_classifier.utils.quant as qu
+import models.roberta_classifier.utils.legacy_quant as qu
 
 OUT_DIR = 'models/psl/data'
 NOISE = False
 
 BEST_MODELS = {
     'frame': 'models/roberta_classifier/tuned_models/qual_roberta_base',
-    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_base',
-    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base_noise_all',
-    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
-    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best',
-    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_noise_best'
+    'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_dapt_512',
+    'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base',
+    'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_128',
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512'
 }
 
 
@@ -66,7 +68,7 @@ def load_train_test_data(split_dict, qual_dict, quant_dict, qual_noise_dict={}, 
                     for q_id in v:
                         if q_id not in train_articles[noisy_id][k]:
                             train_articles[noisy_id][k].append(q_id)
-    
+
     for noisy_id, noisy_ann in quant_noise_dict.items():
         noisy_article_id = int(noisy_id.split('_')[0])
         if noisy_article_id not in test_article_ids:
@@ -270,8 +272,7 @@ def predict_article_annotations(articles, split_num):
     for annotation_component in d.qual_label_maps.keys():
         predict_dict[annotation_component] = []
 
-    # for annotation_component in models.keys():
-    for annotation_component in ['econ_rate']:
+    for annotation_component in models.keys():
         for batch in loader:
             input_ids = batch['input_ids'].to('cuda')
             attention_mask = batch['attention_mask'].to('cuda')
@@ -290,7 +291,6 @@ def predict_article_annotations(articles, split_num):
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
                     predict_dict[annotation_component].append(to_write)
-                
 
     return predict_dict
 
@@ -321,7 +321,7 @@ def generate_predict_excerpts(excerpts, split_num):
             .from_pretrained(pretrained_model_name_or_path="roberta-base",
                              problem_type="single_label_classification")
 
-        data = QuantAnnClassificationDataset(
+        data = qu.TextClassificationDataset(
             texts=texts,
             tokenizer=tokenizer,
             ids=ids,
@@ -343,9 +343,8 @@ def generate_predict_excerpts(excerpts, split_num):
 
         type_model.eval()
         with torch.no_grad():
-
             for i, batch in enumerate(loader):
-
+                print(batch.keys())
                 start_index = batch['start_index'].to('cuda')
                 end_index = batch['end_index'].to('cuda')
                 input_ids = batch['input_ids'].to('cuda')
@@ -478,42 +477,41 @@ def main():
 
         # # GENERATE LEARN DATA #
         # # write contains file linking articles and excerpts
-        # write_contains_file(split_learn_dir, learn_articles)  # contains
+        write_contains_file(split_learn_dir, learn_articles)  # contains
 
-        # write_has_frame_ann_file(split_learn_dir, learn_excerpts)  
-        # write_has_frame_ann_file(split_learn_dir, learn_articles, predicate="HasFrameAnn") 
-        
+        write_has_frame_ann_file(split_learn_dir, learn_excerpts)
+        write_has_frame_ann_file(split_learn_dir, learn_articles, predicate="HasFrameAnn") 
 
-        # write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
+        write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
-        # # write target and truth files for validation data
-        # write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        # write target and truth files for validation data
+        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
 
-        # write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
-        # # # predictions for validation set
+        # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, split_num)
         write_pred_files(split_learn_dir, article_preds)  # pred  
 
-        # exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
-        # write_pred_files(split_learn_dir, exerpt_preds)  # pred
+        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
         # # GENERATE EVAL DATA #
-        # write_contains_file(split_eval_dir, eval_articles)  # contains
+        write_contains_file(split_eval_dir, eval_articles)  # contains
 
-        # write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
-        # write_has_frame_ann_file(split_eval_dir, eval_articles, predicate="HasFrameAnn")
+        write_has_frame_ann_file(split_eval_dir, eval_excerpts)  # HasFrameAnn
+        write_has_frame_ann_file(split_eval_dir, eval_articles, predicate="HasFrameAnn")
 
-        # write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
+        write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        # write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        # write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
         article_preds = predict_article_annotations(eval_articles, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 
-        # excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
-        # write_pred_files(split_eval_dir, excerpt_preds)  # pred
+        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 
 
