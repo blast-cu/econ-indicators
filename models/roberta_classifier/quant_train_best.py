@@ -6,11 +6,16 @@ import json
 import models.roberta_classifier.utils.general as gu
 import models.roberta_classifier.utils.legacy_quant as qu
 import data_utils.model_utils.dataset as d
-# import data_utils.model_utils.eval as e
 from models.roberta_classifier.qual_train_best import get_checkpoint_path
 
-# takes about 12 hours to run on CURC
 OUT_DIR = "data/models/final_classifier/"
+
+"""
+This script trains the final quantification models for each annotation
+component. No testing split is used as the final models are trained on
+the full dataset. Takes about 12 hours to run on CURC
+"""
+
 
 def get_texts(annotation_component, task, ann_data):
 
@@ -76,7 +81,7 @@ def main(args):
             dest = f"{OUT_DIR}/"
             os.makedirs(dest, exist_ok=True)
             model_dest = dest + task + "_model"
-            tuned_model.save(model_dest, task) # save model
+            tuned_model.save(model_dest, task)  # save model
 
             # save training setup
             config = {}

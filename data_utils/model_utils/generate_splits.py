@@ -184,7 +184,7 @@ def main():
 
     Returns:
         None
-    """
+    """ 
 
     db_filename = DB_FILENAME
 

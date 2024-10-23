@@ -366,7 +366,7 @@ def get_ann_dict(article_html: str,
         for id in annotation_ids:
             if id not in ann_dict.keys():
                 not_found.append(id)
-        print("Ids not found: " + str(not_found))
+        print(f"{len(not_found)} ids not found: ")
         print()
 
     return ann_dict
