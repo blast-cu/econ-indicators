@@ -10,12 +10,12 @@ from models.psl.generate_data import write_contains_file, \
 
 import models.psl.generate_rules as gd
 BEST_MODELS = {
-    'frame': '/data/models/final_classifier',
-    'econ_rate': '/data/models/final_classifier',
-    'econ_change': '/data/models/final_classifier',
-    'type': '/data/models/final_classifier',
-    'macro_type': '/data/models/final_classifier',
-    'spin': '/data/models/final_classifier'
+    'frame': 'data/models/final_classifier',
+    'econ_rate': 'data/models/final_classifier',
+    'econ_change': 'data/models/final_classifier',
+    'type': 'data/models/final_classifier',
+    'macro_type': 'data/models/final_classifier',
+    'spin': 'data/models/final_classifier'
 }
 
 
