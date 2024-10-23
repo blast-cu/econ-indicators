@@ -251,7 +251,7 @@ def predict_article_annotations(articles, model_map, split_num=None):
                                 max_length=512)
 
     batch_size = 8
-    loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
+    loader = DataLoader(data, batch_size=batch_size, shuffle=False)  # check shuffle thing
 
     # load fine-tuned model for each annotation component
     models = {}

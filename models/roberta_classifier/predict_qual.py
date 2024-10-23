@@ -44,7 +44,7 @@ class PredictionDataset(Dataset):
         return {
             'input_ids': encoding['input_ids'].flatten(),
             'attention_mask': encoding['attention_mask'].flatten(),
-            'ids': id
+            'ids': torch.tensor(id)
         }
 
 def main(args):
