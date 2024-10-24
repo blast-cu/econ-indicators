@@ -26,6 +26,7 @@ def get_all_articles():
         article_dict = {}
         article_id = str(article_id[0])
         article_dict['text'] = gs.get_text(article_id, d.DB_FILENAME)
+        article_dict['quant_list'] = []
         articles[article_id] = article_dict
 
     return articles
@@ -37,10 +38,7 @@ def add_excerpts(articles, excerpts):
     """
     for excerpt_id in excerpts:
         article_id = excerpt_id.split('_')[0]
-        if 'quant_list' in articles[article_id]:
-            articles[article_id]['quant_list'].append(excerpt_id)
-        else:
-            articles[article_id]['quant_list'] = [excerpt_id]
+        articles[article_id]['quant_list'].append(excerpt_id)
 
     return articles
 

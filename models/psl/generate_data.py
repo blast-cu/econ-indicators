@@ -351,7 +351,6 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
         type_model.eval()
         with torch.no_grad():
             for i, batch in enumerate(loader):
-                print(batch.keys())
                 start_index = batch['start_index'].to('cuda')
                 end_index = batch['end_index'].to('cuda')
                 input_ids = batch['input_ids'].to('cuda')
@@ -424,7 +423,8 @@ def write_has_frame_ann_file(out_dir, excerpts, predicate='HasTypeAnn'):
 
     to_write = []
     for article_id, ann_dict in excerpts.items():
-        if ann_dict[ann_comp] != '\x00':
+        # if annotation is not empty OR ann comp not in dict because final data
+        if ann_comp not in ann_dict.keys() or ann_dict[ann_comp] != '\x00': 
             temp = [f'{article_id}\t1.0']
             to_write += temp
 
