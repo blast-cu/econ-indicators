@@ -192,7 +192,7 @@ def write_target_files(out_dir, articles, map, truth=True):
                 for value in map[ann]:
                     to_write = f'{id}\t{value}'
                     article_ann_dict[ann].append(to_write)
-                    if articles[id][ann] == value:
+                    if ann in articles[id] and articles[id][ann] == value:
                         truth_ann_dict[ann].append(to_write)
 
     for ann, values in article_ann_dict.items():
@@ -202,7 +202,6 @@ def write_target_files(out_dir, articles, map, truth=True):
         write_data_file(out_dir, predicate, 'target', values)
 
         if truth:
-            
             write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
 
