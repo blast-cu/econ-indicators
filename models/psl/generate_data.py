@@ -314,9 +314,8 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
 
     for annotation_component in gd.quant_map.keys():
 
-        texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if v[annotation_component] != '\x00']
-        ids = [k for k in excerpts.keys() if excerpts[k][annotation_component] != '\x00']
-
+        texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if annotation_component not in v.keys() or v[annotation_component] != '\x00']
+        ids = [k for k in excerpts.keys() if annotation_component not in excerpts[k].keys() or excerpts[k][annotation_component] != '\x00']
 
         pqt.torch.manual_seed(42)  # Set random seed for reproducibility
         tokenizer = pqt.RobertaTokenizerFast\
