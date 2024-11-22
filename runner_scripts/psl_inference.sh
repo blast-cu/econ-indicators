@@ -29,4 +29,7 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python3 -m models.psl.run_inference --s no_inter --final_split 0
+for i in {0..9}; do
+    python3 -m models.psl.run_inference --s no_inter --final_split $i
+done
+
