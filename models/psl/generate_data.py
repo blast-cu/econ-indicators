@@ -192,7 +192,7 @@ def write_target_files(out_dir, articles, map, truth=True):
                 for value in map[ann]:
                     to_write = f'{id}\t{value}'
                     article_ann_dict[ann].append(to_write)
-                    if articles[id][ann] == value:
+                    if ann in articles[id] and articles[id][ann] == value:
                         truth_ann_dict[ann].append(to_write)
 
     for ann, values in article_ann_dict.items():
@@ -202,7 +202,6 @@ def write_target_files(out_dir, articles, map, truth=True):
         write_data_file(out_dir, predicate, 'target', values)
 
         if truth:
-            
             write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
 
@@ -221,7 +220,7 @@ def logit_to_prob(logit):
     return prob
 
 
-def predict_article_annotations(articles, split_num):
+def predict_article_annotations(articles, model_map, split_num=None):
     """
     Predicts article annotations using fine-tuned models for each annotation
     component.
@@ -251,13 +250,16 @@ def predict_article_annotations(articles, split_num):
                                 max_length=512)
 
     batch_size = 8
-    loader = DataLoader(data, batch_size=batch_size, shuffle=False) # check shuffle thing
+    loader = DataLoader(data, batch_size=batch_size, shuffle=False)  # check shuffle thing
 
     # load fine-tuned model for each annotation component
     models = {}
     for k in d.qual_label_maps.keys():
-        best_model = BEST_MODELS[k]
-        model_path = os.path.join(best_model, f'fold{split_num}/{k}_model')
+        model_path = model_map[k]
+        if split_num:  # if split_num is provided, append fold number to model path
+            model_path = os.path.join(model_path, f'fold{split_num}')
+        # append task name to model path
+        model_path = os.path.join(model_path, f'{k}_model')
         models[k] = pq.RobertaForSequenceClassification\
             .from_pretrained(model_path).to('cuda')
 
@@ -295,7 +297,7 @@ def predict_article_annotations(articles, split_num):
     return predict_dict
 
 
-def generate_predict_excerpts(excerpts, split_num):
+def generate_predict_excerpts(excerpts, model_map, split_num=None):
     """
     Generate type predictions for given excerpts using a pre-trained model.
 
@@ -312,9 +314,8 @@ def generate_predict_excerpts(excerpts, split_num):
 
     for annotation_component in gd.quant_map.keys():
 
-        texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if v[annotation_component] != '\x00']
-        ids = [k for k in excerpts.keys() if excerpts[k][annotation_component] != '\x00']
-
+        texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if annotation_component not in v.keys() or v[annotation_component] != '\x00']
+        ids = [k for k in excerpts.keys() if annotation_component not in excerpts[k].keys() or excerpts[k][annotation_component] != '\x00']
 
         pqt.torch.manual_seed(42)  # Set random seed for reproducibility
         tokenizer = pqt.RobertaTokenizerFast\
@@ -333,8 +334,12 @@ def generate_predict_excerpts(excerpts, split_num):
 
         task = annotation_component
         num_labels = len(set(d.quant_label_maps[task].keys()))
-        best_model = BEST_MODELS[task]
-        model_path = os.path.join(best_model, f'fold{split_num}/{task}_model')
+
+        model_path = model_map[task]
+        if split_num:  # if split_num is provided, append fold number to model path
+            model_path = os.path.join(model_path, f'fold{split_num}')
+        # append task name to model path
+        model_path = os.path.join(model_path, f'{task}_model')
         type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
         type_model = type_model.from_pretrained(model_path, task).to('cuda')
 
@@ -344,7 +349,6 @@ def generate_predict_excerpts(excerpts, split_num):
         type_model.eval()
         with torch.no_grad():
             for i, batch in enumerate(loader):
-                print(batch.keys())
                 start_index = batch['start_index'].to('cuda')
                 end_index = batch['end_index'].to('cuda')
                 input_ids = batch['input_ids'].to('cuda')
@@ -405,6 +409,7 @@ def write_preceeds_file(out_dir, articles):
 
     write_data_file(out_dir, predicate, 'obs', to_write)
 
+
 def write_has_frame_ann_file(out_dir, excerpts, predicate='HasTypeAnn'):
 
     if predicate == 'HasTypeAnn':
@@ -416,7 +421,8 @@ def write_has_frame_ann_file(out_dir, excerpts, predicate='HasTypeAnn'):
 
     to_write = []
     for article_id, ann_dict in excerpts.items():
-        if ann_dict[ann_comp] != '\x00':
+        # if annotation is not empty OR ann comp not in dict because final data
+        if ann_comp not in ann_dict.keys() or ann_dict[ann_comp] != '\x00': 
             temp = [f'{article_id}\t1.0']
             to_write += temp
 
@@ -490,10 +496,10 @@ def main():
         write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
 
         # # predictions for validation set
-        article_preds = predict_article_annotations(learn_articles, split_num)
+        article_preds = predict_article_annotations(learn_articles, BEST_MODELS, split_num)
         write_pred_files(split_learn_dir, article_preds)  # pred  
 
-        exerpt_preds = generate_predict_excerpts(learn_excerpts, split_num)
+        exerpt_preds = generate_predict_excerpts(learn_excerpts, BEST_MODELS, split_num)
         write_pred_files(split_learn_dir, exerpt_preds)  # pred
 
         # # GENERATE EVAL DATA #
@@ -507,10 +513,10 @@ def main():
         write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
         write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
         
-        article_preds = predict_article_annotations(eval_articles, split_num)
+        article_preds = predict_article_annotations(eval_articles, BEST_MODELS, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 
-        excerpt_preds = generate_predict_excerpts(eval_excerpts, split_num)
+        excerpt_preds = generate_predict_excerpts(eval_excerpts, BEST_MODELS, split_num)
         write_pred_files(split_eval_dir, excerpt_preds)  # pred
 
 

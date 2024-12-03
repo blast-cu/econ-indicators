@@ -78,6 +78,7 @@ def get_qual_dict(db_filename: str):
 
     return clean_ann
 
+
 def get_quant_dict(db_filename: str): 
     """
     Takes file location of database

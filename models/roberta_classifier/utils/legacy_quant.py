@@ -227,7 +227,8 @@ def setup(train_texts,
           lr=2e-5,
           model_checkpoint: str = "roberta-base"):
     """
-    Train a model on qualitative annotations
+    Setup model and data loaders for fine-tuning a model on qualitative 
+    annotation classification
     """
     torch.manual_seed(42)  # Set random seed for reproducibility
 
@@ -251,20 +252,24 @@ def setup(train_texts,
                                          tokenizer=tokenizer,
                                          max_length=max_length)
 
-    test_data = TextClassificationDataset(texts=test_texts,
-                                          labels=test_labels,
-                                          tokenizer=tokenizer,
-                                          max_length=max_length)
-
     batch_size = 8
     train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=True)
+
+    # for train best setting, test_loader is None
+    test_loader = None
+    if test_texts:
+        test_data = TextClassificationDataset(
+            texts=test_texts,
+            labels=test_labels,
+            tokenizer=tokenizer,
+            max_length=max_length
+        )
+        test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=True)
 
     # Define model
     num_labels = len(set(annotation_map.values()))
     model = QuantModel(model_checkpoint, num_labels=num_labels).to('cuda')
-
 
     # Define optimizer and loss function
     optimizer = torch.optim\
