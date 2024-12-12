@@ -147,7 +147,9 @@ def main():
     table['quant_anns'].append(quant_cross_validated_count)
     table['art_anns'].append(qual_cross_validated_count)
 
-    pd.DataFrame(table).to_csv('data_utils/table_generators/results/annotation_stats.csv', index=False)
+    filepath = 'data_utils/visualization/results/annotation/annotation_stats.csv'
+    print(f"Saving table to {filepath}")
+    pd.DataFrame(table).to_csv(filepath, index=False)
 
     # conn = sqlite3.connect('data/data.db')
     # c = conn.cursor()

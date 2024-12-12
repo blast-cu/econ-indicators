@@ -9,13 +9,13 @@ from data_utils.inter_annotator_agreement import \
 from potato_annotation.eval.read_article_annotations import get_potato_article_anns
 from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 
-SETTING = 'potato_quant'
+SETTING = 'original'
 
 
 def generate_agree_table(article2ann,
                          quantity2ann,
                          extended=False,  # if True, include all annotations
-                         filepath="data_utils/table_generators/results/",
+                         filepath="data_utils/visualization/results/annotation/",
                          filename="annotation_agreement"):
 
     user_disagreements = {}
@@ -51,7 +51,7 @@ def generate_agree_table(article2ann,
 def generate_ka_table(article2ann,
                       quantity2ann,
                       extended=False,  # if True, include all annotations
-                      filepath='data_utils/table_generators/results/',
+                      filepath="data_utils/visualization/results/annotation/",
                       filename='annotation_ka'):
 
     ka_table = {}
@@ -160,11 +160,11 @@ def main():
 
         filter = True
         if filter: 
-            article_anns = get_potato_article_anns()
+            # article_anns = get_potato_article_anns()
     
-            potato_article2ann = {}
-            for ann_name, anns in article_anns.items():
-                retrieve_anns(potato_article2ann, anns, ann_name)
+            # potato_article2ann = {}
+            # for ann_name, anns in article_anns.items():
+            #     retrieve_anns(potato_article2ann, anns, ann_name)
             
             article2ann, quantity2ann = get_anns(db_filename='data/data.db')
 
@@ -174,21 +174,21 @@ def main():
             # generate_agree_table(article2ann, {}, "overlap_annotation_agreement.csv")
             # generate_ka_table(article2ann, {}, "overlap_annotation_krippendorff_alpha.csv")
 
-            quant_anns = get_potato_quant_anns()
+            # quant_anns = get_potato_quant_anns()
         
             # quant_id, user_id, type, macro_type, industry_type, gov_type, expenditure_type, revenue_type, spin
-            to_retrieve = []
-            for anns in quant_anns:
-                curr = [anns['quant_id'], anns['user_id'], anns['type'], anns['macro_type'], "none", "none", "none", "none", anns['spin']]
-                to_retrieve.append(curr)
-            potato_quantity2ann = {}
-            retrieve_quant_anns(potato_quantity2ann, to_retrieve)
+            # to_retrieve = []
+            # for anns in quant_anns:
+            #     curr = [anns['quant_id'], anns['user_id'], anns['type'], anns['macro_type'], "none", "none", "none", "none", anns['spin']]
+            #     to_retrieve.append(curr)
+            # potato_quantity2ann = {}
+            # retrieve_quant_anns(potato_quantity2ann, to_retrieve)
             
-            potato_keys = potato_quantity2ann.keys()
-            quantity2ann = {k: v for k, v in quantity2ann.items() if k in potato_keys}
+            # potato_keys = potato_quantity2ann.keys()
+            # quantity2ann = {k: v for k, v in quantity2ann.items() if k in potato_keys}
 
-            generate_agree_table({}, quantity2ann, "quant_overlap_annotation_agreement.csv")
-            generate_ka_table({}, quantity2ann, "quant_overlap_annotation_krippendorff_alpha.csv")
+            generate_agree_table(article2ann, quantity2ann, "quant_overlap_annotation_agreement.csv")
+            generate_ka_table(article2ann, quantity2ann, "quant_overlap_annotation_krippendorff_alpha.csv")
 
     # see = article_anns['frame']
     # see.sort()

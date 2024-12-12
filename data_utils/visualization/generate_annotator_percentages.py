@@ -13,7 +13,7 @@ def main():
     for k in quant_table.keys():
         qual_table[k] += quant_table[k]
 
-    pd.DataFrame(qual_table).to_csv('data_utils/table_generators/results/annotator_percentages.csv')
+    pd.DataFrame(qual_table).to_csv('data_utils/visualization/results/annotation/annotator_percentages.csv')
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ import pickle
 def main():
 
     article2ann, quantity2ann = get_anns(DB_FILENAME)
-    output_path = 'data_utils/table_generators/results/'
+    output_path = 'data_utils/visualization/results/annotation/'
     get_agreement_matrix(article2ann, qual_label_maps, False, output_path)
 
     excerpts_dict = pickle.load(open('data/clean/quant_excerpts_dict', 'rb'))

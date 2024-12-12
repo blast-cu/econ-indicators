@@ -50,6 +50,14 @@ def get_site(article_id, db_filename):
     con.close()
     return site[0]
 
+def get_date(article_id, db_filename):
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+    query = "SELECT date FROM article WHERE id is " + str(article_id) + ";"
+    site = cur.execute(query).fetchone()
+    con.close()
+    return site[0]
+
 
 def get_qual_dict(db_filename: str):
     """
