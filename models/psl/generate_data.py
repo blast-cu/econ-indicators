@@ -287,6 +287,7 @@ def predict_article_annotations(articles, model_map, split_num=None):
             for i, id in enumerate(ids.tolist()):
                 probs = []
                 print(outputs[i])
+                exit()
                 for j, output in enumerate(outputs[i]):
                     probability = logit_to_prob(output)
                     probability = round(probability, 4)
