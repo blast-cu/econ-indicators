@@ -1,69 +1,12 @@
 import argparse
 import os
 import re
-import pickle
 import itertools
-from torch.utils.data import DataLoader, Dataset
-
 from itertools import permutations
 
+from data_utils.model_utils.dataset import qual_label_maps, quant_label_maps
+
 OUT_DIR = 'models/psl/data'
-
-qual_map = {
-    'frame': {
-        'business': 0,
-        'industry': 1,
-        'macro': 2,
-        'government': 3,
-        'other': 4,
-        'personal': 5
-    },
-    'econ_rate': {
-        'good': 0,
-        'poor': 1,
-        'none': 2,
-        'irrelevant': 3
-    },
-    'econ_change': {
-        'better': 0,
-        'worse': 1,
-        'same': 2,
-        'none': 3,
-        'irrelevant': 4
-    },
-}
-
-
-quant_map = {
-
-    'type': {
-        'macro': 0,
-        'industry': 1,
-        'government': 2,
-        'personal': 3,
-        'business': 4,
-        'other': 5
-    },
-    'macro_type': {
-        'jobs': 0,
-        'retail': 1,
-        'interest': 2,
-        'prices': 3,
-        'energy': 4,
-        'wages': 5,
-        'macro': 6,
-        'market': 7,
-        'currency': 8,
-        'housing': 9,
-        'other': 10,
-        'none': 11
-    },
-    'spin': {
-        'pos': 0,
-        'neg': 1,
-        'neutral': 2
-    }
-}
 
 qual_pred_map = {
     'ValFrame': 'frame',
@@ -247,11 +190,11 @@ def get_inter_rules_2(qual_predicates, quant_predicates):
 
     for qual in qual_predicates:
         ann_type = qual_pred_map[qual]
-        qual_vals = qual_map[ann_type].keys()
+        qual_vals = qual_label_maps[ann_type].keys()
 
         for quant in quant_predicates:
             ann_type = quant_pred_map[quant]
-            quant_vals = quant_map[ann_type].keys()
+            quant_vals = quant_label_maps[ann_type].keys()
 
             for quant_val in quant_vals:
                 for qual_val in qual_vals:
@@ -269,13 +212,13 @@ def get_inter_rules_3(quant_predicates):
 
     for quant in quant_predicates:
         ann_type = quant_pred_map[quant]
-        quant_vals = quant_map[ann_type].keys()
+        quant_vals = quant_label_maps[ann_type].keys()
 
         for quant_val in quant_vals:
 
             for quant_type2 in quant_predicates:
                 ann_type = quant_pred_map[quant_type2]
-                quant_vals2 = quant_map[ann_type].keys()
+                quant_vals2 = quant_label_maps[ann_type].keys()
 
                 for quant_val in quant_vals:
                     for quant_val2 in quant_vals2:
@@ -289,26 +232,57 @@ def get_inter_rules_3(quant_predicates):
 
     return rules
 
+
 def macro_type_constraints():
 
     constraints = []
-    for val in quant_map['type'].keys():
+    for val in quant_label_maps['type'].keys():
         if val != 'macro':
             constraint_str = f"ValType(A, '{val}') >> ValMacroType(A, 'none') ."
             constraints.append(constraint_str)
 
-    for val in quant_map['macro_type'].keys():
+    for val in quant_label_maps['macro_type'].keys():
         if val != 'none':
             constraint_str = f"HasTypeAnn(A) & ValMacroType(A, '{val}') >> ValType(A, 'macro') ."
             constraints.append(constraint_str)
     
     constraint_str = f"HasTypeAnn(A) & ValMacroType(A, 'none') >> "
-    for val in quant_map['type'].keys():
+    for val in quant_label_maps['type'].keys():
         if val != 'macro':
             constraint_str += f" ValType(A, '{val}') |"
     constraint_str = constraint_str[:-1]
 
     constraints.append(constraint_str + '.')
+
+    return constraints
+
+def frame_ann_constraints():
+
+    constraints = []
+    for val in qual_label_maps['frame'].keys():
+        if val != 'macro':
+            constraint_str = f"ValFrame(A, '{val}') >> ValEconRate(A, 'irrelevant') ."
+            constraints.append(constraint_str)
+
+            constraint_str = f"ValFrame(A, '{val}') >> ValEconChange(A, 'irrelevant') ."
+            constraints.append(constraint_str)
+
+    constraint_str = "HasFrameAnn(A) & ValFrame(A, 'macro') >> "
+    econ_rate_str = constraint_str
+    econ_change_str = constraint_str
+    for val in qual_label_maps['econ_rate'].keys():
+        if val != 'irrelevant':
+            econ_rate_str += f" ValEconRate(A, '{val}') |"
+
+    for val in qual_label_maps['econ_change'].keys():
+        if val != 'irrelevant':
+            econ_change_str += f" ValEconChange(A, '{val}') |"
+
+    econ_rate_str = econ_rate_str[:-1]
+    constraints.append(econ_rate_str + '.')
+
+    econ_change_str = econ_change_str[:-1]
+    constraints.append(econ_change_str + '.')
 
     return constraints
 
@@ -318,10 +292,10 @@ def main(args):
     os.makedirs(OUT_DIR, exist_ok=True)
 
     # generate all predicates
-    val_qual_predicates = get_predicates(qual_map, 'Val')
-    val_quant_predicates = get_predicates(quant_map, 'Val')
-    pred_qual_predicates = get_predicates(qual_map, 'Pred')
-    pred_quant_predicates = get_predicates(quant_map, 'Pred')
+    val_qual_predicates = get_predicates(qual_label_maps, 'Val')
+    val_quant_predicates = get_predicates(quant_label_maps, 'Val')
+    pred_qual_predicates = get_predicates(qual_label_maps, 'Pred')
+    pred_quant_predicates = get_predicates(quant_label_maps, 'Pred')
 
     agreement_pred_predicates = ['PredAgreeType', 'PredAgreeSpin', 'PredAgreeMacroType']
     agreement_val_predicates = ['ValAgreeType', 'ValAgreeSpin', 'ValAgreeMacroType']
@@ -330,7 +304,7 @@ def main(args):
     predicates = val_qual_predicates + val_quant_predicates + \
         pred_qual_predicates + pred_quant_predicates \
         + agreement_predicates \
-        + ['Contains', 'Precedes', 'HasTypeAnn']
+        + ['Contains', 'Precedes', 'HasTypeAnn', 'HasFrameAnn']
 
     # write predicates to file
     filename = 'predicates.txt'
@@ -350,8 +324,8 @@ def main(args):
     constraints += get_pred_val_rules(agreement_predicates, 'agreement')
 
     # interrelatedness between qual and quant, respectively
-    rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_map)
-    rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_map)
+    rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_label_maps)
+    rules += get_inter_rules(val_quant_predicates, quant_pred_map, quant_label_maps)
 
     # interrelatedness between qual and quant
     rules += get_inter_rules_2(val_qual_predicates, val_quant_predicates)
@@ -365,6 +339,7 @@ def main(args):
 
     # macro type constraint
     constraints += macro_type_constraints()
+    constraints += frame_ann_constraints()
 
     rules.sort()
     
@@ -380,7 +355,7 @@ def main(args):
     constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
     write_file(constraint_filename, constraints)
 
-    article_predicates = [ 'ValFrame', 'ValEconRate', 'ValEconChange']
+    article_predicates = ['ValFrame', 'ValEconRate', 'ValEconChange']
     excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
 
 
