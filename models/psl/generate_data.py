@@ -287,10 +287,11 @@ def predict_article_annotations(articles, model_map, split_num=None):
             for i, id in enumerate(ids.tolist()):
                 probs = []
                 print(outputs[i])
+                probabilities = torch.nn.functional.softmax(outputs[i], dim=1)
                 
-                for j, output in enumerate(outputs[i]):
-                    probability = logit_to_prob(output)
-                    probability = round(probability, 4)
+                for j, probability in enumerate(probabilities):
+                    # probability = logit_to_prob(output)
+                    # probability = round(probability, 4)
                     print(probability)
                     annotation_value = d.qual_predict_maps[annotation_component][j]
 
