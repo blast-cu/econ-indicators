@@ -266,23 +266,12 @@ def predict_article_annotations(articles, model_map, split_num=None):
 
             cur_model = models[annotation_component]
             outputs = cur_model(input_ids, attention_mask=attention_mask)
-
-            probabilities = torch.nn.functional.softmax(outputs.logit, dim=1)
-            prob_list = probabilities.tolist()
+            outputs = outputs.logits.tolist()
 
             for i, id in enumerate(ids.tolist()):
-<<<<<<< HEAD
-                for j, probability in enumerate(prob_list[i]):
-=======
-                probs = []
-                print(outputs[i])
-                probabilities = torch.nn.functional.softmax(outputs[i], dim=1)
-                
-                for j, probability in enumerate(probabilities):
-                    # probability = logit_to_prob(output)
-                    # probability = round(probability, 4)
-                    print(probability)
->>>>>>> parent of 7aced1b7 (temp print statemnt)
+                probabilities = torch.softmax(torch.tensor(outputs[i]), dim=0)
+                prob_list = probabilities.tolist()
+                for j, probability in enumerate(prob_list):
                     annotation_value = d.qual_predict_maps[annotation_component][j]
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
@@ -357,7 +346,7 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
                     attention_mask
                 )
 
-                probabilities = torch.nn.functional.softmax(outputs.logit, dim=1)
+                probabilities = torch.nn.functional.softmax(outputs.logits, dim=1)
                 prob_list = probabilities.tolist()
 
                 for i, id in enumerate(article_ids):
