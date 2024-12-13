@@ -204,22 +204,6 @@ def write_target_files(out_dir, articles, map, truth=True):
         if truth:
             write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
-
-def logit_to_prob(logit):
-    """
-    Convert a logit value to a probability.
-
-    Args:
-        logit (float): The logit value.
-
-    Returns:
-        float: The corresponding probability value.
-    """
-    odds = math.exp(logit)
-    prob = odds / (1 + odds)
-    return prob
-
-
 def predict_article_annotations(articles, model_map, split_num=None):
     """
     Predicts article annotations using fine-tuned models for each annotation
@@ -282,18 +266,11 @@ def predict_article_annotations(articles, model_map, split_num=None):
 
             cur_model = models[annotation_component]
             outputs = cur_model(input_ids, attention_mask=attention_mask)
-            outputs = outputs.logits.tolist()
             probabilities = torch.nn.functional.softmax(torch.tensor(outputs), dim=1)
             prob_list = probabilities.tolist()
 
             for i, id in enumerate(ids.tolist()):
-                print(outputs[i])
-                print(prob_list[i])
-                
                 for j, probability in enumerate(prob_list[i]):
-                    # probability = logit_to_prob(output)
-                    # probability = round(probability, 4)
-                    print(probability)
                     annotation_value = d.qual_predict_maps[annotation_component][j]
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
@@ -368,16 +345,15 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
                     input_ids,
                     attention_mask
                 )
-                type_outputs = outputs.tolist()
+
+                probabilities = torch.nn.functional.softmax(torch.tensor(outputs), dim=1)
+                prob_list = probabilities.tolist()
+
                 for i, id in enumerate(article_ids):
-
                     global_id = str(id) + '_' + str(ann_ids[i])
-                    probs = []
 
-                    for j, output in enumerate(type_outputs[i]):
-                        probability = logit_to_prob(output)
-                        probability = round(probability, 4)
-                        probs.append(probability)
+                    for j, probability in enumerate(prob_list[i]):
+
                         annotation_value = d.quant_predict_maps[annotation_component][j]
 
                         to_write = f'{global_id}\t{annotation_value}\t{probability}'
