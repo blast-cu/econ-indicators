@@ -341,14 +341,12 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
                     input_ids,
                     attention_mask
                 )
-                probabilities = torch.softmax(outputs.logits, dim=1).tolist()
+                probabilities = torch.softmax(outputs.logit, dim=1).tolist()
                 for i, id in enumerate(article_ids):
                     global_id = str(id) + '_' + str(ann_ids[i])
 
                     for j, probability in enumerate(probabilities[i]):
-
                         annotation_value = d.quant_predict_maps[annotation_component][j]
-
                         to_write = f'{global_id}\t{annotation_value}\t{probability}'
                         predict_dict[annotation_component].append(to_write)
 
