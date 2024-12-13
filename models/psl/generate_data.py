@@ -256,10 +256,8 @@ def predict_article_annotations(articles, model_map, split_num=None):
     models = {}
     for k in d.qual_label_maps.keys():
         model_path = model_map[k]
-        if split_num:  # if split_num is provided, append fold number to model path
+        if split_num is not None:  # if split_num is provided, append fold number to model path
             model_path = os.path.join(model_path, f'fold{split_num}')
-        print(f"Split Number: {split_num}")
-        print(f"Model Path: {model_path}")
         # append task name to model path
         model_path = os.path.join(model_path, f'{k}_model')
         models[k] = pq.RobertaForSequenceClassification\
