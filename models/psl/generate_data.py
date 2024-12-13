@@ -271,7 +271,18 @@ def predict_article_annotations(articles, model_map, split_num=None):
             prob_list = probabilities.tolist()
 
             for i, id in enumerate(ids.tolist()):
+<<<<<<< HEAD
                 for j, probability in enumerate(prob_list[i]):
+=======
+                probs = []
+                print(outputs[i])
+                probabilities = torch.nn.functional.softmax(outputs[i], dim=1)
+                
+                for j, probability in enumerate(probabilities):
+                    # probability = logit_to_prob(output)
+                    # probability = round(probability, 4)
+                    print(probability)
+>>>>>>> parent of 7aced1b7 (temp print statemnt)
                     annotation_value = d.qual_predict_maps[annotation_component][j]
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
