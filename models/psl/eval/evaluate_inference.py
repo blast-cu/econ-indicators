@@ -142,13 +142,13 @@ def main(args):
         full_qual_results = {}
         full_quant_results = {}
 
-        for annotation_type in gd.qual_map.keys():
+        for annotation_type in d.qual_label_maps.keys():
             full_qual_results[annotation_type] = {}
             full_qual_results[annotation_type]['ids'] = []
             full_qual_results[annotation_type]['predictions'] = []
             full_qual_results[annotation_type]['labels'] = []
         
-        for annotation_type in gd.quant_map.keys():
+        for annotation_type in d.quant_label_maps.keys():
             full_quant_results[annotation_type] = {}
             full_quant_results[annotation_type]['ids'] = []
             full_quant_results[annotation_type]['predictions'] = []
@@ -176,10 +176,10 @@ def main(args):
             report_dir = os.path.join(inference_dir, 'reports')
             os.makedirs(report_dir, exist_ok=True)
 
-            qual_results = evaluate(gd.qual_map, eval_articles, inference_dir, report_dir, split_num, doc_type='qual')
-            quant_results = evaluate(gd.quant_map, eval_excerpts, inference_dir, report_dir, split_num)
+            qual_results = evaluate(d.qual_label_maps, eval_articles, inference_dir, report_dir, split_num, doc_type='qual')
+            quant_results = evaluate(d.quant_label_maps, eval_excerpts, inference_dir, report_dir, split_num)
 
-            for annotation_type in gd.qual_map.keys():
+            for annotation_type in d.qual_label_maps.keys():
 
                 ids = qual_results[annotation_type]['id']
                 predictions = qual_results[annotation_type]['predictions']
@@ -192,7 +192,7 @@ def main(args):
                 full_qual_results[annotation_type]['labels'] += labels
 
 
-            for annotation_type in gd.quant_map.keys():
+            for annotation_type in d.quant_label_maps.keys():
 
                 ids = quant_results[annotation_type]['id']
                 predictions = quant_results[annotation_type]['predictions']
@@ -208,7 +208,7 @@ def main(args):
                 full_quant_results[annotation_type]['labels'] += \
                     quant_results[annotation_type]['labels']
 
-        for annotation_type in gd.qual_map.keys():
+        for annotation_type in d.qual_label_maps.keys():
             labels = full_qual_results[annotation_type]['labels']
             predictions = full_qual_results[annotation_type]['predictions']
             eval.to_csv(
@@ -218,7 +218,7 @@ def main(args):
                 setting_rule_out_file
             )
 
-        for annotation_type in gd.quant_map.keys():
+        for annotation_type in d.quant_label_maps.keys():
             labels = full_quant_results[annotation_type]['labels']
             predictions = full_quant_results[annotation_type]['predictions']
             eval.to_csv(
