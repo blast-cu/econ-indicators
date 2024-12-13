@@ -341,7 +341,10 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
                     input_ids,
                     attention_mask
                 )
-                probabilities = torch.softmax(outputs.logit, dim=1).tolist()
+                # probabilities = torch.softmax(outputs.logit, dim=1).tolist()
+                print(outputs)
+                print(outputs.logit)
+                exit()
                 for i, id in enumerate(article_ids):
                     global_id = str(id) + '_' + str(ann_ids[i])
 
