@@ -287,14 +287,16 @@ def predict_article_annotations(articles, model_map, split_num=None):
             for i, id in enumerate(ids.tolist()):
                 probs = []
                 print(outputs[i])
-                exit()
+                
                 for j, output in enumerate(outputs[i]):
                     probability = logit_to_prob(output)
                     probability = round(probability, 4)
+                    print(probability)
                     annotation_value = d.qual_predict_maps[annotation_component][j]
 
                     to_write = f'{id}\t{annotation_value}\t{probability}'
                     predict_dict[annotation_component].append(to_write)
+                exit()
 
     return predict_dict
 
