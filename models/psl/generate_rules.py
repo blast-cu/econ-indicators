@@ -319,9 +319,8 @@ def main(args):
     quant_predicates = zip(pred_quant_predicates, val_quant_predicates)
     constraints += get_pred_val_rules(quant_predicates, 'quant')
 
-    agreement_predicates = zip(agreement_pred_predicates, agreement_val_predicates)
-    
-    constraints += get_pred_val_rules(agreement_predicates, 'agreement')
+    # agreement_predicates = zip(agreement_pred_predicates, agreement_val_predicates)
+    # constraints += get_pred_val_rules(agreement_predicates, 'agreement')
 
     # interrelatedness between qual and quant, respectively
     rules = get_inter_rules(val_qual_predicates, qual_pred_map, qual_label_maps)
@@ -338,8 +337,9 @@ def main(args):
     constraints += mutex_constraint(val_quant_predicates, 'quant')
 
     # macro type constraint
-    constraints += macro_type_constraints()
-    constraints += frame_ann_constraints()
+    hard_constraints = []
+    hard_constraints += macro_type_constraints()
+    hard_constraints += frame_ann_constraints()
 
     rules.sort()
     
@@ -354,6 +354,9 @@ def main(args):
 
     constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
     write_file(constraint_filename, constraints)
+
+    hard_constraint_filename = os.path.join(OUT_DIR, 'hard_constraints.txt')
+    write_file(hard_constraint_filename, hard_constraints)
 
     article_predicates = ['ValFrame', 'ValEconRate', 'ValEconChange']
     excerpt_predicates = ['ValSpin', 'ValType', 'ValMacroType']
