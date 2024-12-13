@@ -283,14 +283,14 @@ def predict_article_annotations(articles, model_map, split_num=None):
             cur_model = models[annotation_component]
             outputs = cur_model(input_ids, attention_mask=attention_mask)
             outputs = outputs.logits.tolist()
+            probabilities = torch.nn.functional.softmax(torch.tensor(outputs), dim=1)
+            prob_list = probabilities.tolist()
 
             for i, id in enumerate(ids.tolist()):
-                probs = []
                 print(outputs[i])
-                output_tensor = torch.tensor(outputs[i])
-                probabilities = torch.nn.functional.softmax(output_tensor, dim=1)
+                print(prob_list[i])
                 
-                for j, probability in enumerate(probabilities):
+                for j, probability in enumerate(prob_list[i]):
                     # probability = logit_to_prob(output)
                     # probability = round(probability, 4)
                     print(probability)
