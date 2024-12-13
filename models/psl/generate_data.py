@@ -331,52 +331,51 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
 
         batch_size = 8
         loader = DataLoader(data, batch_size=batch_size, shuffle=False)
-        for annotation_component in d.quant_label_maps.keys():
 
-            task = annotation_component
-            num_labels = len(set(d.quant_label_maps[task].keys()))
+        task = annotation_component
+        num_labels = len(set(d.quant_label_maps[task].keys()))
 
-            # get model path for split, task.
-            model_path = model_map[task]
-            if split_num is not None:  # if split_num is provided, append fold number to path
-                model_path = os.path.join(model_path, f'fold{split_num}')
-            model_path = os.path.join(model_path, f'{task}_model')  # append task name to model path
+        # get model path for split, task.
+        model_path = model_map[task]
+        if split_num is not None:  # if split_num is provided, append fold number to path
+            model_path = os.path.join(model_path, f'fold{split_num}')
+        model_path = os.path.join(model_path, f'{task}_model')  # append task name to model path
 
-            # load model.
-            type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
-            type_model = type_model.from_pretrained(model_path, task).to('cuda')
-            predict_dict[annotation_component] = []
+        # load model.
+        type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
+        type_model = type_model.from_pretrained(model_path, task).to('cuda')
+        predict_dict[annotation_component] = []
 
-            type_model.eval()
-            with torch.no_grad():
-                for i, batch in enumerate(loader):
-                    start_index = batch['start_index'].to('cuda')
-                    end_index = batch['end_index'].to('cuda')
-                    input_ids = batch['input_ids'].to('cuda')
-                    attention_mask = batch['attention_mask'].to('cuda')
-                    article_ids = batch['article_ids'].tolist()
-                    ann_ids = batch['ann_ids'].tolist()
+        type_model.eval()
+        with torch.no_grad():
+            for i, batch in enumerate(loader):
+                start_index = batch['start_index'].to('cuda')
+                end_index = batch['end_index'].to('cuda')
+                input_ids = batch['input_ids'].to('cuda')
+                attention_mask = batch['attention_mask'].to('cuda')
+                article_ids = batch['article_ids'].tolist()
+                ann_ids = batch['ann_ids'].tolist()
 
-                    outputs = type_model(
-                        start_index,
-                        end_index,
-                        input_ids,
-                        attention_mask
-                    )
-                    type_outputs = outputs.tolist()
-                    for i, id in enumerate(article_ids):
+                outputs = type_model(
+                    start_index,
+                    end_index,
+                    input_ids,
+                    attention_mask
+                )
+                type_outputs = outputs.tolist()
+                for i, id in enumerate(article_ids):
 
-                        global_id = str(id) + '_' + str(ann_ids[i])
-                        probs = []
+                    global_id = str(id) + '_' + str(ann_ids[i])
+                    probs = []
 
-                        for j, output in enumerate(type_outputs[i]):
-                            probability = logit_to_prob(output)
-                            probability = round(probability, 4)
-                            probs.append(probability)
-                            annotation_value = d.quant_predict_maps[annotation_component][j]
+                    for j, output in enumerate(type_outputs[i]):
+                        probability = logit_to_prob(output)
+                        probability = round(probability, 4)
+                        probs.append(probability)
+                        annotation_value = d.quant_predict_maps[annotation_component][j]
 
-                            to_write = f'{global_id}\t{annotation_value}\t{probability}'
-                            predict_dict[annotation_component].append(to_write)
+                        to_write = f'{global_id}\t{annotation_value}\t{probability}'
+                        predict_dict[annotation_component].append(to_write)
 
     return predict_dict
 
