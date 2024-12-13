@@ -312,7 +312,7 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
     """
     predict_dict = {}
 
-    for annotation_component in gd.quant_map.keys():
+    for annotation_component in d.quant_label_maps.keys():
 
         texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if annotation_component not in v.keys() or v[annotation_component] != '\x00']
         ids = [k for k in excerpts.keys() if annotation_component not in excerpts[k].keys() or excerpts[k][annotation_component] != '\x00']
@@ -343,7 +343,7 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
         type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
         type_model = type_model.from_pretrained(model_path, task).to('cuda')
 
-        # for annotation_component in gd.qual_map.keys():
+        # for annotation_component in d.qual_label_maps.keys():
         predict_dict[annotation_component] = []
 
         type_model.eval()
@@ -368,7 +368,6 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
 
                     global_id = str(id) + '_' + str(ann_ids[i])
                     probs = []
-
 
                     for j, output in enumerate(type_outputs[i]):
                         probability = logit_to_prob(output)
@@ -491,9 +490,9 @@ def main():
         write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
         # write target and truth files for validation data
-        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_articles, d.qual_label_maps, truth=True)  # isVal
 
-        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, d.quant_label_maps, truth=True)  # isVal
 
         # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, BEST_MODELS, split_num)
@@ -510,9 +509,9 @@ def main():
 
         write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
-        
+        write_target_files(split_eval_dir, eval_articles, d.qual_label_maps, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, d.quant_label_maps, truth=True)  # isVal
+
         article_preds = predict_article_annotations(eval_articles, BEST_MODELS, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 

@@ -77,7 +77,7 @@ def main(args):
         model = Model(model_name)
 
         predicates = add_predicates(model)
-        add_rules(model, rule_file)
+        add_rules(model, rule_file, args.no_constraints)
 
         # Weight Learning
         if setting_dict['learn']:
@@ -211,6 +211,7 @@ def infer(model, predicates):
 if (__name__ == '__main__'):
     parser = argparse.ArgumentParser(description='Description of your program')
     parser.add_argument('--s', required=True, help='setting mode')
+    parser.add_argument('--no_constraints', action='store_true', default=False, help='no constraints')
     parser.add_argument('--final_split', required=True, help='final split number')
     args = parser.parse_args()
     main(args)
