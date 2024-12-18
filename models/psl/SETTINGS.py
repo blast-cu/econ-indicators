@@ -9,7 +9,8 @@ SETTINGS = {
     },
     'no_inter': {
         'rule_dir': os.path.join(RULE_DIR, 'no_inter'),
-        'learn': False,
+        # 'learn': False,
+        'learn': True,
         'combinations': []
     },
     'inter_article': {
@@ -40,10 +41,14 @@ SETTINGS = {
                          ['ValType', 'ValSpin'],
                          ['ValType', 'ValType']]
     },
-    'best_rules':{
+    'best_rules': {
         'rule_dir': os.path.join(RULE_DIR, 'best_rules'),
         'learn': True,
         'combinations': [['ValType', 'ValType']]
+    },
+    'combos': {
+        'rule_dir': os.path.join(RULE_DIR, 'combos'),
+        'learn': True
     }
 
 }

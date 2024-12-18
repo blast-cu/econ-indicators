@@ -6,9 +6,11 @@ from data_utils.collection.article import Article
 import spacy
 from mysql.connector import connect, Error
 
-def parse_data(data_dir, econ_words):
+
+def parse_data(data_dir, econ_words):  # parse data from .csv
     nlp = spacy.load('en_core_web_sm')
-    metadata = os.path.join(data_dir, 'metadata.csv')
+    # metadata = os.path.join(data_dir, 'metadata.csv')
+    metadata = os.path.join(data_dir, '2024_01_01.csv')
     articles = []
     with open(metadata) as fp:
         reader = csv.reader(fp)
@@ -50,7 +52,11 @@ def parse_data(data_dir, econ_words):
 
     return articles
 
+
 def parse_data_mysql(host, user, password, database, econ_words):
+    """
+    Extract data from 'articles' table in MySQL database for further processing
+    """
     nlp = spacy.load('en_core_web_sm')
     articles = []
 
@@ -107,12 +113,13 @@ def parse_text(nlp, text, econ_words):
     economic_keywords = '(\W+|^)(' + "|".join(keywords) + ')(\W+|$)'
     economic_keywords = r'{}'.format(economic_keywords)
 
-    #economic_keywords = r'(\W+|^)(econo\w*|unemploy\w*|job\w*|earning\w*|inflation|stock|income|revenue|poverty|price|cost|housing|nasdaq|dow jones)(\W+|$)'
+    # economic_keywords = r'(\W+|^)(econo\w*|unemploy\w*|job\w*|earning\w*|inflation|stock|income|revenue|poverty|price|cost|housing|nasdaq|dow jones)(\W+|$)'
     doc = nlp(text)
 
     sentences = []; keywords = []
     is_econ = False
 
+    # if one sentence contains an economic keyword, the article is considered to be about the economy
     for sentence in doc.sents:
         found_one = False
         for match in re.finditer(economic_keywords, sentence.text.lower()):
@@ -124,10 +131,11 @@ def parse_text(nlp, text, econ_words):
             is_econ = True
 
     keywords = list(set(keywords))
-    #print(keywords)
-    #print(sentences)
-    #exit()
+    # print(keywords)
+    # print(sentences)
+    # exit()
     return (text, is_econ, sentences, keywords)
+
 
 def articles_to_json(articles):
     ret = {}

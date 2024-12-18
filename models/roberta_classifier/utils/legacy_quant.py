@@ -94,7 +94,6 @@ class QuantModel(nn.Module):
 
         activation_path = os.path.join(path, task + '_activation')
         torch.save(self.activation.state_dict(), activation_path)
-        
 
     def forward(self,
                 start_index,

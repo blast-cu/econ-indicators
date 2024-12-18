@@ -141,17 +141,7 @@ def add_rules(model, rule_file, no_hard_constraints):
     if VERBOSE:
         print('\nAdding rules...')
 
-    if not no_hard_constraints:
-        constraint_file = os.path.join(DATA_DIR, 'hard_constraints.txt')
-        with open(constraint_file) as f:
-            constraint_strs = f.readlines()
-        for c in constraint_strs:
-            c = c.strip()
-            if VERBOSE:
-                print(c)
-            constraint = Rule(c)
-            model.add_rule(constraint)
-
+    # mutex constraints, default pred >> val
     constraint_file = os.path.join(DATA_DIR, 'constraints.txt')
     with open(constraint_file) as f:
         constraint_strs = f.readlines()
@@ -162,6 +152,17 @@ def add_rules(model, rule_file, no_hard_constraints):
             print(c)
         constraint = Rule(c)
         model.add_rule(constraint)
+
+    if not no_hard_constraints:  # add macro type constraints
+        constraint_file = os.path.join(DATA_DIR, 'hard_constraints.txt')
+        with open(constraint_file) as f:
+            constraint_strs = f.readlines()
+        for c in constraint_strs:
+            c = c.strip()
+            if VERBOSE:
+                print(c)
+            constraint = Rule(c)
+            model.add_rule(constraint)
 
     with open(rule_file) as f:
         rule_strs = f.readlines()
