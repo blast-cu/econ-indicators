@@ -4,7 +4,6 @@ import os
 import argparse
 import pandas as pd
 from data_utils.collection.article import Article
-from data_utils.collection.data_utils1 import parse_text
 import spacy
 from tqdm import tqdm
 import re
@@ -14,6 +13,7 @@ import csv
 """
 Script to add data from parquet files to the 'article' table in the database
 """
+
 
 def get_text(nlp, text: str, economic_keywords: str) -> tuple:
     """
@@ -71,7 +71,7 @@ def get_data(file_path: str, nlp, econ_keywords: str) -> list:
         text = row['text']
 
         text, is_econ, econ_sentences, keywords_used = \
-            parse_text(nlp, text, econ_keywords)
+            get_text(nlp, text, econ_keywords)
 
         source = row['publisher']
         url = row['url']
