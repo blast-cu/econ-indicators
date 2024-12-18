@@ -9,22 +9,55 @@ import spacy
 from tqdm import tqdm
 import re
 import json
+import csv
 
 """
 Script to add data from parquet files to the 'article' table in the database
 """
 
+def get_text(nlp, text: str, economic_keywords: str) -> tuple:
+    """
+    Tokenize text and find sentences with economic keywords
+    args:
+        nlp: spacy model
+        text: str, text to tokenize
+        economic_keywords: str, regex pattern to match economic keywords
+    returns:
+        text: str, tokenized text
+        is_econ: bool, True if text contains an economic keyword
+        sentences: list of tuples, start and end indices of sentences with economic keywords
+        keywords: list of str, economic keywords found in text
+    """
+    doc = nlp(text)  # tokenize text
 
-def get_data(file_path: str, econ_keywords: list) -> list:
+    sentences = []
+    keywords = []
+    is_econ = False
+
+    # if one sentence contains an economic keyword, the article is about economy
+    for sentence in doc.sents:
+        found_one = False
+        for match in re.finditer(economic_keywords, sentence.text.lower()):
+            keywords.append(match.group(2))
+            found_one = True
+
+        if found_one:
+            sentences.append((sentence.start_char, sentence.end_char))
+            is_econ = True
+
+    keywords = list(set(keywords))
+    return (text, is_econ, sentences, keywords)
+
+
+def get_data(file_path: str, nlp, econ_keywords: str) -> list:
     """
     Read and process data from csv file
     args:
         file_path: str, path to csv file with columns 'article_id,text,url,publisher,datetime,title,authors,publish_date,top_image,rank'
-        econ_keywords: list of economic keywords
+        econ_keywords: str, regex pattern to match economic keywords
     returns:
         articles: list of Article objects
     """
-    nlp = spacy.load('en_core_web_sm')
     articles = []
     df = pd.read_csv(file_path)
     df = df.dropna(subset=['text'])  # filter out rows with no text
@@ -44,34 +77,37 @@ def get_data(file_path: str, econ_keywords: list) -> list:
         url = row['url']
         date = row['datetime']  # must parse to datetime object
 
-        # if is_econ:  # only add if it is relevant
-        article = Article(
-            id=id,
-            headline=headline,
-            text=text,
-            source=source,
-            url=url,
-            is_econ=is_econ,
-            econ_sentences=econ_sentences,
-            econ_keywords=keywords_used,
-            num_keywords=len(econ_sentences),
-            date=date
-        )
-        articles.append(article)
+        if is_econ:  # only add if it has an econ keyword
+            article = Article(
+                id=id,
+                headline=headline,
+                text=text,
+                source=source,
+                url=url,
+                is_econ=is_econ,
+                econ_sentences=econ_sentences,
+                econ_keywords=keywords_used,
+                num_keywords=len(econ_sentences),
+                date=date
+            )
+            articles.append(article)
     return articles
 
 
 def main(args):
 
     in_path = 'data/2024_dump/text'
+    nlp = spacy.load('en_core_web_sm')  # model to tokenize text
 
-    # get last (max) article id in database
-    conn = sqlite3.connect(d.DB_FILENAME)
-    c = conn.cursor()
-    c.execute("SELECT id FROM article")
-    article_ids = [row[0] for row in c.fetchall()]
-    last_id = max(article_ids)
-    conn.close()
+    keywords = []  # load keywords from csv file
+    with open(args.econ_words) as csvfile:
+        csvreader = csv.reader(csvfile)
+        for row in csvreader:
+            keyword = row[0]
+            keyword = keyword.replace('*', '\w*')
+            keywords.append(keyword)
+    economic_keywords = '(\W+|^)(' + "|".join(keywords) + ')(\W+|$)'
+    economic_keywords = r'{}'.format(economic_keywords)
 
     # loop over all csv files
     new_articles = []
@@ -82,7 +118,9 @@ def main(args):
         for file in tqdm(os.listdir(pub_path)):
             if file.endswith(".csv"):
                 file_path = os.path.join(pub_path, file)
-                articles = get_data(file_path, args.econ_words)
+
+                # get all articles from file which have an economic keyword
+                articles = get_data(file_path, nlp, args.econ_words)
                 pub_articles.extend(articles)
                 new_articles.extend(articles)
 
@@ -94,13 +132,21 @@ def main(args):
             open(os.path.join(pub_path, 'articles.json'), 'w+'),
             indent=4
         )
+
     exit()
+
+    # get last (max) article id in database
+    conn = sqlite3.connect(d.DB_FILENAME)
+    c = conn.cursor()
+    c.execute("SELECT id FROM article")
+    article_ids = [row[0] for row in c.fetchall()]
+    last_id = max(article_ids)
+    conn.close()
 
     seen_text = set()
     seen_url = set()
     idx = 0
 
-    # nlp = spacy.load('en_core_web_sm')
     pbar = tqdm(total=len(articles), desc='recomputing features')
     lengths = []
     clean_articles = []
