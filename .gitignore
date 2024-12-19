@@ -357,3 +357,4 @@ models/agreement/tuned_models/
 temp/
 models/psl/data/
 models/psl/data_backup/
+set_vars.sh

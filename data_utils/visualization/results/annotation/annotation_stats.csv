@@ -1,0 +1,9 @@
+site,quants,art_anns,quant_anns
+nytimes,370723.0,653,1338
+wsj,551726.0,514,1267
+washingtonpost,274197.0,345,603
+foxnews,76074.0,60,48
+breitbart,66572.0,111,195
+huffpost,75180.0,104,249
+total,1414472.0,1787,3700
+cross-validated,,469,1100

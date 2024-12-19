@@ -204,22 +204,6 @@ def write_target_files(out_dir, articles, map, truth=True):
         if truth:
             write_data_file(out_dir, predicate, 'truth', truth_ann_dict[ann])
 
-
-def logit_to_prob(logit):
-    """
-    Convert a logit value to a probability.
-
-    Args:
-        logit (float): The logit value.
-
-    Returns:
-        float: The corresponding probability value.
-    """
-    odds = math.exp(logit)
-    prob = odds / (1 + odds)
-    return prob
-
-
 def predict_article_annotations(articles, model_map, split_num=None):
     """
     Predicts article annotations using fine-tuned models for each annotation
@@ -256,7 +240,7 @@ def predict_article_annotations(articles, model_map, split_num=None):
     models = {}
     for k in d.qual_label_maps.keys():
         model_path = model_map[k]
-        if split_num:  # if split_num is provided, append fold number to model path
+        if split_num is not None:  # if split_num is provided, append fold number to model path
             model_path = os.path.join(model_path, f'fold{split_num}')
         # append task name to model path
         model_path = os.path.join(model_path, f'{k}_model')
@@ -282,18 +266,13 @@ def predict_article_annotations(articles, model_map, split_num=None):
 
             cur_model = models[annotation_component]
             outputs = cur_model(input_ids, attention_mask=attention_mask)
-            outputs = outputs.logits.tolist()
+            probabilities = torch.softmax(outputs.logits, dim=1).tolist()
 
             for i, id in enumerate(ids.tolist()):
-                probs = []
-                for j, output in enumerate(outputs[i]):
-                    probability = logit_to_prob(output)
-                    probability = round(probability, 4)
+                for j, probability in enumerate(probabilities[i]):
                     annotation_value = d.qual_predict_maps[annotation_component][j]
-
                     to_write = f'{id}\t{annotation_value}\t{probability}'
                     predict_dict[annotation_component].append(to_write)
-
     return predict_dict
 
 
@@ -312,7 +291,7 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
     """
     predict_dict = {}
 
-    for annotation_component in gd.quant_map.keys():
+    for annotation_component in d.quant_label_maps.keys():
 
         texts = [[v['indicator'], v['excerpt']] for v in excerpts.values() if annotation_component not in v.keys() or v[annotation_component] != '\x00']
         ids = [k for k in excerpts.keys() if annotation_component not in excerpts[k].keys() or excerpts[k][annotation_component] != '\x00']
@@ -328,22 +307,22 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
             ids=ids,
             max_length=512
         )
-        
+
         batch_size = 8
         loader = DataLoader(data, batch_size=batch_size, shuffle=False)
 
         task = annotation_component
         num_labels = len(set(d.quant_label_maps[task].keys()))
 
+        # get model path for split, task.
         model_path = model_map[task]
-        if split_num:  # if split_num is provided, append fold number to model path
+        if split_num is not None:  # if split_num is provided, append fold number to path
             model_path = os.path.join(model_path, f'fold{split_num}')
-        # append task name to model path
-        model_path = os.path.join(model_path, f'{task}_model')
+        model_path = os.path.join(model_path, f'{task}_model')  # append task name to model path
+
+        # load model.
         type_model = qu.QuantModel('roberta-base', num_labels).to('cuda')
         type_model = type_model.from_pretrained(model_path, task).to('cuda')
-
-        # for annotation_component in gd.qual_map.keys():
         predict_dict[annotation_component] = []
 
         type_model.eval()
@@ -356,29 +335,22 @@ def generate_predict_excerpts(excerpts, model_map, split_num=None):
                 article_ids = batch['article_ids'].tolist()
                 ann_ids = batch['ann_ids'].tolist()
 
-                outputs = type_model(start_index,
-                                     end_index,
-                                     input_ids,
-                                     attention_mask)
-
-                type_outputs = outputs.tolist()
-                
-
+                outputs = type_model(
+                    start_index,
+                    end_index,
+                    input_ids,
+                    attention_mask
+                )
+                probabilities = torch.softmax(outputs, dim=1).tolist()
+    
                 for i, id in enumerate(article_ids):
-
                     global_id = str(id) + '_' + str(ann_ids[i])
-                    probs = []
 
-
-                    for j, output in enumerate(type_outputs[i]):
-                        probability = logit_to_prob(output)
-                        probability = round(probability, 4)
-                        probs.append(probability)
+                    for j, probability in enumerate(probabilities[i]):
                         annotation_value = d.quant_predict_maps[annotation_component][j]
-
                         to_write = f'{global_id}\t{annotation_value}\t{probability}'
                         predict_dict[annotation_component].append(to_write)
-                    
+
     return predict_dict
 
 
@@ -491,9 +463,9 @@ def main():
         write_preceeds_file(split_learn_dir, learn_articles)  # preceeds
 
         # write target and truth files for validation data
-        write_target_files(split_learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_articles, d.qual_label_maps, truth=True)  # isVal
 
-        write_target_files(split_learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+        write_target_files(split_learn_dir, learn_excerpts, d.quant_label_maps, truth=True)  # isVal
 
         # # predictions for validation set
         article_preds = predict_article_annotations(learn_articles, BEST_MODELS, split_num)
@@ -510,9 +482,9 @@ def main():
 
         write_preceeds_file(split_eval_dir, eval_articles)  # preceeds
 
-        write_target_files(split_eval_dir, eval_articles, gd.qual_map, truth=True)  # isVal
-        write_target_files(split_eval_dir, eval_excerpts, gd.quant_map, truth=True)  # isVal
-        
+        write_target_files(split_eval_dir, eval_articles, d.qual_label_maps, truth=True)  # isVal
+        write_target_files(split_eval_dir, eval_excerpts, d.quant_label_maps, truth=True)  # isVal
+
         article_preds = predict_article_annotations(eval_articles, BEST_MODELS, split_num)
         write_pred_files(split_eval_dir, article_preds)  # pred
 

@@ -57,7 +57,7 @@ def main(args):
 
     # extract TF-IDF representation and create files for annotation-gui
     # only if they have been marked as having to do with the economy
-    corpus = [];
+    corpus = []
     bad_headlines = set(['Access Denied', 'Wayback Machine'])
 
     if args.recompute_features:
