@@ -179,6 +179,7 @@ models/roberta_classifier/tuned_models/
 
 data-analysis/data
 data_analysis/data
+data_analysis/dec-18-presentation/data
 
 .vscode/
 __pycache__/
