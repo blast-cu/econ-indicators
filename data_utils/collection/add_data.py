@@ -4,7 +4,9 @@ import os
 import argparse
 import pandas as pd
 from data_utils.collection.article import Article
+from data_utils.collection.data_utils1 import parse_text
 import spacy
+from spacy.language import Language
 from tqdm import tqdm
 import re
 import json
@@ -15,7 +17,7 @@ Script to add data from parquet files to the 'article' table in the database
 """
 
 
-def get_text(nlp, text: str, economic_keywords: str) -> tuple:
+def get_text(nlp: Language, text: str, economic_keywords: str) -> tuple:
     """
     Tokenize text and find sentences with economic keywords
     args:
@@ -49,7 +51,7 @@ def get_text(nlp, text: str, economic_keywords: str) -> tuple:
     return (text, is_econ, sentences, keywords)
 
 
-def get_data(file_path: str, nlp, econ_keywords: str) -> list:
+def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
     """
     Read and process data from csv file
     args:
@@ -91,6 +93,7 @@ def get_data(file_path: str, nlp, econ_keywords: str) -> list:
                 date=date
             )
             articles.append(article)
+            # print(f"Added article '{headline}' from '{source}'")
     return articles
 
 
@@ -106,7 +109,7 @@ def main(args):
             keyword = row[0]
             keyword = keyword.replace('*', '\w*')
             keywords.append(keyword)
-    economic_keywords = '(\W+|^)(' + "|".join(keywords) + ')(\W+|$)'
+    economic_keywords = r'(\W+|^)(' + "|".join(keywords) + r')(\W+|$)'
     economic_keywords = r'{}'.format(economic_keywords)
 
     # loop over all csv files
@@ -120,7 +123,7 @@ def main(args):
                 file_path = os.path.join(pub_path, file)
 
                 # get all articles from file which have an economic keyword
-                articles = get_data(file_path, nlp, args.econ_words)
+                articles = get_data(file_path, nlp, economic_keywords)
                 pub_articles.extend(articles)
                 new_articles.extend(articles)
 

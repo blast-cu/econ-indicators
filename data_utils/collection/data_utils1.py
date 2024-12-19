@@ -128,6 +128,7 @@ def parse_text(nlp, text, econ_words):
 
         if found_one:
             sentences.append((sentence.start_char, sentence.end_char))
+            print("found one")
             is_econ = True
 
     keywords = list(set(keywords))
