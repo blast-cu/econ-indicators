@@ -4,7 +4,6 @@ import os
 import argparse
 import pandas as pd
 from data_utils.collection.article import Article
-from data_utils.collection.data_utils1 import parse_text
 import spacy
 from spacy.language import Language
 from tqdm import tqdm
@@ -13,7 +12,7 @@ import json
 import csv
 
 """
-Script to add data from parquet files to the 'article' table in the database
+Script to add data from csv files to the 'article' table in the database
 """
 
 
