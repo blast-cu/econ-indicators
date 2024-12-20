@@ -2,6 +2,7 @@ import pickle
 import os
 import json
 import sqlite3
+import data_utils.model_utils.dataset as d
 
 from models.psl.generate_data import write_contains_file, \
     write_has_frame_ann_file, write_preceeds_file, \
@@ -75,9 +76,9 @@ def main():
     write_preceeds_file(learn_dir, learn_articles)  # preceeds
 
     # write target and truth files for validation data
-    write_target_files(learn_dir, learn_articles, gd.qual_map, truth=True)  # isVal
+    write_target_files(learn_dir, learn_articles, d.qual_label_maps, truth=True)  # isVal
 
-    write_target_files(learn_dir, learn_excerpts, gd.quant_map, truth=True)  # isVal
+    write_target_files(learn_dir, learn_excerpts, d.quant_label_maps, truth=True)  # isVal
 
     # predictions for validation set
     article_preds = predict_article_annotations(learn_articles, BEST_MODELS)
@@ -94,8 +95,8 @@ def main():
 
     write_preceeds_file(eval_dir, eval_articles)  # preceeds
 
-    write_target_files(eval_dir, eval_articles, gd.qual_map, truth=False)  # isVal
-    write_target_files(eval_dir, eval_excerpts, gd.quant_map, truth=False)  # isVal
+    write_target_files(eval_dir, eval_articles, d.qual_label_maps, truth=False)  # isVal
+    write_target_files(eval_dir, eval_excerpts, gd.quant_label_maps, truth=False)  # isVal
 
     article_preds = predict_article_annotations(
         eval_articles, BEST_MODELS

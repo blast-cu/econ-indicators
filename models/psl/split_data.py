@@ -58,10 +58,6 @@ def main():
                 out_f = open(f"{OUT_DIR}/final{split_num}/eval/{filename}", 'w+')
             out_f.write(l)
         out_f.close()
-                
-
-
-
 
 
 if __name__ == "__main__":
