@@ -22,6 +22,7 @@ class TextDataset(data.Dataset):
         article_id_i = self.article_ids[index]
         return input_ids_i, attention_mask_i, article_id_i
 
+
 def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = T5ForConditionalGeneration.from_pretrained("Michau/t5-base-en-generate-headline")
@@ -30,17 +31,20 @@ def main(args):
 
     # Load article texts
     dataset = json.load(open(args.dataset))
+    for art, _ in enumerate(dataset):
+        if type(dataset[art]['headline']) is float:
+            dataset[art]['headline'] = None
+
     pbar = tqdm(total=len(dataset), desc='tokenizing')
 
     input_ids_batch = []
     attention_mask_batch = []
     articles_batch = []
 
-    for art in dataset:
+    for art, _ in enumerate(dataset):
         if (dataset[art]['headline'] is None or len(dataset[art]['headline'].split()) <= 4) and 'gen-headline' not in dataset[art]:
             article = dataset[art]['text']
-            text =  "headline: " + article
-
+            text = "headline: " + article
             max_len = 1024
             encoding = tokenizer(text, return_tensors = "pt", max_length=max_len, truncation=True, padding='max_length')
             input_ids = encoding["input_ids"].to(device)
@@ -59,32 +63,39 @@ def main(args):
 
     infer_dataset = TextDataset(input_ids, attention_masks, articles_batch)
     infer_dataloader = data.DataLoader(infer_dataset, batch_size=16)
-     
+
     pbar = tqdm(total=len(infer_dataloader), desc='generating headlines')
     for input_ids_b, attention_masks_b, article_ids_b in infer_dataloader:
 
         beam_outputs = model.generate(
-            input_ids = input_ids_b,
-            attention_mask = attention_masks_b,
-            max_length = 64,
-            num_beams = 3,
-            early_stopping = True,
+            input_ids=input_ids_b,
+            attention_mask=attention_masks_b,
+            max_length=64,
+            num_beams=3,
+            early_stopping=True,
         )
-      
-        #print(beam_outputs.shape, len(article_ids_b))
+
+        # print(beam_outputs.shape, len(article_ids_b))
 
         for art, beam_output in zip(article_ids_b, beam_outputs):
+            # decode and clean up result.
             result = tokenizer.decode(beam_output)
-            dataset[art]['gen-headline'] = result
-        
+            headline = result.replace('<pad>', '')
+            headline = headline.replace('</s>', '')
+            headline = headline.strip()
+
+            dataset[art]['gen-headline'] = headline
+
         pbar.update(1)
     pbar.close()
 
-    with open(args.dataset, 'w') as fp:
-        json.dump(dataset, fp)
+    out_path = args.dataset.replace('.json', '_gen_headlines.json')
+    with open(out_path, 'w') as fp:
+        json.dump(dataset, fp, indent=4)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--dataset', type=str, required=True, help='Path to the dataset')
     args = parser.parse_args()
     main(args)

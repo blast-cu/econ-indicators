@@ -116,26 +116,41 @@ def main(args):
     for publisher in os.listdir(in_path):
         pub_path = os.path.join(in_path, publisher)
         pub_articles = []
-        print(f"Reading data from '{pub_path}'...")
-        for file in tqdm(os.listdir(pub_path)):
-            if file.endswith(".csv"):
-                file_path = os.path.join(pub_path, file)
 
-                # get all articles from file which have an economic keyword
-                articles = get_data(file_path, nlp, economic_keywords)
-                pub_articles.extend(articles)
-                new_articles.extend(articles)
+        # check for existing .json file of articles
+        if 'articles.json' in os.listdir(pub_path):
+            print(f"Reading data from 'articles.json' in '{pub_path}'...")
+            json_path = os.path.join(pub_path, 'articles.json')
+            articles_json = json.load(open(json_path, 'r'))
+            for article in articles_json:
+                art = Article.from_json(article)
+                pub_articles.append(art)
+                new_articles.append(art)
 
-        # save progress
-        print(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")
-        articles_json = [art.to_json() for art in pub_articles]
-        json.dump(
-            articles_json,
-            open(os.path.join(pub_path, 'articles.json'), 'w+'),
-            indent=4
-        )
+        else:
+            print(f"Reading data from .csv files in '{pub_path}'...")
+            for file in tqdm(os.listdir(pub_path)):
+                if file.endswith(".csv"):
+                    file_path = os.path.join(pub_path, file)
 
-    exit()
+                    # get all articles from file which have an economic keyword
+                    articles = get_data(file_path, nlp, economic_keywords)
+                    pub_articles.extend(articles)
+                    new_articles.extend(articles)
+
+            # save progress
+            print(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")
+            articles_json = [art.to_json() for art in pub_articles]
+            json.dump(
+                articles_json,
+                open(os.path.join(pub_path, 'articles.json'), 'w+'),
+                indent=4
+            )
+
+        break  # only read from one publisher for now
+
+    # print stats
+    print(f"Found {len(new_articles)} articles with economic keywords")  # 492359
 
     # get last (max) article id in database
     conn = sqlite3.connect(d.DB_FILENAME)
@@ -149,7 +164,7 @@ def main(args):
     seen_url = set()
     idx = 0
 
-    pbar = tqdm(total=len(articles), desc='recomputing features')
+    pbar = tqdm(total=len(new_articles), desc='recomputing features')
     lengths = []
     clean_articles = []
     for art in new_articles:
@@ -190,8 +205,8 @@ def main(args):
                     in enumerate(art.econ_sentences):
 
                 sent = art.text[sent_start:sent_end]
-                # print(sent)
-                # print('------')
+                print(sent)
+                print('------')
                 # pattern = escape_special_chars(sent)
                 pattern = re.escape(sent)
                 sentences[sent_idx] = {}
@@ -203,8 +218,8 @@ def main(args):
 
             for match in re.finditer(r"\w*(?:\s+|^)\$*[0-9,]*[0-9.]*[0-9]+%*(?:\s+|$|\.|,)\w*", art.text):
                 quant = art.text[match.start():match.end()]
-                # print(quant)
-                # print('------')
+                print(quant)
+                print('------')
                 # check if it is a date/time
                 # pattern = escape_special_chars(quant)
                 pattern = re.escape(quant)

@@ -37,6 +37,8 @@ class Article(object):
             headline = dictionary['gen-headline']
         else:
             headline = dictionary['headline']
+        if type(headline) is float:  # if headline is NaN
+            headline = None
         if headline:
             headline = headline.replace('<pad>', '')
             headline = headline.replace('</s>', '')
