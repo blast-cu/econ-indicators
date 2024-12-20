@@ -1,6 +1,70 @@
 #
 # JOB SPIN
 #
+
+# NYT 
+article_spin_jobs %>%
+  filter(str_detect(source, "nyt"),
+         !is.na(yq)) %>%
+  filter(yq < as.Date("2023-01-01"),
+         !str_detect(article_spin, "neutral")) %>% 
+  ggplot() +
+  # REPORTING PER
+  geom_col(data=jobs_reporting_per %>% filter(str_detect(source, "nyt"), str_detect(macro_type, "jobs")),
+            aes(x=yq, y=per, colour="% of Reporting"), fill="white", width=25) + #, linetype = "dotdash", size=1
+  # JOBS
+  geom_line(data=bls_nonfarm, aes(x = ym, y = 0.5+(diff) / 5000, colour="Change in Payroll"), linetype="twodash") + 
+  geom_line(size=1, aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
+  xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
+  scale_color_manual(values = c("Change in Payroll" ="#000000", "% of Reporting"="darkgray", #    #CC79A7
+                                "nytimes.negative"="#E69F00", "nytimes.positive"="#56B4E9"),
+                     name="Colour",
+                     labels = c("% Negative", "% Positive",
+                                "% of Reporting", "Change in Payroll")) +
+  coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1))  +
+  # Article Level Spin for Jobs Articles in the New York Times (Quarterly)
+  ggtitle("The New York Times Has Covered Jobs More Negatively Since the COVID-19 Pandemic") +
+  xlab("Date") +
+  scale_y_continuous(
+    "Percent", 
+    sec.axis = sec_axis(~ (.-0.5) * 5000 , name = "Change in Non-Farm Payroll (Thousands)")
+  ) + 
+  theme_bw() +
+  theme(legend.position = 'bottom')
+
+
+# WSJ 
+article_spin_jobs %>%
+  filter(str_detect(source, "wsj"),
+         !is.na(yq)) %>%
+  filter(yq < as.Date("2023-01-01"),
+         !str_detect(article_spin, "neutral")) %>% 
+  ggplot() +
+  # REPORTING PER
+  geom_col(data=jobs_reporting_per %>% filter(str_detect(source, "wsj"), str_detect(macro_type, "jobs")),
+           aes(x=yq, y=per, colour="% of Reporting"), fill="white", width=25) + #, linetype = "dotdash", size=1
+  # JOBS
+  geom_line(data=bls_nonfarm, aes(x = ym, y = 0.5+(diff) / 5000, colour="Change in Payroll"), linetype="twodash") + 
+  geom_line(size=1, aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
+  xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
+  scale_color_manual(values = c("Change in Payroll" ="#000000", "% of Reporting"="darkgray", #    #CC79A7
+                                "wsj.negative"="#E69F00", "wsj.positive"="#56B4E9"),
+                     name="Colour",
+                     labels = c("% Negative", "% Positive",
+                                "% of Reporting", "Change in Payroll")) +
+  coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1))  +
+  # Article Level Spin for Jobs Articles in the Wall Street Journal (Quarterly)
+  ggtitle("The WSJ Has Consistently Less Negative Coverage of Jobs than the NYT or WP") +
+  xlab("Date") +
+  scale_y_continuous(
+    "Percent", 
+    sec.axis = sec_axis(~ (.-0.5) * 5000 , name = "Change in Non-Farm Payroll (Thousands)")
+  ) + 
+  theme_bw() +
+  theme(legend.position = 'bottom')
+
+
+# WAPO
 article_spin_jobs %>%
   filter(str_detect(source, "wash"),
          !is.na(yq)) %>%
@@ -20,7 +84,8 @@ article_spin_jobs %>%
                      labels = c("% Negative", "% Positive",
                                 "% of Reporting", "Change in Payroll")) +
   coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1))  +
-  ggtitle("Article Level Spin for Jobs Articles in the Washington Post (Quarterly)") +
+  # Article Level Spin for Jobs Articles in the Washington Post (Quarterly)
+  ggtitle("Jobs Coverage in the Washington Post Became More Negative during the Pandemic") +
   xlab("Date") +
   scale_y_continuous(
     "Percent", 
@@ -45,7 +110,8 @@ article_spin_prices %>%
   geom_line(data=cpi, aes(x=DATE, y=USACPALTT01CTGYM / (4*8.97), colour="CPI (% YOY)"), linetype="twodash") +
   # coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1)) +
   geom_line(size=1, aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
-  ggtitle("Article Level Spin for Prices+ Articles in the New York Times (Quarterly)") +
+  # Article Level Spin for Prices+ Articles in the New York Times (Quarterly)
+  ggtitle("Coverage of Prices+ is Persistently Neagtive in the NYT, Even When the Data Is Not") +
   xlab("Date") +
   xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
   scale_color_manual(values = c("CPI (% YOY)" ="#000000", "% of Reporting (Prices+)"="darkgray", #    #CC79A7
@@ -75,7 +141,8 @@ article_spin_prices %>%
   geom_line(data=cpi, aes(x=DATE, y=USACPALTT01CTGYM / (4*8.97), colour="CPI (% YOY)"), linetype="twodash") +
   # SPIN
   geom_line(size=1, aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
-  ggtitle("Article Level Spin for Prices+ Articles in the Washington Post (Quarterly)") +
+  # Article Level Spin for Prices+ Articles in the Washington Post (Quarterly)
+  ggtitle("Coverage of Prices+ is Consistently Neagtive in the Washington Post") +
   xlab("Date") +
   xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
   scale_color_manual(values = c("CPI (% YOY)" ="#000000", "% of Reporting (Prices+)"="darkgray", #    #CC79A7
@@ -106,7 +173,8 @@ article_spin_prices %>%
   geom_line(data=cpi, aes(x=DATE, y=USACPALTT01CTGYM / (4*8.97), colour="CPI (% YOY)"), linetype="twodash") +
   # SPIN
   geom_line(size=1, aes(x=yq, y=per, group=interaction(source, article_spin), color=interaction(source, article_spin))) +
-  ggtitle("Article Level Spin for Prices+ Articles in the Wall Street Journal (Quarterly)") +
+  # Article Level Spin for Prices+ Articles in the Wall Street Journal (Quarterly)
+  ggtitle("Coverage of Prices+ is Primarily Neagtive in the WSJ, Although Less So Than Other Papers") +
   xlab("Date") +
   xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
   scale_color_manual(values = c("CPI (% YOY)" ="#000000", "% of Reporting (Prices+)"="darkgray", #    #CC79A7
@@ -150,7 +218,8 @@ article_spin_jobs %>%
                      labels = c("% of Reporting (NYT, Prices+)",  "% of Reporting (WAPO, Prices+)", 
                                 "% of Reporting (WSJ, Prices+)", "CPI (% YOY)")) +
   # coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1)) +
-  ggtitle("% Prices+ Reporting in the New York Times vs CPI Rate (Quarterly)") +
+  # % Prices+ Reporting in the New York Times vs CPI Rate (Quarterly)
+  ggtitle("The New York Times Increased Its Use of Prices+ Numbers as Inflation Rose") +
   xlab("Date") +
   xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
   scale_y_continuous(
@@ -186,9 +255,10 @@ article_spin_jobs %>%
                                 "% of Reporting (NYT, Jobs)"="#E69F00", "Change in Payroll"="#56B4E9"),
                      name="Colour",
                      labels = c("% of Reporting (NYT, Jobs)",  "% of Reporting (WSJ, Jobs)", 
-                                "% of Reporting (WAPO, Jobs)", "CPI (% YOY)")) +
+                                "% of Reporting (WAPO, Jobs)", "Change in Payroll")) +
   coord_cartesian(xlim = c(as.Date("2015-01-01"), as.Date("2022-10-01")), ylim = c(0,1)) +
-  ggtitle("% Jobs Reporting in the New York Times vs Payroll Changes (Quarterly)") +
+  # % Jobs Reporting in the New York Times vs Payroll Changes (Quarterly)
+  ggtitle("The New York Times Increased Its Use of Jobs Numbers During the Pandemic") +
   xlab("Date") +
   xlim(as.Date("2015-01-01"), as.Date("2022-10-01")) +
   scale_y_continuous(
