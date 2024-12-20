@@ -31,7 +31,7 @@ def get_checkpoint_path(model_setup):
 
 
 def main(args):
-    
+
     # convert args to dict
     model_setup = vars(args)
 

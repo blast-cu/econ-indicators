@@ -1,7 +1,7 @@
 import argparse
 import sqlite3
 from nltk.metrics.agreement import AnnotationTask
-from nltk.metrics import interval_distance, binary_distance
+from nltk.metrics import binary_distance
 from collections import Counter
 
 from sklearn.metrics import confusion_matrix
@@ -11,50 +11,7 @@ import numpy as np
 import itertools
 import pandas as pd
 
-qual_ann_structure = {
-    'frame': {
-            'business': 0,
-            'industry': 1,
-            'macro': 2,
-            'government': 3,
-            'other': 4},
-    'econ_rate': {
-            'good': 0,
-            'poor': 1,
-            'none': 2},
-    'econ_change': {
-            'better': 0,
-            'worse': 1,
-            'same': 2,
-            'none': 3}
-}
-
-quant_ann_structure = {
-    'type': {
-            'macro': 0,
-            'industry': 1,
-            'government': 2,
-            'personal': 3,
-            'business': 4,
-            'other': 5},
-    'spin': {
-            'pos': 0,
-            'neg': 1,
-            'neutral': 2},
-    'macro_type': {
-            'jobs': 0,
-            'retail': 1,
-            'interest': 2,
-            'prices': 3,
-            'energy': 4,
-            'wages': 5,
-            'macro': 6,
-            'market': 7,
-            'currency': 8,
-            'housing': 9,
-            'other': 10,
-            'none': 11}
-}
+# from data_utils.model_utils.dataset import qual_label_maps, quant_label_maps
 
 component_name = {
     'frame': 'Article Type',

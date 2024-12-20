@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import Dataset
 from bs4 import BeautifulSoup
 import nltk
+from tqdm import tqdm
 
 import sys
 import pickle
@@ -359,17 +360,16 @@ def get_ann_dict(article_html: str,
         span_id = a['id']
         if span_id in annotation_ids:
             ann_dict[span_id] = a.text
-    
+    not_found = []
     if len(ann_dict.keys()) != len(annotation_ids):
-        print(">>> ERROR: Annotations not found in html in get_ann_dict()")
-        not_found = []
+        # print(">>> ERROR: Annotations not found in html in get_ann_dict()")
         for id in annotation_ids:
             if id not in ann_dict.keys():
                 not_found.append(id)
-        print(f"{len(not_found)} ids not found: ")
-        print()
+        # print(f"{len(not_found)} ids not found")
+        # print()
 
-    return ann_dict
+    return ann_dict, not_found
 
 
 def get_context(i: int,
@@ -395,8 +395,7 @@ def get_context(i: int,
     return context
 
 
-def get_excerpts(ann_ids: list,
-                 db_filename: str):
+def get_excerpts(ann_ids: list, db_filename: str) -> dict:
     """
     Retrieves excerpts from an article based on global annotation IDs.
 
@@ -405,8 +404,8 @@ def get_excerpts(ann_ids: list,
         db_filename (str): Filename of the database.
 
     Returns:
-        dict: A dictionary containing the excerpts mapped to their 
-        corresponding global IDs.
+        dict: A dictionary containing [indicator span, excerpt] mapped to 
+            their corresponding global IDs.
     """
     excerpt_dict = {}
 
@@ -476,6 +475,8 @@ def get_excerpts_dict(db_filename: str):
         # return id and text
         excerpt_dict = {}
 
+        errors = 0
+
         # get all global quant_ann ids
         excerpt_ids = gs.get_excerpts(db_filename)
 
@@ -493,6 +494,7 @@ def get_excerpts_dict(db_filename: str):
             # add local annotation id to article_dict
             article_dict[article_id].append(ann_id)
 
+        pbar = tqdm(total=len(article_dict.keys()), desc="Processing articles")
         for article_id, ann_list in article_dict.items():
 
             # get article html 
@@ -500,7 +502,8 @@ def get_excerpts_dict(db_filename: str):
 
             # get annotation text for desired local annotations
             # {key=local annotation id, value=annotation text}
-            ann_dict = get_ann_dict(article_html, ann_list)
+            ann_dict, local_errors = get_ann_dict(article_html, ann_list)
+            errors += len(local_errors)
 
             article_text = gs.extract_strings(article_html)  # remove span tags
             article_sentences = nltk.sent_tokenize(article_text)
@@ -519,6 +522,9 @@ def get_excerpts_dict(db_filename: str):
                         excerpt_dict[id] = text_list
                         found = True
                     i += 1
+            pbar.update(1)
+        pbar.close()
+        print(f"WARNING: {errors} of {len(excerpt_ids)} quants not found")
 
     except Exception as e:
         print(e)

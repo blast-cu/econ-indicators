@@ -8,6 +8,7 @@ import re
 
 import models.roberta_classifier.utils.quant as qu
 from data_utils.model_utils.dataset import quant_predict_maps as label_maps
+import data_utils.model_utils.dataset as d
 # import nltk
 # nltk.download('punkt')
 
@@ -101,14 +102,15 @@ def main():
     #             annotations[id]['macro_type'] = ''
     # annotations = {}
 
-    # excerpts_dict = d.get_excerpts_dict(args.db)
-    # print(f"Retrieved {len(excerpts_dict.keys())} excerpts")
+    excerpts_dict = d.get_excerpts_dict(d.DB_FILENAME)
+    print(f"Retrieved {len(excerpts_dict.keys())} excerpts")
     excerpts_file = os.path.join(SPLIT_DIR, 'quant_excerpts_dict')
 
-    # excerpt_dict = {k: {'indicator': v[0], 'excerpt': v[1]} for k, v in excerpts_dict.items()}
-    # save_progress(excerpt_dict, excerpts_file)
+    excerpt_dict = {k: {'indicator': v[0], 'excerpt': v[1]} for k, v in excerpts_dict.items()}
+    save_progress(excerpt_dict, excerpts_file)
+    exit()
 
-    excerpt_dict = pickle.load(open(excerpts_file, 'rb'))
+    # excerpt_dict = pickle.load(open(excerpts_file, 'rb'))
     
     # excerpt_dict = clean_dict(excerpt_dict)
     # clean_file = os.path.join(SPLIT_DIR, 'quant_excerpts_dict_clean')

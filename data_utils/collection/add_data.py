@@ -12,7 +12,7 @@ import json
 import csv
 
 """
-Script to add data from csv files to the 'article' table in the database
+Script to add 2024 data from csv files to the 'article' and 'quantity' table in the database
 """
 
 
@@ -96,10 +96,57 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
     return articles
 
 
+def add_to_db(articles: list):
+    """
+    Add articles to the 'article' table in the database and quants to the 'quantity' table
+    args:
+        articles: list of Article objects
+    """
+    pbar = tqdm(total=len(articles), desc='saving articles and quants to database')
+    conn = sqlite3.connect(d.DB_FILENAME)
+    c = conn.cursor()
+
+    # insert articles into 'article' table.
+    for art in articles:
+        # clean list and string values.
+        keywords = ','.join(art['keywords']).strip()
+        headline = art['headline'].replace("'", "''")
+        text = art['text'].replace("'", "''")
+        insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
+            VALUES ({art['id']}, '{headline}', '{art['source']}', '{keywords}', {art['num_keywords']}, '{text}', '{art['date']}', '{art['url']}', -1)'''
+
+        try:
+            c.execute(insert_query)
+        except Exception as e:
+            print(e)
+            print(insert_query)
+            exit()
+
+        # insert quants into 'quantity' table
+        for quant in art['quants']:
+            global_id = f"{art['id']}_{quant}"
+            quant_insert_query = f'''INSERT INTO quantity (id, local_id, article_id) \
+                VALUES ('{global_id}', {quant}, {art['id']})'''
+
+            try:
+                c.execute(quant_insert_query)
+            except Exception as e:
+                print(e)
+                print(quant_insert_query)
+                exit()
+
+        conn.commit()
+        pbar.update(1)
+
+    pbar.close()
+    conn.close()
+
+
 def main(args):
 
+    MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
     in_path = 'data/2024_dump/text'
-    nlp = spacy.load('en_core_web_sm')  # model to tokenize text
+    nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
 
     keywords = []  # load keywords from csv file
     with open(args.econ_words) as csvfile:
@@ -117,10 +164,10 @@ def main(args):
         pub_path = os.path.join(in_path, publisher)
         pub_articles = []
 
-        # check for existing .json file of articles
+        # check for existing .json file of articles.
         if 'articles.json' in os.listdir(pub_path):
-            print(f"Reading data from 'articles.json' in '{pub_path}'...")
-            json_path = os.path.join(pub_path, 'articles.json')
+            print(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
+            json_path = os.path.join(pub_path, 'articles_gen_headlines.json')
             articles_json = json.load(open(json_path, 'r'))
             for article in articles_json:
                 art = Article.from_json(article)
@@ -147,8 +194,6 @@ def main(args):
                 indent=4
             )
 
-        break  # only read from one publisher for now
-
     # print stats
     print(f"Found {len(new_articles)} articles with economic keywords")  # 492359
 
@@ -158,21 +203,17 @@ def main(args):
     c.execute("SELECT id FROM article")
     article_ids = [row[0] for row in c.fetchall()]
     last_id = max(article_ids)
+    print(f"Last article id in database: {last_id}")  # 96827
     conn.close()
 
-    seen_text = set()
+    seen_text = set()  # keep track of duplicate texts and urls
     seen_url = set()
     idx = 0
 
-    pbar = tqdm(total=len(new_articles), desc='recomputing features')
+    pbar = tqdm(total=len(new_articles), desc='cleaning articles')
     lengths = []
     clean_articles = []
     for art in new_articles:
-        '''
-        if art.id == 'ab233372bab8a53dcc38cd7f4453c068':
-            pbar.update(1)
-            continue
-        '''
         # 99 percentile is ~27k, no need to keep the full length of outliers that blow up the memory
         ret_text = art.text[:]
         lengths.append(len(ret_text))
@@ -180,17 +221,9 @@ def main(args):
             pbar.update(1)
             continue
 
-        '''
-        doc = nlp(art.text)
-        for sentence in doc.sents:
-            print(sentence)
-            print('-----')
-        exit()
-        '''
-
         # Removing duplicates, errors and checking for substantial economy content
         bad_headlines = set(['Access Denied', 'Wayback Machine'])
-        if art.is_econ and art.num_keywords >= 5 \
+        if art.is_econ and art.num_keywords >= MIN_KEYWORDS \
                 and art.text not in seen_text \
                 and art.url not in seen_url \
                 and art.headline not in bad_headlines \
@@ -205,23 +238,15 @@ def main(args):
                     in enumerate(art.econ_sentences):
 
                 sent = art.text[sent_start:sent_end]
-                print(sent)
-                print('------')
-                # pattern = escape_special_chars(sent)
                 pattern = re.escape(sent)
                 sentences[sent_idx] = {}
                 sentences[sent_idx]['text'] = sent
                 sentences[sent_idx]['span'] = (sent_start, sent_end)
-                # print(pattern)
-                # print('##########')
                 ret_text = re.sub(pattern, '<span id="{}" class="red">{}</span>'.format(sent_idx, sent.replace('\\', r'\\')), ret_text, flags=re.I)
 
+            # find all quantities in the text
             for match in re.finditer(r"\w*(?:\s+|^)\$*[0-9,]*[0-9.]*[0-9]+%*(?:\s+|$|\.|,)\w*", art.text):
                 quant = art.text[match.start():match.end()]
-                print(quant)
-                print('------')
-                # check if it is a date/time
-                # pattern = escape_special_chars(quant)
                 pattern = re.escape(quant)
                 ret_text = re.sub(pattern, '<span id="{}" class="yellow" onclick="annotateQuant(this);">{}</span>'.format(quant_span_id, quant.replace('\\', r'\\')), ret_text, flags=re.I)
                 quants[quant_span_id] = {}
@@ -229,7 +254,7 @@ def main(args):
                 quants[quant_span_id]['span'] = match.span()
                 quant_span_id += 1
 
-            article_id = last_id + 1  # generate new one
+            article_id = last_id + 1  # generate new id
             last_id = article_id
             clean_article = {
                 'headline': art.headline,
@@ -252,28 +277,9 @@ def main(args):
         pbar.update(1)
     pbar.close()
 
-
-    # # print example article
-    # conn = sqlite3.connect(d.DB_FILENAME)
-    # c = conn.cursor()
-    # c.execute("SELECT * FROM article")
-    # articles = c.fetchall()
-    # print(articles[0])
-    # print(c.description)
-    # # id, headline, source, keywords, num_keywords, relevance, text, distance, date, url, cluster_id
-    # conn.close()
-
-        # check relevance
-
-
-        # extract all indicators
-
-        # add to quant table in database
-        # conn = sqlite3.connect(d.DB_FILENAME)
-        # c = conn.cursor()
-        # c.execute("SELECT id FROM article")
-        # article_ids = c.fetchall()
-        # conn.close()
+    # add articles and quants to database
+    print(f"Adding {len(clean_articles)} articles to database...")  # 42604
+    add_to_db(clean_articles)
 
 
 if __name__ == "__main__":

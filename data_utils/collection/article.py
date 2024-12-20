@@ -30,16 +30,18 @@ class Article(object):
 
     @staticmethod
     def from_json(dictionary):
-        #headline = dictionary['headline']
-        #if headline is None:
-        if 'gen-headline' in dictionary and \
-           (dictionary['headline'] is None or len(dictionary['headline'].split()) <= 4):
-            headline = dictionary['gen-headline']
-        else:
-            headline = dictionary['headline']
-        if type(headline) is float:  # if headline is NaN
+        headline = dictionary['headline']
+        if type(headline) is float:  # if headline is NaN from pd
             headline = None
-        if headline:
+
+        # if headline is None or too short, use generated headline
+        if (headline is None or len(headline.split()) <= 4):
+            if 'gen-headline' in dictionary:
+                headline = dictionary['gen-headline']
+            else:
+                print("Invalid headline for article with id", dictionary['id'])
+
+        if headline:  # remove padding tokens (for generated headlines)
             headline = headline.replace('<pad>', '')
             headline = headline.replace('</s>', '')
             headline = headline.strip()
@@ -54,4 +56,5 @@ class Article(object):
             econ_sentences=dictionary['econ_sentences'],
             econ_keywords=dictionary['econ_keywords'],
             num_keywords=dictionary['num_keywords'],
-            date=dictionary['date'])
+            date=dictionary['date']
+        )

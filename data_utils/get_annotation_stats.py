@@ -8,6 +8,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def get_article_bins(predict_dict: dict, qual_dict: dict):
     article_preds = {} # {article_id: [preds]}
 
@@ -159,6 +160,7 @@ def get_agreed_anns(ann_dict: dict, label_maps: dict, type_filter: list = []):
 
     return agreed_dict
 
+
 def get_noisy_anns(ann_dict: dict, label_maps: dict):
 
     noisy_dict = {}
@@ -188,7 +190,6 @@ def get_noisy_anns(ann_dict: dict, label_maps: dict):
                     noisy_dict[id][type] = result
                 else:
                     noisy_dict[id][type] = '\0'
-    
     return noisy_dict
     
 
