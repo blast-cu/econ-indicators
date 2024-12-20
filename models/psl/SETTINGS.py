@@ -49,6 +49,10 @@ SETTINGS = {
     'combos': {
         'rule_dir': os.path.join(RULE_DIR, 'combos'),
         'learn': True
+    },
+    'best_12-2024' : {
+        'rule_dir': os.path.join(RULE_DIR, 'best_12-2024'),
+        'learn': True
     }
 
 }
