@@ -58,43 +58,45 @@ def main(args):
 
     # for rule_file in filtered_rule_files:
     #######
-    for split_num in range(5):
 
-        global SPLIT_DIR
-        SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
-        # SPLIT_DIR = os.path.join(DATA_DIR, f'final{args.final_split}')
-        SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
-        os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
-        for rule_file in rule_files:
+    # for split_num in range(5):
 
-            rule_name = rule_file.split('.')[0]
-            rule_file = os.path.join(setting_dict['rule_dir'], rule_file)
-        
-            # create directory for split data
-            output_dir = os.path.join(SPLIT_SETTING_DIR, rule_name)
-            os.makedirs(output_dir, exist_ok=True)
+    global SPLIT_DIR
+    # SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
+    SPLIT_DIR = os.path.join(DATA_DIR, f'final{args.final_split}')
+    SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
+    os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
-            # create model instance
-            model_name = f'{MODEL_NAME}_{setting}_{rule_name}_{split_num}'
-            # model_name = f'{MODEL_NAME}_{setting}_{rule_name}_final{args.final_split}'
-            model = Model(model_name)
+    for rule_file in rule_files:
 
-            predicates = add_predicates(model)
-            add_rules(model, rule_file, args.no_constraints)
+        rule_name = rule_file.split('.')[0]
+        rule_file = os.path.join(setting_dict['rule_dir'], rule_file)
+    
+        # create directory for split data
+        output_dir = os.path.join(SPLIT_SETTING_DIR, rule_name)
+        os.makedirs(output_dir, exist_ok=True)
 
-            # Weight Learning
-            if setting_dict['learn']:
-                learn(model, predicates)
+        # create model instance
+        # model_name = f'{MODEL_NAME}_{setting}_{rule_name}_{split_num}'
+        model_name = f'{MODEL_NAME}_{setting}_{rule_name}_final{args.final_split}'
+        model = Model(model_name)
 
-            learned_rule_file = os.path.join(output_dir, 'learned_rules.txt')
-            with open(learned_rule_file, 'w') as f:
-                for rule in model.get_rules():
-                    f.write(str(rule) + '\n')
+        predicates = add_predicates(model)
+        add_rules(model, rule_file, args.no_constraints)
 
-            # Inference
-            results = infer(model, predicates)
-            write_results(results, model, output_dir)
+        # Weight Learning
+        if setting_dict['learn']:
+            learn(model, predicates)
+
+        learned_rule_file = os.path.join(output_dir, 'learned_rules.txt')
+        with open(learned_rule_file, 'w') as f:
+            for rule in model.get_rules():
+                f.write(str(rule) + '\n')
+
+        # Inference
+        results = infer(model, predicates)
+        write_results(results, model, output_dir)
 
 
 def write_results(results, model, dir):
@@ -228,6 +230,6 @@ if (__name__ == '__main__'):
     parser = argparse.ArgumentParser(description='Description of your program')
     parser.add_argument('--s', required=True, help='setting mode')
     parser.add_argument('--no_constraints', action='store_true', default=False, help='no constraints')
-    # parser.add_argument('--final_split', required=True, help='final split number')
+    parser.add_argument('--final_split', required=True, help='final split number')
     args = parser.parse_args()
     main(args)
