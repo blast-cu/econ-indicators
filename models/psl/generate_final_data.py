@@ -64,6 +64,17 @@ def main():
 
     eval_articles = json.load(open(split_dir + 'all_articles.json', 'r'))
     eval_excerpts = json.load(open(split_dir + 'all_excerpts.json', 'r'))
+
+    # filter learn articles out of eval articles
+    learn_ids = set([k for k in list(learn_articles.keys())])
+    for quant_id in list(learn_excerpts.keys()):
+        article_id = quant_id.split('_')[0]
+        learn_ids.add(article_id)
+    
+    eval_articles = {k: v for k, v in eval_articles.items() if k not in learn_ids}
+    eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in learn_ids}
+
+
     # GENERATE LEARN DATA #
     # write contains file linking articles and excerpts
     write_contains_file(learn_dir, learn_articles)  # contains
