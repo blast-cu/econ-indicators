@@ -23,11 +23,12 @@ def main():
     print("Reading learn files...")
     learn_ids = {}  # filename -> article_id
     for filename in os.listdir(f"{PREV_FINAL_DIR}/learn/"):
+        learn_ids[filename] = []
         with open(f"{PREV_FINAL_DIR}/learn/{filename}", 'r') as f:
             lines = f.readlines()
-            article_id = lines[0].split('\t')[0]
-            learn_ids[filename] = article_id
-
+            for l in lines:
+                article_id = l.split('\t')[0]
+                learn_ids[filename].append(article_id)
 
     # split eval files
     # has frame ann, split into 10
