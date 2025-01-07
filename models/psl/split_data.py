@@ -19,6 +19,16 @@ def main():
             print(f"Directory {OUT_DIR}/final{i}/ already exists. Skipping.")
             continue
 
+    # read learn files and get dict: filename -> article_id
+    print("Reading learn files...")
+    learn_ids = {}  # filename -> article_id
+    for filename in os.listdir(f"{PREV_FINAL_DIR}/learn/"):
+        with open(f"{PREV_FINAL_DIR}/learn/{filename}", 'r') as f:
+            lines = f.readlines()
+            article_id = lines[0].split('\t')[0]
+            learn_ids[filename] = article_id
+
+
     # split eval files
     # has frame ann, split into 10
     print("Splitting eval files...")
@@ -49,14 +59,15 @@ def main():
         for l in lines:
             # check if article_id is in this split
             article_id = l.split('\t')[0]
-            if "_" in article_id:
-                article_id = article_id.split("_")[0]
-            if article_splits[article_id] != split_num:
-                split_num = article_splits[article_id]
-                out_f.close()
-                os.makedirs(f"{OUT_DIR}/final{split_num}/eval/", exist_ok=True)
-                out_f = open(f"{OUT_DIR}/final{split_num}/eval/{filename}", 'w+')
-            out_f.write(l)
+            if article_id not in learn_ids[filename]:  # not in learn, so in eval
+                if "_" in article_id:
+                    article_id = article_id.split("_")[0]
+                if article_splits[article_id] != split_num:
+                    split_num = article_splits[article_id]
+                    out_f.close()
+                    os.makedirs(f"{OUT_DIR}/final{split_num}/eval/", exist_ok=True)
+                    out_f = open(f"{OUT_DIR}/final{split_num}/eval/{filename}", 'w+')
+                out_f.write(l)
         out_f.close()
 
 
