@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 OUT_DIR = 'models/psl/data'
 PREV_FINAL_DIR = 'models/psl/data_backup/final'
-num_splits = 20
+num_splits = 50
 
 
 def main():
