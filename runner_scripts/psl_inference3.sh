@@ -1,13 +1,12 @@
 #! /bin/bash
 
-#SBATCH --mem=32G
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --time=168:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
-#SBATCH --output=logs/psl_final_inference-0-%j.out
+#SBATCH --output=logs/psl_final_inference-3-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -29,7 +28,7 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-for i in {15..19}; do
+for i in {30..39}; do
     python3 -m models.psl.run_inference --s best_12-2024 --final_split $i
 done
 
