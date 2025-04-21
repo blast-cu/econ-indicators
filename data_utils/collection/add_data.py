@@ -112,6 +112,14 @@ def add_to_db(articles: list):
         keywords = ','.join(art['keywords']).strip()
         headline = art['headline'].replace("'", "''")
         text = art['text'].replace("'", "''")
+        check_dup_query = f"SELECT * FROM article WHERE headline = '{headline}' AND source = '{art['source']}' AND date = '{art['date']}'"
+        c.execute(check_dup_query)
+        rows = c.fetchall()
+        if len(rows) > 0:
+            print(f"Article '{headline}' from '{art['source']}' already exists in database.")
+            pbar.update(1)
+            # continue
+            exit()
         insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
             VALUES ({art['id']}, '{headline}', '{art['source']}', '{keywords}', {art['num_keywords']}, '{text}', '{art['date']}', '{art['url']}', -1)'''
 
