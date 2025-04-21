@@ -112,36 +112,38 @@ def add_to_db(articles: list):
         keywords = ','.join(art['keywords']).strip()
         headline = art['headline'].replace("'", "''")
         text = art['text'].replace("'", "''")
+
+        # check for duplicates in the database
         check_dup_query = f"SELECT * FROM article WHERE headline = '{headline}' AND source = '{art['source']}' AND date = '{art['date']}'"
         c.execute(check_dup_query)
         rows = c.fetchall()
         if len(rows) > 0:
             print(f"Article '{headline}' from '{art['source']}' already exists in database.")
-            pbar.update(1)
-            # continue
-            exit()
-        insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
-            VALUES ({art['id']}, '{headline}', '{art['source']}', '{keywords}', {art['num_keywords']}, '{text}', '{art['date']}', '{art['url']}', -1)'''
-
-        try:
-            c.execute(insert_query)
-        except Exception as e:
-            print(e)
-            print(insert_query)
-            exit()
-
-        # insert quants into 'quantity' table
-        for quant in art['quants']:
-            global_id = f"{art['id']}_{quant}"
-            quant_insert_query = f'''INSERT INTO quantity (id, local_id, article_id) \
-                VALUES ('{global_id}', {quant}, {art['id']})'''
+            exit()  # remove this line to continue
+        
+        else:  # no duplicates, insert into database
+            insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
+                VALUES ({art['id']}, '{headline}', '{art['source']}', '{keywords}', {art['num_keywords']}, '{text}', '{art['date']}', '{art['url']}', -1)'''
 
             try:
-                c.execute(quant_insert_query)
+                c.execute(insert_query)
             except Exception as e:
                 print(e)
-                print(quant_insert_query)
+                print(insert_query)
                 exit()
+
+            # insert quants into 'quantity' table
+            for quant in art['quants']:
+                global_id = f"{art['id']}_{quant}"
+                quant_insert_query = f'''INSERT INTO quantity (id, local_id, article_id) \
+                    VALUES ('{global_id}', {quant}, {art['id']})'''
+
+                try:
+                    c.execute(quant_insert_query)
+                except Exception as e:
+                    print(e)
+                    print(quant_insert_query)
+                    exit()
 
         conn.commit()
         pbar.update(1)
