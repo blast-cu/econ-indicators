@@ -27,6 +27,8 @@ mkdir -p outputs
 
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
+python -m data_utils.collection.gen_articles_json
+
 declare -a sources=("apnews" "breitbart" "cnn" "foxnews" "huffpost" "nytimes" "reuters" "theguardian" "usatoday" "washingtonpost" "wsj")
 
 for source in "${sources[@]}"

@@ -294,7 +294,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--in_path', type=str, default='data/clean/2024_dump/text')
+    parser.add_argument('--in_path', type=str, default='data/text')
     parser.add_argument('--econ_words', default='data_utils/collection/econ-keywords.csv', type=str)
     args = parser.parse_args()
     main(args)
