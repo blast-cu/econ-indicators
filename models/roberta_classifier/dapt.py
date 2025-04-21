@@ -9,8 +9,13 @@ import pickle
 import sqlite3
 import random
 import argparse
+import logging
 
 import data_utils.get_annotation_stats as gs
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def group_texts(examples, chunk_size=128):
@@ -38,7 +43,7 @@ def group_texts(examples, chunk_size=128):
     }
     # Create a new labels column
     result["labels"] = result["input_ids"].copy()
-    print(f'Created {len(result["input_ids"])} chunks of size {chunk_size}')
+    logger.info(f'Created {len(result["input_ids"])} chunks of size {chunk_size}')
 
     return result
 
@@ -168,10 +173,10 @@ def main(args):
         random_state=42
     )
 
-    print(f'>>> Loaded {len(train_texts)} training texts')
-    print(f'>>> Loaded {len(val_texts)} validation texts')
+    logger.info(f'>>> Loaded {len(train_texts)} training texts')
+    logger.info(f'>>> Loaded {len(val_texts)} validation texts')
 
-    print('>>> Tokenizing train texts')
+    logger.info('>>> Tokenizing train texts')
     train_dataset = EconomicArticlesDatataset(
         train_texts,
         tokenizer,
@@ -184,7 +189,7 @@ def main(args):
     pickle.dump(train_dataset, f)
 
 
-    print('>>> Tokenizing val texts')
+    logger.info('>>> Tokenizing val texts')
     val_dataset = EconomicArticlesDatataset(
         val_texts,
         tokenizer,
@@ -203,8 +208,8 @@ def main(args):
         mlm_probability=0.15
     )
 
-    print(len(train_dataset))
-    print(len(val_dataset))
+    logger.info(len(train_dataset))
+    logger.info(len(val_dataset))
 
     logging_steps = len(train_dataset) // BATCH_SIZE
 
@@ -230,12 +235,12 @@ def main(args):
     )
 
     eval_results = trainer.evaluate()
-    print(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    logger.info(f">>> Initial Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
     trainer.train()
 
     eval_results = trainer.evaluate()
-    print(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    logger.info(f">>> Final Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
 
     trainer.save_model()
 
