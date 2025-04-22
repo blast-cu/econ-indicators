@@ -8,12 +8,12 @@ import json
 import spacy
 import csv
 from data_utils.collection.add_data import get_data
+import argparse
 
 
+def main(args):
 
-def main():
-
-    in_path = 'data/text'
+    in_path = args.dataset
     spacy.prefer_gpu()
     nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
 
@@ -55,4 +55,7 @@ def main():
         )
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dataset', type=str, required=True, help='Path to the dataset')
+    args = parser.parse_args()
+    main(args)
