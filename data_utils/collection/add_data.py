@@ -69,7 +69,13 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
         headline = row['title']
         id = None  # generate new id later
 
-        text = row['text']
+        try:
+            text = row['text']
+
+        except KeyError:
+            print(f"KeyError: 'text' not found in row {i}")
+            print(f"Keys in row: {row.keys()}")
+            continue
 
         text, is_econ, econ_sentences, keywords_used = \
             get_text(nlp, text, econ_keywords)

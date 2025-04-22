@@ -28,6 +28,10 @@ def main(args):
     economic_keywords = r'{}'.format(economic_keywords)
 
     for publisher in os.listdir(in_path):
+
+        if publisher == "cnn":
+            continue  # skip CNN for now
+
         pub_articles = []
         pub_path = os.path.join(in_path, publisher)
 
