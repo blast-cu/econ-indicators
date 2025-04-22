@@ -27,13 +27,13 @@ mkdir -p outputs
 
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m data_utils.collection.gen_articles_json
+# python -m data_utils.collection.gen_articles_json
 
 declare -a sources=("apnews" "breitbart" "cnn" "foxnews" "huffpost" "nytimes" "reuters" "theguardian" "usatoday" "washingtonpost" "wsj")
 
 for source in "${sources[@]}"
 do
     echo "Generating headlines for $source"
-    python -m data_utils.collection.generate_headlines --dataset data/2024_dump/text/$source/articles.json
+    python -m data_utils.collection.generate_headlines --dataset data/text/$source/articles.json
 done
 

@@ -4,7 +4,7 @@ import json
 import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import Counter
-from data_utils import *
+from data_utils1 import *
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from data_utils.collection.article import Article

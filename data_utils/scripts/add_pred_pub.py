@@ -15,7 +15,6 @@ def get_publisher(row):
 
     return publisher
 
-
 def get_date(row):
     id = row['article_id']
 
