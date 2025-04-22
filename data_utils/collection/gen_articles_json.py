@@ -31,6 +31,11 @@ def main():
         pub_articles = []
         pub_path = os.path.join(in_path, publisher)
 
+        # if articles.json already exists, skip this publisher
+        if os.path.exists(os.path.join(pub_path, 'articles.json')):
+            print(f"Skipping publisher '{publisher}' as 'articles.json' already exists.")
+            continue
+
         print(f"Reading data from .csv files in '{pub_path}'...")
         for file in tqdm(os.listdir(pub_path)):
             if file.endswith(".csv"):
