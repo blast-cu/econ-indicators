@@ -108,7 +108,7 @@ def main(args):
             pbar.update(1)
         pbar.close()
 
-        out_path = args.dataset.replace('.json', '_gen_headlines.json')
+        out_path = article_json_path.replace('.json', '_gen_headlines.json')
         with open(out_path, 'w') as fp:
             json.dump(dataset, fp, indent=4)
         logger.info(f"Saved generated headlines to '{out_path}' for publisher '{publisher}'.")
