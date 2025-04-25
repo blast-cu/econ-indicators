@@ -74,44 +74,48 @@ def main(args):
             pbar.update(1)
         pbar.close()
 
-        input_ids = torch.vstack(input_ids_batch)
-        attention_masks = torch.vstack(attention_mask_batch)
+        if len(input_ids_batch) > 0:
+            input_ids = torch.vstack(input_ids_batch)
+            attention_masks = torch.vstack(attention_mask_batch)
+    
+            # print("input_ids", input_ids.shape)
+            # print("attention_masks", attention_masks.shape)
+    
+            infer_dataset = TextDataset(input_ids, attention_masks, articles_batch)
+            infer_dataloader = data.DataLoader(infer_dataset, batch_size=16)
+    
+            pbar = tqdm(total=len(infer_dataloader), desc='generating headlines')
+            for input_ids_b, attention_masks_b, article_ids_b in infer_dataloader:
+    
+                beam_outputs = model.generate(
+                    input_ids=input_ids_b,
+                    attention_mask=attention_masks_b,
+                    max_length=64,
+                    num_beams=3,
+                    early_stopping=True,
+                )
+    
+                # print(beam_outputs.shape, len(article_ids_b))
+    
+                for art, beam_output in zip(article_ids_b, beam_outputs):
+                    # decode and clean up result.
+                    result = tokenizer.decode(beam_output)
+                    headline = result.replace('<pad>', '')
+                    headline = headline.replace('</s>', '')
+                    headline = headline.strip()
+    
+                    dataset[art]['gen-headline'] = headline
+    
+                pbar.update(1)
+            pbar.close()
+    
+            out_path = article_json_path.replace('.json', '_gen_headlines.json')
+            with open(out_path, 'w') as fp:
+                json.dump(dataset, fp, indent=4)
+            logger.info(f"Saved generated headlines to '{out_path}' for publisher '{publisher}'.")
 
-        # print("input_ids", input_ids.shape)
-        # print("attention_masks", attention_masks.shape)
-
-        infer_dataset = TextDataset(input_ids, attention_masks, articles_batch)
-        infer_dataloader = data.DataLoader(infer_dataset, batch_size=16)
-
-        pbar = tqdm(total=len(infer_dataloader), desc='generating headlines')
-        for input_ids_b, attention_masks_b, article_ids_b in infer_dataloader:
-
-            beam_outputs = model.generate(
-                input_ids=input_ids_b,
-                attention_mask=attention_masks_b,
-                max_length=64,
-                num_beams=3,
-                early_stopping=True,
-            )
-
-            # print(beam_outputs.shape, len(article_ids_b))
-
-            for art, beam_output in zip(article_ids_b, beam_outputs):
-                # decode and clean up result.
-                result = tokenizer.decode(beam_output)
-                headline = result.replace('<pad>', '')
-                headline = headline.replace('</s>', '')
-                headline = headline.strip()
-
-                dataset[art]['gen-headline'] = headline
-
-            pbar.update(1)
-        pbar.close()
-
-        out_path = article_json_path.replace('.json', '_gen_headlines.json')
-        with open(out_path, 'w') as fp:
-            json.dump(dataset, fp, indent=4)
-        logger.info(f"Saved generated headlines to '{out_path}' for publisher '{publisher}'.")
+        else:
+            logger.info(f"Skipping publisher '{publisher}' because all articles have headlines")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
