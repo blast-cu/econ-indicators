@@ -74,7 +74,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
 
         except KeyError:
             print(f"KeyError: 'text' not found in row {i}")
-            print(f"Keys in row: {row.keys()}")
+            print(f"Keys in row: {row.keys()}\n")
             continue
 
         text, is_econ, econ_sentences, keywords_used = \
