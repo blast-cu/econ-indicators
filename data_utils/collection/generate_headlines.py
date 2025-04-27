@@ -38,9 +38,15 @@ def main(args):
 
     for publisher in os.listdir(in_path):
 
+        # Skip if not a directory
+        if not os.path.isdir(os.path.join(in_path, publisher)):
+            logger.info(f"Skipping '{publisher}' as it is not a directory.")
+            continue
+
         if publisher == 'cnn':
             logger.info("Skipping publisher 'cnn' as it is not yet supported.")
             continue
+
 
         pub_path = os.path.join(in_path, publisher)
         article_json_path = os.path.join(pub_path, 'articles.json')
