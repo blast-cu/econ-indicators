@@ -43,11 +43,6 @@ def main(args):
             logger.info(f"Skipping '{publisher}' as it is not a directory.")
             continue
 
-        if publisher in ['cnn', 'huffpost', 'reuters']:
-            logger.info(f"Skipping publisher '{publisher}' as it is not yet supported.")
-            continue
-
-
         pub_path = os.path.join(in_path, publisher)
         article_json_path = os.path.join(pub_path, 'articles.json')
 
@@ -59,7 +54,12 @@ def main(args):
         logger.info(f"Processing publisher '{publisher}'...")
 
         # Load article texts
-        dataset = json.load(open(article_json_path))
+        try:
+            dataset = json.load(open(article_json_path))
+        except FileNotFoundError:
+            logger.error(f"File '{article_json_path}' not found. Skipping publisher '{publisher}'.")
+            continue
+
         for art, _ in enumerate(dataset):
             if type(dataset[art]['headline']) is float:
                 dataset[art]['headline'] = None
