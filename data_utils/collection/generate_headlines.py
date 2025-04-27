@@ -43,8 +43,8 @@ def main(args):
             logger.info(f"Skipping '{publisher}' as it is not a directory.")
             continue
 
-        if publisher == 'cnn':
-            logger.info("Skipping publisher 'cnn' as it is not yet supported.")
+        if publisher == 'cnn' or publisher == 'huffpost':
+            logger.info(f"Skipping publisher '{publisher}' as it is not yet supported.")
             continue
 
 
