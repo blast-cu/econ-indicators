@@ -29,8 +29,13 @@ def main(args):
 
     for publisher in os.listdir(in_path):
 
-        if publisher == "cnn":
-            continue  # skip CNN for now
+        # Skip if not a directory
+        if not os.path.isdir(os.path.join(in_path, publisher)):
+            print(f"Skipping '{publisher}' as it is not a directory.")
+            continue
+
+        # if publisher == "cnn":
+        #     continue  # skip CNN for now
 
         pub_articles = []
         pub_path = os.path.join(in_path, publisher)
