@@ -38,6 +38,10 @@ def main(args):
 
     for publisher in os.listdir(in_path):
 
+        if publisher == 'cnn':
+            logger.info("Skipping publisher 'cnn' as it is not yet supported.")
+            continue
+
         pub_path = os.path.join(in_path, publisher)
         article_json_path = os.path.join(pub_path, 'articles.json')
 
