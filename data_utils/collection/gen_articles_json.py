@@ -9,6 +9,10 @@ import spacy
 import csv
 from data_utils.collection.add_data import get_data
 import argparse
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def main(args):
@@ -31,7 +35,7 @@ def main(args):
 
         # Skip if not a directory
         if not os.path.isdir(os.path.join(in_path, publisher)):
-            print(f"Skipping '{publisher}' as it is not a directory.")
+            logger.info(f"Skipping '{publisher}' as it is not a directory.")
             continue
 
         # if publisher == "cnn":
@@ -42,20 +46,20 @@ def main(args):
 
         # if articles.json already exists, skip this publisher
         if os.path.exists(os.path.join(pub_path, 'articles.json')):
-            print(f"Skipping publisher '{publisher}' as 'articles.json' already exists.")
+            logger.info(f"Skipping publisher '{publisher}' as 'articles.json' already exists.")
             continue
 
-        print(f"Reading data from .csv files in '{pub_path}'...")
+        logger.info(f"Reading data from .csv files in '{pub_path}'...")
         for file in tqdm(os.listdir(pub_path)):
             if file.endswith(".csv"):
                 file_path = os.path.join(pub_path, file)
 
                 # get all articles from file which have an economic keyword
-                articles = get_data(file_path, nlp, economic_keywords)
+                articles = get_data(file_path, nlp, economic_keywords, logger)
                 pub_articles.extend(articles)
 
         # save progress
-        print(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")
+        logger.info(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")
         articles_json = [art.to_json() for art in pub_articles]
         json.dump(
             articles_json,
