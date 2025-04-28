@@ -11,6 +11,11 @@ import re
 import json
 import csv
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 """
 Script to add 2024 data from csv files to the 'article' and 'quantity' table in the database
 """
@@ -122,7 +127,7 @@ def add_to_db(articles: list):
         c.execute(check_dup_query)
         rows = c.fetchall()
         if len(rows) > 0:
-            print(f"Article '{headline}' from '{art['source']}' already exists in database.")
+            logger.info(f"Article '{headline}' from '{art['source']}' already exists in database.")
             exit()  # remove this line to continue
         
         else:  # no duplicates, insert into database
@@ -132,8 +137,8 @@ def add_to_db(articles: list):
             try:
                 c.execute(insert_query)
             except Exception as e:
-                print(e)
-                print(insert_query)
+                logger.error(e)
+                logger.error(insert_query)
                 exit()
 
             # insert quants into 'quantity' table
@@ -145,8 +150,8 @@ def add_to_db(articles: list):
                 try:
                     c.execute(quant_insert_query)
                 except Exception as e:
-                    print(e)
-                    print(quant_insert_query)
+                    logger.error(e)
+                    logger.error(quant_insert_query)
                     exit()
 
         conn.commit()
@@ -180,7 +185,7 @@ def main(args):
 
         # check for existing .json file of articles.
         if 'articles.json' in os.listdir(pub_path):
-            print(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
+            logger.info(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
             json_path = os.path.join(pub_path, 'articles_gen_headlines.json')
             articles_json = json.load(open(json_path, 'r'))
             for article in articles_json:
@@ -189,19 +194,19 @@ def main(args):
                 new_articles.append(art)
 
         else:
-            print(f"Reading data from .csv files in '{pub_path}'...")
+            logger.info(f"Reading data from .csv files in '{pub_path}'...")
             for file in tqdm(os.listdir(pub_path)):
                 if file.endswith(".csv"):
                     file_path = os.path.join(pub_path, file)
 
                     # get all articles from file which have an economic keyword
-                    articles = get_data(file_path, nlp, economic_keywords)
+                    articles = get_data(file_path, nlp, economic_keywords, logger)
                     if len(articles) > 0:
                         pub_articles.extend(articles)
                         new_articles.extend(articles)
 
             # save progress
-            print(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")
+            logger.info(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")
             articles_json = [art.to_json() for art in pub_articles]
             json.dump(
                 articles_json,
@@ -210,7 +215,7 @@ def main(args):
             )
 
     # print stats
-    print(f"Found {len(new_articles)} articles with economic keywords")  # 492359
+    logger.info(f"Found {len(new_articles)} articles with economic keywords")  # 492359
 
     # get last (max) article id in database
     conn = sqlite3.connect(d.DB_FILENAME)
@@ -218,7 +223,7 @@ def main(args):
     c.execute("SELECT id FROM article")
     article_ids = [row[0] for row in c.fetchall()]
     last_id = max(article_ids)
-    print(f"Last article id in database: {last_id}")  # 96827
+    logger.info(f"Last article id in database: {last_id}")  # 96827
     conn.close()
 
     seen_text = set()  # keep track of duplicate texts and urls
@@ -293,7 +298,7 @@ def main(args):
     pbar.close()
 
     # add articles and quants to database
-    print(f"Adding {len(clean_articles)} articles to database...")  # 42604
+    logger.info(f"Adding {len(clean_articles)} articles to database...")  # 42604
     add_to_db(clean_articles)
 
 
