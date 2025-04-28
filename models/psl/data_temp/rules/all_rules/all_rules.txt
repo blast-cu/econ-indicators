@@ -1,0 +1,1471 @@
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'better') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'irrelevant') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'none') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'same') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconChange(A, 'worse') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'good') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'irrelevant') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'none') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValEconRate(A, 'poor') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'business') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'government') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'industry') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'macro') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'other') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'currency') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'energy') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'housing') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'interest') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'jobs') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'market') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'none') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'prices') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'retail') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValMacroType(E, 'wages') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValSpin(E, 'neg') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValSpin(E, 'neutral') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValSpin(E, 'pos') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'business') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'government') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'industry') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'macro') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'other') ^2
+1.0: Contains(A, E) & ValFrame(A, 'personal') >> ValType(E, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'currency') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'energy') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'housing') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'interest') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'jobs') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'macro') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'market') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'none') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'other') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'prices') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'retail') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValMacroType(E, 'wages') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'business') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'government') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'industry') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'macro') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'other') >> ValFrame(A, 'personal') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconChange(A, 'better') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconChange(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconChange(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconChange(A, 'same') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconChange(A, 'worse') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'business') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'government') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'industry') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'macro') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'other') ^2
+1.0: Contains(A, E) & ValType(E, 'personal') >> ValFrame(A, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'currency') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'energy') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'housing') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'interest') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'jobs') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'macro') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'market') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'none') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'other') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'prices') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'retail') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValMacroType(A, 'wages') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neg') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'neutral') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValSpin(A, 'pos') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'business') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'government') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'industry') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'macro') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'other') >> ValType(E, 'personal') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'currency') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'energy') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'housing') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'interest') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'jobs') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'market') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'none') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'prices') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'retail') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValMacroType(E, 'wages') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValSpin(E, 'neg') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValSpin(E, 'neutral') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValSpin(E, 'pos') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'business') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'government') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'industry') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'macro') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'other') ^2
+1.0: Precedes(A, E) & ValType(A, 'personal') >> ValType(E, 'personal') ^2
+1.0: ValEconChange(A, 'better') >> ValEconRate(A, 'good') ^2
+1.0: ValEconChange(A, 'better') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValEconChange(A, 'better') >> ValEconRate(A, 'none') ^2
+1.0: ValEconChange(A, 'better') >> ValEconRate(A, 'poor') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'better') >> ValFrame(A, 'personal') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValEconRate(A, 'good') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValEconRate(A, 'none') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValEconRate(A, 'poor') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'irrelevant') >> ValFrame(A, 'personal') ^2
+1.0: ValEconChange(A, 'none') >> ValEconRate(A, 'good') ^2
+1.0: ValEconChange(A, 'none') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValEconChange(A, 'none') >> ValEconRate(A, 'none') ^2
+1.0: ValEconChange(A, 'none') >> ValEconRate(A, 'poor') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'none') >> ValFrame(A, 'personal') ^2
+1.0: ValEconChange(A, 'same') >> ValEconRate(A, 'good') ^2
+1.0: ValEconChange(A, 'same') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValEconChange(A, 'same') >> ValEconRate(A, 'none') ^2
+1.0: ValEconChange(A, 'same') >> ValEconRate(A, 'poor') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'same') >> ValFrame(A, 'personal') ^2
+1.0: ValEconChange(A, 'worse') >> ValEconRate(A, 'good') ^2
+1.0: ValEconChange(A, 'worse') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValEconChange(A, 'worse') >> ValEconRate(A, 'none') ^2
+1.0: ValEconChange(A, 'worse') >> ValEconRate(A, 'poor') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'business') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'government') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'industry') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'macro') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'other') ^2
+1.0: ValEconChange(A, 'worse') >> ValFrame(A, 'personal') ^2
+1.0: ValEconRate(A, 'good') >> ValEconChange(A, 'better') ^2
+1.0: ValEconRate(A, 'good') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValEconRate(A, 'good') >> ValEconChange(A, 'none') ^2
+1.0: ValEconRate(A, 'good') >> ValEconChange(A, 'same') ^2
+1.0: ValEconRate(A, 'good') >> ValEconChange(A, 'worse') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'good') >> ValFrame(A, 'personal') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'better') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'none') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'same') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValEconChange(A, 'worse') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'irrelevant') >> ValFrame(A, 'personal') ^2
+1.0: ValEconRate(A, 'none') >> ValEconChange(A, 'better') ^2
+1.0: ValEconRate(A, 'none') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValEconRate(A, 'none') >> ValEconChange(A, 'none') ^2
+1.0: ValEconRate(A, 'none') >> ValEconChange(A, 'same') ^2
+1.0: ValEconRate(A, 'none') >> ValEconChange(A, 'worse') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'none') >> ValFrame(A, 'personal') ^2
+1.0: ValEconRate(A, 'poor') >> ValEconChange(A, 'better') ^2
+1.0: ValEconRate(A, 'poor') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValEconRate(A, 'poor') >> ValEconChange(A, 'none') ^2
+1.0: ValEconRate(A, 'poor') >> ValEconChange(A, 'same') ^2
+1.0: ValEconRate(A, 'poor') >> ValEconChange(A, 'worse') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'business') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'government') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'industry') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'macro') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'other') ^2
+1.0: ValEconRate(A, 'poor') >> ValFrame(A, 'personal') ^2
+1.0: ValFrame(A, 'business') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'business') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'business') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'business') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'business') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'business') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'business') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'business') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'business') >> ValEconRate(A, 'poor') ^2
+1.0: ValFrame(A, 'government') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'government') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'government') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'government') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'government') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'government') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'government') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'government') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'government') >> ValEconRate(A, 'poor') ^2
+1.0: ValFrame(A, 'industry') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'industry') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'industry') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'industry') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'industry') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'industry') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'industry') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'industry') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'industry') >> ValEconRate(A, 'poor') ^2
+1.0: ValFrame(A, 'macro') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'macro') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'macro') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'macro') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'macro') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'macro') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'macro') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'macro') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'macro') >> ValEconRate(A, 'poor') ^2
+1.0: ValFrame(A, 'other') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'other') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'other') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'other') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'other') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'other') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'other') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'other') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'other') >> ValEconRate(A, 'poor') ^2
+1.0: ValFrame(A, 'personal') >> ValEconChange(A, 'better') ^2
+1.0: ValFrame(A, 'personal') >> ValEconChange(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'personal') >> ValEconChange(A, 'none') ^2
+1.0: ValFrame(A, 'personal') >> ValEconChange(A, 'same') ^2
+1.0: ValFrame(A, 'personal') >> ValEconChange(A, 'worse') ^2
+1.0: ValFrame(A, 'personal') >> ValEconRate(A, 'good') ^2
+1.0: ValFrame(A, 'personal') >> ValEconRate(A, 'irrelevant') ^2
+1.0: ValFrame(A, 'personal') >> ValEconRate(A, 'none') ^2
+1.0: ValFrame(A, 'personal') >> ValEconRate(A, 'poor') ^2
+1.0: ValMacroType(A, 'currency') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'currency') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'currency') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'currency') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'energy') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'energy') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'energy') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'energy') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'housing') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'housing') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'housing') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'housing') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'interest') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'interest') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'interest') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'interest') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'jobs') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'jobs') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'jobs') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'jobs') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'macro') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'macro') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'macro') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'macro') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'market') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'market') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'market') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'market') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'none') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'none') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'none') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'none') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'other') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'other') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'other') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'other') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'prices') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'prices') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'prices') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'prices') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'retail') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'retail') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'retail') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'retail') >> ValType(A, 'personal') ^2
+1.0: ValMacroType(A, 'wages') >> ValSpin(A, 'neg') ^2
+1.0: ValMacroType(A, 'wages') >> ValSpin(A, 'neutral') ^2
+1.0: ValMacroType(A, 'wages') >> ValSpin(A, 'pos') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'business') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'government') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'industry') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'macro') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'other') ^2
+1.0: ValMacroType(A, 'wages') >> ValType(A, 'personal') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'neg') >> ValMacroType(A, 'wages') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'business') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'government') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'industry') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'macro') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'other') ^2
+1.0: ValSpin(A, 'neg') >> ValType(A, 'personal') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'neutral') >> ValMacroType(A, 'wages') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'business') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'government') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'industry') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'macro') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'other') ^2
+1.0: ValSpin(A, 'neutral') >> ValType(A, 'personal') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'currency') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'energy') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'housing') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'interest') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'jobs') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'macro') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'market') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'none') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'other') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'prices') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'retail') ^2
+1.0: ValSpin(A, 'pos') >> ValMacroType(A, 'wages') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'business') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'government') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'industry') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'macro') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'other') ^2
+1.0: ValSpin(A, 'pos') >> ValType(A, 'personal') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'business') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'business') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'business') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'business') >> ValSpin(A, 'pos') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'government') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'government') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'government') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'government') >> ValSpin(A, 'pos') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'industry') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'industry') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'industry') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'industry') >> ValSpin(A, 'pos') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'macro') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'macro') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'macro') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'macro') >> ValSpin(A, 'pos') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'other') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'other') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'other') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'other') >> ValSpin(A, 'pos') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'currency') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'energy') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'housing') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'interest') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'jobs') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'macro') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'market') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'none') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'other') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'prices') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'retail') ^2
+1.0: ValType(A, 'personal') >> ValMacroType(A, 'wages') ^2
+1.0: ValType(A, 'personal') >> ValSpin(A, 'neg') ^2
+1.0: ValType(A, 'personal') >> ValSpin(A, 'neutral') ^2
+1.0: ValType(A, 'personal') >> ValSpin(A, 'pos') ^2

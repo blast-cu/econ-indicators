@@ -1,0 +1,12 @@
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neg') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'neutral') >> ValEconRate(A, 'poor') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'good') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'irrelevant') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'none') ^2
+1.0: Contains(A, E) & ValSpin(E, 'pos') >> ValEconRate(A, 'poor') ^2
