@@ -23,8 +23,8 @@ BEST_MODELS = {
     'econ_rate': 'models/roberta_classifier/tuned_models/qual_roberta_dapt_512',
     'econ_change': 'models/roberta_classifier/tuned_models/qual_roberta_base',
     'type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_128',
-    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512',
-    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_512'
+    'macro_type': 'models/roberta_classifier/tuned_models/quant_roberta_base',
+    'spin': 'models/roberta_classifier/tuned_models/quant_roberta_dapt_128'
 }
 
 
