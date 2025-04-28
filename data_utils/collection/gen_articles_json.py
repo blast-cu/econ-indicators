@@ -38,9 +38,6 @@ def main(args):
             logger.info(f"Skipping '{publisher}' as it is not a directory.")
             continue
 
-        # if publisher == "cnn":
-        #     continue  # skip CNN for now
-
         pub_articles = []
         pub_path = os.path.join(in_path, publisher)
 

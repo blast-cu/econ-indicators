@@ -28,4 +28,4 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m models.roberta_classifier.quant_train_best --type dapt_128 --macro_type dapt_512 --spin dapt_512
+python -m models.roberta_classifier.quant_train_best --type dapt_128 --macro_type base --spin dapt_128
