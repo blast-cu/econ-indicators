@@ -50,7 +50,7 @@ def get_text(nlp: Language, text: str, economic_keywords: str) -> tuple:
     return (text, is_econ, sentences, keywords)
 
 
-def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
+def get_data(file_path: str, nlp: Language, econ_keywords: str, logger) -> list:
     """
     Read and process data from csv file
     args:
@@ -61,21 +61,19 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str) -> list:
     """
     articles = []
     df = pd.read_csv(file_path)
-    df = df.dropna(subset=['text'])  # filter out rows with no text
 
+    # if 'text' column is not present, return empty list
+    if 'text' not in df.columns:
+        logger.error(f"Column 'text' not found in {file_path} with columns {df.columns}")
+        return []
+
+    df = df.dropna(subset=['text'])  # filter out rows with no text
     for i in range(len(df)):  # iterate over rows
 
         row = df.iloc[i]
         headline = row['title']
         id = None  # generate new id later
-
-        try:
-            text = row['text']
-
-        except KeyError:
-            print(f"KeyError: 'text' not found in row {i}")
-            print(f"Keys in row: {row.keys()}\n")
-            continue
+        text = row['text']
 
         text, is_econ, econ_sentences, keywords_used = \
             get_text(nlp, text, econ_keywords)
@@ -198,8 +196,9 @@ def main(args):
 
                     # get all articles from file which have an economic keyword
                     articles = get_data(file_path, nlp, economic_keywords)
-                    pub_articles.extend(articles)
-                    new_articles.extend(articles)
+                    if len(articles) > 0:
+                        pub_articles.extend(articles)
+                        new_articles.extend(articles)
 
             # save progress
             print(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")

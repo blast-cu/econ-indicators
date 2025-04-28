@@ -54,7 +54,7 @@ def main(args):
         logger.info(f"Processing publisher '{publisher}'...")
 
         # Load article texts
-        try:
+        try:  # cnn, huffpost, reuters, nypost
             dataset = json.load(open(article_json_path))
         except FileNotFoundError:
             logger.error(f"File '{article_json_path}' not found. Skipping publisher '{publisher}'.")
