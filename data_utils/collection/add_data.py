@@ -55,7 +55,7 @@ def get_text(nlp: Language, text: str, economic_keywords: str) -> tuple:
     return (text, is_econ, sentences, keywords)
 
 
-def get_data(file_path: str, nlp: Language, econ_keywords: str, logger) -> list:
+def get_data(file_path: str, nlp: Language, econ_keywords: str, logger: logging.Logger) -> list:
     """
     Read and process data from csv file
     args:
