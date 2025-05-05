@@ -164,7 +164,7 @@ def add_to_db(articles: list):
 def main(args):
 
     MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
-    in_path = 'data/2024_dump/text'
+    in_path = args.in_path
     nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
 
     keywords = []  # load keywords from csv file
@@ -180,6 +180,10 @@ def main(args):
     # loop over all csv files
     new_articles = []
     for publisher in os.listdir(in_path):
+        # skip non-directories
+        if not os.path.isdir(os.path.join(in_path, publisher)):
+            continue
+        logger.info(f"Processing publisher '{publisher}'...")
         pub_path = os.path.join(in_path, publisher)
         pub_articles = []
 
@@ -187,6 +191,9 @@ def main(args):
         if 'articles.json' in os.listdir(pub_path):
             logger.info(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
             json_path = os.path.join(pub_path, 'articles_gen_headlines.json')
+            if not os.path.exists(json_path):
+                json_path = os.path.join(pub_path, 'articles.json')
+                logger.info(f"Using 'articles.json' instead of 'articles_gen_headlines.json'")
             articles_json = json.load(open(json_path, 'r'))
             for article in articles_json:
                 art = Article.from_json(article)
