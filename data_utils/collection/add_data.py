@@ -210,7 +210,7 @@ def main(args):
                     file_path = os.path.join(pub_path, file)
 
                     # get all articles from file which have an economic keyword
-                    articles = get_data(file_path, nlp, economic_keywords, logger)
+                    articles = get_data(file_path, nlp, economic_keywords, [], logger)
                     if len(articles) > 0:
                         pub_articles.extend(articles)
                         new_articles.extend(articles)
