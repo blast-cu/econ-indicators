@@ -77,7 +77,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, l
 
         row = df.iloc[i]
         headline = row['title']
-        id = row['article_id']  # generate new id later
+        id = row['article_id']  # for deduplication (can exist on multiple dates)
         if id not in pub_ids:  # skip if id already exists
             text = row['text']
 

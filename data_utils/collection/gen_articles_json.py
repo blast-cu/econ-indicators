@@ -39,7 +39,7 @@ def main(args):
             continue
 
         pub_articles = []
-        pub_ids = []
+        pub_ids = []  # list of all article ids in this publisher for deduplication
         pub_path = os.path.join(in_path, publisher)
 
         # if articles.json already exists, skip this publisher
