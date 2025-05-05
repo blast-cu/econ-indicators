@@ -3,8 +3,10 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=128G
-#SBATCH --partition=aa100
 #SBATCH --time=24:00:00
+#SBATCH --account=blanca-curc-gpu
+#SBATCH --qos=blanca-curc-gpu
+#SBATCH --partition=blanca-curc-gpu
 #SBATCH --output=logs/read_new_data-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
