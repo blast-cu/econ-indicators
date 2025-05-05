@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 """
-Script to add 2024 data from csv files to the 'article' and 'quantity' table in the database
+Script to add new article data from csv (or articles.json) files to the 'article' and 'quantity' table in the database
 """
 
 
