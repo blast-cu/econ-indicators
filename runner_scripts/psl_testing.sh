@@ -20,8 +20,8 @@ mkdir -p logs
 nvidia-smi >> logs/nvidia-smi.out
 
 source /home/${USER}/.bashrc
-conda activate econ-indicators
-# source env-psl/bin/activate
+source env-psl/bin/activate
+# conda activate econ-indicators
 
 mkdir -p metadata
 mkdir -p outputs
