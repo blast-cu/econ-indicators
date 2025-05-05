@@ -27,4 +27,4 @@ mkdir -p outputs
 
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m data_utils.collection.add_data --input_dir data/text_processed/
+python -m data_utils.collection.add_data --in_path data/text_processed/
