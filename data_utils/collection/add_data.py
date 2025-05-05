@@ -55,7 +55,7 @@ def get_text(nlp: Language, text: str, economic_keywords: str) -> tuple:
     return (text, is_econ, sentences, keywords)
 
 
-def get_data(file_path: str, nlp: Language, econ_keywords: str, logger: logging.Logger) -> list:
+def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, logger: logging.Logger) -> list:
     """
     Read and process data from csv file
     args:
@@ -77,31 +77,34 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, logger: logging.
 
         row = df.iloc[i]
         headline = row['title']
-        id = None  # generate new id later
-        text = row['text']
+        id = row['article_id']  # generate new id later
+        if id not in pub_ids:  # skip if id already exists
+            text = row['text']
 
-        text, is_econ, econ_sentences, keywords_used = \
-            get_text(nlp, text, econ_keywords)
+            text, is_econ, econ_sentences, keywords_used = \
+                get_text(nlp, text, econ_keywords)
 
-        source = row['publisher']
-        url = row['url']
-        date = row['datetime']  # must parse to datetime object
+            source = row['publisher']
+            url = row['url']
+            date = row['datetime']  # must parse to datetime object
 
-        if is_econ:  # only add if it has an econ keyword
-            article = Article(
-                id=id,
-                headline=headline,
-                text=text,
-                source=source,
-                url=url,
-                is_econ=is_econ,
-                econ_sentences=econ_sentences,
-                econ_keywords=keywords_used,
-                num_keywords=len(econ_sentences),
-                date=date
-            )
-            articles.append(article)
-            # print(f"Added article '{headline}' from '{source}'")
+            if is_econ:  # only add if it has an econ keyword
+                article = Article(
+                    id=id,
+                    headline=headline,
+                    text=text,
+                    source=source,
+                    url=url,
+                    is_econ=is_econ,
+                    econ_sentences=econ_sentences,
+                    econ_keywords=keywords_used,
+                    num_keywords=len(econ_sentences),
+                    date=date
+                )
+                articles.append(article)
+
+        else:
+            logger.info(f"Article '{headline}' from '{source}' already exists in database.")
     return articles
 
 
