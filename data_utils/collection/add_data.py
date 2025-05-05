@@ -128,7 +128,7 @@ def add_to_db(articles: list):
         rows = c.fetchall()
         if len(rows) > 0:
             logger.info(f"Article '{headline}' from '{art['source']}' already exists in database.")
-            exit()  # remove this line to continue
+            continue  # remove this line to continue
         
         else:  # no duplicates, insert into database
             insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
