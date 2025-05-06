@@ -165,7 +165,7 @@ def add_to_db(articles: list):
 
 def process_articles(new_articles, min_keywords, logger):
     # print stats
-    logger.info(f"Found {len(new_articles)} articles with economic keywords")  # 492359
+    logger.info(f"Found {len(new_articles)} articles with economic keywords")
 
     # get last (max) article id in database
     conn = sqlite3.connect(d.DB_FILENAME)
@@ -173,7 +173,7 @@ def process_articles(new_articles, min_keywords, logger):
     c.execute("SELECT id FROM article")
     article_ids = [row[0] for row in c.fetchall()]
     last_id = max(article_ids)
-    logger.info(f"Last article id in database: {last_id}")  # 96827
+    logger.info(f"Last article id in database: {last_id}")
     conn.close()
 
     seen_text = set()  # keep track of duplicate texts and urls
@@ -248,7 +248,7 @@ def process_articles(new_articles, min_keywords, logger):
     pbar.close()
 
     # add articles and quants to database
-    logger.info(f"Adding {len(clean_articles)} articles to database...")  # 42604
+    logger.info(f"Adding {len(clean_articles)} articles to database...")
     add_to_db(clean_articles)
 
 
@@ -276,6 +276,7 @@ def main(args):
     economic_keywords = r'{}'.format(economic_keywords)
 
     # loop over all csv files
+    new_articles_count = 0
     for publisher in os.listdir(in_path):
         # skip non-directories
         if not os.path.isdir(os.path.join(in_path, publisher)):
@@ -295,6 +296,7 @@ def main(args):
             for article in articles_json:
                 art = Article.from_json(article)
                 pub_articles.append(art)
+                new_articles_count += 1
 
         else:
             logger.info(f"Reading data from .csv files in '{pub_path}'...")
@@ -306,6 +308,7 @@ def main(args):
                     articles = get_data(file_path, nlp, economic_keywords, [], logger)
                     if len(articles) > 0:
                         pub_articles.extend(articles)
+                        new_articles_count += len(articles)
 
             # save progress
             logger.info(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")
@@ -325,7 +328,8 @@ def main(args):
     c.execute("SELECT * FROM article")
     rows = c.fetchall()
     end_count = len(rows)
-    logger.info(f"Added {end_count - start_count} new articles")  # 141,256
+    logger.info(f"Read {new_articles_count} new articles, but added {end_count - start_count} to db after removing duplicates and errors.")
+    logger.info(f"Total articles in database: {end_count}")
     conn.close()
     
 
