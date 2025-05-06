@@ -166,6 +166,15 @@ def add_to_db(articles: list):
 
 def main(args):
 
+    conn = sqlite3.connect(d.DB_FILENAME)
+    c = conn.cursor()
+    c.execute("SELECT * FROM article")
+    rows = c.fetchall()
+    logger.info(f"Found {len(rows)} articles in database")  # 96827
+    conn.close()
+    exit()
+
+
     MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
     in_path = args.in_path
     nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
