@@ -170,7 +170,7 @@ def main(args):
     c = conn.cursor()
     c.execute("SELECT * FROM article")
     rows = c.fetchall()
-    logger.info(f"Found {len(rows)} articles in database")  # 96827
+    logger.info(f"Found {len(rows)} articles in database")  # 141,256
     conn.close()
     exit()
 
