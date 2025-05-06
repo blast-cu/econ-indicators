@@ -15,6 +15,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
 
 """
 Script to add new article data from csv (or articles.json) files to the 'article' and 'quantity' table in the database
@@ -130,8 +131,7 @@ def add_to_db(articles: list):
         c.execute(check_dup_query)
         rows = c.fetchall()
         if len(rows) > 0:
-            logger.info(f"Article '{headline}' from '{art['source']}' already exists in database.")
-            continue  # remove this line to continue
+            continue  # skip if duplicate found
         
         else:  # no duplicates, insert into database
             insert_query = f'''INSERT INTO article (id, headline, source, keywords, num_keywords, text, date, url, relevance) \
@@ -163,76 +163,7 @@ def add_to_db(articles: list):
     pbar.close()
     conn.close()
 
-
-def main(args):
-
-    # conn = sqlite3.connect(d.DB_FILENAME)
-    # c = conn.cursor()
-    # c.execute("SELECT * FROM article")
-    # rows = c.fetchall()
-    # logger.info(f"Found {len(rows)} articles in database")  # 141,256
-    # conn.close()
-    # exit()
-
-
-    MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
-    in_path = args.in_path
-    nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
-
-    keywords = []  # load keywords from csv file
-    with open(args.econ_words) as csvfile:
-        csvreader = csv.reader(csvfile)
-        for row in csvreader:
-            keyword = row[0]
-            keyword = keyword.replace('*', '\w*')
-            keywords.append(keyword)
-    economic_keywords = r'(\W+|^)(' + "|".join(keywords) + r')(\W+|$)'
-    economic_keywords = r'{}'.format(economic_keywords)
-
-    # loop over all csv files
-    new_articles = []
-    for publisher in os.listdir(in_path):
-        # skip non-directories
-        if not os.path.isdir(os.path.join(in_path, publisher)):
-            continue
-        logger.info(f"Processing publisher '{publisher}'...")
-        pub_path = os.path.join(in_path, publisher)
-        pub_articles = []
-
-        # check for existing .json file of articles.
-        if 'articles.json' in os.listdir(pub_path):
-            logger.info(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
-            json_path = os.path.join(pub_path, 'articles_gen_headlines.json')
-            if not os.path.exists(json_path):
-                json_path = os.path.join(pub_path, 'articles.json')
-                logger.info(f"Using 'articles.json' instead of 'articles_gen_headlines.json'")
-            articles_json = json.load(open(json_path, 'r'))
-            for article in articles_json:
-                art = Article.from_json(article)
-                pub_articles.append(art)
-                new_articles.append(art)
-
-        else:
-            logger.info(f"Reading data from .csv files in '{pub_path}'...")
-            for file in tqdm(os.listdir(pub_path)):
-                if file.endswith(".csv"):
-                    file_path = os.path.join(pub_path, file)
-
-                    # get all articles from file which have an economic keyword
-                    articles = get_data(file_path, nlp, economic_keywords, [], logger)
-                    if len(articles) > 0:
-                        pub_articles.extend(articles)
-                        new_articles.extend(articles)
-
-            # save progress
-            logger.info(f"Saving {len(new_articles)} articles to 'articles.json'...\n\n")
-            articles_json = [art.to_json() for art in pub_articles]
-            json.dump(
-                articles_json,
-                open(os.path.join(pub_path, 'articles.json'), 'w+'),
-                indent=4
-            )
-
+def process_articles(new_articles, min_keywords, logger):
     # print stats
     logger.info(f"Found {len(new_articles)} articles with economic keywords")  # 492359
 
@@ -262,7 +193,7 @@ def main(args):
 
         # Removing duplicates, errors and checking for substantial economy content
         bad_headlines = set(['Access Denied', 'Wayback Machine'])
-        if art.is_econ and art.num_keywords >= MIN_KEYWORDS \
+        if art.is_econ and art.num_keywords >= min_keywords \
                 and art.text not in seen_text \
                 and art.url not in seen_url \
                 and art.headline not in bad_headlines \
@@ -319,6 +250,84 @@ def main(args):
     # add articles and quants to database
     logger.info(f"Adding {len(clean_articles)} articles to database...")  # 42604
     add_to_db(clean_articles)
+
+
+def main(args):
+
+    conn = sqlite3.connect(d.DB_FILENAME)
+    c = conn.cursor()
+    c.execute("SELECT * FROM article")
+    rows = c.fetchall()
+    start_count = len(rows)
+    logger.info(f"Starting with {start_count} articles in database")  # 141,256
+    conn.close()
+
+    in_path = args.in_path
+    nlp = spacy.load('en_core_web_sm')  # model to tokenize text into sents
+
+    keywords = []  # load keywords from csv file
+    with open(args.econ_words) as csvfile:
+        csvreader = csv.reader(csvfile)
+        for row in csvreader:
+            keyword = row[0]
+            keyword = keyword.replace('*', '\w*')
+            keywords.append(keyword)
+    economic_keywords = r'(\W+|^)(' + "|".join(keywords) + r')(\W+|$)'
+    economic_keywords = r'{}'.format(economic_keywords)
+
+    # loop over all csv files
+    for publisher in os.listdir(in_path):
+        # skip non-directories
+        if not os.path.isdir(os.path.join(in_path, publisher)):
+            continue
+        logger.info(f"Processing publisher '{publisher}'...")
+        pub_path = os.path.join(in_path, publisher)
+        pub_articles = []
+
+        # check for existing .json file of articles.
+        if 'articles.json' in os.listdir(pub_path):
+            logger.info(f"Reading data from 'articles_gen_headlines.json' in '{pub_path}'...")
+            json_path = os.path.join(pub_path, 'articles_gen_headlines.json')
+            if not os.path.exists(json_path):
+                json_path = os.path.join(pub_path, 'articles.json')
+                logger.info(f"Using 'articles.json' instead of 'articles_gen_headlines.json'")
+            articles_json = json.load(open(json_path, 'r'))
+            for article in articles_json:
+                art = Article.from_json(article)
+                pub_articles.append(art)
+
+        else:
+            logger.info(f"Reading data from .csv files in '{pub_path}'...")
+            for file in tqdm(os.listdir(pub_path)):
+                if file.endswith(".csv"):
+                    file_path = os.path.join(pub_path, file)
+
+                    # get all articles from file which have an economic keyword
+                    articles = get_data(file_path, nlp, economic_keywords, [], logger)
+                    if len(articles) > 0:
+                        pub_articles.extend(articles)
+
+            # save progress
+            logger.info(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")
+            articles_json = [art.to_json() for art in pub_articles]
+            json.dump(
+                articles_json,
+                open(os.path.join(pub_path, 'articles.json'), 'w+'),
+                indent=4
+            )
+        
+        process_articles(pub_articles, MIN_KEYWORDS, logger)
+
+
+    # get number of articles in database
+    conn = sqlite3.connect(d.DB_FILENAME)
+    c = conn.cursor()
+    c.execute("SELECT * FROM article")
+    rows = c.fetchall()
+    end_count = len(rows)
+    logger.info(f"Added {end_count - start_count} new articles")  # 141,256
+    conn.close()
+    
 
 
 if __name__ == "__main__":
