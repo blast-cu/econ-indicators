@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=128G
-#SBATCH --time=02:00:00
+#SBATCH --time=12:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu

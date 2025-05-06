@@ -166,13 +166,13 @@ def add_to_db(articles: list):
 
 def main(args):
 
-    conn = sqlite3.connect(d.DB_FILENAME)
-    c = conn.cursor()
-    c.execute("SELECT * FROM article")
-    rows = c.fetchall()
-    logger.info(f"Found {len(rows)} articles in database")  # 141,256
-    conn.close()
-    exit()
+    # conn = sqlite3.connect(d.DB_FILENAME)
+    # c = conn.cursor()
+    # c.execute("SELECT * FROM article")
+    # rows = c.fetchall()
+    # logger.info(f"Found {len(rows)} articles in database")  # 141,256
+    # conn.close()
+    # exit()
 
 
     MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
