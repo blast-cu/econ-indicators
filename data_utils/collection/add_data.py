@@ -131,6 +131,7 @@ def add_to_db(articles: list):
         c.execute(check_dup_query)
         rows = c.fetchall()
         if len(rows) > 0:
+            pbar.update(1)
             continue  # skip if duplicate found
         
         else:  # no duplicates, insert into database
