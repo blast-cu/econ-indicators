@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 # Load environmental variables
 load_dotenv()
-PUBLISHERS = os.getenv("publishers", "").split(",")  # default, overwritten by command line arg
+PUBLISHERS = os.getenv("publishers", "").split(",")
 AWS_ACCESS_KEY_ID = os.getenv("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = os.getenv("aws_secret_access_key")
 BUCKET_NAME = os.getenv("bias_detector_bucket")
