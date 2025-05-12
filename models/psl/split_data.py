@@ -3,7 +3,7 @@ import shutil
 from tqdm import tqdm
 
 OUT_DIR = 'models/psl/data'
-PREV_FINAL_DIR = 'models/psl/data_backup/final'
+PREV_FINAL_DIR = 'models/psl/data/final'
 num_splits = 50
 
 
