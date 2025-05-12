@@ -53,8 +53,11 @@ SETTINGS = {
     'best_12-2024' : {
         'rule_dir': os.path.join(RULE_DIR, 'best_12-2024'),
         'learn': True
+    },
+    'best_2025-05' : {
+        'rule_dir': os.path.join(RULE_DIR, 'best_2025-05'),
+        'learn': True
     }
-
 }
 
 
