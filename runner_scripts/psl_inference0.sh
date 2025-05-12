@@ -7,7 +7,7 @@
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
-#SBATCH --output=logs/psl_final_inference-%j.out
+#SBATCH --output=logs/psl_final_inference0-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -29,7 +29,7 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-for i in {5..9}; do
+for i in {0..4}; do
     python3 -m models.psl.run_inference --s best_2025-05 --final_split $i
 done
 

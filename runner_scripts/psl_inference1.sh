@@ -4,9 +4,9 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --time=168:00:00
-#SBATCH --account=blanca-curc-gpu
-#SBATCH --qos=blanca-curc-gpu
-#SBATCH --partition=blanca-curc-gpu
+
+#SBATCH --partition=amilian
+
 #SBATCH --output=logs/psl_final_inference-1-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"

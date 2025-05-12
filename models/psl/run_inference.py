@@ -110,6 +110,7 @@ def write_results(results, model, dir):
 
         out_path = os.path.join(out_dir, "%s.txt" % (predicate.name()))
         results[predicate].to_csv(out_path, sep="\t", header=False, index=False)
+    print('Results written to ' + out_dir)
 
 
 def add_predicates(model):
