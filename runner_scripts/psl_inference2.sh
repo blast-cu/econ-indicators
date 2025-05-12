@@ -30,6 +30,6 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 for i in {20..29}; do
-    python3 -m models.psl.run_inference --s best_12-2024 --final_split $i
+    python3 -m models.psl.run_inference --s best_2025-05 --final_split $i
 done
 
