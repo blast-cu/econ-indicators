@@ -286,10 +286,12 @@ def main(args):
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
         
-        if publisher in ["startribune", "breitbart", "theguardian", "latimes", 
-                             "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
-                             "nytimes", "apnews", "chicagotribune", "washingtonpost", 
-                             "foxnews"]:  # skip these because they are already in the database 
+        if publisher in [
+            "startribune", "breitbart", "theguardian", "latimes", 
+            "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
+            "nytimes", "apnews", "chicagotribune", "washingtonpost", 
+            "foxnews"]:  # skip these because they are already in the database
+
             logger.info(f"Skipping '{publisher}' as it has already been processed.")
             continue
 
