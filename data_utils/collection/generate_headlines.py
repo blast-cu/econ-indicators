@@ -43,9 +43,6 @@ def main(args):
             logger.info(f"Skipping '{publisher}' as it is not a directory.")
             continue
 
-        if publisher != 'wsj':  # TEMPORARY FOR TESTING
-            logger.info(f"Skipping publisher '{publisher}' as it is not 'wsj'.")
-            continue
 
         pub_path = os.path.join(in_path, publisher)
         article_json_path = os.path.join(pub_path, 'articles.json')
