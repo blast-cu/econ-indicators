@@ -283,10 +283,10 @@ def main(args):
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
         
-        if publisher not in ["startribune", "breitbart", "theguardian", "latimes", 
-                             "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
-                             "nytimes", "apnews", "chicagotribune", "washingtonpost", 
-                             "foxnews"]  # la times, cnbc???
+        # if publisher not in ["startribune", "breitbart", "theguardian", "latimes", 
+        #                      "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
+        #                      "nytimes", "apnews", "chicagotribune", "washingtonpost", 
+        #                      "foxnews"]  # la times, cnbc???
 
         logger.info("-----------------------------------------")
         logger.info(f"Processing publisher '{publisher}'...")
