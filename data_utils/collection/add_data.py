@@ -282,6 +282,10 @@ def main(args):
         # skip non-directories
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
+        
+        if publisher not in ["startribune", ]
+
+        logger.info("-----------------------------------------")
         logger.info(f"Processing publisher '{publisher}'...")
         pub_path = os.path.join(in_path, publisher)
         pub_articles = []
