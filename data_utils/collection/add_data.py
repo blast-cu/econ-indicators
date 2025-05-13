@@ -120,6 +120,7 @@ def add_to_db(articles: list):
     c = conn.cursor()
 
     # insert articles into 'article' table.
+    quant_count = 0
     for art in articles:
         # clean list and string values.
         keywords = ','.join(art['keywords']).strip()
@@ -146,6 +147,7 @@ def add_to_db(articles: list):
                 exit()
 
             # insert quants into 'quantity' table
+            quant_count += len(art['quants'])
             for quant in art['quants']:
                 global_id = f"{art['id']}_{quant}"
                 quant_insert_query = f'''INSERT INTO quantity (id, local_id, article_id) \
@@ -160,6 +162,7 @@ def add_to_db(articles: list):
 
         conn.commit()
         pbar.update(1)
+    logger.info(f"Completed attempt to add {len(articles)} articles and {quant_count} quants to database.")
 
     pbar.close()
     conn.close()
@@ -283,10 +286,12 @@ def main(args):
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
         
-        # if publisher not in ["startribune", "breitbart", "theguardian", "latimes", 
-        #                      "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
-        #                      "nytimes", "apnews", "chicagotribune", "washingtonpost", 
-        #                      "foxnews"]  # la times, cnbc???
+        if publisher not in ["startribune", "breitbart", "theguardian", "latimes", 
+                             "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
+                             "nytimes", "apnews", "chicagotribune", "washingtonpost", 
+                             "foxnews"]:  # skip these because they are already in the database 
+            logger.info(f"Skipping '{publisher}' as it has already been processed.")
+            continue
 
         logger.info("-----------------------------------------")
         logger.info(f"Processing publisher '{publisher}'...")
