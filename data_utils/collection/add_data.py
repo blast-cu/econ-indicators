@@ -105,7 +105,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, l
                 articles.append(article)
 
         else:
-            logger.info(f"Article '{headline}' from '{source}' already exists in database.")
+            logger.info(f"Article already exists in database.")
     return articles
 
 
@@ -283,7 +283,10 @@ def main(args):
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
         
-        if publisher not in ["startribune", ]
+        if publisher not in ["startribune", "breitbart", "theguardian", "latimes", 
+                             "ft", "cnbc", "usatoday", "bloomberg", "bbc", "cnn", 
+                             "nytimes", "apnews", "chicagotribune", "washingtonpost", 
+                             "foxnews"]  # la times, cnbc???
 
         logger.info("-----------------------------------------")
         logger.info(f"Processing publisher '{publisher}'...")
