@@ -39,7 +39,7 @@ def main():
     c = conn.cursor()
     c.execute("SELECT id FROM article")
     articles = c.fetchall()
-    c.execute("SELECT id FROM excerpt")
+    c.execute("SELECT id FROM quantity")
     excerpts = c.fetchall()
     logger.info(f"There are {len(articles)} articles and {len(excerpts)} excerpts in the database.")
 
