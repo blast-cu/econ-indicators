@@ -110,7 +110,7 @@ def write_data_file(out_dir, predicate, file_type, values):
     file_path = os.path.join(out_dir, filename)
 
     print(f'Writing {file_path}')
-    with open(file_path, 'w') as f:
+    with open(file_path, 'a') as f:  # append to file
         for value in values:
             f.write(f'{value}\n')
 

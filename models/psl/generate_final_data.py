@@ -3,6 +3,14 @@ import os
 import json
 import sqlite3
 import data_utils.model_utils.dataset as d
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+# Set up logging
+logger = logging.getLogger(__name__)
 
 from models.psl.generate_data import write_contains_file, \
     write_has_frame_ann_file, write_preceeds_file, \
@@ -74,6 +82,19 @@ def main():
     eval_articles = {k: v for k, v in eval_articles.items() if k not in learn_ids}
     eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in learn_ids}
 
+    # filter articles and excerpts that have already been annotated
+    processed_articles = set()
+    with open(os.path.join(eval_dir, "ValFrame_target.txt"), 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                processed_articles.add(line.split('\t')[0])
+    prev_article_len = len(eval_articles)
+    preve_excerpt_len = len(eval_excerpts)
+    eval_articles = {k: v for k, v in eval_articles.items() if k not in processed_articles}
+    eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in processed_articles}
+    logger.info(f"Filtered {prev_article_len - len(eval_articles)} articles and {preve_excerpt_len - len(eval_excerpts)} excerpts from eval set.")
+
 
     # # GENERATE LEARN DATA #
     # # write contains file linking articles and excerpts
@@ -99,20 +120,20 @@ def main():
     # write_pred_files(learn_dir, exerpt_preds)  # pred
 
     # GENERATE EVAL DATA #
-    # write_contains_file(eval_dir, eval_articles)  # contains
+    write_contains_file(eval_dir, eval_articles)  # contains
 
-    # write_has_frame_ann_file(eval_dir, eval_excerpts)  # HasFrameAnn TODO
-    # write_has_frame_ann_file(eval_dir, eval_articles, predicate="HasFrameAnn")  # TODO
+    write_has_frame_ann_file(eval_dir, eval_excerpts)  # HasFrameAnn TODO
+    write_has_frame_ann_file(eval_dir, eval_articles, predicate="HasFrameAnn")  # TODO
 
-    # write_preceeds_file(eval_dir, eval_articles)  # preceeds
+    write_preceeds_file(eval_dir, eval_articles)  # preceeds
 
-    # write_target_files(eval_dir, eval_articles, d.qual_label_maps, truth=False)  # isVal
-    # write_target_files(eval_dir, eval_excerpts, gd.quant_label_maps, truth=False)  # isVal
+    write_target_files(eval_dir, eval_articles, d.qual_label_maps, truth=False)  # isVal
+    write_target_files(eval_dir, eval_excerpts, gd.quant_label_maps, truth=False)  # isVal
 
-    # article_preds = predict_article_annotations(
-    #     eval_articles, BEST_MODELS
-    # )
-    # write_pred_files(eval_dir, article_preds)  # pred
+    article_preds = predict_article_annotations(
+        eval_articles, BEST_MODELS
+    )
+    write_pred_files(eval_dir, article_preds)  # pred
 
     excerpt_preds = generate_predict_excerpts(
         eval_excerpts, BEST_MODELS
