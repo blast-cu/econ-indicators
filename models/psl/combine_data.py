@@ -86,17 +86,17 @@ def main():
     agree_articles = json.load(open(f"{ANN_DIR}agreed_qual_dict.json", 'r'))
     agree_quants = json.load(open(f"{ANN_DIR}agreed_quant_dict.json", 'r'))
 
-    # for article_id, ann_dict in agree_articles.items():
-    #     if article_id not in article_dict:
-    #             article_dict[article_id] = {}  # add empty dict if not already present
-    #     for ann_type in article_ann_dict.keys():  # replace with or add hand annotations
-    #         article_dict[article_id][ann_type] = ann_dict[ann_type]
+    for article_id, ann_dict in agree_articles.items():
+        if article_id not in article_dict:
+                article_dict[article_id] = {}  # add empty dict if not already present
+        for ann_type in article_ann_dict.keys():  # replace with or add hand annotations
+            article_dict[article_id][ann_type] = ann_dict[ann_type]
     
-    # for quant_id, ann_dict in agree_quants.items():
-    #     if quant_id not in quant_dict:
-    #             quant_dict[quant_id] = {}
-    #     for ann_type in quant_ann_dict.keys():
-    #         quant_dict[quant_id][ann_type] = ann_dict[ann_type]
+    for quant_id, ann_dict in agree_quants.items():
+        if quant_id not in quant_dict:
+                quant_dict[quant_id] = {}
+        for ann_type in quant_ann_dict.keys():
+            quant_dict[quant_id][ann_type] = ann_dict[ann_type]
     
 
     # add source and date to article_dict
