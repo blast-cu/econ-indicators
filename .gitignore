@@ -362,3 +362,4 @@ temp/
 models/psl/data/
 models/psl/data_backup/
 set_vars.sh
+logs/
