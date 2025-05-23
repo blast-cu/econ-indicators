@@ -28,6 +28,6 @@ mkdir -p outputs
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m data_utils.collection.gen_articles_json --dataset data/text/
-python -m data_utils.collection.generate_headlines --dataset data/text/
+# python -m data_utils.collection.generate_headlines --dataset data/text/
 
 
