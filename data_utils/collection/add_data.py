@@ -104,8 +104,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, l
                 )
                 articles.append(article)
 
-        else:
-            logger.info(f"Article already exists in database.")
+
     return articles
 
 
