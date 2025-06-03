@@ -41,11 +41,15 @@ def add_excerpts(articles, excerpts):
     """
     Populate 'quant_list' key in articles with excerpt ids
     """
+    fail_count = 0
     for excerpt_id in excerpts:
         article_id = excerpt_id.split('_')[0]
-        articles[article_id]['quant_list'].append(excerpt_id)
+        if article_id in articles:
+            articles[article_id]['quant_list'].append(excerpt_id)
+        else:
+            fail_count += 1
 
-    return articles
+    return articles, fail_count
 
 
 def main():
@@ -71,7 +75,8 @@ def main():
 
     # add excerpts to article dict
     logger.info("Adding excerpts to articles...")
-    articles = add_excerpts(articles, excerpts)
+    articles, failed_excerpt_count = add_excerpts(articles, excerpts)
+    logger.info(f"Added excerpts to articles, {failed_excerpt_count} excerpts failed bc article doesn't exist.")
 
     # export
     logger.info("Exporting...")
