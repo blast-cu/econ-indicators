@@ -91,11 +91,11 @@ def main():
                 if line:
                     processed_articles.add(line.split('\t')[0])
 
-    prev_article_len = len(eval_articles)
-    preve_excerpt_len = len(eval_excerpts)
-    eval_articles = {k: v for k, v in eval_articles.items() if k not in processed_articles}
-    eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in processed_articles}
-    logger.info(f"Filtered {prev_article_len - len(eval_articles)} articles and {preve_excerpt_len - len(eval_excerpts)} excerpts from eval set.")
+        prev_article_len = len(eval_articles)
+        preve_excerpt_len = len(eval_excerpts)
+        eval_articles = {k: v for k, v in eval_articles.items() if k not in processed_articles}
+        eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in processed_articles}
+        logger.info(f"Filtered {prev_article_len - len(eval_articles)} articles and {preve_excerpt_len - len(eval_excerpts)} excerpts from eval set.")
 
 
     # GENERATE LEARN DATA #
