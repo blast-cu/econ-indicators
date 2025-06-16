@@ -83,12 +83,14 @@ def main():
     eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in learn_ids}
 
     # filter articles and excerpts that have already been annotated
-    processed_articles = set()
-    with open(os.path.join(eval_dir, "ValFrame_target.txt"), 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                processed_articles.add(line.split('\t')[0])
+    if os.path.exists(os.path.join(eval_dir, "ValFrame_target.txt")):
+        processed_articles = set()
+        with open(os.path.join(eval_dir, "ValFrame_target.txt"), 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    processed_articles.add(line.split('\t')[0])
+
     prev_article_len = len(eval_articles)
     preve_excerpt_len = len(eval_excerpts)
     eval_articles = {k: v for k, v in eval_articles.items() if k not in processed_articles}
@@ -96,28 +98,28 @@ def main():
     logger.info(f"Filtered {prev_article_len - len(eval_articles)} articles and {preve_excerpt_len - len(eval_excerpts)} excerpts from eval set.")
 
 
-    # # GENERATE LEARN DATA #
-    # # write contains file linking articles and excerpts
-    # write_contains_file(learn_dir, learn_articles)  # contains
+    # GENERATE LEARN DATA #
+    # write contains file linking articles and excerpts
+    write_contains_file(learn_dir, learn_articles)  # contains
 
-    # write_has_frame_ann_file(learn_dir, learn_excerpts)
-    # write_has_frame_ann_file(
-    #     learn_dir, learn_articles, predicate="HasFrameAnn"
-    # )
+    write_has_frame_ann_file(learn_dir, learn_excerpts)
+    write_has_frame_ann_file(
+        learn_dir, learn_articles, predicate="HasFrameAnn"
+    )
 
-    # write_preceeds_file(learn_dir, learn_articles)  # preceeds
+    write_preceeds_file(learn_dir, learn_articles)  # preceeds
 
-    # # write target and truth files for validation data
-    # write_target_files(learn_dir, learn_articles, d.qual_label_maps, truth=True)  # isVal
+    # write target and truth files for validation data
+    write_target_files(learn_dir, learn_articles, d.qual_label_maps, truth=True)  # isVal
 
-    # write_target_files(learn_dir, learn_excerpts, d.quant_label_maps, truth=True)  # isVal
+    write_target_files(learn_dir, learn_excerpts, d.quant_label_maps, truth=True)  # isVal
 
-    # # predictions for validation set
-    # article_preds = predict_article_annotations(learn_articles, BEST_MODELS)
-    # write_pred_files(learn_dir, article_preds)  # pred
+    # predictions for validation set
+    article_preds = predict_article_annotations(learn_articles, BEST_MODELS)
+    write_pred_files(learn_dir, article_preds)  # pred
 
-    # exerpt_preds = generate_predict_excerpts(learn_excerpts, BEST_MODELS)
-    # write_pred_files(learn_dir, exerpt_preds)  # pred
+    exerpt_preds = generate_predict_excerpts(learn_excerpts, BEST_MODELS)
+    write_pred_files(learn_dir, exerpt_preds)  # pred
 
     # GENERATE EVAL DATA #
     write_contains_file(eval_dir, eval_articles)  # contains
