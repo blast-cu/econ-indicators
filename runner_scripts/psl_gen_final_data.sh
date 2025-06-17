@@ -2,7 +2,7 @@
 #SBATCH --mem=32G
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --time=12:00:00
+#SBATCH --time=36:00:00
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
@@ -30,5 +30,5 @@ export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 # python -m data_utils.model_utils.get_to_predict
 python -m models.psl.generate_final_data
-# python -m models.psl.split_data
+python -m models.psl.split_data
 
