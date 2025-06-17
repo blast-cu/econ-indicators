@@ -2,7 +2,11 @@ import argparse
 import json
 import sqlite3
 import os
+import logging
 
+# set up logging.
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def get_count(data, f):
     """
@@ -15,7 +19,7 @@ def get_publisher_article_count(articles, cursor, f):
     """
     Get number of articles per publisher.
     """
-    article_ids = [str(article['id']) for article in articles]
+    article_ids = [str(article_id) for article_id in articles.keys()]
     cursor.execute("SELECT source, COUNT(*) FROM article GROUP BY source WHERE id IN ({})".format(','.join('?' * len(article_ids))), article_ids)
     rows = cursor.fetchall()
     f.write("- per publisher:\n")
@@ -26,7 +30,7 @@ def get_publisher_quantity_count(quants, cursor, f):
     """
     Get number of quantities per publisher.
     """
-    quant_ids = [str(quant['article_id']) for quant in quants]
+    quant_ids = [str(quant_id) for quant_id in quants.keys()]
     # join quantity with article to get the publisher
     cursor.execute("""
         SELECT a.source, COUNT(q.id) 
@@ -44,10 +48,12 @@ def get_publisher_quantity_count(quants, cursor, f):
 def main(args):
 
     # Connect to the SQLite database
+    logger.info(f"Connecting to database: {args.db}")
     conn = sqlite3.connect(args.db)
     cursor = conn.cursor()
 
-    # Connect to the SQLite database
+    # load the json files
+    logger.info(f"Loading JSON files from: {args.data_dir}")
     with open(args.data_dir + "/all_articles.json", "r") as f:
         articles = json.load(f)
 
@@ -55,6 +61,7 @@ def main(args):
         excerpts = json.load(f)
 
     # create a file for the report
+    logger.info("Creating report file")
     db_name = (args.db.split(".")[0]).split("/")[-1]
     report_path = "data/reports"
     os.makedirs(report_path, exist_ok=True)
@@ -75,6 +82,7 @@ def main(args):
 
     # Close the connection
     conn.close()
+    logger.info(f"Report created at: {report_file}")
     
 
 if __name__ == "__main__":

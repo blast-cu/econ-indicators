@@ -1,7 +1,11 @@
 import argparse
 import sqlite3
 import os
+import logging
 
+# set up logging.
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def get_count(cursor, table_name, f):
     """
@@ -40,10 +44,12 @@ def get_publisher_quantity_count(cursor, f):
 def main(args):
 
     # Connect to the SQLite database
+    logger.info(f"Connecting to database: {args.db}")
     conn = sqlite3.connect(args.db)
     cursor = conn.cursor()
 
     # create a file for the report
+    logger.info("Creating report file...")
     db_name = (args.db.split(".")[0]).split("/")[-1]
     report_path = "data/reports"
     os.makedirs(report_path, exist_ok=True)
@@ -64,6 +70,7 @@ def main(args):
 
     # Close the connection
     conn.close()
+    logger.info(f"Report created and saved to {report_path}")
     
 
 if __name__ == "__main__":
