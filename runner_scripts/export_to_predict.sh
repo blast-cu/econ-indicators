@@ -25,7 +25,7 @@ conda activate econ-indicators
 mkdir -p metadata
 mkdir -p outputs
 
-export TRANSFORMERS_CACHE=metadata/
+export HF_HOME=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m data_utils.model_utils.get_to_predict

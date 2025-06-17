@@ -61,17 +61,17 @@ def main():
     
     # try to open existing quant excerpt dict
     quant_excerpt_path = os.path.join(split_dir, 'quant_excerpts_dict')
-    try:
-        logger.info("Loading existing quant excerpt dict...")
-        excerpts = pickle.load(open(quant_excerpt_path, 'rb'))
+        # try:
+        #     logger.info("Loading existing quant excerpt dict...")
+        #     excerpts = pickle.load(open(quant_excerpt_path, 'rb'))
 
-    except FileNotFoundError:  # if not found, create it
-        logger.info("Creating new quant excerpt dict...")
-        excerpts = d.get_excerpts_dict(d.DB_FILENAME)
-        logger.info(f"Retrieved {len(excerpts.keys())} excerpts")
-        excerpts = {k: {'indicator': v[0], 'excerpt': v[1]} for k, v in excerpts.items()}
-        with open(quant_excerpt_path, 'wb') as file:
-            pickle.dump(excerpts, file)
+        # except FileNotFoundError:  # if not found, create it
+    logger.info("Creating new quant excerpt dict...")
+    excerpts = d.get_excerpts_dict(d.DB_FILENAME)
+    logger.info(f"Retrieved {len(excerpts.keys())} excerpts")
+    excerpts = {k: {'indicator': v[0], 'excerpt': v[1]} for k, v in excerpts.items()}
+    with open(quant_excerpt_path, 'wb') as file:
+        pickle.dump(excerpts, file)
 
     # add excerpts to article dict
     logger.info("Adding excerpts to articles...")

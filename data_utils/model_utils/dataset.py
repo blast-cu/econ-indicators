@@ -459,7 +459,7 @@ def save_progress(to_save,
         print("Could not dump object to picle file in save_progress()")
 
 
-def get_excerpts_dict(db_filename: str):
+def get_excerpts_dict(db_filename: str, logger):
     """
     Retrieves excerpts corresponding to all quant annotations from a database file and returns
     them as a dictionary.
@@ -479,6 +479,7 @@ def get_excerpts_dict(db_filename: str):
 
         # get all global quant_ann ids
         excerpt_ids = gs.get_excerpts(db_filename)
+        logger.info(f"Found {len(excerpt_ids)} quant annotations in database")
 
         # put annotations from same article together to improve performance
         # {key=article_id, value=list of local annotation ids}
@@ -524,7 +525,7 @@ def get_excerpts_dict(db_filename: str):
                     i += 1
             pbar.update(1)
         pbar.close()
-        print(f"WARNING: {errors} of {len(excerpt_ids)} quants not found")
+        logger.info(f"WARNING: {errors} of {len(excerpt_ids)} quants not found")
 
     except Exception as e:
         print(e)
