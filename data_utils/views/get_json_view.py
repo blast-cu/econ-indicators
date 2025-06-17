@@ -44,7 +44,7 @@ def get_publisher_quantity_count(quants, cursor, f):
 def main(args):
 
     # Connect to the SQLite database
-    conn = sqlite3.connect(args.db_name)
+    conn = sqlite3.connect(args.db)
     cursor = conn.cursor()
 
     # Connect to the SQLite database
@@ -55,7 +55,7 @@ def main(args):
         excerpts = json.load(f)
 
     # create a file for the report
-    db_name = (args.db_name.split(".")[0]).split("/")[-1]
+    db_name = (args.db.split(".")[0]).split("/")[-1]
     report_path = "data/reports"
     os.makedirs(report_path, exist_ok=True)
 
