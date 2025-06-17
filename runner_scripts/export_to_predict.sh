@@ -7,7 +7,7 @@
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=logs/get_final_psl_data-%j.out
+#SBATCH --output=logs/export_to_predict-%j.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -28,6 +28,4 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python -m models.psl.generate_final_data
-python -m models.psl.split_data
-
+python -m data_utils.model_utils.get_to_predict
