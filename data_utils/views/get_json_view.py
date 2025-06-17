@@ -19,8 +19,16 @@ def get_publisher_article_count(articles, cursor, f):
     """
     Get number of articles per publisher.
     """
+    # create a string with all article ids separated by commas
     article_ids = [str(article_id) for article_id in articles.keys()]
-    cursor.execute("SELECT source, COUNT(*) FROM article GROUP BY source WHERE id IN ({})".format(','.join('?' * len(article_ids))), article_ids)
+    article_ids_str = ",".join(article_ids)
+    cursor.execute("""
+        SELECT source, COUNT(*) 
+        FROM article 
+        WHERE id IN ({}) 
+        GROUP BY source
+    """.format(article_ids_str))
+
     rows = cursor.fetchall()
     f.write("- per publisher:\n")
     for row in rows:
@@ -31,14 +39,15 @@ def get_publisher_quantity_count(quants, cursor, f):
     Get number of quantities per publisher.
     """
     quant_ids = [str(quant_id) for quant_id in quants.keys()]
+    quant_ids_str = ','.join(quant_ids)
     # join quantity with article to get the publisher
     cursor.execute("""
         SELECT a.source, COUNT(q.id) 
         FROM quantity q
         JOIN article a ON q.article_id = a.id
-        GROUP BY a.source
         WHERE q.article_id IN ({})
-    """.format(','.join('?' * len(quant_ids))), quant_ids)
+        GROUP BY a.source
+    """.format(quant_ids_str))
 
     rows = cursor.fetchall()
     f.write("- per publisher:\n")
