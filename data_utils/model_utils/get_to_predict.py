@@ -67,7 +67,7 @@ def main():
 
         # except FileNotFoundError:  # if not found, create it
     logger.info("Creating new quant excerpt dict...")
-    excerpts = d.get_excerpts_dict(d.DB_FILENAME)
+    excerpts = d.get_excerpts_dict(d.DB_FILENAME, logger)
     logger.info(f"Retrieved {len(excerpts.keys())} excerpts")
     excerpts = {k: {'indicator': v[0], 'excerpt': v[1]} for k, v in excerpts.items()}
     with open(quant_excerpt_path, 'wb') as file:
