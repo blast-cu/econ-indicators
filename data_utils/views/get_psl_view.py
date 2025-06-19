@@ -3,7 +3,7 @@ import json
 import sqlite3
 import os
 import logging
-import tqdm
+import tqdm import tqdm
 
 # set up logging.
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
