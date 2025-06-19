@@ -5,6 +5,10 @@ from tqdm import tqdm
 OUT_DIR = 'models/psl/data'
 PREV_FINAL_DIR = 'models/psl/data/final'
 num_splits = 50
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -38,6 +42,7 @@ def main():
                     article_splits[article_id] = i
 
     # loop over all eval files (except HasFrameAnn_obs.txt)
+    article_errors = 0
     for filename in tqdm(os.listdir(f"{PREV_FINAL_DIR}/eval/")):
         if filename == 'HasFrameAnn_obs.txt':
             continue
@@ -51,14 +56,20 @@ def main():
             article_id = l.split('\t')[0]
             if "_" in article_id:
                 article_id = article_id.split("_")[0]
-            if article_splits[article_id] != split_num:  # need to switch to new split
-                split_num = article_splits[article_id]
-                out_f.close()  # close current file
-                os.makedirs(f"{OUT_DIR}/final{split_num}/eval/", exist_ok=True)
-                out_f = open(f"{OUT_DIR}/final{split_num}/eval/{filename}", 'w+')  # open new file
+            try: 
+                if article_splits[article_id] != split_num:  # need to switch to new split
+                    split_num = article_splits[article_id]
+                    out_f.close()  # close current file
+                    os.makedirs(f"{OUT_DIR}/final{split_num}/eval/", exist_ok=True)
+                    out_f = open(f"{OUT_DIR}/final{split_num}/eval/{filename}", 'w+')  # open new file
 
-            out_f.write(l)  # write line to file
+                out_f.write(l)  # write line to file
+            except KeyError:
+                article_errors += 1
+
         out_f.close()
+    
+    logger.info(f"Finished splitting eval files. {article_errors} articles had errors because their ids weren't in HasFrameAnn_obs.txt.")
 
 
 if __name__ == "__main__":
