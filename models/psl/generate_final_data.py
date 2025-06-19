@@ -133,7 +133,7 @@ def main():
 
     # write_preceeds_file(eval_dir, eval_articles)  # preceeds
 
-    # write_target_files(eval_dir, eval_articles, d.qual_label_maps, truth=False)  # isVal
+    write_target_files(eval_dir, eval_articles, d.qual_label_maps, truth=False)  # isVal
     write_target_files(eval_dir, eval_excerpts, gd.quant_label_maps, truth=False)  # isVal
 
     # article_preds = predict_article_annotations(
