@@ -34,8 +34,7 @@ def main(args):
             ids = list(set(ids))  # remove duplicates
 
             type = "quants" if "_" in ids[0] else "articles"
-            with open(report_file, "a") as f:
-                f.write(f"- filename: {filename}, type: {type}, count: {len(ids)}\n")
+            f.write(f"- filename: {filename}, type: {type}, count: {len(ids)}\n")
 
         f.write("\n\nLearn Directory:\n")
         learn_dir = f"{args.data_dir}/learn/"
@@ -47,8 +46,7 @@ def main(args):
             ids = [line.split('\t')[0] for line in lines if line.strip() != '']
             ids = list(set(ids))
             type = "quants" if "_" in ids[0] else "articles"
-            with open(report_file, "a") as f:
-                f.write(f"- filename: {filename}, type: {type}, count: {len(ids)}\n")
+            f.write(f"- filename: {filename}, type: {type}, count: {len(ids)}\n")
 
     logger.info(f"Report created at: {report_file}")
     
