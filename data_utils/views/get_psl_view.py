@@ -13,7 +13,6 @@ def main(args):
 
     # create a file for the report
     logger.info("Creating report file")
-    db_name = (args.db.split(".")[0]).split("/")[-1]
     report_path = "data/reports"
     os.makedirs(report_path, exist_ok=True)
     report_file = os.path.join(report_path, f"psl_final_data_report.txt")
