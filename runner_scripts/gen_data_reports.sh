@@ -27,5 +27,6 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
+python -m data_utils.views.get_psl_view --data_dir models/psl/data/final
 python -m data_utils.views.get_db_view --db data/data.db
 python -m data_utils.views.get_json_view --db data/data.db --data_dir data/clean
