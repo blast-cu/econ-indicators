@@ -73,6 +73,9 @@ def main():
     eval_articles = json.load(open(split_dir + 'all_articles.json', 'r'))
     eval_excerpts = json.load(open(split_dir + 'all_excerpts.json', 'r'))
 
+    logger.info(f"Loaded {len(learn_articles)} learn articles and {len(learn_excerpts)} learn excerpts.")
+    logger.info(f"Loaded {len(eval_articles)} eval articles and {len(eval_excerpts)} eval excerpts.")
+
     # filter learn articles out of eval articles
     learn_ids = set([k for k in list(learn_articles.keys())])
     for quant_id in list(learn_excerpts.keys()):
@@ -81,6 +84,7 @@ def main():
     
     eval_articles = {k: v for k, v in eval_articles.items() if k not in learn_ids}
     eval_excerpts = {k: v for k, v in eval_excerpts.items() if k.split('_')[0] not in learn_ids}
+    logger.info(f"Filtered eval articles to {len(eval_articles)} and eval excerpts to {len(eval_excerpts)} after removing learn articles.")
 
     # # filter articles and excerpts that have already been annotated
     # if os.path.exists(os.path.join(eval_dir, "ValFrame_target.txt")):
@@ -137,10 +141,10 @@ def main():
     # )
     # write_pred_files(eval_dir, article_preds)  # pred
 
-    excerpt_preds = generate_predict_excerpts(
-        eval_excerpts, BEST_MODELS
-    )
-    write_pred_files(eval_dir, excerpt_preds)  # pred
+    # excerpt_preds = generate_predict_excerpts(
+    #     eval_excerpts, BEST_MODELS
+    # )
+    # write_pred_files(eval_dir, excerpt_preds)  # pred
 
 
 if (__name__ == '__main__'):

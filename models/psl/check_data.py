@@ -73,6 +73,8 @@ def main():
                 processed_articles.add(line.split('\t')[0])
     logger.info(f"There are {len(processed_articles)} articles that have already been annotated in the eval set.")
 
+    # check if all articles are in the 
+
 
 
 if (__name__ == '__main__'):
