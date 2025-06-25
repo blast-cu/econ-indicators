@@ -10,8 +10,7 @@ from data_utils.model_utils.dataset import DB_FILENAME
 IN_DIR = 'models/psl/data'
 OUT_DIR = f"{IN_DIR}/final_combined"
 ANN_DIR = 'data/clean/'
-
-NUM_SPLITS = 10
+NUM_SPLITS = 50  # number of splits to combine
 DEBUG = False
 
 article_ann_dict = {
@@ -63,6 +62,7 @@ def main():
     global NUM_SPLITS
     if DEBUG:  # reduce number of splits for debugging
         NUM_SPLITS = 1
+    logger.info(f"Combining data from {NUM_SPLITS} splits.")
 
     # loop over all inferred pred files
     article_dict = {} # article_id -> annotations
