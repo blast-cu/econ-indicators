@@ -1,5 +1,8 @@
 import json
 import os
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 from data_utils.get_annotation_stats import get_site, get_date
 from data_utils.model_utils.dataset import DB_FILENAME
@@ -114,9 +117,11 @@ def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "articles.json"), 'w+') as f:
         json.dump(article_dict, f, indent=4)
+    logger.info(f"Exported {len(article_dict)} articles to {os.path.join(OUT_DIR, 'articles.json')}")
 
     with open(os.path.join(OUT_DIR, "quants.json"), 'w+') as f:
         json.dump(quant_dict, f, indent=4)
+    logger.info(f"Exported {len(quant_dict)} quants to {os.path.join(OUT_DIR, 'quants.json')}")
 
 
 if __name__ == "__main__":
