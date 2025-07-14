@@ -27,7 +27,6 @@ ADDITIONAL_PSL_OPTIONS = {
 Script for running inference with train/test 5 split data
 """
 
-
 def main(args):
 
     # establish setting parameters
@@ -185,6 +184,28 @@ def add_learn_data(predicates):
 def add_eval_data(predicates):
     _add_data('eval', predicates)
 
+def check_data(path):
+    # make sure the data file exists
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Data file not found: {path}")
+    
+    # read in the tab separated txt file
+    with open(path, 'r') as f:
+        lines = f.readlines()
+        if len(lines) == 0:
+            raise ValueError(f"Data file is empty: {path}")
+        
+    # check that the final entry isn't nan
+    clean_lines = []
+    for line in lines:
+        if 'nan' in line:
+            print(f"Line removed from data file {path}: {line.strip()}")
+        clean_lines.append(line)
+
+    if len(clean_lines) != len(lines):
+        # overwrite the file with the cleaned lines
+        with open(path, 'w') as f:
+            f.writelines(clean_lines)
 
 def _add_data(type, predicates):
 
@@ -201,26 +222,22 @@ def _add_data(type, predicates):
             if p.name() == f[0]:
                 # if VERBOSE: print(f[0] + ' added to ' + p.name())
                 filename = filenames[i]
+                path = os.path.join(split_data_dir, filename)
+                check_data(path)
                 if f[1] == 'obs':
-                    path = os.path.join(split_data_dir, filename)
                     p.add_data_file(Partition.OBSERVATIONS, path)
                 elif f[1] == 'truth':
-                    path = os.path.join(split_data_dir, filename)
                     p.add_data_file(Partition.TRUTH, path)
                 elif f[1] == 'target':
-                    path = os.path.join(split_data_dir, filename)
                     p.add_data_file(Partition.TARGETS, path)
                 else:
                     raise ValueError('Unknown predicate: ' + f[1])
-
                 if VERBOSE: 
                     print(filename + ' added to ' + p.name())
-
 
 def learn(model, predicates):
     add_learn_data(predicates)
     model.learn(psl_options=ADDITIONAL_PSL_OPTIONS)
-
 
 def infer(model, predicates):
     add_eval_data(predicates)
