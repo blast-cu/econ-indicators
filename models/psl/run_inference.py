@@ -200,7 +200,8 @@ def check_data(path):
     for line in lines:
         if 'nan' in line:
             print(f"Line removed from data file {path}: {line.strip()}")
-        clean_lines.append(line)
+        else:
+            clean_lines.append(line)
     
     # overwrite the file with the cleaned lines
     if len(clean_lines) != len(lines):
