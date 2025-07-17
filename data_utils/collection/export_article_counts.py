@@ -53,6 +53,7 @@ def main(args):
 
     # loop over all csv files
     article_count_data = {}  # article count per day, per publisher
+
     new_articles_count = 0
     for publisher in os.listdir(in_path):
         # skip non-directories
@@ -75,15 +76,45 @@ def main(args):
                 # add count to json
                 if date not in article_count_data:
                     article_count_data[date] = {}
+                    article_count_data[date]['all'] = {}
+                    article_count_data[date]['econ'] = {}
 
-                article_count_data[date][publisher] = article_count
+                article_count_data[date]['all'][publisher] = article_count
                 new_articles_count += article_count
 
+    # now get the econ ones
+    for publisher in os.listdir(in_path):
+        
+        # read in articles.json from publisher directory
+        articles_json_path = os.path.join(in_path, publisher, 'articles.json')
+        if not os.path.exists(articles_json_path):
+            logger.warning(f"File {articles_json_path} does not exist, skipping...")
+            continue
+
+        with open(articles_json_path, 'r') as f:
+            econ_articles = json.load(f)
+
+        # each item in the list is an article dict
+        for art in econ_articles:
+            date = art['date']
+
+            # add count to json
+            if date not in article_count_data:
+                article_count_data[date] = {}
+                article_count_data[date]['all'] = {}
+                article_count_data[date]['econ'] = {}
+
+            if publisher not in article_count_data[date]['econ']:
+                article_count_data[date]['econ'][publisher] = 0
+
+            article_count_data[date]['econ'][publisher] += 1
+
+    # sort the article count data by date
+    article_count_data = dict(sorted(article_count_data.items()))
 
     # save article counts to json file
     with open('data/article_counts.json', 'w') as f:
         json.dump(article_count_data, f, indent=4)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

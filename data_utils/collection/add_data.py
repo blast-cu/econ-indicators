@@ -55,6 +55,20 @@ def get_text(nlp: Language, text: str, economic_keywords: str) -> tuple:
     keywords = list(set(keywords))
     return (text, is_econ, sentences, keywords)
 
+def parse_date(date_str: str) -> str:
+    """
+    Parse date string "2024-07-28 07:00:02.695478" to a standard format (YYYY-MM-DD)
+    args:
+        date_str: str, date string to parse
+    returns:
+        str, parsed date in YYYY-MM-DD format
+    """
+    try:
+        date_str = date_str.split(' ')[0]
+        return date_str
+    except Exception as e:
+        logger.error(f"Error parsing date '{date_str}': {e}")
+        return '0000-00-00'
 
 def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, logger: logging.Logger) -> list:
     """
@@ -87,7 +101,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, l
 
             source = row['publisher']
             url = row['url']
-            date = row['datetime']  # must parse to datetime object
+            date = parse_date(row['datetime'])  # must parse to datetime object
 
             if is_econ:  # only add if it has an econ keyword
                 article = Article(
