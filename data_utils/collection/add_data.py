@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 MIN_KEYWORDS = 5  # min economic keywords in an article to be added to db
 
 """
-Script to add new article data from csv (or articles.json) files to the 'article' and 'quantity' table in the database
+Script to add new article data from articles.json files to the 'article' and 'quantity' table in the database
 """
 
 
@@ -318,25 +318,7 @@ def main(args):
                 new_articles_count += 1
 
         else:
-            logger.info(f"Reading data from .csv files in '{pub_path}'...")
-            for file in tqdm(os.listdir(pub_path)):
-                if file.endswith(".csv"):
-                    file_path = os.path.join(pub_path, file)
-
-                    # get all articles from file which have an economic keyword
-                    articles = get_data(file_path, nlp, economic_keywords, [], logger)
-                    if len(articles) > 0:
-                        pub_articles.extend(articles)
-                        new_articles_count += len(articles)
-
-            # save progress
-            logger.info(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")
-            articles_json = [art.to_json() for art in pub_articles]
-            json.dump(
-                articles_json,
-                open(os.path.join(pub_path, 'articles.json'), 'w+'),
-                indent=4
-            )
+            raise FileNotFoundError(f"No 'articles.json' or 'articles_gen_headlines.json' found in {pub_path}")
         
         process_articles(pub_articles, MIN_KEYWORDS, logger)
 

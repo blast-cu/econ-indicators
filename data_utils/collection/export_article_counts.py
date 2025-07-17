@@ -10,6 +10,7 @@ from tqdm import tqdm
 import re
 import json
 import csv
+from tqdm import tqdm
 
 import logging
 
@@ -38,7 +39,7 @@ def get_unique_articles(file_path: str, pub_ids: list, logger: logging.Logger) -
     for i in range(len(df)):  # iterate over rows
 
         row = df.iloc[i]
-        id = row['article_id']  # for deduplication (can exist on multiple dates)
+        id = row['url']  # for deduplication (can exist on multiple dates)
 
         if id not in pub_ids:  # skip if id already exists
             article_count += 1
@@ -55,7 +56,7 @@ def main(args):
     article_count_data = {}  # article count per day, per publisher
 
     new_articles_count = 0
-    for publisher in os.listdir(in_path):
+    for publisher in tqdm(os.listdir(in_path), desc="Processing all articles for publishers"):
         # skip non-directories
         if not os.path.isdir(os.path.join(in_path, publisher)):
             continue
@@ -83,8 +84,7 @@ def main(args):
                 new_articles_count += article_count
 
     # now get the econ ones
-    for publisher in os.listdir(in_path):
-        
+    for publisher in tqdm(os.listdir(in_path), desc="Processing econ articles for publishers"):
         # read in articles.json from publisher directory
         articles_json_path = os.path.join(in_path, publisher, 'articles.json')
         if not os.path.exists(articles_json_path):
