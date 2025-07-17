@@ -43,6 +43,7 @@ def main(args):
         # each item in the list is an article dict
         for art in econ_articles:
             date = art['date']
+            date = date.replace('_', '-')  # remove dashes for easier sorting
 
             # add count to json
             if date not in article_count_data:
