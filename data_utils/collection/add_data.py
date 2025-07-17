@@ -313,6 +313,7 @@ def main(args):
                 json_path = os.path.join(pub_path, 'articles.json')
                 logger.info(f"Using 'articles.json' instead of 'articles_gen_headlines.json'")
             articles_json = json.load(open(json_path, 'r'))
+
             for article in articles_json:
                 art = Article.from_json(article)
                 pub_articles.append(art)
@@ -321,6 +322,7 @@ def main(args):
         else:
             raise FileNotFoundError(f"No 'articles.json' or 'articles_gen_headlines.json' found in {pub_path}")
         
+        # add economic articles only to database
         process_articles(pub_articles, MIN_KEYWORDS, logger)
 
 
