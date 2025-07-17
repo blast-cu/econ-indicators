@@ -70,7 +70,7 @@ def parse_date(date_str: str) -> str:
         logger.error(f"Error parsing date '{date_str}': {e}")
         return '0000-00-00'
 
-def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, logger: logging.Logger) -> list:
+def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_urls: list, logger: logging.Logger) -> tuple:
     """
     Read and process data from csv file
     args:
@@ -93,33 +93,34 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_ids: list, l
         row = df.iloc[i]
         headline = row['title']
         id = row['article_id']  # for deduplication (can exist on multiple dates)
-        if id not in pub_ids:  # skip if id already exists
+        url = row['url']  # for deduplication (can exist on multiple dates)
+        if url not in pub_urls:  # skip if url already exists
             text = row['text']
 
             text, is_econ, econ_sentences, keywords_used = \
                 get_text(nlp, text, econ_keywords)
 
             source = row['publisher']
-            url = row['url']
             date = parse_date(row['datetime'])  # must parse to datetime object
 
-            if is_econ:  # only add if it has an econ keyword
-                article = Article(
-                    id=id,
-                    headline=headline,
-                    text=text,
-                    source=source,
-                    url=url,
-                    is_econ=is_econ,
-                    econ_sentences=econ_sentences,
-                    econ_keywords=keywords_used,
-                    num_keywords=len(econ_sentences),
-                    date=date
-                )
-                articles.append(article)
+            # if is_econ:  # only add if it has an econ keyword
+            article = Article(
+                id=id,
+                headline=headline,
+                text=text,
+                source=source,
+                url=url,
+                is_econ=is_econ,
+                econ_sentences=econ_sentences,
+                econ_keywords=keywords_used,
+                num_keywords=len(econ_sentences),
+                date=date
+            )
+            articles.append(article)
+            pub_urls.append(url)
 
 
-    return articles
+    return pub_urls, articles
 
 
 def add_to_db(articles: list):

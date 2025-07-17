@@ -39,7 +39,7 @@ def main(args):
             continue
 
         pub_articles = []
-        pub_ids = []  # list of all article ids in this publisher for deduplication
+        pub_urls = []  # list of all article ids in this publisher for deduplication
         pub_path = os.path.join(in_path, publisher)
 
         # if articles.json already exists, skip this publisher
@@ -53,11 +53,8 @@ def main(args):
                 file_path = os.path.join(pub_path, file)
 
                 # get all articles from file which have an economic keyword
-                articles = get_data(file_path, nlp, economic_keywords, pub_ids, logger)
+                pub_urls, articles = get_data(file_path, nlp, economic_keywords, pub_urls, logger)
                 pub_articles.extend(articles)
-
-                new_ids = [art.id for art in articles]
-                pub_ids.extend(new_ids)
 
         # save progress
         logger.info(f"Saving {len(pub_articles)} articles to 'articles.json'...\n\n")

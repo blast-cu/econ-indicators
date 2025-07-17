@@ -44,6 +44,10 @@ def get_unique_articles(file_path: str, pub_ids: list, logger: logging.Logger) -
         if id not in pub_ids:  # skip if id already exists
             article_count += 1
             pub_ids.append(id)  # add id to list of seen ids
+        
+        else:
+            logger.debug(f"Skipping duplicate article with id {id} in file {file_path}")
+            continue
 
     return pub_ids, article_count
 
