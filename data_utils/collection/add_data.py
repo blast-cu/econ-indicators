@@ -94,6 +94,10 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_urls: list, 
         headline = row['title']
         id = row['article_id']  # for deduplication (can exist on multiple dates)
         url = row['url']  # for deduplication (can exist on multiple dates)
+
+        print(url)  # print url for debugging
+        exit(1)
+
         if url not in pub_urls:  # skip if url already exists
             text = row['text']
 
