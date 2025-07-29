@@ -10,22 +10,12 @@ import csv
 from data_utils.collection.add_data import get_data
 import argparse
 import logging
-import sqlite3
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def main(args):
-
-    # load in urls from database
-    logger.info("Loading URLs from database...")
-    con = sqlite3.connect('data/data.db')
-    cur = con.cursor()
-    cur.execute("SELECT url FROM article WHERE url IS NOT NULL")
-    urls = [row[0] for row in cur.fetchall()]
-    con.close()
-    print(urls[:5])  # print first 5 urls for debugging
 
     in_path = args.dataset
     spacy.prefer_gpu()
@@ -49,7 +39,7 @@ def main(args):
             continue
 
         pub_articles = []
-        pub_urls = urls  # list of all article ids in this publisher for deduplication
+        pub_urls = []  # list of all article ids in this publisher for deduplication
         pub_path = os.path.join(in_path, publisher)
 
         # if articles.json already exists, skip this publisher
