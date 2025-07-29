@@ -27,4 +27,4 @@ mkdir -p outputs
 
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python3 data_utils/collection/download/download_s3_data.py --start-date 2023-01-01 --end-date 2025-07-16 --output-dir data
+python3 data_utils/collection/download/download_s3_data.py --start-date 2020-01-01 --end-date 2025-07-01 --output-dir data
