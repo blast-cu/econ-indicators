@@ -85,7 +85,7 @@ def get_data(file_path: str, nlp: Language, econ_keywords: str, pub_urls: list, 
     # if 'text' column is not present, return empty list
     if 'text' not in df.columns:
         logger.error(f"Column 'text' not found in {file_path} with columns {df.columns}")
-        return []
+        return pub_urls, []
 
     df = df.dropna(subset=['text'])  # filter out rows with no text
     for i in range(len(df)):  # iterate over rows
