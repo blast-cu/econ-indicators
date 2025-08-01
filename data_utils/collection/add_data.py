@@ -273,8 +273,8 @@ def process_articles(new_articles, min_keywords, logger):
                 clean_articles.append(clean_article)
                 idx += 1
 
-                seen_url.add(clean_article.url)
-                seen_text.add(clean_article.text)
+                seen_url.add(clean_article["url"])
+                seen_text.add(clean_article["text"])
 
 
         pbar.update(1)
