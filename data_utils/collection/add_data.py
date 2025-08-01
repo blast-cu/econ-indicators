@@ -279,7 +279,6 @@ def process_articles(new_articles, min_keywords, logger):
 
         pbar.update(1)
     pbar.close()
-    exit(1)
 
     # add articles and quants to database
     logger.info(f"Adding {len(clean_articles)} articles to database...")
