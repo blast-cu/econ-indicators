@@ -140,7 +140,7 @@ def add_to_db(articles: list):
         # clean list and string values.
         keywords = ','.join(art['keywords']).strip()
         headline = art['headline'].replace("'", "''")
-        text = art['text'].replace("'", "''")
+        text = art['text']
 
         # check for duplicates in the database
         check_dup_query = f"SELECT * FROM article WHERE headline = '{headline}' AND source = '{art['source']}' AND date = '{art['date']}'"
@@ -198,9 +198,10 @@ def process_articles(new_articles, min_keywords, logger):
     c.execute("SELECT url FROM article")
     pub_urls = [row[0] for row in c.fetchall()]
     seen_url = set(pub_urls)
-    print(seen_url)
+    
+    c.execute("SELECT text FROM article")
+    seen_text = set(row[0] for row in c.fetchall())
     conn.close()
-
 
     idx = 0
     pbar = tqdm(total=len(new_articles), desc='cleaning articles')
@@ -217,10 +218,9 @@ def process_articles(new_articles, min_keywords, logger):
         # Removing duplicates, errors and checking for substantial economy content
         bad_headlines = set(['Access Denied', 'Wayback Machine'])
         if art.is_econ and art.num_keywords >= min_keywords:
-            print(art.url)
-            continue
             if art.url in seen_url:
                 logger.info(f"Skipping article with id {art.id} and url {art.url} as it is already in the database.")
+                pbar.update(1)
                 continue
 
             if art.headline not in bad_headlines \
@@ -239,6 +239,12 @@ def process_articles(new_articles, min_keywords, logger):
                     sentences[sent_idx]['text'] = sent
                     sentences[sent_idx]['span'] = (sent_start, sent_end)
                     ret_text = re.sub(pattern, '<span id="{}" class="red">{}</span>'.format(sent_idx, sent.replace('\\', r'\\')), ret_text, flags=re.I)
+
+                ret_text = ret_text.replace("'", "''")  # escape single quotes for SQL
+                if ret_text in seen_text:
+                    logger.info(f"Skipping article with id {art.id} and text as it is already in the database.")
+                    pbar.update(1)
+                    continue
 
                 # find all quantities in the text
                 for match in re.finditer(r"\w*(?:\s+|^)\$*[0-9,]*[0-9.]*[0-9]+%*(?:\s+|$|\.|,)\w*", art.text):
@@ -267,7 +273,8 @@ def process_articles(new_articles, min_keywords, logger):
                 clean_articles.append(clean_article)
                 idx += 1
 
-                seen_url.add(art.url)
+                seen_url.add(clean_article.url)
+                seen_text.add(clean_article.text)
 
 
         pbar.update(1)
