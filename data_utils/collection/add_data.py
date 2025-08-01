@@ -198,7 +198,9 @@ def process_articles(new_articles, min_keywords, logger):
     c.execute("SELECT url FROM article")
     pub_urls = [row[0] for row in c.fetchall()]
     seen_url = set(pub_urls)
+    print(seen_url)
     conn.close()
+
 
     idx = 0
     pbar = tqdm(total=len(new_articles), desc='cleaning articles')
@@ -215,6 +217,8 @@ def process_articles(new_articles, min_keywords, logger):
         # Removing duplicates, errors and checking for substantial economy content
         bad_headlines = set(['Access Denied', 'Wayback Machine'])
         if art.is_econ and art.num_keywords >= min_keywords:
+            print(art.url)
+            continue
             if art.url in seen_url:
                 logger.info(f"Skipping article with id {art.id} and url {art.url} as it is already in the database.")
                 continue
@@ -268,6 +272,7 @@ def process_articles(new_articles, min_keywords, logger):
 
         pbar.update(1)
     pbar.close()
+    exit(1)
 
     # add articles and quants to database
     logger.info(f"Adding {len(clean_articles)} articles to database...")
