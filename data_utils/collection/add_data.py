@@ -198,11 +198,9 @@ def process_articles(new_articles, min_keywords, logger):
     c.execute("SELECT url FROM article")
     pub_urls = [row[0] for row in c.fetchall()]
     seen_url = set(pub_urls)
-
     conn.close()
 
     idx = 0
-
     pbar = tqdm(total=len(new_articles), desc='cleaning articles')
     lengths = []
     clean_articles = []
