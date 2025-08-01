@@ -193,10 +193,14 @@ def process_articles(new_articles, min_keywords, logger):
     article_ids = [row[0] for row in c.fetchall()]
     last_id = max(article_ids)
     logger.info(f"Last article id in database: {last_id}")
+
+    # get all urls in the database to avoid duplicates
+    c.execute("SELECT url FROM article")
+    pub_urls = [row[0] for row in c.fetchall()]
+    seen_url = set(pub_urls)
+
     conn.close()
 
-    seen_text = set()  # keep track of duplicate texts and urls
-    seen_url = set()
     idx = 0
 
     pbar = tqdm(total=len(new_articles), desc='cleaning articles')
@@ -212,56 +216,57 @@ def process_articles(new_articles, min_keywords, logger):
 
         # Removing duplicates, errors and checking for substantial economy content
         bad_headlines = set(['Access Denied', 'Wayback Machine'])
-        if art.is_econ and art.num_keywords >= min_keywords \
-                and art.text not in seen_text \
-                and art.url not in seen_url \
-                and art.headline not in bad_headlines \
+        if art.is_econ and art.num_keywords >= min_keywords:
+            if art.url in seen_url:
+                logger.info(f"Skipping article with id {art.id} and url {art.url} as it is already in the database.")
+                continue
+
+            if art.headline not in bad_headlines \
                 and 'page not found' not in art.text.lower() \
                 and not (art.source == 'wsj' and (art.text.endswith('...') or art.text.endswith('Continue reading your article with\na WSJ membership'))):
 
-            quant_span_id = 0
-            quants = {}
-            sentences = {}
+                quant_span_id = 0
+                quants = {}
+                sentences = {}
 
-            for sent_idx, (sent_start, sent_end) \
-                    in enumerate(art.econ_sentences):
+                # find all sentences with economic keywords and highlight them
+                for sent_idx, (sent_start, sent_end) in enumerate(art.econ_sentences):
+                    sent = art.text[sent_start:sent_end]
+                    pattern = re.escape(sent)
+                    sentences[sent_idx] = {}
+                    sentences[sent_idx]['text'] = sent
+                    sentences[sent_idx]['span'] = (sent_start, sent_end)
+                    ret_text = re.sub(pattern, '<span id="{}" class="red">{}</span>'.format(sent_idx, sent.replace('\\', r'\\')), ret_text, flags=re.I)
 
-                sent = art.text[sent_start:sent_end]
-                pattern = re.escape(sent)
-                sentences[sent_idx] = {}
-                sentences[sent_idx]['text'] = sent
-                sentences[sent_idx]['span'] = (sent_start, sent_end)
-                ret_text = re.sub(pattern, '<span id="{}" class="red">{}</span>'.format(sent_idx, sent.replace('\\', r'\\')), ret_text, flags=re.I)
+                # find all quantities in the text
+                for match in re.finditer(r"\w*(?:\s+|^)\$*[0-9,]*[0-9.]*[0-9]+%*(?:\s+|$|\.|,)\w*", art.text):
+                    quant = art.text[match.start():match.end()]
+                    pattern = re.escape(quant)
+                    ret_text = re.sub(pattern, '<span id="{}" class="yellow" onclick="annotateQuant(this);">{}</span>'.format(quant_span_id, quant.replace('\\', r'\\')), ret_text, flags=re.I)
+                    quants[quant_span_id] = {}
+                    quants[quant_span_id]['text'] = quant
+                    quants[quant_span_id]['span'] = match.span()
+                    quant_span_id += 1
 
-            # find all quantities in the text
-            for match in re.finditer(r"\w*(?:\s+|^)\$*[0-9,]*[0-9.]*[0-9]+%*(?:\s+|$|\.|,)\w*", art.text):
-                quant = art.text[match.start():match.end()]
-                pattern = re.escape(quant)
-                ret_text = re.sub(pattern, '<span id="{}" class="yellow" onclick="annotateQuant(this);">{}</span>'.format(quant_span_id, quant.replace('\\', r'\\')), ret_text, flags=re.I)
-                quants[quant_span_id] = {}
-                quants[quant_span_id]['text'] = quant
-                quants[quant_span_id]['span'] = match.span()
-                quant_span_id += 1
+                article_id = last_id + 1  # generate new id
+                last_id = article_id
+                clean_article = {
+                    'headline': art.headline,
+                    'keywords': art.econ_keywords,
+                    'num_keywords': art.num_keywords,
+                    'source': art.source,
+                    'url': art.url,
+                    'id': article_id,
+                    'date': art.date,
+                    'text': ret_text,
+                    'quants': quants,
+                    'econ_sentences': sentences
+                }
+                clean_articles.append(clean_article)
+                idx += 1
 
-            article_id = last_id + 1  # generate new id
-            last_id = article_id
-            clean_article = {
-                'headline': art.headline,
-                'keywords': art.econ_keywords,
-                'num_keywords': art.num_keywords,
-                'source': art.source,
-                'url': art.url,
-                'id': article_id,
-                'date': art.date,
-                'text': ret_text,
-                'quants': quants,
-                'econ_sentences': sentences
-            }
-            clean_articles.append(clean_article)
-            idx += 1
+                seen_url.add(art.url)
 
-            seen_text.add(art.text)
-            seen_url.add(art.url)
 
         pbar.update(1)
     pbar.close()
