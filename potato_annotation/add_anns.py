@@ -5,6 +5,12 @@ from potato_annotation.eval.read_article_annotations import get_potato_article_a
 from potato_annotation.eval.read_quant_annotations import get_potato_quant_anns
 from data_utils.model_utils.dataset import DB_FILENAME
 import argparse
+from tqdm import tqdm
+
+# set up logging
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def get_type_arg(args):
     qual = False
@@ -54,10 +60,14 @@ def main(args):
     if qual:
         ann_dirs = os.listdir(ARTICLE_ANN_DIR)
 
-        ## add source column to annotations table
-        # cursor.execute("ALTER TABLE articleann ADD COLUMN source TEXT")
+        # add source column to annotations table
+        try:
+            cursor.execute("ALTER TABLE articleann ADD COLUMN source TEXT")
+        except sqlite3.OperationalError:
+            logger.info("Column 'source' already exists in articleann table")
 
-        for ann_dir in ann_dirs:
+
+        for ann_dir in tqdm(ann_dirs, desc="Processing article annotations"):
             article_annotations, _ = get_potato_article_anns(
                 f"{ARTICLE_ANN_DIR}{ann_dir}"
             )
@@ -109,7 +119,7 @@ def main(args):
 
         # loop ober directories in 'to_read' directory
         ann_dirs = os.listdir(QUANT_ANN_DIR)
-        for ann_dir in ann_dirs:
+        for ann_dir in tqdm(ann_dirs, desc="Processing quantity annotations"):
             quant_annotations = get_potato_quant_anns(
                 f"{QUANT_ANN_DIR}{ann_dir}"
             )
