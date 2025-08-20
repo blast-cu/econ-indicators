@@ -29,6 +29,7 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
+# don't forget to run on different noise configurations too...
 python -m models.roberta_classifier.train_quant --m base
 python -m models.roberta_classifier.train_quant --m dapt_128
 python -m models.roberta_classifier.train_quant --m dapt_512

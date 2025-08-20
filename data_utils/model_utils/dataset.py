@@ -413,7 +413,7 @@ def get_excerpts(ann_ids: list, db_filename: str) -> dict:
     article_html = gs.get_text(article_id, db_filename, clean=False)
 
     local_ann_ids = [ann_id.split('_')[1] for ann_id in ann_ids]
-    ann_dict = get_ann_dict(article_html, local_ann_ids)
+    ann_dict, _ = get_ann_dict(article_html, local_ann_ids)
 
     article_text = gs.extract_strings(article_html)  # remove span tags
     article_sentences = nltk.sent_tokenize(article_text)
