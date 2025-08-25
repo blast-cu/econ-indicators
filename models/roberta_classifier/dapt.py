@@ -215,7 +215,7 @@ def main(args):
 
     training_args = TrainingArguments(
         output_dir=OUT_DIR,
-        overwrite_output_dir=True,
+        # overwrite_output_dir=True,
         evaluation_strategy="epoch",
         learning_rate=2e-5,
         weight_decay=0.01,
@@ -223,6 +223,7 @@ def main(args):
         per_device_eval_batch_size=BATCH_SIZE,
         fp16=True,
         logging_steps=logging_steps,
+        resume_from_checkpoint=True
     )
 
     trainer = Trainer(
