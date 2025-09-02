@@ -10,6 +10,7 @@ import sqlite3
 import random
 import argparse
 import logging
+from tqdm import tqdm
 
 import data_utils.get_annotation_stats as gs
 
@@ -83,7 +84,7 @@ class EconomicArticlesDatataset(Dataset):
 
         # group list of texts into chunks w embeddings of size 128
         inputs = {k: [] for k in ['input_ids', 'attention_mask', 'word_ids']}
-        for text in texts:
+        for text in tqdm(texts):
             inputs_ = tokenize_function(text, tokenizer)
             for k in inputs:
                 inputs[k].append(inputs_[k])
@@ -166,7 +167,10 @@ def main(args):
     # Get list of all articles in db, split into train and val
     db_filename = "data/data.db"
     texts = load_dataset(db_filename)
-    # texts = random.sample(texts, 10)
+    if args.sample_size is not None:
+        logger.info(f'>>> Sampling {args.sample_size} texts from {len(texts)} total texts')
+        texts = random.sample(texts, args.sample_size)
+
     train_texts, val_texts = train_test_split(
         texts,
         test_size=0.15,
@@ -251,5 +255,6 @@ if __name__ == "__main__":
     parser.add_argument("--o", required=True, help="out directory")
     parser.add_argument("--c", default='roberta-base', help="checkpoint, default roberta-base")
     parser.add_argument("--s", default=128, help="chunk size, default 128")
+    parser.add_argument("--sample-size", type=int,help="number of samples to use for training, default is all texts")
     args = parser.parse_args()
     main(args)

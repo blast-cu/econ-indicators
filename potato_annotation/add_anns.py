@@ -180,10 +180,6 @@ def main(args):
     cursor.execute("SELECT COUNT(*) FROM quantityann WHERE source = 'potato'")
     print(cursor.fetchone())
 
-    # # remove potato anns
-    # cursor.execute("DELETE FROM articleann WHERE source = 'potato'")
-    # cursor.execute("DELETE FROM quantityann WHERE source = 'potato'")
-
     conn.commit()
     conn.close()
 
