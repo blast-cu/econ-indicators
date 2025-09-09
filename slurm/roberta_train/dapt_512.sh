@@ -28,4 +28,4 @@ mkdir -p outputs
 export HF_HOME=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-python3 models/roberta_classifier/dapt.py --o data/models/roberta_base_dapt_512 --c roberta-base --s 512
+python3 models/roberta_classifier/dapt.py --o data/models/roberta_base_dapt_512 --c roberta-base --s 512 --sample-size 100000
