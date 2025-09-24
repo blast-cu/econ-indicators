@@ -9,7 +9,7 @@ import sys
 import pickle
 
 DB_FILENAME = 'data/data.db'  # database file location
-ROBERTA_MODEL_DIR = 'models/roberta_classifier/tuned_models'  # directory to save model outputs
+ROBERTA_MODEL_DIR = 'data/models/tuned_roberta'  # directory to save model outputs
 SPLIT_DIR = 'data/clean/'  # directory to save and load train/test splits
 
 qual_label_maps = {  # maps raw annotations to numerical labels for model input
