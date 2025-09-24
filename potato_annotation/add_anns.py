@@ -66,6 +66,9 @@ def main(args):
         except sqlite3.OperationalError:
             logger.info("Column 'source' already exists in articleann table")
 
+            # remove all potato annotations
+            cursor.execute("DELETE FROM articleann WHERE source = 'potato'")
+
 
         for ann_dir in tqdm(ann_dirs, desc="Processing article annotations"):
             article_annotations, _ = get_potato_article_anns(
@@ -174,11 +177,11 @@ def main(args):
  
     # check number of potato article anns
     cursor.execute("SELECT COUNT(*) FROM articleann WHERE source = 'potato'")
-    print(cursor.fetchone())
+    print(f"Potato article annotations added: {cursor.fetchone()}")
 
     # check number of potato quant anns
     cursor.execute("SELECT COUNT(*) FROM quantityann WHERE source = 'potato'")
-    print(cursor.fetchone())
+    print(f"Potato quantity annotations added: {cursor.fetchone()}")
 
     conn.commit()
     conn.close()
