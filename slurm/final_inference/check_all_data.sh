@@ -6,7 +6,7 @@
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
-#SBATCH --output=logs/check-psl-data-%j.out
+#SBATCH --output=logs/check-psl-data.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
