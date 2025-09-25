@@ -29,6 +29,6 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m models.roberta_classifier.quant_train_best \
-    --type "roberta_dapt_128" \
-    --macro_type "roberta_dapt_128" \
-    --spin "roberta_dapt_128"
+    --type "dapt_128" \
+    --macro_type "dapt_128" \
+    --spin "dapt_128"
