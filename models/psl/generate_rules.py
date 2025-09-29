@@ -339,7 +339,7 @@ def main(args):
     # macro type constraint
     hard_constraints = []
     hard_constraints += macro_type_constraints()
-    hard_constraints += frame_ann_constraints()
+    # hard_constraints += frame_ann_constraints()
 
     rules.sort()
     
