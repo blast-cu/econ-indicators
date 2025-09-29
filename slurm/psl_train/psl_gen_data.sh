@@ -29,3 +29,4 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m models.psl.generate_data
+python -m models.psl.generate_rules

@@ -192,7 +192,7 @@ def main():
     # {key = articleid, value = dict of annotations}
     qual_ann = gs.get_qual_dict(db_filename)
     agreed_qual_ann = gs.get_agreed_anns(qual_ann, qual_label_maps)
-    agreed_qual_ann, none_ids = add_none(agreed_qual_ann, quant=False)
+    # agreed_qual_ann, none_ids = add_none(agreed_qual_ann, quant=False)
     agreed_qual_ann = remove_empty(agreed_qual_ann)
 
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
@@ -203,7 +203,7 @@ def main():
     noisy_best_qual_ann = gs.get_best_noisy_anns(qual_ann, qual_label_maps, DB_FILENAME)
     noisy_best_qual_ann = remove_empty(noisy_best_qual_ann)
     # noisy_best_qual_ann = remove_nones(noisy_best_qual_ann, none_ids)
-    noisy_best_qual_ann, _ = add_none(noisy_best_qual_ann, quant=False)
+    # noisy_best_qual_ann, _ = add_none(noisy_best_qual_ann, quant=False)
    
 
     # get agreed quantitative annotations in dict where 
