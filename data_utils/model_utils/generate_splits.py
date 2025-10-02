@@ -197,7 +197,7 @@ def main():
 
     noisy_qual_ann = gs.get_noisy_anns(qual_ann, qual_label_maps)
     noisy_qual_ann = remove_empty(noisy_qual_ann)
-    noisy_qual_ann = remove_nones(noisy_qual_ann, none_ids)
+    # noisy_qual_ann = remove_nones(noisy_qual_ann, none_ids)
 
     # TODO: implement this
     noisy_best_qual_ann = gs.get_best_noisy_anns(qual_ann, qual_label_maps, DB_FILENAME)
