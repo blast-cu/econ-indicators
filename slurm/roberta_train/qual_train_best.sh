@@ -29,7 +29,7 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 python -m models.roberta_classifier.qual_train_best \
-    --frame "base" \
+    --frame "dapt_128" \
     --econ_rate "base" \
-    --econ_change "base"
+    --econ_change "dapt_512"
 
