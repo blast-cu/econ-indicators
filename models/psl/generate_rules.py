@@ -352,6 +352,11 @@ def main(args):
     filename = os.path.join(all_rules_dir, 'all_rules.txt')
     write_file(filename, rules)
 
+    # make no_inter directory and an empty file in it
+    no_inter_dir = os.path.join(rule_dir, 'no_inter')
+    os.makedirs(no_inter_dir, exist_ok=True)
+    open(os.path.join(no_inter_dir, 'no_inter.txt'), 'a').close()
+
     constraint_filename = os.path.join(OUT_DIR, 'constraints.txt')
     write_file(constraint_filename, constraints)
 
