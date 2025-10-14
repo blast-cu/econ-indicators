@@ -91,7 +91,7 @@ def main(args):
                 for rule in model.get_rules():
                     f.write(str(rule) + '\n')
 
-            # Inference
+            # inference
             results = infer(model, predicates)
             write_results(results, model, output_dir)
 

@@ -32,6 +32,6 @@ export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 python -m models.psl.split_data
 
 for i in {0..9}; do
-    python3 -m models.psl.run_inference --s best_2025-05 --final_split $i
+    python3 -m models.psl.run_inference --s no_inter --final_split $i
 done
 

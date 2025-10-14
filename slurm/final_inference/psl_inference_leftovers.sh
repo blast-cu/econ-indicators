@@ -29,11 +29,11 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-# python3 -m models.psl.run_inference --s best_2025-05 --final_split 16
+# python3 -m models.psl.run_inference --s no_inter --final_split 16
 
 
 leftovers=(24 28 29 30)
 for i in "${leftovers[@]}"; do
-    python3 -m models.psl.run_inference --s best_2025-05 --final_split $i
+    python3 -m models.psl.run_inference --s no_inter --final_split $i
 done
 
