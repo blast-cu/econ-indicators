@@ -3,6 +3,8 @@
 import os
 import argparse
 
+from tqdm import tqdm
+
 from pslpython.model import Model
 from pslpython.partition import Partition
 from pslpython.predicate import Predicate
@@ -31,7 +33,6 @@ def main(args):
 
     # establish setting parameters
     setting = args.s
-    print('Setting: ' + setting)
     try:
         setting_dict = SETTINGS[setting]
     except Exception as e:
@@ -43,12 +44,9 @@ def main(args):
         rule_files = os.listdir(setting_dict['rule_dir'])
     except FileNotFoundError:
         raise ValueError('Unknown rule directory: ' + setting_dict['rule_dir'])
-    
-    # remove rule files without frame or macro_type for speeeed
-    # for split_num in range(5):
 
 
-
+    print('Setting: ' + setting)
     ## temporary for fixing lack of macro type
     # if split_num == 2:
     #     filtered_rule_files = rule_files
@@ -58,8 +56,8 @@ def main(args):
     # for rule_file in filtered_rule_files:
     #######
 
-
-    for split_num in range(5):
+    
+    for split_num in tqdm(range(5), desc="Processing splits"):
     
         global SPLIT_DIR
         SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
@@ -208,7 +206,7 @@ def check_data(path):
         print(f"Replacing dirty data file {path} with cleaned version.")
         os.remove(path)  # remove the original file if it has been cleaned
         with open(path, 'w') as f:
-            f.writelines(clean_lines)
+            f.writelines(clean_lines) 
 
 def _add_data(type, predicates):
 
