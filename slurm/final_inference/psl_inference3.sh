@@ -30,6 +30,6 @@ export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
 for i in {30..39}; do
-    python3 -m models.psl.run_inference --s no_inter --final_split $i
+    python3 -m models.psl.final_inference --s no_inter --final_split $i
 done
 

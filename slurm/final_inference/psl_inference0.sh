@@ -7,7 +7,7 @@
 #SBATCH --account=blanca-curc-gpu
 #SBATCH --qos=blanca-curc-gpu
 #SBATCH --partition=blanca-curc-gpu
-#SBATCH --output=logs/psl_final_inference0.out
+#SBATCH --output=logs/psl_final_inference-0.out
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
@@ -32,6 +32,6 @@ export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 python -m models.psl.split_data
 
 for i in {0..9}; do
-    python3 -m models.psl.run_inference --s no_inter --final_split $i
+    python3 -m models.psl.final_inference --s no_inter --final_split $i
 done
 
