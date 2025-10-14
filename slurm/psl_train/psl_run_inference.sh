@@ -29,13 +29,13 @@ mkdir -p outputs
 export TRANSFORMERS_CACHE=metadata/
 export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
 
-
+python3 models/psl/run_inference.py --s no_inter
 # loop over rules
-for rule in no_inter precedes excerpt_article inter_article
-do
-    echo "Running inference for rule: $rule"
-    python3 models/psl/run_inference.py --s $rule
-done
+# for rule in no_inter precedes excerpt_article inter_article
+# do
+#     echo "Running inference for rule: $rule"
+#     python3 models/psl/run_inference.py --s $rule
+# done
 
 
 # python3 models/psl/run_inference.py --s combos
