@@ -51,9 +51,8 @@ def main(args):
     
     for split_num in tqdm(range(5), desc="Processing splits"):
     
-        global SPLIT_DIR
-        SPLIT_DIR = os.path.join(DATA_DIR, f'split{split_num}')
-        SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
+        split_dir = os.path.join(DATA_DIR, f'split{split_num}')
+        SPLIT_SETTING_DIR = os.path.join(split_dir, setting)
         os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
         for rule_file in rule_files:
@@ -74,7 +73,7 @@ def main(args):
 
             # Weight Learning
             if setting_dict['learn']:
-                learn(model, predicates)
+                learn(model, predicates, split_dir)
 
             learned_rule_file = os.path.join(output_dir, 'learned_rules.txt')
             with open(learned_rule_file, 'w') as f:
@@ -82,12 +81,12 @@ def main(args):
                     f.write(str(rule) + '\n')
 
             # inference
-            results = infer(model, predicates)
-            write_results(results, model, output_dir)
+            results = infer(model, predicates, split_dir)
+            write_results(results, model, output_dir, split_dir)
 
 
-def write_results(results, model, dir):
-    out_dir = os.path.join(SPLIT_DIR, dir)
+def write_results(results, model, dir, split_dir):
+    out_dir = os.path.join(split_dir, dir)
     out_dir = os.path.join(out_dir, 'inferred_predicates')
     os.makedirs(out_dir, exist_ok=True)
 
@@ -165,12 +164,12 @@ def add_rules(model, rule_file, no_hard_constraints):
         model.add_rule(rule)
 
 
-def add_learn_data(predicates):
-    _add_data('learn', predicates)
+def add_learn_data(predicates, split_dir):
+    _add_data('learn', predicates, split_dir)
 
 
-def add_eval_data(predicates):
-    _add_data('eval', predicates)
+def add_eval_data(predicates, split_dir):
+    _add_data('eval', predicates, split_dir)
 
 def check_data(path):
     # make sure the data file exists
@@ -198,12 +197,12 @@ def check_data(path):
         with open(path, 'w') as f:
             f.writelines(clean_lines) 
 
-def _add_data(type, predicates):
+def _add_data(type, predicates, split_dir):
 
     if VERBOSE: 
         print('\nAdding data files for ' + type + '...')
 
-    split_data_dir = os.path.join(SPLIT_DIR, type)
+    split_data_dir = os.path.join(split_dir, type)
     filenames = os.listdir(split_data_dir)
     files = [f.split('.')[0] for f in filenames]
     files = [[f.split('_')[0].upper(),f.split('_')[1]]  for f in files]
@@ -226,12 +225,12 @@ def _add_data(type, predicates):
                 if VERBOSE: 
                     print(filename + ' added to ' + p.name())
 
-def learn(model, predicates):
-    add_learn_data(predicates)
+def learn(model, predicates, split_dir):
+    add_learn_data(predicates, split_dir)
     model.learn(psl_options=ADDITIONAL_PSL_OPTIONS)
 
-def infer(model, predicates):
-    add_eval_data(predicates)
+def infer(model, predicates, split_dir):
+    add_eval_data(predicates, split_dir)
     return model.infer(psl_options=ADDITIONAL_PSL_OPTIONS)
 
 

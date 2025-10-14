@@ -48,9 +48,8 @@ def main(args):
 
 
     print('Setting: ' + setting)
-    global SPLIT_DIR
-    SPLIT_DIR = os.path.join(DATA_DIR, f'final{args.final_split}')  # FINAL
-    SPLIT_SETTING_DIR = os.path.join(SPLIT_DIR, setting)
+    split_dir = os.path.join(DATA_DIR, f'final{args.final_split}')  # FINAL
+    SPLIT_SETTING_DIR = os.path.join(split_dir, setting)
     os.makedirs(SPLIT_SETTING_DIR, exist_ok=True)
 
     for rule_file in rule_files:
@@ -71,7 +70,7 @@ def main(args):
 
         # Weight Learning
         if setting_dict['learn']:
-            learn(model, predicates)
+            learn(model, predicates, split_dir)
 
         learned_rule_file = os.path.join(output_dir, 'learned_rules.txt')
         with open(learned_rule_file, 'w') as f:
@@ -79,8 +78,8 @@ def main(args):
                 f.write(str(rule) + '\n')
 
         # inference
-        results = infer(model, predicates)
-        write_results(results, model, output_dir)
+        results = infer(model, predicates, split_dir)
+        write_results(results, model, output_dir, split_dir)
 
 
 
