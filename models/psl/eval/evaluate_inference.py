@@ -1,17 +1,14 @@
 from models.psl.generate_data import load_train_test_data
-import models.psl.generate_rules as gd
 import data_utils.model_utils.dataset as d
 import data_utils.model_utils.eval as eval
-import models.psl.run_inference as ri
 import pickle
 import os
-import itertools
 import argparse
 
 from models.psl.SETTINGS import SETTINGS
 
 DATA_DIR = 'models/psl/data'
-RULE_DIR = ri.RULE_DIR
+RULE_DIR = os.path.join(DATA_DIR, 'rules')
 
 
 def get_pred_dict(filepath, doc_type='quant'):
