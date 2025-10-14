@@ -68,7 +68,7 @@ def main():
     article_dict = {} # article_id -> annotations
     quant_dict = {} # article_id -> annotations
     for i in range(NUM_SPLITS):
-        pred_dir = f"{IN_DIR}/final{i}/best_2025-05/combo1/inferred_predicates/"
+        pred_dir = f"{IN_DIR}/final{i}/no_inter/no_inter/inferred_predicates/"
         if not os.path.exists(pred_dir):
             logger.warning(f"Pred directory {pred_dir} does not exist. Skipping.")
             continue
