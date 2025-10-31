@@ -228,12 +228,24 @@ and visit [http://localhost:8000/?PROLIFIC_PID=user](http://localhost:8000/?PROL
 ## Cite us 
 If you find our dataset or classifiers helpful, please cite us as: 
 ````console
-@misc{leto2024framing,
-      title={Framing in the Presence of Supporting Data: A Case Study in U.S. Economic News}, 
-      author={Alexandria Leto and Elliot Pickens and Coen D. Needell and David Rothschild and Maria Leonor Pacheco},
-      year={2024},
-      eprint={2402.14224},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{leto-etal-2024-framing,
+    title = "Framing in the Presence of Supporting Data: A Case Study in {U}.{S}. Economic News",
+    author = "Leto, Alexandria  and
+      Pickens, Elliot  and
+      Needell, Coen  and
+      Rothschild, David  and
+      Pacheco, Maria Leonor",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.acl-long.24/",
+    doi = "10.18653/v1/2024.acl-long.24",
+    pages = "393--415",
+    abstract = "The mainstream media has much leeway in what it chooses to cover and how it covers it. These choices have real-world consequences on what people know and their subsequent behaviors. However, the lack of objective measures to evaluate editorial choices makes research in this area particularly difficult. In this paper, we argue that there are newsworthy topics where objective measures exist in the form of supporting data and propose a computational framework to analyze editorial choices in this setup. We focus on the economy because the reporting of economic indicators presents us with a relatively easy way to determine both the selection and framing of various publications. Their values provide a ground truth of how the economy is doing relative to how the publications choose to cover it. To do this, we define frame prediction as a set of interdependent tasks. At the article level, we learn to identify the reported stance towards the general state of the economy. Then, for every numerical quantity reported in the article, we learn to identify whether it corresponds to an economic indicator and whether it is being reported in a positive or negative way. To perform our analysis, we track six American publishers and each article that appeared in the top 10 slots of their landing page between 2015 and 2023."
 }
 ````
