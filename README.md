@@ -6,7 +6,7 @@ The mainstream media has much leeway in what it chooses to cover and how it cove
 
 
 ## Quick Start
-To begin, clone the repo and create a directory in the top level of the repository called *data*. This directory will be ignored by github. Dowload the [economic news article dataset](https://o365coloradoedu-my.sharepoint.com/:u:/g/personal/alle5715_colorado_edu/ES8c5EIWeKhKk7DXLgsGVi4BfxBhDqLRJbBLWAWXCwtC4w?e=Fi7pZX) and place it in this directory. See [Schema](#schema) for format of expected dataset.
+To begin, clone the repo and create a directory in the top level of the repository called *data*. This directory will be ignored by github. Dowload the [economic news article dataset](https://o365coloradoedu-my.sharepoint.com/:u:/g/personal/alle5715_colorado_edu/ES8c5EIWeKhKk7DXLgsGVi4BfxBhDqLRJbBLWAWXCwtC4w?e=2bHRQB) and place it in this directory. See [Schema](#schema) for format of expected dataset.
 
 ## Model Training and Testing
 ## Generate Data Splits
