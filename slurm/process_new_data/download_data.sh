@@ -11,7 +11,7 @@
 #SBATCH --mail-type="ALL"
 #SBATCH --mail-user="alle5715@colorado.edu"
 
-cd /scratch/alpine/alle5715/econ-indicators
+cd /projects/alle5715/econ-indicators
 
 module load anaconda
 module load cuda/12.1.1
@@ -25,6 +25,6 @@ conda activate econ-indicators
 mkdir -p metadata
 mkdir -p outputs
 
-export PYTHONPATH=/scratch/alpine/alle5715/econ-indicators
+export PYTHONPATH=/projects/alle5715/econ-indicators
 
 python3 data_utils/collection/download/download_s3_data.py --start-date 2020-01-01 --end-date 2026-02-15 --output-dir data
